@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en" style="color-scheme: light;">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<title>BTH Rise — Tier 2 — Built to Hoop</title>
+<meta name="description" content="BTH Rise — 12 weeks. 3 phases. The performance system for hoopers ready to convert strength into bounce, speed, and stay-ready output.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root { color-scheme: light only; --cream:#F3EFE7; --white:#FFFFFF; --black:#111318; --gold:#E6A800; --muted:rgba(17,19,24,0.5); --border:rgba(17,19,24,0.12); --soft:rgba(17,19,24,0.06); --H:'Oswald',sans-serif; --B:'DM Sans',sans-serif; }
+*,*::before,*::after { margin:0; padding:0; box-sizing:border-box; -webkit-text-size-adjust:100%; }
+html { scroll-behavior:smooth; background:var(--white); }
+body { background:var(--white); color:var(--black); font-family:var(--B); font-size:16px; line-height:1.6; overflow-x:hidden; -webkit-font-smoothing:antialiased; color-scheme:light; }
+
+nav { position:fixed; top:0; left:0; right:0; z-index:100; height:62px; display:flex; align-items:center; justify-content:space-between; padding:0 52px; background:rgba(255,255,255,0.96); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); border-bottom:1px solid var(--border); }
+@media (max-width:768px) { nav { padding:0 24px; } }
+.nav-logo { font-family:var(--H); font-size:22px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:var(--black); text-decoration:none; }
+.nav-logo span { color:var(--gold); }
+.nav-links { display:flex; gap:32px; align-items:center; }
+.nav-links a { font-family:var(--B); font-size:13px; font-weight:500; letter-spacing:0.04em; color:var(--muted); text-decoration:none; transition:color 0.18s; }
+.nav-links a:hover, .nav-links a.current { color:var(--black); }
+.nav-cta { font-family:var(--H); font-size:13px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--white); background:var(--black); padding:10px 24px; border-radius:2px; text-decoration:none; transition:all 0.18s; }
+.nav-cta:hover { background:var(--gold); color:var(--black); }
+@media (max-width:900px) { .nav-links { display:none; } }
+
+.hero { background:var(--white); padding:130px 52px 72px; position:relative; overflow:hidden; }
+@media (max-width:768px) { .hero { padding:110px 24px 56px; } }
+.hero::before { content:'RISE'; position:absolute; right:-40px; top:50%; transform:translateY(-50%); font-family:var(--H); font-size:clamp(200px,32vw,460px); font-weight:700; color:rgba(230,168,0,0.05); line-height:1; pointer-events:none; z-index:0; letter-spacing:-0.02em; }
+.hero-inner { max-width:900px; margin:0 auto; position:relative; z-index:1; }
+.hero-eyebrow { font-family:var(--B); font-size:11px; font-weight:600; letter-spacing:0.22em; text-transform:uppercase; color:var(--gold); margin-bottom:20px; display:flex; align-items:center; gap:12px; }
+.hero-eyebrow::before { content:''; width:24px; height:2px; background:var(--gold); flex-shrink:0; }
+.hero-title { font-family:var(--H); font-size:clamp(56px,9vw,120px); font-weight:700; line-height:0.92; letter-spacing:0.02em; text-transform:uppercase; color:var(--black); margin-bottom:24px; }
+.hero-title .gold { color:var(--gold); }
+.hero-title .outline { -webkit-text-stroke:2px rgba(17,19,24,0.2); color:transparent; }
+.hero-sub { font-size:18px; color:var(--muted); max-width:620px; line-height:1.7; margin-bottom:36px; }
+.hero-sub strong { color:var(--black); font-weight:600; }
+
+.price-strip { display:flex; gap:32px; flex-wrap:wrap; align-items:center; padding:24px 0; border-top:1px solid var(--soft); border-bottom:1px solid var(--soft); margin-bottom:36px; }
+.price-big { font-family:var(--H); font-size:52px; font-weight:700; color:var(--gold); line-height:1; }
+.price-big .strike { font-family:var(--H); font-size:24px; color:var(--muted); text-decoration:line-through; margin-right:10px; font-weight:500; }
+.price-big .small { font-family:var(--B); font-size:13px; color:var(--muted); margin-left:8px; font-weight:400; }
+.price-meta { font-size:13px; color:var(--muted); line-height:1.55; }
+.price-meta strong { color:var(--black); font-weight:600; }
+.launch-tag { display:inline-block; background:var(--black); color:var(--gold); font-family:var(--H); font-size:11px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; padding:5px 12px; border-radius:2px; margin-bottom:16px; }
+
+.btn-primary { font-family:var(--H); font-size:15px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--white); background:var(--black); padding:16px 38px; border-radius:2px; text-decoration:none; display:inline-block; transition:background 0.18s; white-space:nowrap; }
+.btn-primary:hover { background:var(--gold); color:var(--black); }
+.btn-gold { font-family:var(--H); font-size:16px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--black); background:var(--gold); padding:18px 44px; border-radius:2px; text-decoration:none; display:inline-block; transition:opacity 0.18s; white-space:nowrap; }
+.btn-gold:hover { opacity:0.88; }
+.btn-secondary { font-family:var(--B); font-size:14px; font-weight:500; color:var(--muted); padding:14px 32px; border-radius:2px; border:1.5px solid var(--border); text-decoration:none; display:inline-block; transition:all 0.18s; white-space:nowrap; }
+.btn-secondary:hover { border-color:var(--gold); color:var(--gold); }
+.btn-row { display:flex; gap:12px; flex-wrap:wrap; }
+
+.section-eyebrow { font-family:var(--B); font-size:11px; font-weight:600; letter-spacing:0.24em; text-transform:uppercase; color:var(--gold); margin-bottom:12px; }
+.section-title { font-family:var(--H); font-size:clamp(36px,5vw,56px); font-weight:700; line-height:0.95; letter-spacing:0.02em; text-transform:uppercase; color:var(--black); margin-bottom:20px; }
+.section-body { font-size:16px; color:var(--muted); max-width:640px; line-height:1.75; }
+.pad { padding:88px 52px; max-width:1200px; margin:0 auto; }
+.pad-narrow { padding:88px 52px; max-width:900px; margin:0 auto; }
+@media (max-width:768px) { .pad, .pad-narrow { padding:64px 24px; } }
+.divider { height:1px; background:var(--border); margin:0 52px; }
+@media (max-width:768px) { .divider { margin:0 24px; } }
+
+.inside-bg { background:var(--cream); border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
+
+/* Phase blocks */
+.phase-block { background:var(--white); border:1px solid var(--border); border-radius:2px; padding:44px 40px; position:relative; overflow:hidden; }
+.phase-block + .phase-block { margin-top:16px; }
+.phase-block::before { content:''; position:absolute; top:0; left:0; bottom:0; width:4px; background:var(--gold); }
+.phase-tag { font-family:var(--B); font-size:11px; font-weight:600; letter-spacing:0.22em; text-transform:uppercase; color:var(--gold); margin-bottom:10px; }
+.phase-name { font-family:var(--H); font-size:clamp(32px,4.2vw,48px); font-weight:700; text-transform:uppercase; letter-spacing:0.02em; color:var(--black); margin-bottom:14px; line-height:1; }
+.phase-desc { font-size:16px; color:var(--muted); line-height:1.75; margin-bottom:20px; max-width:620px; }
+.phase-desc strong { color:var(--black); font-weight:600; }
+.phase-list { display:grid; grid-template-columns:repeat(2,1fr); gap:10px 28px; margin-top:16px; }
+@media (max-width:600px) { .phase-list { grid-template-columns:1fr; } }
+.phase-list li { list-style:none; font-size:14px; color:var(--muted); padding-left:18px; position:relative; line-height:1.55; }
+.phase-list li::before { content:''; position:absolute; left:0; top:8px; width:6px; height:6px; border-radius:50%; background:var(--gold); }
+
+/* Week schedule */
+.week-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:32px; }
+@media (max-width:768px) { .week-grid { grid-template-columns:1fr; } }
+.week-card { background:var(--cream); border:1px solid var(--border); border-radius:2px; padding:24px; }
+.week-card .wk { font-family:var(--H); font-size:13px; font-weight:700; color:var(--gold); letter-spacing:0.18em; text-transform:uppercase; margin-bottom:8px; }
+.week-card h4 { font-family:var(--H); font-size:18px; font-weight:700; text-transform:uppercase; color:var(--black); margin-bottom:10px; }
+.week-card p { font-size:13px; color:var(--muted); line-height:1.65; }
+
+/* Comparison table */
+.compare { margin-top:36px; border:1px solid var(--border); border-radius:2px; overflow:hidden; }
+.compare-row { display:grid; grid-template-columns:1fr 1fr 1fr; border-bottom:1px solid var(--border); }
+.compare-row:last-child { border-bottom:none; }
+.compare-cell { padding:20px 22px; font-size:14px; color:var(--muted); border-right:1px solid var(--border); }
+.compare-cell:last-child { border-right:none; }
+.compare-cell.head { background:var(--black); color:var(--white); font-family:var(--H); font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; padding:18px 22px; }
+.compare-cell.head.featured { background:var(--gold); color:var(--black); }
+.compare-cell.feat { font-weight:600; color:var(--black); }
+@media (max-width:700px) { .compare-row { grid-template-columns:1fr; } .compare-cell { border-right:none; border-bottom:1px solid var(--border); } .compare-cell:last-child { border-bottom:none; } }
+
+.callout { background:var(--cream); border:1px solid var(--border); border-left:4px solid var(--gold); padding:28px 32px; border-radius:0 2px 2px 0; margin:32px 0; }
+.callout-title { font-family:var(--H); font-size:14px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:var(--gold); margin-bottom:10px; }
+.callout-body { font-family:var(--H); font-size:22px; font-weight:700; line-height:1.35; color:var(--black); text-transform:uppercase; letter-spacing:0.01em; }
+
+/* FAQ */
+.faq-item { padding:24px 0; border-bottom:1px solid var(--soft); }
+.faq-item:first-child { border-top:1px solid var(--soft); }
+.faq-q { font-family:var(--H); font-size:18px; font-weight:700; text-transform:uppercase; letter-spacing:0.02em; color:var(--black); margin-bottom:10px; }
+.faq-a { font-size:15px; color:var(--muted); line-height:1.75; }
+.faq-a strong { color:var(--black); font-weight:600; }
+.faq-a a { color:var(--gold); text-decoration:none; }
+
+/* CTA Band */
+.cta-band { background:var(--gold); padding:72px 52px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:32px; }
+@media (max-width:768px) { .cta-band { padding:56px 24px; flex-direction:column; align-items:flex-start; } }
+.cta-title { font-family:var(--H); font-size:clamp(36px,5vw,56px); font-weight:700; line-height:0.92; text-transform:uppercase; color:var(--black); margin-bottom:10px; }
+.cta-sub { font-size:15px; color:rgba(17,19,24,0.6); line-height:1.55; max-width:460px; }
+.btn-cta { font-family:var(--H); font-size:15px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:var(--gold); background:var(--black); padding:18px 44px; border-radius:2px; text-decoration:none; white-space:nowrap; flex-shrink:0; transition:opacity 0.18s; }
+.btn-cta:hover { opacity:0.88; }
+
+footer { background:var(--cream); border-top:1px solid var(--border); padding:48px 52px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:28px; }
+@media (max-width:768px) { footer { padding:40px 24px; } }
+.foot-logo { font-family:var(--H); font-size:20px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--black); }
+.foot-logo span { color:var(--gold); }
+.foot-tagline { font-size:11px; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); margin-top:5px; }
+.foot-links { display:flex; gap:28px; flex-wrap:wrap; }
+.foot-links a { font-size:12px; font-weight:500; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); text-decoration:none; transition:color 0.18s; }
+.foot-links a:hover { color:var(--gold); }
+.foot-copy { width:100%; text-align:center; font-size:11px; color:var(--muted); padding-top:24px; border-top:1px solid var(--soft); opacity:0.6; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">Built to <span>Hoop</span></a>
+  <div class="nav-links">
+    <a href="tier-1.html">Tier 1</a>
+    <a href="tier-2.html" class="current">Tier 2 Rise</a>
+    <a href="tier-3.html">Tier 3 Stay Ready</a>
+    <a href="addons.html">Add-Ons</a>
+    <a href="about.html">About</a>
+  </div>
+  <a href="reset.html" class="nav-cta">Free Reset</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Tier 2 · BTH Rise · Live</div>
+    <span class="launch-tag">Launch Price — Limited</span>
+    <h1 class="hero-title">
+      Built<br>
+      to <span class="gold">Rise.</span>
+    </h1>
+    <p class="hero-sub">
+      12 weeks. 3 phases. Phases 3–5 of the BTH method. <strong>Strength to Bounce</strong> → <strong>Game Speed</strong> → <strong>Stay Ready</strong>. For hoopers ready to convert the foundation into real output on the court.
+    </p>
+    <div class="price-strip">
+      <div class="price-big"><span class="strike">$67</span>$57<span class="small">launch price · one time</span></div>
+      <div class="price-meta"><strong>Goes up to $67 after the first 5 testimonials.</strong><br>Lock in the launch rate now. Keep forever.</div>
+    </div>
+    <div class="btn-row">
+      <a href="#buy" class="btn-gold">Get BTH Rise — $57</a>
+      <a href="tier-3.html" class="btn-secondary">Or unlock everything with Tier 3 →</a>
+    </div>
+  </div>
+</section>
+
+<!-- WHO IT'S FOR -->
+<div class="pad-narrow">
+  <div class="section-eyebrow">Who This Is For</div>
+  <h2 class="section-title">For Hoopers Who<br>Already Move Clean.</h2>
+  <p class="section-body" style="margin-bottom: 20px;">Tier 1 got you out of pain. Got the hips loose, the ankles stable, the base built. <strong style="color:var(--black);">Now it's time to build the output.</strong></p>
+  <p class="section-body">BTH Rise is the performance layer. This is where training stops being about undoing damage and starts being about adding to what you can do on the court. Stronger. Springier. Faster off the plant. More bounce on cuts. Real transfer — not gym numbers.</p>
+
+  <div class="callout">
+    <div class="callout-title">One Reminder</div>
+    <div class="callout-body">"Tier 2 is open to all. If you're dealing with pain or breakdown right now, Tier 1 first. It's not a gate — it's a sequence."</div>
+  </div>
+</div>
+
+<!-- THE 3 PHASES -->
+<div class="inside-bg">
+  <div class="pad">
+    <div class="section-eyebrow">The 12-Week System</div>
+    <h2 class="section-title">Three Phases.<br>One Progression.</h2>
+
+    <div class="phase-block" style="margin-top: 44px;">
+      <div class="phase-tag">Phase 3 · Weeks 1–4</div>
+      <div class="phase-name">Strength to Bounce</div>
+      <div class="phase-desc">Convert the base strength from Tier 1 into <strong>elastic, springy output.</strong> Slow strength work paired with jump intent. The bridge between weight room and court.</div>
+      <ul class="phase-list">
+        <li>Heavy goblet + Bulgarian splits</li>
+        <li>Controlled box jumps with clean landings</li>
+        <li>Pogos, skips, tempo rebounds</li>
+        <li>Hip-dominant posterior work</li>
+        <li>Readiness-based loading</li>
+        <li>2x strength + 1x movement per week</li>
+      </ul>
+    </div>
+
+    <div class="phase-block">
+      <div class="phase-tag">Phase 4 · Weeks 5–8</div>
+      <div class="phase-name">Game Speed</div>
+      <div class="phase-desc">Cuts. Decelerations. Direction changes. The transfer phase. <strong>Train the exact movements that happen inside every possession</strong> — at the speeds they actually happen.</div>
+      <ul class="phase-list">
+        <li>Reactive step + cut patterns</li>
+        <li>Scissor jumps, skater bounds</li>
+        <li>Single-leg stability under load</li>
+        <li>Defensive slide + recover work</li>
+        <li>Deceleration from full speed</li>
+        <li>Pickup-integrated programming</li>
+      </ul>
+    </div>
+
+    <div class="phase-block">
+      <div class="phase-tag">Phase 5 · Weeks 9–12</div>
+      <div class="phase-name">Stay Ready</div>
+      <div class="phase-desc">Lock in what you built. <strong>Maintenance logic, game-day protocols, recovery integration.</strong> You stop dropping off after heavy weeks. You start staying ready — for the next run, the next season, the next decade.</div>
+      <ul class="phase-list">
+        <li>Pre-game warm-up protocol</li>
+        <li>In-season minimum effective dose</li>
+        <li>Off-day recovery layer</li>
+        <li>Reactive peaking sets</li>
+        <li>Ongoing readiness framework</li>
+        <li>Graduation into Tier 3 if you want it</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- WEEKLY STRUCTURE -->
+<div class="pad-narrow">
+  <div class="section-eyebrow">What a Week Looks Like</div>
+  <h2 class="section-title">Built Around<br>Your Pickup.</h2>
+  <p class="section-body">Three intensity levels. Three training days. The readiness framework decides the rest — no guessing when to load and when to pull back.</p>
+  <div class="week-grid">
+    <div class="week-card">
+      <div class="wk">High Day</div>
+      <h4>Load + Intent</h4>
+      <p>Max-intent strength work. Heaviest of the week. Placed on days with no pickup before or after.</p>
+    </div>
+    <div class="week-card">
+      <div class="wk">Moderate Day</div>
+      <h4>Strength + Bounce</h4>
+      <p>Strength work with bounce intent. Lower volume than High Day. Lives near pickup, not on it.</p>
+    </div>
+    <div class="week-card">
+      <div class="wk">Low Day</div>
+      <h4>Movement + Reset</h4>
+      <p>Skill work, movement patterns, prehab. The session that protects everything else you did.</p>
+    </div>
+  </div>
+</div>
+
+<!-- COMPARISON -->
+<div class="inside-bg">
+  <div class="pad">
+    <div class="section-eyebrow">Tier 1 vs Tier 2</div>
+    <h2 class="section-title">Where You Are<br>vs Where You're Going.</h2>
+    <div class="compare">
+      <div class="compare-row">
+        <div class="compare-cell head">What It Does</div>
+        <div class="compare-cell head">Tier 1 — Foundation</div>
+        <div class="compare-cell head featured">Tier 2 — Rise</div>
+      </div>
+      <div class="compare-row">
+        <div class="compare-cell feat">Method Phases</div>
+        <div class="compare-cell">Phases 1–2 (Reset + Rebuild)</div>
+        <div class="compare-cell" style="background:rgba(230,168,0,0.05);">Phases 3–5 (Bounce + Speed + Stay Ready)</div>
+      </div>
+      <div class="compare-row">
+        <div class="compare-cell feat">Length</div>
+        <div class="compare-cell">Open-ended. Repeatable base.</div>
+        <div class="compare-cell" style="background:rgba(230,168,0,0.05);">12 weeks. 3 phases. Structured progression.</div>
+      </div>
+      <div class="compare-row">
+        <div class="compare-cell feat">Focus</div>
+        <div class="compare-cell">Get out of pain. Build the foundation.</div>
+        <div class="compare-cell" style="background:rgba(230,168,0,0.05);">Build bounce, speed, and court transfer.</div>
+      </div>
+      <div class="compare-row">
+        <div class="compare-cell feat">Best for</div>
+        <div class="compare-cell">First-time hoopers, returning from breakdown</div>
+        <div class="compare-cell" style="background:rgba(230,168,0,0.05);">Hoopers already moving clean who want output</div>
+      </div>
+      <div class="compare-row">
+        <div class="compare-cell feat">Price</div>
+        <div class="compare-cell">$19 one-time</div>
+        <div class="compare-cell" style="background:rgba(230,168,0,0.05);"><strong style="color:var(--gold);">$57 launch</strong> · goes to $67</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FAQ -->
+<div class="pad-narrow" id="buy">
+  <div class="section-eyebrow">Questions</div>
+  <h2 class="section-title">Real Answers.</h2>
+  <div style="margin-top: 36px;">
+    <div class="faq-item">
+      <div class="faq-q">Do I need Tier 1 first?</div>
+      <div class="faq-a"><strong>Tier 2 is open to all.</strong> But if you're currently dealing with pain, stiffness, or breakdown — Tier 1 first. It's not a gate. It's a sequence. Trying to train bounce on top of a foundation that hurts is how you end up back where you started.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Why is it a launch price?</div>
+      <div class="faq-a"><strong>$57 now. Goes to $67 after the first 5 testimonials come in.</strong> That's it. No fake urgency. If you get in now, you lock in the rate and you own it forever.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Can I do this while still playing pickup?</div>
+      <div class="faq-a">That's the whole point. <strong>BTH Rise is built around pickup, not separate from it.</strong> The readiness framework places every training day around your actual game schedule.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">What equipment do I need?</div>
+      <div class="faq-a">Dumbbells, a bench, a rack. A box is helpful but optional. <strong>Runs at Planet Fitness or any standard gym.</strong></div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">How is this different from Tier 3?</div>
+      <div class="faq-a">Tier 2 is the program itself — 12 weeks, one-time buy. <strong>Tier 3 is the membership</strong> that unlocks Tier 1, Tier 2, all 5 add-ons, and ongoing updates — $27/mo or $197/yr. If you want the full library, <a href="tier-3.html">Tier 3</a> is the play.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Do I need Tier 1 to do Tier 2?</div>
+      <div class="faq-a">Not required. But if pain is the issue, start with <a href="tier-1.html">Tier 1</a>. If output is the issue, start here.</div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA BAND -->
+<div class="cta-band">
+  <div>
+    <div class="section-eyebrow" style="color: rgba(17,19,24,0.5); margin-bottom: 8px;">Tier 2 · BTH Rise · Launch Price</div>
+    <div class="cta-title">$57.<br>Lock It In.</div>
+    <div class="cta-sub">12 weeks of real progression. Rate goes up once the first 5 testimonials come in. Every hooper who waits pays more.</div>
+  </div>
+  <a href="https://builttohoop.gumroad.com/l/groedz" class="btn-cta" target="_blank">Get Rise — $57 →</a>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="foot-logo">Built to <span>Hoop</span>.</div>
+    <div class="foot-tagline">Restore. Rebuild. Rise.</div>
+  </div>
+  <div class="foot-links">
+    <a href="index.html">Home</a>
+    <a href="tier-1.html">Tier 1</a>
+    <a href="tier-3.html">Tier 3</a>
+    <a href="addons.html">Add-Ons</a>
+    <a href="reset.html">Free Reset</a>
+    <a href="about.html">About</a>
+  </div>
+  <div class="foot-copy">© 2026 Built to Hoop. All rights reserved. &nbsp;·&nbsp; builttohoop@gmail.com</div>
+</footer>
+
+</body>
+</html>

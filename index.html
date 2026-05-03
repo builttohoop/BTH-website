@@ -1,351 +1,934 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="en" style="color-scheme: light;">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Built to Hoop | The Court Isn't Done With You.</title>
-  <meta name="description" content="Built to Hoop helps basketball players dealing with pain, injury, and lost performance get back on the court and stay there. Structured. Smart. Built for hoopers.">
-  <meta name="theme-color" content="#0a0a0a">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<title>Built to Hoop — Train Strong. Stay Ready.</title>
+<meta name="description" content="Basketball performance system built for adult hoopers. Train around your pickup schedule, stay on the court, move better.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ─── FORCE LIGHT MODE ─── */
+:root { color-scheme: light only; }
+
+/* ─── BRAND TOKENS ─── */
+:root {
+  --cream: #F3EFE7;
+  --white: #FFFFFF;
+  --black: #111318;
+  --gold:  #E6A800;
+  --muted: rgba(17,19,24,0.5);
+  --border: rgba(17,19,24,0.12);
+  --soft:   rgba(17,19,24,0.06);
+  --H: 'Oswald', sans-serif;
+  --B: 'DM Sans', sans-serif;
+}
+
+/* ─── RESET ─── */
+*, *::before, *::after {
+  margin: 0; padding: 0; box-sizing: border-box;
+  -webkit-text-size-adjust: 100%;
+}
+html { scroll-behavior: smooth; background: var(--white); }
+body {
+  background: var(--white);
+  color: var(--black);
+  font-family: var(--B);
+  font-size: 16px; line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  color-scheme: light;
+}
+
+/* ─── NAV ─── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  height: 62px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 52px;
+  background: rgba(255,255,255,0.96);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+@media (max-width: 768px) { nav { padding: 0 24px; } }
+.nav-logo {
+  font-family: var(--H);
+  font-size: 22px; font-weight: 700;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--black); text-decoration: none;
+}
+.nav-logo span { color: var(--gold); }
+.nav-links { display: flex; gap: 32px; align-items: center; }
+.nav-links a {
+  font-family: var(--B); font-size: 13px; font-weight: 500;
+  letter-spacing: 0.04em; color: var(--muted);
+  text-decoration: none; transition: color 0.18s;
+}
+.nav-links a:hover { color: var(--black); }
+.nav-cta {
+  font-family: var(--H); font-size: 13px; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--white); background: var(--black);
+  padding: 10px 24px; border-radius: 2px;
+  text-decoration: none; transition: all 0.18s;
+}
+.nav-cta:hover { background: var(--gold); color: var(--black); }
+@media (max-width: 900px) { .nav-links { display: none; } }
+
+/* ─── HERO ─── */
+.hero {
+  background: var(--white);
+  padding: 130px 52px 88px;
+  min-height: 100vh;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 72px;
+  align-items: end;
+  position: relative; overflow: hidden;
+}
+@media (max-width: 900px) {
+  .hero { grid-template-columns: 1fr; padding: 110px 24px 64px; min-height: auto; gap: 44px; }
+}
+.hero::before {
+  content: 'BTH';
+  position: absolute; right: -20px; top: 50%;
+  transform: translateY(-52%);
+  font-family: var(--H);
+  font-size: clamp(200px, 28vw, 380px);
+  font-weight: 700; color: rgba(230,168,0,0.06);
+  line-height: 1; pointer-events: none; user-select: none;
+  letter-spacing: 0.04em; z-index: 0;
+}
+.hero-left, .hero-right { position: relative; z-index: 1; }
+.hero-eyebrow {
+  font-family: var(--B); font-size: 11px; font-weight: 600;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 20px;
+  display: flex; align-items: center; gap: 12px;
+}
+.hero-eyebrow::before { content: ''; width: 24px; height: 2px; background: var(--gold); flex-shrink: 0; }
+.hero-title {
+  font-family: var(--H);
+  font-size: clamp(64px, 11vw, 148px);
+  font-weight: 700; line-height: 0.92;
+  letter-spacing: 0.02em; text-transform: uppercase;
+  color: var(--black); margin-bottom: 28px;
+}
+.hero-title .gold { color: var(--gold); }
+.hero-title .outline { -webkit-text-stroke: 2px rgba(17,19,24,0.2); color: transparent; }
+.hero-sub {
+  font-size: 17px; color: var(--muted);
+  max-width: 460px; line-height: 1.72; margin-bottom: 36px;
+}
+.hero-sub strong { color: var(--black); font-weight: 600; }
+.hero-actions { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+
+.hero-right { padding-left: 48px; border-left: 1px solid var(--border); }
+@media (max-width: 900px) {
+  .hero-right { padding-left: 0; border-left: none; border-top: 1px solid var(--border); padding-top: 32px; }
+}
+.hero-right-label {
+  font-family: var(--B); font-size: 10px; font-weight: 600;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 18px;
+}
+.feature-row {
+  display: flex; align-items: flex-start; gap: 14px;
+  padding: 15px 0; border-bottom: 1px solid var(--soft);
+}
+.feature-row:first-of-type { border-top: 1px solid var(--soft); }
+.feature-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--gold); flex-shrink: 0; margin-top: 5px; }
+.feature-name {
+  font-family: var(--H); font-size: 17px; font-weight: 600;
+  letter-spacing: 0.04em; text-transform: uppercase;
+  color: var(--black);
+}
+.feature-desc { font-size: 12px; color: var(--muted); margin-top: 3px; line-height: 1.45; }
+.price-block {
+  margin-top: 20px; padding: 18px 20px;
+  background: var(--cream); border: 1px solid var(--border); border-radius: 2px;
+}
+.price-val { font-family: var(--H); font-size: 28px; font-weight: 700; color: var(--gold); line-height: 1; }
+.price-val span { font-family: var(--B); font-size: 13px; font-weight: 400; color: var(--muted); margin-left: 6px; }
+.price-note { font-size: 11px; color: var(--muted); margin-top: 5px; }
+
+/* ─── BUTTONS ─── */
+.btn-primary {
+  font-family: var(--H); font-size: 15px; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--white); background: var(--black);
+  padding: 16px 38px; border-radius: 2px;
+  text-decoration: none; display: inline-block;
+  transition: background 0.18s; white-space: nowrap;
+}
+.btn-primary:hover { background: var(--gold); color: var(--black); }
+.btn-secondary {
+  font-family: var(--B); font-size: 14px; font-weight: 500;
+  color: var(--muted); padding: 14px 32px;
+  border-radius: 2px; border: 1.5px solid var(--border);
+  text-decoration: none; display: inline-block;
+  transition: all 0.18s; white-space: nowrap;
+}
+.btn-secondary:hover { border-color: var(--gold); color: var(--gold); }
+.btn-gold {
+  font-family: var(--H); font-size: 15px; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--black); background: var(--gold);
+  padding: 14px 36px; border-radius: 2px;
+  text-decoration: none; display: inline-block;
+  transition: opacity 0.18s; white-space: nowrap;
+}
+.btn-gold:hover { opacity: 0.88; }
+.btn-outline {
+  font-family: var(--H); font-size: 13px; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--black); background: transparent;
+  padding: 13px; border-radius: 2px;
+  border: 1.5px solid var(--black);
+  text-decoration: none; display: block; text-align: center;
+  transition: all 0.18s;
+}
+.btn-outline:hover { background: var(--black); color: var(--white); }
+
+/* ─── TICKER ─── */
+.ticker-wrap {
+  overflow: hidden; padding: 13px 0;
+  border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+  background: var(--cream);
+}
+.ticker-inner { display: flex; width: max-content; animation: ticker 30s linear infinite; }
+@keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.ticker-item {
+  font-family: var(--H); font-size: 12px; font-weight: 600;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: rgba(17,19,24,0.35); white-space: nowrap;
+  display: flex; align-items: center; gap: 32px; padding-right: 32px;
+}
+.ticker-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--gold); opacity: 0.7; flex-shrink: 0; }
+
+/* ─── SHARED ─── */
+.section-eyebrow {
+  font-family: var(--B); font-size: 11px; font-weight: 600;
+  letter-spacing: 0.24em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 12px;
+}
+.section-title {
+  font-family: var(--H); font-size: clamp(40px, 5.5vw, 68px);
+  font-weight: 700; line-height: 0.95;
+  letter-spacing: 0.02em; text-transform: uppercase;
+  color: var(--black); margin-bottom: 20px;
+}
+.section-body { font-size: 16px; color: var(--muted); max-width: 560px; line-height: 1.75; }
+
+.pad { padding: 96px 52px; max-width: 1400px; margin: 0 auto; }
+@media (max-width: 768px) { .pad { padding: 72px 24px; } }
+.divider { height: 1px; background: var(--border); margin: 0 52px; }
+@media (max-width: 768px) { .divider { margin: 0 24px; } }
+
+/* ─── STAT BAR ─── */
+.stat-bar {
+  background: var(--cream);
+  border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+  display: flex; flex-wrap: wrap;
+}
+.stat-item {
+  flex: 1; min-width: 140px; padding: 40px 52px;
+  border-right: 1px solid var(--border);
+}
+.stat-item:last-child { border-right: none; }
+@media (max-width: 600px) {
+  .stat-item { padding: 32px 24px; width: 50%; flex: none; }
+  .stat-item:nth-child(2) { border-right: none; }
+  .stat-item:nth-child(3) { border-right: 1px solid var(--border); border-top: 1px solid var(--border); }
+  .stat-item:nth-child(4) { border-right: none; border-top: 1px solid var(--border); }
+}
+.stat-num { font-family: var(--H); font-size: 52px; font-weight: 700; color: var(--black); line-height: 1; }
+.stat-num span { color: var(--gold); }
+.stat-label {
+  font-size: 11px; font-weight: 500;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--muted); margin-top: 6px; line-height: 1.4;
+}
+
+/* ─── WHO IT'S FOR ─── */
+.forwho-bg { background: var(--white); }
+.forwho-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; margin-top: 52px; }
+@media (max-width: 900px) { .forwho-grid { grid-template-columns: 1fr; gap: 40px; } }
+.pain-item {
+  display: flex; gap: 16px; padding: 18px 0;
+  border-bottom: 1px solid var(--soft);
+}
+.pain-item:first-child { border-top: 1px solid var(--soft); }
+.pain-num {
+  font-family: var(--H); font-size: 12px; font-weight: 600;
+  letter-spacing: 0.1em; color: var(--gold);
+  flex-shrink: 0; width: 22px; padding-top: 2px;
+}
+.pain-text { font-size: 15px; color: var(--muted); line-height: 1.65; }
+.pain-text strong { color: var(--black); font-weight: 600; display: block; margin-bottom: 3px; }
+
+.story-card {
+  background: var(--cream); border: 1px solid var(--border);
+  border-radius: 2px; padding: 36px; position: relative; overflow: hidden;
+}
+.story-card::before {
+  content: '"'; position: absolute; top: 6px; left: 22px;
+  font-family: var(--H); font-size: 110px; font-weight: 700;
+  color: var(--gold); opacity: 0.1;
+  line-height: 0.8; pointer-events: none;
+}
+.story-text { font-size: 17px; color: var(--muted); line-height: 1.82; position: relative; z-index: 1; }
+.story-text strong { color: var(--black); font-weight: 600; }
+.story-sig { margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--border); }
+.story-name {
+  font-family: var(--H); font-size: 14px; font-weight: 700;
+  letter-spacing: 0.08em; text-transform: uppercase; color: var(--black);
+}
+.story-role { font-size: 12px; color: var(--muted); margin-top: 3px; }
+
+/* ─── PICKUP ─── */
+.pickup-bg {
+  background: var(--cream);
+  border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+}
+.pickup-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: center; }
+@media (max-width: 900px) { .pickup-grid { grid-template-columns: 1fr; gap: 40px; } }
+.pickup-rule { display: flex; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--soft); }
+.pickup-rule:first-of-type { border-top: 1px solid var(--soft); margin-top: 28px; }
+.pickup-intensity {
+  font-family: var(--H); font-size: 12px; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--gold); flex-shrink: 0; width: 80px;
+}
+.pickup-desc { font-size: 14px; color: var(--muted); line-height: 1.55; }
+.pickup-desc strong { color: var(--black); font-weight: 600; }
+.pickup-quote {
+  background: var(--white); border: 1px solid var(--border);
+  border-left: 4px solid var(--gold); border-radius: 0 2px 2px 0;
+  padding: 32px 28px;
+}
+.pickup-quote-text {
+  font-family: var(--H); font-size: 20px; font-weight: 700;
+  line-height: 1.35; color: var(--black); text-transform: uppercase;
+  letter-spacing: 0.02em; margin-bottom: 16px;
+}
+.pickup-quote-sub { font-size: 14px; color: var(--muted); line-height: 1.65; }
+
+/* ─── PROGRAM ─── */
+.program-bg { background: var(--white); border-top: 1px solid var(--border); }
+.program-header {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  margin-bottom: 44px; flex-wrap: wrap; gap: 24px;
+}
+.program-note { font-size: 15px; color: var(--muted); max-width: 340px; line-height: 1.65; }
+.program-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  border: 1px solid var(--border); border-radius: 2px; overflow: hidden;
+}
+@media (max-width: 900px) { .program-grid { grid-template-columns: 1fr; } }
+.tier-card {
+  background: var(--white); padding: 36px 28px;
+  border-right: 1px solid var(--border);
+  position: relative; transition: background 0.18s;
+  display: flex; flex-direction: column;
+}
+.tier-card:hover { background: #FAFAF8; }
+.tier-card:last-child { border-right: none; }
+.tier-card.featured { background: var(--cream); }
+.tier-card.featured:hover { background: #EDE8DF; }
+.tier-card.featured::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0;
+  height: 3px; background: var(--gold);
+}
+@media (max-width: 900px) {
+  .tier-card { border-right: none; border-bottom: 1px solid var(--border); }
+  .tier-card:last-child { border-bottom: none; }
+}
+.tier-badge {
+  font-family: var(--B); font-size: 10px; font-weight: 600;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--gold);
+  display: flex; align-items: center; gap: 7px; margin-bottom: 20px;
+}
+.tier-badge-dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+.tier-num { font-family: var(--H); font-size: 52px; font-weight: 700; line-height: 1; color: var(--black); margin-bottom: 4px; }
+.tier-price { font-family: var(--H); font-size: 28px; font-weight: 700; color: var(--gold); margin-bottom: 6px; }
+.tier-price .small { font-family: var(--B); font-size: 13px; color: var(--muted); margin-left: 4px; font-weight: 400; }
+.tier-name { font-size: 17px; font-weight: 600; color: var(--black); margin-bottom: 10px; }
+.tier-desc { font-size: 13px; color: var(--muted); line-height: 1.7; margin-bottom: 22px; }
+.tier-list {
+  list-style: none; display: flex; flex-direction: column;
+  gap: 8px; margin-bottom: 28px; flex: 1;
+}
+.tier-list li {
+  font-size: 13px; color: var(--muted);
+  padding-left: 15px; position: relative; line-height: 1.45;
+}
+.tier-list li::before {
+  content: ''; position: absolute; left: 0; top: 6px;
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--gold); opacity: 0.7;
+}
+
+/* ─── ADDONS TEASER ─── */
+.addons-bg { background: var(--cream); border-top: 1px solid var(--border); }
+.addons-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 14px; margin-top: 44px;
+}
+@media (max-width: 900px) { .addons-grid { grid-template-columns: 1fr; } }
+.addon-card {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 2px; padding: 24px 22px;
+  transition: border-color 0.18s;
+}
+.addon-card:hover { border-color: var(--gold); }
+.addon-label {
+  font-family: var(--B); font-size: 9px; font-weight: 600;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 8px;
+}
+.addon-name {
+  font-family: var(--H); font-size: 20px; font-weight: 700;
+  color: var(--black); margin-bottom: 8px; text-transform: uppercase;
+}
+.addon-price {
+  font-family: var(--H); font-size: 15px; font-weight: 700;
+  color: var(--gold); margin-bottom: 10px;
+}
+.addon-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+/* ─── FREE RESET ─── */
+.reset-section { display: grid; grid-template-columns: 1fr 1fr; }
+@media (max-width: 900px) { .reset-section { grid-template-columns: 1fr; } }
+.reset-left {
+  background: var(--cream); padding: 96px 52px;
+  border-right: 1px solid var(--border);
+}
+.reset-right { background: var(--white); padding: 96px 52px; }
+@media (max-width: 900px) {
+  .reset-left { padding: 72px 24px; border-right: none; border-bottom: 1px solid var(--border); }
+  .reset-right { padding: 72px 24px; }
+}
+.reset-day {
+  display: flex; gap: 16px; padding: 15px 0;
+  border-bottom: 1px solid var(--soft); transition: padding-left 0.2s;
+}
+.reset-day:first-of-type { border-top: 1px solid var(--soft); margin-top: 36px; }
+.reset-day:hover { padding-left: 5px; cursor: default; }
+.reset-num { font-family: var(--H); font-size: 20px; font-weight: 700; color: var(--gold); flex-shrink: 0; width: 26px; line-height: 1.2; }
+.reset-title {
+  font-family: var(--H); font-size: 16px; font-weight: 600;
+  letter-spacing: 0.04em; text-transform: uppercase; color: var(--black);
+}
+.reset-sub { font-size: 12px; color: var(--muted); margin-top: 3px; line-height: 1.4; }
+.form-title {
+  font-family: var(--H); font-size: clamp(36px, 4.5vw, 54px);
+  font-weight: 700; line-height: 0.95;
+  text-transform: uppercase; color: var(--black); margin-bottom: 14px;
+}
+.form-sub { font-size: 15px; color: var(--muted); line-height: 1.65; margin-bottom: 32px; max-width: 360px; }
+.form-input {
+  width: 100%;
+  background: var(--cream); border: 1.5px solid var(--border);
+  border-radius: 2px; color: var(--black);
+  font-family: var(--B); font-size: 15px; padding: 14px 18px;
+  outline: none; margin-bottom: 12px;
+  transition: border-color 0.18s;
+  -webkit-appearance: none;
+}
+.form-input::placeholder { color: rgba(17,19,24,0.3); }
+.form-input:focus { border-color: var(--gold); background: var(--white); }
+.form-btn {
+  width: 100%;
+  background: var(--black); color: var(--white);
+  border: none; padding: 16px;
+  font-family: var(--H); font-size: 15px; font-weight: 700;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  cursor: pointer; border-radius: 2px; margin-top: 4px;
+  transition: background 0.18s;
+  -webkit-appearance: none;
+}
+.form-btn:hover { background: var(--gold); color: var(--black); }
+.form-note { font-size: 11px; color: var(--muted); text-align: center; margin-top: 14px; line-height: 1.55; }
+
+/* ─── ABOUT ─── */
+.about-bg { background: var(--cream); border-top: 1px solid var(--border); }
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+@media (max-width: 900px) { .about-grid { grid-template-columns: 1fr; gap: 48px; } }
+.about-badge {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 2px; padding: 52px 40px; text-align: center;
+}
+.about-bth {
+  font-family: var(--H); font-size: clamp(80px, 12vw, 120px);
+  font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
+  color: var(--black); line-height: 1; margin-bottom: 12px;
+}
+.about-bth span { color: var(--gold); }
+.about-tagline {
+  font-family: var(--B); font-size: 10px; font-weight: 600;
+  letter-spacing: 0.26em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 24px;
+}
+.about-pills { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+.pill {
+  font-size: 11px; font-weight: 500;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--muted); border: 1px solid var(--border);
+  padding: 6px 14px; border-radius: 100px; transition: all 0.18s;
+}
+.pill:hover { border-color: var(--gold); color: var(--gold); }
+.about-text p { font-size: 16px; color: var(--muted); line-height: 1.82; margin-bottom: 18px; }
+.about-text p:last-of-type { margin-bottom: 32px; }
+.about-text .hl { color: var(--black); font-weight: 500; }
+
+/* ─── GEAR ─── */
+.gear-bg { background: var(--white); border-top: 1px solid var(--border); }
+.gear-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 44px; }
+@media (max-width: 768px) { .gear-grid { grid-template-columns: 1fr; } }
+.gear-card {
+  background: var(--cream); border: 1px solid var(--border);
+  border-radius: 2px; padding: 28px 24px;
+  transition: border-color 0.18s;
+}
+.gear-card:hover { border-color: var(--gold); }
+.gear-label {
+  font-family: var(--B); font-size: 9px; font-weight: 600;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 10px;
+}
+.gear-name {
+  font-family: var(--H); font-size: 26px; font-weight: 700;
+  color: var(--black); margin-bottom: 10px; text-transform: uppercase;
+}
+.gear-desc { font-size: 13px; color: var(--muted); line-height: 1.65; margin-bottom: 16px; }
+.gear-status { font-size: 11px; color: var(--muted); padding-top: 14px; border-top: 1px solid var(--soft); }
+
+/* ─── CTA BAND ─── */
+.cta-band {
+  background: var(--gold); padding: 72px 52px;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 32px;
+}
+@media (max-width: 768px) { .cta-band { padding: 56px 24px; flex-direction: column; align-items: flex-start; } }
+.cta-eyebrow {
+  font-family: var(--B); font-size: 10px; font-weight: 600;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: rgba(17,19,24,0.5); margin-bottom: 8px;
+}
+.cta-title {
+  font-family: var(--H); font-size: clamp(36px, 5vw, 60px);
+  font-weight: 700; line-height: 0.92;
+  text-transform: uppercase; color: var(--black); margin-bottom: 10px;
+}
+.cta-sub { font-size: 15px; color: rgba(17,19,24,0.6); line-height: 1.55; max-width: 420px; }
+.btn-cta {
+  font-family: var(--H); font-size: 15px; font-weight: 700;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--gold); background: var(--black);
+  padding: 18px 44px; border-radius: 2px; text-decoration: none;
+  white-space: nowrap; flex-shrink: 0; transition: opacity 0.18s;
+}
+.btn-cta:hover { opacity: 0.88; }
+
+/* ─── FOOTER ─── */
+footer {
+  background: var(--cream);
+  border-top: 1px solid var(--border);
+  padding: 48px 52px;
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 28px;
+}
+@media (max-width: 768px) { footer { padding: 40px 24px; } }
+.foot-logo {
+  font-family: var(--H); font-size: 20px; font-weight: 700;
+  letter-spacing: 0.08em; text-transform: uppercase; color: var(--black);
+}
+.foot-logo span { color: var(--gold); }
+.foot-tagline {
+  font-size: 11px; font-weight: 500;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--muted); margin-top: 5px;
+}
+.foot-links { display: flex; gap: 28px; flex-wrap: wrap; }
+.foot-links a {
+  font-size: 12px; font-weight: 500;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--muted); text-decoration: none;
+  transition: color 0.18s;
+}
+.foot-links a:hover { color: var(--gold); }
+.foot-copy {
+  width: 100%; text-align: center;
+  font-size: 11px; color: var(--muted);
+  padding-top: 24px; border-top: 1px solid var(--soft); opacity: 0.6;
+}
+
+/* ─── REVEAL ─── */
+.reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+</style>
 </head>
 <body>
 
-<header class="topbar">
-  <div class="container nav">
-    <a class="brand" href="index.html" aria-label="Built to Hoop home">
-      <span class="brand-mark">BTH</span>
-      <span>Built to Hoop</span>
-    </a>
-    <button class="button button-ghost menu-button" type="button" data-menu-button>Menu</button>
-    <nav class="nav-links" data-nav-links>
-      <a href="index.html" class="active">Home</a>
-      <a href="#story">Story</a>
-      <a href="programs.html">Programs</a>
-      <a href="free-reset.html">Free Reset</a>
-      <a href="about.html">About</a>
-      <a href="faq.html">FAQ</a>
-      <a href="contact.html">Contact</a>
-    </nav>
-    <div class="nav-actions hide-mobile">
-      <a class="button button-secondary" href="free-reset.html">Get the Reset</a>
-      <a class="button button-primary" href="https://builttohoop.gumroad.com/l/ecyzaa" target="_blank">Start Tier 1</a>
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">Built to <span>Hoop</span></a>
+  <div class="nav-links">
+    <a href="tier-1.html">Tier 1</a>
+    <a href="tier-2.html">Tier 2 Rise</a>
+    <a href="tier-3.html">Tier 3 Stay Ready</a>
+    <a href="addons.html">Add-Ons</a>
+    <a href="about.html">About</a>
+  </div>
+  <a href="reset.html" class="nav-cta">Free Reset</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow">Basketball Performance System</div>
+    <h1 class="hero-title">
+      The Court<br>
+      <span class="gold">Isn't</span><br>
+      Done<br>
+      <span class="outline">With You.</span>
+    </h1>
+    <p class="hero-sub">
+      A readiness-based training system built for adult hoopers who want to <strong>move better, train smarter, and stay on the court</strong> — without grinding their body into the floor.
+    </p>
+    <div class="hero-actions">
+      <a href="reset.html" class="btn-primary">Start Free — 5-Day Reset</a>
+      <a href="#program" class="btn-secondary">See the Program →</a>
     </div>
   </div>
-</header>
+  <div class="hero-right">
+    <div class="hero-right-label">What BTH Solves</div>
+    <div class="feature-row">
+      <div class="feature-dot"></div>
+      <div><div class="feature-name">Pickup-Integrated Training</div><div class="feature-desc">Train around your run — not against it</div></div>
+    </div>
+    <div class="feature-row">
+      <div class="feature-dot"></div>
+      <div><div class="feature-name">Readiness Framework</div><div class="feature-desc">Know when to push and when to pull back</div></div>
+    </div>
+    <div class="feature-row">
+      <div class="feature-dot"></div>
+      <div><div class="feature-name">5-Phase Method</div><div class="feature-desc">Restore. Rebuild. Strength. Speed. Stay Ready.</div></div>
+    </div>
+    <div class="feature-row">
+      <div class="feature-dot"></div>
+      <div><div class="feature-name">Built for Adult Hoopers</div><div class="feature-desc">18–35. Working schedules. Real bodies. No fluff.</div></div>
+    </div>
+    <div class="price-block">
+      <div class="price-val">$19 <span>one time · Tier 1 · live now</span></div>
+      <div class="price-note">Start free with the 5-Day Reset — no card required.</div>
+    </div>
+  </div>
+</section>
 
-<main>
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker-inner">
+    <span class="ticker-item">RESTORE <span class="ticker-dot"></span> REBUILD <span class="ticker-dot"></span> RISE <span class="ticker-dot"></span> STAY READY <span class="ticker-dot"></span> BUILT TO HOOP <span class="ticker-dot"></span> RESTORE <span class="ticker-dot"></span> REBUILD <span class="ticker-dot"></span> RISE <span class="ticker-dot"></span> STAY READY <span class="ticker-dot"></span> BUILT TO HOOP <span class="ticker-dot"></span></span>
+    <span class="ticker-item">RESTORE <span class="ticker-dot"></span> REBUILD <span class="ticker-dot"></span> RISE <span class="ticker-dot"></span> STAY READY <span class="ticker-dot"></span> BUILT TO HOOP <span class="ticker-dot"></span> RESTORE <span class="ticker-dot"></span> REBUILD <span class="ticker-dot"></span> RISE <span class="ticker-dot"></span> STAY READY <span class="ticker-dot"></span> BUILT TO HOOP <span class="ticker-dot"></span></span>
+  </div>
+</div>
 
-  <!-- HERO -->
-  <section class="hero">
-    <div class="container hero-grid">
+<!-- STAT BAR -->
+<div class="stat-bar reveal">
+  <div class="stat-item"><div class="stat-num">5<span>×</span></div><div class="stat-label">Phase<br>Method</div></div>
+  <div class="stat-item"><div class="stat-num"><span>$</span>19</div><div class="stat-label">Tier 1<br>One Time</div></div>
+  <div class="stat-item"><div class="stat-num"><span>12</span></div><div class="stat-label">Weeks in<br>BTH Rise</div></div>
+  <div class="stat-item"><div class="stat-num">24/7</div><div class="stat-label">Tier 3<br>Member Library</div></div>
+</div>
+
+<!-- WHO IT'S FOR -->
+<div class="forwho-bg">
+  <div class="pad reveal" id="forwho">
+    <div class="section-eyebrow">Who This Is For</div>
+    <h2 class="section-title">Built for the Hooper<br>Who Refuses to Stop.</h2>
+    <div class="forwho-grid">
       <div>
-        <div class="eyebrow">Basketball Performance — Built Different</div>
-        <h1>The Court Isn't Done With You.</h1>
-        <p>For hoopers dealing with <strong>chronic pain, old injuries, and lost performance</strong> — this is the system that gets you back and keeps you there. Not a rehab program. Not random fitness. A real structure built for the game.</p>
-        <div class="hero-actions">
-          <a class="button button-primary" href="https://builttohoop.gumroad.com/l/ecyzaa" target="_blank">Start Tier 1</a>
-          <a class="button button-secondary" href="free-reset.html">Get the Free 5-Day Reset</a>
+        <div class="pain-item"><div class="pain-num">01</div><div class="pain-text"><strong>You feel stiffer than you used to.</strong>Getting loose takes longer. Hips, knees, ankles — something's always talking before you touch the ball.</div></div>
+        <div class="pain-item"><div class="pain-num">02</div><div class="pain-text"><strong>You train, but nothing transfers.</strong>Gym strength doesn't show up on the court. You're putting in work but still feeling slow.</div></div>
+        <div class="pain-item"><div class="pain-num">03</div><div class="pain-text"><strong>You sit out more than you want to.</strong>Not from lack of drive — from a body that won't cooperate when it matters.</div></div>
+        <div class="pain-item"><div class="pain-num">04</div><div class="pain-text"><strong>You're not chasing the pros.</strong>You just want to play — consistently, without pain, without setbacks.</div></div>
+      </div>
+      <div class="story-card">
+        <div class="story-text">
+          I played through the pain for years. Thought that was just part of it. <strong>It's not — you just need a plan built for someone still on the court.</strong>
+          <br><br>
+          Every program I tried made me choose — train or play. <strong>I built BTH because that was never a choice I was willing to make.</strong>
+          <br><br>
+          The court doesn't care how tired you are. I learned that the hard way. Now the system does the thinking for you.
         </div>
-        <div class="mini-proof">
-          <span><i class="dot"></i> Rebuild movement quality</span>
-          <span><i class="dot"></i> Restore bounce and rhythm</span>
-          <span><i class="dot"></i> Train with control, not chaos</span>
+        <div class="story-sig">
+          <div class="story-name">— Tyrell Little</div>
+          <div class="story-role">Founder, Built to Hoop</div>
         </div>
       </div>
-      <div class="hero-card">
-        <div class="hero-visual">
-          <div class="court-lines"></div>
-          <div class="hero-overlay">
-            <div class="overlay-block">
-              <strong>Tier 1: Return Ready</strong>
-              <small>Built for hoopers who feel stiff, beat up, hesitant, or flat and need a real structure to come back the right way.</small>
-            </div>
-            <div class="overlay-block">
-              <strong>BTH Method</strong>
-              <small>Restore what is off. Rebuild what is weak. Rise back into performance.</small>
-            </div>
-            <div class="overlay-block">
-              <strong>Core Standard</strong>
-              <small>Pain-free is not the finish line. Performance-ready is.</small>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- TICKER -->
-  <div class="ticker-wrap">
-    <div class="ticker-track">
-      <span class="ticker-item">BUILT TO HOOP<span class="ticker-dot">◆</span>TRAIN SMART<span class="ticker-dot">◆</span>MOVE BETTER<span class="ticker-dot">◆</span>STAY ON THE COURT<span class="ticker-dot">◆</span>NO SHORTCUTS<span class="ticker-dot">◆</span>RESTORE. REBUILD. RISE.<span class="ticker-dot">◆</span>BUILT TO HOOP<span class="ticker-dot">◆</span>TRAIN SMART<span class="ticker-dot">◆</span>MOVE BETTER<span class="ticker-dot">◆</span>STAY ON THE COURT<span class="ticker-dot">◆</span>NO SHORTCUTS<span class="ticker-dot">◆</span>RESTORE. REBUILD. RISE.<span class="ticker-dot">◆</span></span>
-      <span class="ticker-item">BUILT TO HOOP<span class="ticker-dot">◆</span>TRAIN SMART<span class="ticker-dot">◆</span>MOVE BETTER<span class="ticker-dot">◆</span>STAY ON THE COURT<span class="ticker-dot">◆</span>NO SHORTCUTS<span class="ticker-dot">◆</span>RESTORE. REBUILD. RISE.<span class="ticker-dot">◆</span>BUILT TO HOOP<span class="ticker-dot">◆</span>TRAIN SMART<span class="ticker-dot">◆</span>MOVE BETTER<span class="ticker-dot">◆</span>STAY ON THE COURT<span class="ticker-dot">◆</span>NO SHORTCUTS<span class="ticker-dot">◆</span>RESTORE. REBUILD. RISE.<span class="ticker-dot">◆</span></span>
     </div>
   </div>
+</div>
 
-  <!-- STATS BAND -->
-  <section class="section section-alt">
-    <div class="container">
-      <div class="stats-grid">
-        <div class="stat"><strong>Movement</strong><p>Hip, ankle, trunk, and positional control before chasing numbers or intensity.</p></div>
-        <div class="stat"><strong>Bounce</strong><p>Strength converted into spring, timing, and real athletic output on the court.</p></div>
-        <div class="stat"><strong>Durability</strong><p>Load managed so you stop living in the cycle of flare-up, rest, and repeat.</p></div>
-        <div class="stat"><strong>Structure</strong><p>Every training day has a reason — so you know what you're doing and why.</p></div>
+<div class="divider"></div>
+
+<!-- PICKUP -->
+<div class="pickup-bg">
+  <div class="pad reveal">
+    <div class="pickup-grid">
+      <div>
+        <div class="section-eyebrow">The BTH Difference</div>
+        <h2 class="section-title">Playing and Training<br>at the Same Time.</h2>
+        <p class="section-body">Most programs make you choose. BTH is built around pickup — not separate from it. The readiness framework is the unique mechanism — nobody else in the market does this.</p>
+        <div class="pickup-rule"><div class="pickup-intensity">Light</div><div class="pickup-desc">Casual runs, minimal jumping. Train legs again after <strong>24 hours.</strong></div></div>
+        <div class="pickup-rule"><div class="pickup-intensity">Moderate</div><div class="pickup-desc">Full games, regular jumping. Wait <strong>36–48 hours</strong> before lower body training.</div></div>
+        <div class="pickup-rule"><div class="pickup-intensity">Hard</div><div class="pickup-desc">Lots of sprinting and jumping. Wait <strong>48–72 hours</strong> before training legs again.</div></div>
+      </div>
+      <div class="pickup-quote">
+        <div class="pickup-quote-text">"Ran hard yesterday? Your body already told you. Here's what to do with that information."</div>
+        <div class="pickup-quote-sub">This is the core of BTH — a readiness-based system that integrates with your game instead of competing with it. Train smarter. Stay available. Play longer.</div>
       </div>
     </div>
-  </section>
+  </div>
+</div>
 
-  <!-- PROBLEM -->
-  <section class="section">
-    <div class="container">
-      <div class="section-head">
-        <div>
-          <div class="kicker">The Problem</div>
-          <h2>Most hoopers aren't broken. Their program is.</h2>
-        </div>
-        <p>You can get stronger and still feel slower. You can rest and still never feel ready. You can play through it and keep ending up back at zero. That's the cycle. BTH is built to break it.</p>
+<div class="divider"></div>
+
+<!-- PROGRAM -->
+<div class="program-bg" id="program">
+  <div class="pad reveal">
+    <div class="program-header">
+      <div>
+        <div class="section-eyebrow">The Program</div>
+        <h2 class="section-title">Three Tiers.<br>One Direction.</h2>
       </div>
-      <div class="feature-grid">
-        <div class="card"><div class="icon">01</div><h3>Too random</h3><p>Rehab drills, heavy lifting, pickup, and jump work mixed together with no progression. The body never gets a clean signal to improve.</p></div>
-        <div class="card"><div class="icon">02</div><h3>Too much ego</h3><p>Chasing hard sessions before you can control positions, absorb force, or repeat quality movement. More intensity on a broken foundation just breaks you faster.</p></div>
-        <div class="card"><div class="icon">03</div><h3>No transfer</h3><p>Even when strength improves it never turns back into rhythm, bounce, and game-ready movement. The gym and the court stay disconnected.</p></div>
+      <p class="program-note">Start where you are. Build from the ground up. Each tier earns you the right to the next one — or skip straight to Tier 3 and unlock everything.</p>
+    </div>
+    <div class="program-grid">
+
+      <div class="tier-card featured">
+        <div class="tier-badge"><div class="tier-badge-dot"></div>Live · Most Popular Start</div>
+        <div class="tier-num">01</div>
+        <div class="tier-price">$19<span class="small">one time</span></div>
+        <div class="tier-name">BTH Foundation</div>
+        <p class="tier-desc">Phases 1–2. Reset + Rebuild. Get back on the court and stay there. The entry system for every hooper.</p>
+        <ul class="tier-list">
+          <li>3-day weekly training structure</li>
+          <li>Full pickup recovery rules built in</li>
+          <li>Progressive load system</li>
+          <li>Hip, ankle + movement reset</li>
+          <li>Complete exercise library</li>
+          <li>Instant Gumroad download</li>
+        </ul>
+        <a href="tier-1.html" class="btn-gold" style="display:block;text-align:center;padding:13px;">See Tier 1 →</a>
+      </div>
+
+      <div class="tier-card">
+        <div class="tier-badge"><div class="tier-badge-dot"></div>Live · Launch Price</div>
+        <div class="tier-num">02</div>
+        <div class="tier-price">$57<span class="small">launch · goes to $67</span></div>
+        <div class="tier-name">BTH Rise</div>
+        <p class="tier-desc">12 weeks. 3 phases. Phases 3–5 of the method. For hoopers who want real performance output — strength to bounce, game speed, stay ready.</p>
+        <ul class="tier-list">
+          <li>Phase 3 — Strength to Bounce</li>
+          <li>Phase 4 — Game Speed</li>
+          <li>Phase 5 — Stay Ready</li>
+          <li>Full intensity day system</li>
+          <li>Pickup integration advanced</li>
+          <li>Open to all — Tier 1 recommended first if in pain</li>
+        </ul>
+        <a href="tier-2.html" class="btn-outline">See Tier 2 Rise →</a>
+      </div>
+
+      <div class="tier-card">
+        <div class="tier-badge"><div class="tier-badge-dot"></div>Live · Best Value</div>
+        <div class="tier-num">03</div>
+        <div class="tier-price">$27<span class="small">/mo · or $197/yr</span></div>
+        <div class="tier-name">BTH Stay Ready</div>
+        <p class="tier-desc">The membership. Unlocks every program, every add-on, monthly updates. Like a streaming service for BTH — not a new program.</p>
+        <ul class="tier-list">
+          <li>Full Tier 1 + Tier 2 access</li>
+          <li>All 5 add-on tracks unlocked</li>
+          <li>Monthly training updates</li>
+          <li>Batched Q&A — weekly or biweekly</li>
+          <li>Priority support + early drops</li>
+          <li>Cancel anytime</li>
+        </ul>
+        <a href="tier-3.html" class="btn-outline">See Tier 3 →</a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ADDONS TEASER -->
+<div class="addons-bg">
+  <div class="pad reveal">
+    <div class="program-header">
+      <div>
+        <div class="section-eyebrow">Add-Ons</div>
+        <h2 class="section-title">Target What's<br>Breaking Down.</h2>
+      </div>
+      <p class="program-note">Five specific tracks for the spots most hoopers struggle with. All available standalone — all free inside Tier 3.</p>
+    </div>
+    <div class="addons-grid">
+      <div class="addon-card">
+        <div class="addon-label">Add-On · Injury Track</div>
+        <div class="addon-name">Hip Reset</div>
+        <div class="addon-price">$17–$27</div>
+        <div class="addon-desc">Open tight hips. Rebuild control. The foundation most hoopers skip.</div>
+      </div>
+      <div class="addon-card">
+        <div class="addon-label">Add-On · Injury Track</div>
+        <div class="addon-name">Knee Protection</div>
+        <div class="addon-price">$17–$27</div>
+        <div class="addon-desc">Strong knees that hold up through cutting and landing.</div>
+      </div>
+      <div class="addon-card">
+        <div class="addon-label">Add-On · Injury Track</div>
+        <div class="addon-name">Ankle Rebuild</div>
+        <div class="addon-price">$17–$27</div>
+        <div class="addon-desc">Build the stability you never trained for. Step off the brace.</div>
+      </div>
+      <div class="addon-card">
+        <div class="addon-label">Add-On · Performance</div>
+        <div class="addon-name">Skill Builder</div>
+        <div class="addon-price">$17–$27</div>
+        <div class="addon-desc">Court-specific work — handles, finishing, footwork that transfers.</div>
+      </div>
+      <div class="addon-card">
+        <div class="addon-label">Add-On · Recovery</div>
+        <div class="addon-name">Recovery System</div>
+        <div class="addon-price">$17</div>
+        <div class="addon-desc">Protocols that get you to the next game without the grind.</div>
+      </div>
+      <div class="addon-card" style="background: var(--black); border-color: var(--black);">
+        <div class="addon-label" style="color: var(--gold);">Bundle · Save $30+</div>
+        <div class="addon-name" style="color: var(--white);">Injury Bundle</div>
+        <div class="addon-price" style="color: var(--gold);">$47</div>
+        <div class="addon-desc" style="color: rgba(243,239,231,0.65);">Hip + Knee + Ankle tracks together. The full structural rebuild.</div>
       </div>
     </div>
-  </section>
+    <div style="text-align: center; margin-top: 40px;">
+      <a href="addons.html" class="btn-primary">See All Add-Ons →</a>
+    </div>
+  </div>
+</div>
 
-  <!-- STORY / WHO IT'S FOR -->
-  <section class="section section-alt" id="story">
-    <div class="container">
-      <div class="section-head">
-        <div>
-          <div class="kicker">Who This Is For</div>
-          <h2>Sound familiar?</h2>
+<!-- FREE RESET -->
+<div id="reset">
+  <div class="reset-section">
+    <div class="reset-left reveal">
+      <div class="section-eyebrow">Free 5-Day Reset</div>
+      <h2 class="section-title">Start Here.<br>For Free.</h2>
+      <p class="section-body">No commitment. No credit card. Five workouts — built to get your body moving right again.</p>
+      <div class="reset-day"><div class="reset-num">01</div><div><div class="reset-title">Hip Reset</div><div class="reset-sub">Rebuild your foundation — reduce stiffness, regain control</div></div></div>
+      <div class="reset-day"><div class="reset-num">02</div><div><div class="reset-title">Ankle Reset</div><div class="reset-sub">Build the stability needed for cutting and landing</div></div></div>
+      <div class="reset-day"><div class="reset-num">03</div><div><div class="reset-title">Movement Control</div><div class="reset-sub">Pain-free movement on the court starts here</div></div></div>
+      <div class="reset-day"><div class="reset-num">04</div><div><div class="reset-title">Game-Ready Strength</div><div class="reset-sub">Strength that moves — not just lifts</div></div></div>
+      <div class="reset-day"><div class="reset-num">05</div><div><div class="reset-title">Power Reset</div><div class="reset-sub">Convert everything into explosive, game-ready movement</div></div></div>
+    </div>
+    <div class="reset-right reveal">
+      <h3 class="form-title">Get Day 1<br>Right Now.</h3>
+      <p class="form-sub">Drop your email. Day 1 lands in your inbox today. Free. No strings.</p>
+      <form action="https://assets.mailerlite.com/jsonp/YOUR_ACCOUNT_ID/forms/mlb2-39376740/subscribe" method="post" target="_blank">
+        <input class="form-input" type="text" name="fields[name]" placeholder="First name">
+        <input class="form-input" type="email" name="fields[email]" placeholder="Email address" required>
+        <input type="hidden" name="ml-submit" value="1">
+        <button class="form-btn" type="submit">Send Me Day 1 →</button>
+      </form>
+      <p class="form-note">No spam. Your info stays private.<br>Just the workouts — one per day for 5 days.</p>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ABOUT -->
+<div class="about-bg" id="about">
+  <div class="pad reveal">
+    <div class="about-grid">
+      <div class="about-badge">
+        <div class="about-bth">B<span>T</span>H</div>
+        <div class="about-tagline">The Court Isn't Done With You.</div>
+        <div class="about-pills">
+          <span class="pill">Movement First</span>
+          <span class="pill">Pain-Free</span>
+          <span class="pill">Still on the Court</span>
+          <span class="pill">Restore. Rebuild. Rise.</span>
         </div>
-        <p>Whether you're still grinding through it or you had to step away — if pain has been running your game, you're in the right place.</p>
       </div>
-      <div class="split-grid">
-        <div class="split-panel">
-          <ul class="list">
-            <li>Your hips lock up before you even get to half court</li>
-            <li>You've told yourself "I'll get back to it" for two years now</li>
-            <li>You still show up to runs but you're playing through pain every time</li>
-            <li>You work out but still feel stiff and slow once you get on the court</li>
-            <li>Every time you try to push through it — something goes wrong</li>
-            <li>Basketball wasn't just a sport — it was how you stayed sane</li>
-          </ul>
-        </div>
-        <div class="split-panel">
-          <div class="kicker">Founder Story</div>
-          <h2>Built by someone who lived it.</h2>
-          <p>I spent years in that cycle. Working out in pain. Playing in pain. Resting, going back, getting hurt again.</p>
-          <p style="margin-top:1rem;">It wasn't until I stopped trying to push through it — and actually paid attention to what my body needed — that everything changed. The hips opened up. The knees stopped aching. I got back on the court moving like myself again.</p>
-          <p style="margin-top:1rem;">That process is what Built To Hoop is. Not a workout program. A movement reset — built for people who've been where I've been.</p>
-          <div class="callout">— BTH Founder &nbsp;·&nbsp; Train Strong. Move Better.</div>
-        </div>
+      <div class="about-text">
+        <div class="section-eyebrow">About BTH</div>
+        <h2 class="section-title">This Wasn't<br>a Business Idea.</h2>
+        <p>Built to Hoop was born out of necessity. <span class="hl">Years of working out in pain. Playing in pain. Getting hurt over and over.</span> Until I stopped guessing.</p>
+        <p>The system I built got me back on the court moving the way I used to. <span class="hl">A lot of people are stuck in the same cycle I was.</span> They don't need motivation. They need the right roadmap.</p>
+        <p>That's what BTH is — built by someone who lived it. Still plays. Still trains. Still building.</p>
+        <a href="about.html" class="btn-primary">Read the Full Story →</a>
       </div>
     </div>
-  </section>
+  </div>
+</div>
 
-  <!-- WHAT MAKES BTH DIFFERENT -->
-  <section class="section">
-    <div class="container">
-      <div class="section-head">
-        <div>
-          <div class="kicker">What Makes BTH Different</div>
-          <h2>Built around your real life.</h2>
-        </div>
-        <p>Other programs treat basketball like it's separate from your training. BTH is built around both — because hoopers don't just train, they play.</p>
-      </div>
-      <div class="split-grid">
-        <div class="split-panel">
-          <ul class="list">
-            <li><strong>Movement quality before ego loading</strong> — We fix how you move before we add load. Most programs skip this. That's exactly why most hoopers keep getting hurt.</li>
-            <li><strong>Performance, not just pain-free</strong> — Pain-free is not the finish line. BTH bridges the gap between feeling managed and feeling athletic again.</li>
-            <li><strong>Clear progression</strong> — Every training day has a reason. You always know what you're doing, why you're doing it, and what comes next.</li>
-            <li><strong>Tendon, sprint, jump, and force work built in</strong> — Not just mobility. Not just strength. The full picture that gets you back on the court and keeps you there.</li>
-          </ul>
-        </div>
-        <div class="pickup-section">
-          <div class="kicker">BTH Differentiator</div>
-          <h3 style="font-size:1.5rem;margin-top:0.5rem;margin-bottom:0.5rem;">Pickup is part of the plan.</h3>
-          <p style="color:var(--light);font-size:1rem;line-height:1.7;margin-bottom:0;">Other programs ignore pickup games. BTH adjusts your training workload based on how hard you played — so you're never overloading a body that already put in work.</p>
-          <div class="pickup-rules">
-            <div class="pickup-rule">
-              <div>
-                <div class="rule-type">Light Pickup</div>
-                <div class="rule-desc">Casual runs, low jumping</div>
-              </div>
-              <div class="rule-wait">Train legs again<br><strong>after 24 hrs</strong></div>
-            </div>
-            <div class="pickup-rule featured">
-              <div>
-                <div class="rule-type">Moderate Pickup</div>
-                <div class="rule-desc">Full games, some jumping</div>
-              </div>
-              <div class="rule-wait">Wait<br><strong>36–48 hrs</strong></div>
-            </div>
-            <div class="pickup-rule">
-              <div>
-                <div class="rule-type" style="color:#e8a87c">Hard / Competitive</div>
-                <div class="rule-desc">Lots of jumping & sprinting</div>
-              </div>
-              <div class="rule-wait">Wait<br><strong>48–72 hrs</strong></div>
-            </div>
-          </div>
-          <div class="pickup-readiness">
-            <p><span>Readiness rule:</span> Feel heavy or stiff? Scale back. Feel loose and springy? Train normally. Let your body guide the decision.</p>
-          </div>
-        </div>
+<div class="divider"></div>
+
+<!-- GEAR -->
+<div class="gear-bg">
+  <div class="pad reveal" style="text-align:center;" id="brand">
+    <div class="section-eyebrow">The Brand</div>
+    <h2 class="section-title">Wear What<br>You Train In.</h2>
+    <div class="ticker-wrap" style="margin:32px -52px 0;">
+      <div class="ticker-inner">
+        <span class="ticker-item">BUILT TO HOOP <span class="ticker-dot"></span> TRAIN STRONG <span class="ticker-dot"></span> MOVE BETTER <span class="ticker-dot"></span> BTH <span class="ticker-dot"></span> BUILT TO HOOP <span class="ticker-dot"></span> TRAIN STRONG <span class="ticker-dot"></span> MOVE BETTER <span class="ticker-dot"></span> BTH <span class="ticker-dot"></span></span>
+        <span class="ticker-item">BUILT TO HOOP <span class="ticker-dot"></span> TRAIN STRONG <span class="ticker-dot"></span> MOVE BETTER <span class="ticker-dot"></span> BTH <span class="ticker-dot"></span> BUILT TO HOOP <span class="ticker-dot"></span> TRAIN STRONG <span class="ticker-dot"></span> MOVE BETTER <span class="ticker-dot"></span> BTH <span class="ticker-dot"></span></span>
       </div>
     </div>
-  </section>
-
-  <!-- METHOD -->
-  <section class="section section-alt">
-    <div class="container">
-      <div class="section-head">
-        <div>
-          <div class="kicker">The BTH Method</div>
-          <h2>Restore. Rebuild. Rise.</h2>
-        </div>
-        <p>A clear 3-phase structure that takes you from broken down to performance-ready — in order, for a reason.</p>
-      </div>
-      <div class="method-grid">
-        <div class="method-step"><div class="icon">R1</div><h3>Restore</h3><p>Clean up the basics. Improve positioning, control, foot and ankle function, hip behavior, and core stability — so movement stops fighting itself before you add any load.</p></div>
-        <div class="method-step"><div class="icon">R2</div><h3>Rebuild</h3><p>Layer in structured strength, unilateral work, tendon loading, and force production without losing movement quality or the confidence you just earned in Phase 1.</p></div>
-        <div class="method-step"><div class="icon">R3</div><h3>Rise</h3><p>Convert the foundation into speed, bounce, rhythm, and court-ready performance — so the body feels athletic again, not just managed. This is where the game comes back.</p></div>
-      </div>
+    <div class="gear-grid" style="margin-top:40px;text-align:left;">
+      <div class="gear-card"><div class="gear-label">Drop 01</div><div class="gear-name">BTH Hoodie</div><p class="gear-desc">Performance wear. BTH on the chest, sleeve detail. Built for the court and the gym.</p><div class="gear-status">Demand building — launching soon</div></div>
+      <div class="gear-card"><div class="gear-label">Drop 01</div><div class="gear-name">BTH Shorts</div><p class="gear-desc">Court-ready cut. Clean logo, movement-focused fit. Made to hoop in.</p><div class="gear-status">Demand building — launching soon</div></div>
+      <div class="gear-card"><div class="gear-label">Coming</div><div class="gear-name">More Drops</div><p class="gear-desc">More pieces on the way. Follow @builttohoop2026 to stay up on what's next before it drops.</p><div class="gear-status">@builttohoop2026 — follow for early access</div></div>
     </div>
-  </section>
+  </div>
+</div>
 
-  <!-- PROGRAMS PREVIEW -->
-  <section class="section">
-    <div class="container">
-      <div class="section-head">
-        <div>
-          <div class="kicker">The Programs</div>
-          <h2>Start with the right level.</h2>
-        </div>
-        <p>Tier 1 is the first step because most hoopers don't need more intensity. They need a cleaner entry back into training and performance.</p>
-      </div>
-      <div class="offer-grid">
-        <div class="offer-card highlight">
-          <span class="badge">Best Place to Start</span>
-          <h3 style="margin-top:1rem;">Tier 1 — Return Ready</h3>
-          <p>For hoopers dealing with stiffness, recurring discomfort, hesitation, lost bounce, and inconsistent training. Built to rebuild trust in the body and create real readiness again.</p>
-          <ul class="list">
-            <li>Structured weekly progression</li>
-            <li>Movement-first performance system</li>
-            <li>Pickup recovery rules & readiness guide</li>
-            <li>Clear training days and recovery rhythm</li>
-          </ul>
-          <div class="cta-row">
-            <a class="button button-primary" href="https://builttohoop.gumroad.com/l/ecyzaa" target="_blank">See Tier 1 — $19</a>
-          </div>
-        </div>
-        <div class="offer-card">
-          <span class="badge">Coming Next</span>
-          <h3 style="margin-top:1rem;">Tier 2 — Performance Coaching</h3>
-          <p>For athletes ready to push bounce, output, and basketball performance harder with more coaching, adjustability, and direct support.</p>
-          <ul class="list">
-            <li>Performance-focused training</li>
-            <li>Adjustable programming</li>
-            <li>Deeper pickup integration system</li>
-            <li>Coaching and Q&A support</li>
-          </ul>
-        </div>
-        <div class="offer-card">
-          <span class="badge">Free Entry</span>
-          <h3 style="margin-top:1rem;">5-Day Reset</h3>
-          <p>A fast trust-builder for hoopers who need to feel a clear shift in stiffness, movement quality, and readiness before buying a full program.</p>
-          <ul class="list">
-            <li>5 workouts delivered to your inbox</li>
-            <li>Natural bridge into Tier 1</li>
-            <li>No cost, no commitment</li>
-          </ul>
-          <div class="cta-row">
-            <a class="button button-secondary" href="free-reset.html">Get the Reset</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+<!-- CTA BAND -->
+<div class="cta-band reveal">
+  <div>
+    <div class="cta-eyebrow">Free 5-Day Reset</div>
+    <div class="cta-title">Start Here.<br>See What Changes.</div>
+    <div class="cta-sub">Five days. One workout per day. No credit card. No guessing. A plan built for someone still on the court.</div>
+  </div>
+  <a href="reset.html" class="btn-cta">Get Day 1 Free →</a>
+</div>
 
-
-
-  <!-- GEAR -->
-  <section class="section">
-    <div class="container">
-      <div class="section-head">
-        <div>
-          <div class="kicker">The Brand</div>
-          <h2>Wear what you train in.</h2>
-        </div>
-      </div>
-      <div class="grid-3">
-        <div class="card"><span class="badge" style="margin-bottom:1rem;">Drop 01</span><h3>BTH Hoodie</h3><p>Performance wear. No pockets, all movement. BTH on the chest — sleeve detail. Black on black.</p><p style="margin-top:1rem;color:var(--gold);font-size:0.9rem;font-weight:600;">Demand building — launching soon</p></div>
-        <div class="card"><span class="badge" style="margin-bottom:1rem;">Drop 01</span><h3>BTH Shorts</h3><p>Court-ready. Built for the gym and the hardwood. BTH logo, clean cut, movement-focused fit.</p><p style="margin-top:1rem;color:var(--gold);font-size:0.9rem;font-weight:600;">Demand building — launching soon</p></div>
-        <div class="card"><span class="badge" style="margin-bottom:1rem;">Coming</span><h3>More Drops</h3><p>More pieces on the way. Follow @builttohoop2026 to stay up on what's next before it drops.</p><p style="margin-top:1rem;color:var(--muted);font-size:0.9rem;font-weight:600;">Follow for early access</p></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- FINAL CTA -->
-  <section class="section section-alt">
-    <div class="container cta-band">
-      <div class="section-head" style="margin-bottom:0.75rem;">
-        <div>
-          <div class="kicker">Start Here</div>
-          <h2>Done letting pain run your game?</h2>
-        </div>
-      </div>
-      <p class="lead">Get the free reset if you need a first step, or go straight into Tier 1 if you already know you need structure. Either way — the court isn't done with you.</p>
-      <div class="cta-row">
-        <a class="button button-primary" href="free-reset.html">Get the Free Reset</a>
-        <a class="button button-secondary" href="https://builttohoop.gumroad.com/l/ecyzaa" target="_blank">Start Tier 1 — $19</a>
-      </div>
-    </div>
-  </section>
-
-</main>
-
+<!-- FOOTER -->
 <footer>
-  <div class="container footer-grid">
-    <div>
-      <a class="brand" href="index.html">
-        <span class="brand-mark">BTH</span>
-        <span>Built to Hoop</span>
-      </a>
-      <p style="margin-top:1rem;">Built for hoopers who are done guessing. Rebuild how you move, stay on the court, and get back to performing with structure — not shortcuts.</p>
-    </div>
-    <div>
-      <h3>Pages</h3>
-      <ul>
-        <li><a href="about.html">About</a></li>
-        <li><a href="programs.html">Programs</a></li>
-        <li><a href="https://builttohoop.gumroad.com/l/ecyzaa" target="_blank">Tier 1</a></li>
-        <li><a href="free-reset.html">Free Reset</a></li>
-        <li><a href="faq.html">FAQ</a></li>
-      </ul>
-    </div>
-    <div>
-      <h3>Connect</h3>
-      <ul>
-        <li><a href="mailto:builttohoop@gmail.com">builttohoop@gmail.com</a></li>
-        <li><a href="contact.html">Send a message</a></li>
-        <li><a href="https://www.instagram.com/builttohoop2026/" target="_blank">Instagram</a></li>
-        <li><a href="https://www.tiktok.com/@builttohoop" target="_blank">TikTok</a></li>
-      </ul>
-    </div>
+  <div>
+    <div class="foot-logo">Built to <span>Hoop</span>.</div>
+    <div class="foot-tagline">The Court Isn't Done With You.</div>
   </div>
-  <div class="container">
-    <hr class="soft">
-    <small>© <span data-year></span> Built to Hoop. All rights reserved.</small>
+  <div class="foot-links">
+    <a href="tier-1.html">Tier 1</a>
+    <a href="tier-2.html">Tier 2</a>
+    <a href="tier-3.html">Tier 3</a>
+    <a href="addons.html">Add-Ons</a>
+    <a href="reset.html">Free Reset</a>
+    <a href="about.html">About</a>
+    <a href="https://www.tiktok.com/@builttohoop" target="_blank">@builttohoop</a>
+    <a href="https://www.instagram.com/builttohoop2026/" target="_blank">@builttohoop2026</a>
   </div>
+  <div class="foot-copy">© 2026 Built to Hoop. All rights reserved. &nbsp;·&nbsp; builttohoop@gmail.com</div>
 </footer>
 
-<script src="script.js"></script>
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+  }, { threshold: 0.06, rootMargin: '0px 0px -30px 0px' });
+  reveals.forEach(el => io.observe(el));
+</script>
 </body>
 </html>

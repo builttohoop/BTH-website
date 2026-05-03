@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en" style="color-scheme: light;">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<title>Free 5-Day Basketball Reset — Built to Hoop</title>
+<meta name="description" content="The Free 5-Day Basketball Reset. Five days of emails that fix what's actually making your legs feel heavy, your ankles feel dead, and your game feel stuck.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root { color-scheme: light only; --cream:#F3EFE7; --white:#FFFFFF; --black:#111318; --gold:#E6A800; --muted:rgba(17,19,24,0.5); --border:rgba(17,19,24,0.12); --soft:rgba(17,19,24,0.06); --H:'Oswald',sans-serif; --B:'DM Sans',sans-serif; }
+*,*::before,*::after { margin:0; padding:0; box-sizing:border-box; -webkit-text-size-adjust:100%; }
+html { scroll-behavior:smooth; background:var(--white); }
+body { background:var(--white); color:var(--black); font-family:var(--B); font-size:16px; line-height:1.6; overflow-x:hidden; -webkit-font-smoothing:antialiased; color-scheme:light; }
+
+nav { position:fixed; top:0; left:0; right:0; z-index:100; height:62px; display:flex; align-items:center; justify-content:space-between; padding:0 52px; background:rgba(255,255,255,0.96); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); border-bottom:1px solid var(--border); }
+@media (max-width:768px) { nav { padding:0 24px; } }
+.nav-logo { font-family:var(--H); font-size:22px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:var(--black); text-decoration:none; }
+.nav-logo span { color:var(--gold); }
+.nav-links { display:flex; gap:32px; align-items:center; }
+.nav-links a { font-family:var(--B); font-size:13px; font-weight:500; letter-spacing:0.04em; color:var(--muted); text-decoration:none; transition:color 0.18s; }
+.nav-links a:hover, .nav-links a.current { color:var(--black); }
+.nav-cta { font-family:var(--H); font-size:13px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--white); background:var(--black); padding:10px 24px; border-radius:2px; text-decoration:none; transition:all 0.18s; }
+.nav-cta:hover { background:var(--gold); color:var(--black); }
+@media (max-width:900px) { .nav-links { display:none; } }
+
+.hero-split { min-height:92vh; padding:100px 52px 60px; display:grid; grid-template-columns:1.1fr 1fr; gap:56px; align-items:center; max-width:1260px; margin:0 auto; }
+@media (max-width:900px) { .hero-split { grid-template-columns:1fr; padding:100px 24px 48px; gap:40px; min-height:auto; } }
+.hero-eyebrow { font-family:var(--B); font-size:11px; font-weight:600; letter-spacing:0.22em; text-transform:uppercase; color:var(--gold); margin-bottom:20px; display:flex; align-items:center; gap:12px; }
+.hero-eyebrow::before { content:''; width:24px; height:2px; background:var(--gold); flex-shrink:0; }
+.hero-title { font-family:var(--H); font-size:clamp(44px,7vw,92px); font-weight:700; line-height:0.95; letter-spacing:0.02em; text-transform:uppercase; color:var(--black); margin-bottom:24px; }
+.hero-title .gold { color:var(--gold); }
+.hero-sub { font-size:17px; color:var(--muted); line-height:1.75; margin-bottom:28px; max-width:520px; }
+.hero-sub strong { color:var(--black); font-weight:600; }
+
+.bullets { list-style:none; padding:0; margin:0 0 32px; }
+.bullets li { font-size:15px; color:var(--black); padding:10px 0 10px 30px; position:relative; line-height:1.55; border-bottom:1px solid var(--soft); }
+.bullets li:last-child { border-bottom:none; }
+.bullets li::before { content:'✓'; position:absolute; left:0; top:11px; color:var(--gold); font-weight:700; font-size:16px; }
+
+/* Form card */
+.form-card { background:var(--cream); border:1px solid var(--border); border-radius:3px; padding:44px 36px; position:relative; box-shadow:0 1px 0 rgba(17,19,24,0.04); }
+@media (max-width:560px) { .form-card { padding:32px 24px; } }
+.form-card::before { content:'FREE'; position:absolute; top:-12px; left:28px; background:var(--gold); color:var(--black); font-family:var(--H); font-size:11px; font-weight:700; letter-spacing:0.18em; padding:5px 14px; border-radius:2px; }
+.form-h { font-family:var(--H); font-size:28px; font-weight:700; letter-spacing:0.02em; text-transform:uppercase; color:var(--black); line-height:1.05; margin-bottom:10px; }
+.form-sub { font-size:14px; color:var(--muted); margin-bottom:24px; line-height:1.65; }
+.ml-form-wrap { margin:0; }
+.ml-form-wrap input[type="email"], .ml-form-wrap input[type="text"] { width:100%; padding:15px 16px; font-family:var(--B); font-size:15px; border:1px solid var(--border); border-radius:2px; background:var(--white); color:var(--black); margin-bottom:12px; transition:border-color 0.18s; }
+.ml-form-wrap input:focus { outline:none; border-color:var(--gold); }
+.ml-form-wrap button { width:100%; font-family:var(--H); font-size:15px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--white); background:var(--black); border:none; padding:16px; border-radius:2px; cursor:pointer; transition:all 0.18s; margin-top:6px; }
+.ml-form-wrap button:hover { background:var(--gold); color:var(--black); }
+.form-trust { font-size:12px; color:var(--muted); margin-top:14px; text-align:center; line-height:1.55; }
+
+.section-eyebrow { font-family:var(--B); font-size:11px; font-weight:600; letter-spacing:0.24em; text-transform:uppercase; color:var(--gold); margin-bottom:12px; }
+.section-title { font-family:var(--H); font-size:clamp(36px,5vw,56px); font-weight:700; line-height:0.95; letter-spacing:0.02em; text-transform:uppercase; color:var(--black); margin-bottom:20px; }
+.section-body { font-size:16px; color:var(--muted); max-width:640px; line-height:1.75; }
+.pad { padding:88px 52px; max-width:1200px; margin:0 auto; }
+.pad-narrow { padding:88px 52px; max-width:900px; margin:0 auto; }
+@media (max-width:768px) { .pad, .pad-narrow { padding:64px 24px; } }
+.divider { height:1px; background:var(--border); margin:0 52px; }
+@media (max-width:768px) { .divider { margin:0 24px; } }
+.inside-bg { background:var(--cream); border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
+
+/* Day grid */
+.day-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:12px; margin-top:40px; }
+@media (max-width:1000px) { .day-grid { grid-template-columns:repeat(2,1fr); } }
+@media (max-width:560px) { .day-grid { grid-template-columns:1fr; } }
+.day-card { background:var(--white); border:1px solid var(--border); border-radius:2px; padding:24px 20px; position:relative; min-height:220px; }
+.day-card:nth-child(1) { border-top:3px solid var(--gold); }
+.day-card:nth-child(2) { border-top:3px solid var(--gold); }
+.day-card:nth-child(3) { border-top:3px solid var(--gold); }
+.day-card:nth-child(4) { border-top:3px solid var(--gold); }
+.day-card:nth-child(5) { border-top:3px solid var(--gold); }
+.day-num { font-family:var(--H); font-size:12px; font-weight:600; letter-spacing:0.22em; text-transform:uppercase; color:var(--gold); margin-bottom:10px; }
+.day-name { font-family:var(--H); font-size:19px; font-weight:700; letter-spacing:0.02em; text-transform:uppercase; color:var(--black); margin-bottom:10px; line-height:1.1; }
+.day-body { font-size:13px; color:var(--muted); line-height:1.65; }
+
+/* Who it's for */
+.who-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:40px; }
+@media (max-width:800px) { .who-grid { grid-template-columns:1fr; } }
+.who-card { background:var(--white); border:1px solid var(--border); border-radius:2px; padding:28px 24px; }
+.who-card .icon { font-family:var(--H); font-size:32px; color:var(--gold); font-weight:700; line-height:1; margin-bottom:14px; }
+.who-card h4 { font-family:var(--H); font-size:17px; font-weight:700; letter-spacing:0.04em; text-transform:uppercase; color:var(--black); margin-bottom:8px; }
+.who-card p { font-size:14px; color:var(--muted); line-height:1.65; }
+
+/* Quote */
+.quote-box { background:var(--cream); border-left:3px solid var(--gold); padding:28px 32px; margin-top:36px; }
+.quote-box p { font-family:var(--H); font-size:22px; font-weight:500; color:var(--black); line-height:1.4; letter-spacing:0.01em; }
+.quote-box .attr { font-family:var(--B); font-size:13px; font-weight:500; color:var(--muted); letter-spacing:0.08em; text-transform:uppercase; margin-top:12px; }
+
+/* FAQ */
+.faq-wrap { max-width:760px; margin:40px auto 0; }
+.faq-item { border-bottom:1px solid var(--border); padding:24px 0; }
+.faq-q { font-family:var(--H); font-size:17px; font-weight:600; letter-spacing:0.03em; text-transform:uppercase; color:var(--black); margin-bottom:10px; display:flex; align-items:flex-start; gap:12px; }
+.faq-q::before { content:'Q'; color:var(--gold); font-weight:700; flex-shrink:0; }
+.faq-a { font-size:15px; color:var(--muted); line-height:1.75; padding-left:24px; }
+.faq-a strong { color:var(--black); font-weight:600; }
+
+/* CTA band */
+.cta-band { background:var(--gold); padding:80px 52px; text-align:center; }
+@media (max-width:768px) { .cta-band { padding:64px 24px; } }
+.cta-band h2 { font-family:var(--H); font-size:clamp(40px,6vw,72px); font-weight:700; color:var(--black); letter-spacing:0.02em; text-transform:uppercase; line-height:0.95; margin-bottom:18px; }
+.cta-band p { font-size:16px; color:rgba(17,19,24,0.72); max-width:560px; margin:0 auto 32px; line-height:1.7; }
+.cta-band .btn { display:inline-block; font-family:var(--H); font-size:16px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--gold); background:var(--black); padding:18px 44px; border-radius:2px; text-decoration:none; transition:all 0.18s; }
+.cta-band .btn:hover { background:var(--white); color:var(--black); }
+
+footer { background:var(--black); color:var(--white); padding:72px 52px 44px; }
+@media (max-width:768px) { footer { padding:60px 24px 36px; } }
+.foot-grid { display:grid; grid-template-columns:1.3fr 1fr 1fr 1fr; gap:40px; max-width:1200px; margin:0 auto; }
+@media (max-width:900px) { .foot-grid { grid-template-columns:1fr 1fr; gap:36px; } }
+@media (max-width:560px) { .foot-grid { grid-template-columns:1fr; } }
+.foot-brand { font-family:var(--H); font-size:26px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:var(--white); }
+.foot-brand span { color:var(--gold); }
+.foot-tag { font-size:13px; color:rgba(255,255,255,0.55); margin-top:10px; line-height:1.7; max-width:300px; }
+.foot-h { font-family:var(--H); font-size:12px; font-weight:600; letter-spacing:0.22em; text-transform:uppercase; color:var(--gold); margin-bottom:18px; }
+.foot-list { list-style:none; }
+.foot-list li { margin-bottom:10px; }
+.foot-list a { font-size:14px; color:rgba(255,255,255,0.7); text-decoration:none; transition:color 0.18s; }
+.foot-list a:hover { color:var(--gold); }
+.foot-bottom { max-width:1200px; margin:56px auto 0; padding-top:28px; border-top:1px solid rgba(255,255,255,0.1); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; }
+.foot-copy { font-size:12px; color:rgba(255,255,255,0.4); letter-spacing:0.04em; }
+.foot-handles { font-size:12px; color:rgba(255,255,255,0.5); letter-spacing:0.08em; }
+.foot-handles span { color:var(--gold); }
+
+.reveal { opacity:0; transform:translateY(20px); transition:opacity 0.6s ease-out, transform 0.6s ease-out; }
+.reveal.in { opacity:1; transform:translateY(0); }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">BUILT TO <span>HOOP</span></a>
+  <div class="nav-links">
+    <a href="tier-1.html">Tier 1</a>
+    <a href="tier-2.html">Tier 2</a>
+    <a href="tier-3.html">Tier 3</a>
+    <a href="addons.html">Add-Ons</a>
+    <a href="about.html">About</a>
+  </div>
+  <a href="#reset-form" class="nav-cta">Get The Reset</a>
+</nav>
+
+<section class="hero-split">
+  <div>
+    <div class="hero-eyebrow">Free · Delivered To Your Inbox</div>
+    <h1 class="hero-title">5 Days.<br>5 Fixes.<br>Your Game <span class="gold">Back.</span></h1>
+    <p class="hero-sub">The <strong>Free 5-Day Basketball Reset</strong> is the same starting point I run every time my body feels dead after pickup. Hips open. Ankles rebuilt. Game speed back. No fluff.</p>
+    <ul class="bullets">
+      <li>Day 1 — Hip Reset (open up what's locking your jump)</li>
+      <li>Day 2 — Ankle Reset (stable landings, no more rolls)</li>
+      <li>Day 3 — Movement Control (legs stop feeling heavy)</li>
+      <li>Day 4 — Game-Ready Strength (one session, 20 min)</li>
+      <li>Day 5 — Power Reset (bring the bounce back)</li>
+    </ul>
+    <p class="hero-sub" style="margin-bottom:0;">Takes <strong>10–20 minutes a day</strong>. Runs alongside your pickup schedule. Zero gym required for the first three days.</p>
+  </div>
+
+  <div class="form-card reveal" id="reset-form">
+    <div class="form-h">Get The Free 5-Day Reset</div>
+    <p class="form-sub">Drop your email. The first day lands in your inbox <strong>within 5 minutes</strong>.</p>
+
+    <div id="mlb2-39376740" class="ml-form-wrap ml-form-embedContainer ml-subscribe-form ml-subscribe-form-39376740">
+      <div class="ml-form-align-center">
+        <div class="ml-form-embedWrapper embedForm">
+          <div class="ml-form-embedBody ml-form-embedBodyDefault row-form">
+            <form class="ml-block-form" action="https://assets.mailerlite.com/jsonp/1918834/forms/175289018826588406/subscribe" data-code="" method="post" target="_blank">
+              <div class="ml-form-formContent">
+                <div class="ml-form-fieldRow">
+                  <div class="ml-field-group ml-field-email ml-validate-email ml-validate-required">
+                    <input aria-label="email" aria-required="true" type="email" class="form-control" data-inputmask="" name="fields[email]" placeholder="Your email" autocomplete="email">
+                  </div>
+                </div>
+                <div class="ml-form-fieldRow">
+                  <div class="ml-field-group ml-field-name">
+                    <input aria-label="name" type="text" class="form-control" data-inputmask="" name="fields[name]" placeholder="First name (optional)" autocomplete="given-name">
+                  </div>
+                </div>
+              </div>
+              <input type="hidden" name="ml-submit" value="1">
+              <div class="ml-form-embedSubmit">
+                <button type="submit" class="primary">Send Me Day 1 →</button>
+              </div>
+              <input type="hidden" name="anticsrf" value="true">
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p class="form-trust">No spam. No junk funnel. One email a day for 5 days, then a short weekly note. Unsubscribe anytime.</p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section class="pad-narrow">
+  <div class="section-eyebrow">What You're Getting</div>
+  <h2 class="section-title">The Actual <span style="color:var(--gold);">5 Days.</span></h2>
+  <p class="section-body">Each day is one focused protocol. No 40-minute videos. No "do 12 different mobility drills." Just the one thing that fixes that specific problem — the way I'd show my closest hooper.</p>
+
+  <div class="day-grid">
+    <div class="day-card reveal">
+      <div class="day-num">Day 01</div>
+      <div class="day-name">Hip Reset</div>
+      <p class="day-body">Open the hips that have been locked from sitting, training, and playing. You'll feel the jump change on the next pickup run.</p>
+    </div>
+    <div class="day-card reveal">
+      <div class="day-num">Day 02</div>
+      <div class="day-name">Ankle Reset</div>
+      <p class="day-body">Rebuild the ankles your body doesn't trust anymore. Stable landings. Better cuts. No more "just slightly rolled it."</p>
+    </div>
+    <div class="day-card reveal">
+      <div class="day-num">Day 03</div>
+      <div class="day-name">Movement Control</div>
+      <p class="day-body">The reason your legs feel heavy isn't conditioning — it's leaks in how your body is moving. This day closes them.</p>
+    </div>
+    <div class="day-card reveal">
+      <div class="day-num">Day 04</div>
+      <div class="day-name">Game-Ready Strength</div>
+      <p class="day-body">One short session. Five lifts. Built specifically for hoopers who play 3–4x a week and can't afford to be sore.</p>
+    </div>
+    <div class="day-card reveal">
+      <div class="day-num">Day 05</div>
+      <div class="day-name">Power Reset</div>
+      <p class="day-body">The bounce protocol. How to bring power back without another round of box jumps that trash your knees.</p>
+    </div>
+  </div>
+</section>
+
+<div class="inside-bg">
+<section class="pad">
+  <div class="section-eyebrow">Who This Is For</div>
+  <h2 class="section-title">If This Sounds Like You —<br>This Reset Was <span style="color:var(--gold);">Built For You.</span></h2>
+
+  <div class="who-grid">
+    <div class="who-card reveal">
+      <div class="icon">01</div>
+      <h4>You Play Pickup 3–4x/Week</h4>
+      <p>Your legs haven't felt fresh since college. You're not training less — you're just not recovering enough to show up.</p>
+    </div>
+    <div class="who-card reveal">
+      <div class="icon">02</div>
+      <h4>You Took Time Off</h4>
+      <p>You came back to hoop and your body keeps telling you it's not the same. Hips tight, ankles jumpy, shot flat.</p>
+    </div>
+    <div class="who-card reveal">
+      <div class="icon">03</div>
+      <h4>You Train Hard But…</h4>
+      <p>Results don't match effort. Your lifts are up but your game feels down. You need a connection between them.</p>
+    </div>
+  </div>
+
+  <div class="quote-box reveal" style="margin-top:40px;">
+    <p>"You're not hurting because you're old. You're hurting because nobody taught you how to train and play at the same time."</p>
+    <div class="attr">— Ty · Built To Hoop</div>
+  </div>
+</section>
+</div>
+
+<section class="pad-narrow">
+  <div class="section-eyebrow">FAQ</div>
+  <h2 class="section-title">Reset Questions.</h2>
+
+  <div class="faq-wrap">
+    <div class="faq-item">
+      <div class="faq-q">Is this really free?</div>
+      <div class="faq-a">Yes. Five days of emails. No trial, no hidden charge. At the end I'll tell you about Tier 1 Foundation ($19) if you want the full system — but only if you want it.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">How long do the workouts take?</div>
+      <div class="faq-a"><strong>10–20 minutes a day.</strong> Day 4 is the longest (~22 min). Days 1–3 can be done in your living room without a gym.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Can I do this if I already have pain?</div>
+      <div class="faq-a">The Reset is built for the gray-zone stuff — tightness, heaviness, minor stuff that never goes away. If you've got sharp pain or a recent injury, see a PT first. Then come back.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">I'm 30+ and don't feel like I used to. Does this help?</div>
+      <div class="faq-a">That's exactly who it's built for. The 5-Day Reset is the starting point for Avatar 2 — the Returning Hooper — who played all through high school/college and is now trying to get the body to hold up for pickup and leagues.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">What happens after Day 5?</div>
+      <div class="faq-a">You'll know if this approach works for your body. From there — <a href="tier-1.html" style="color:var(--gold);">Tier 1 Foundation</a> ($19) is the next step. Or just stay on the weekly list and keep using what you got. No pressure.</div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-band">
+  <h2>The Court Isn't Done With You.<br>Start With The <span style="color:rgba(17,19,24,0.5);">Reset.</span></h2>
+  <p>Drop your email, get Day 1 in your inbox in 5 minutes. Free forever.</p>
+  <a href="#reset-form" class="btn">Start The 5-Day Reset</a>
+</section>
+
+<footer>
+  <div class="foot-grid">
+    <div>
+      <div class="foot-brand">BUILT TO <span>HOOP</span></div>
+      <p class="foot-tag">The court isn't done with you. Built for hoopers 18–35 who refuse to stop playing.</p>
+    </div>
+    <div>
+      <div class="foot-h">Programs</div>
+      <ul class="foot-list">
+        <li><a href="tier-1.html">Tier 1 — Foundation</a></li>
+        <li><a href="tier-2.html">Tier 2 — Rise</a></li>
+        <li><a href="tier-3.html">Tier 3 — Stay Ready</a></li>
+        <li><a href="addons.html">Add-Ons</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="foot-h">Start Free</div>
+      <ul class="foot-list">
+        <li><a href="reset.html">5-Day Basketball Reset</a></li>
+        <li><a href="about.html">About BTH</a></li>
+        <li><a href="mailto:builttohoop@gmail.com">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="foot-h">Follow</div>
+      <ul class="foot-list">
+        <li><a href="https://instagram.com/builttohoop" target="_blank">Instagram</a></li>
+        <li><a href="https://tiktok.com/@builttohoop" target="_blank">TikTok</a></li>
+        <li><a href="https://youtube.com/@builttohoop" target="_blank">YouTube</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <div class="foot-copy">© 2026 Built to Hoop. All rights reserved.</div>
+    <div class="foot-handles"><span>@</span>builttohoop</div>
+  </div>
+</footer>
+
+<script>
+  const obs = new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target);}})},{threshold:0.12});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+
+</body>
+</html>

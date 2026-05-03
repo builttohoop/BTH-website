@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en" style="color-scheme: light;">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<title>BTH Stay Ready — Tier 3 Membership — Built to Hoop</title>
+<meta name="description" content="BTH Stay Ready — the full BTH library. Tier 1 + Tier 2 + all 5 add-ons + monthly updates + batched Q&A. $27/mo or $197/yr.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root { color-scheme: light only; --cream:#F3EFE7; --white:#FFFFFF; --black:#111318; --gold:#E6A800; --muted:rgba(17,19,24,0.5); --border:rgba(17,19,24,0.12); --soft:rgba(17,19,24,0.06); --H:'Oswald',sans-serif; --B:'DM Sans',sans-serif; }
+*,*::before,*::after { margin:0; padding:0; box-sizing:border-box; -webkit-text-size-adjust:100%; }
+html { scroll-behavior:smooth; background:var(--white); }
+body { background:var(--white); color:var(--black); font-family:var(--B); font-size:16px; line-height:1.6; overflow-x:hidden; -webkit-font-smoothing:antialiased; color-scheme:light; }
+
+nav { position:fixed; top:0; left:0; right:0; z-index:100; height:62px; display:flex; align-items:center; justify-content:space-between; padding:0 52px; background:rgba(255,255,255,0.96); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); border-bottom:1px solid var(--border); }
+@media (max-width:768px) { nav { padding:0 24px; } }
+.nav-logo { font-family:var(--H); font-size:22px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:var(--black); text-decoration:none; }
+.nav-logo span { color:var(--gold); }
+.nav-links { display:flex; gap:32px; align-items:center; }
+.nav-links a { font-family:var(--B); font-size:13px; font-weight:500; letter-spacing:0.04em; color:var(--muted); text-decoration:none; transition:color 0.18s; }
+.nav-links a:hover, .nav-links a.current { color:var(--black); }
+.nav-cta { font-family:var(--H); font-size:13px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--white); background:var(--black); padding:10px 24px; border-radius:2px; text-decoration:none; transition:all 0.18s; }
+.nav-cta:hover { background:var(--gold); color:var(--black); }
+@media (max-width:900px) { .nav-links { display:none; } }
+
+.hero { background:var(--white); padding:130px 52px 72px; position:relative; overflow:hidden; }
+@media (max-width:768px) { .hero { padding:110px 24px 56px; } }
+.hero::before { content:'03'; position:absolute; right:-20px; top:50%; transform:translateY(-50%); font-family:var(--H); font-size:clamp(280px,42vw,600px); font-weight:700; color:rgba(230,168,0,0.05); line-height:1; pointer-events:none; z-index:0; letter-spacing:-0.02em; }
+.hero-inner { max-width:900px; margin:0 auto; position:relative; z-index:1; }
+.hero-eyebrow { font-family:var(--B); font-size:11px; font-weight:600; letter-spacing:0.22em; text-transform:uppercase; color:var(--gold); margin-bottom:20px; display:flex; align-items:center; gap:12px; }
+.hero-eyebrow::before { content:''; width:24px; height:2px; background:var(--gold); flex-shrink:0; }
+.hero-title { font-family:var(--H); font-size:clamp(56px,9vw,120px); font-weight:700; line-height:0.92; letter-spacing:0.02em; text-transform:uppercase; color:var(--black); margin-bottom:24px; }
+.hero-title .gold { color:var(--gold); }
+.hero-sub { font-size:18px; color:var(--muted); max-width:620px; line-height:1.7; margin-bottom:36px; }
+.hero-sub strong { color:var(--black); font-weight:600; }
+
+/* Pricing toggle cards */
+.pricing-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:32px 0 40px; }
+@media (max-width:700px) { .pricing-grid { grid-template-columns:1fr; } }
+.price-card { background:var(--white); border:1px solid var(--border); border-radius:2px; padding:28px 28px; position:relative; }
+.price-card.featured { background:var(--cream); border-color:var(--gold); }
+.price-card.featured::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:var(--gold); }
+.price-tag { display:inline-block; font-family:var(--B); font-size:10px; font-weight:600; letter-spacing:0.2em; text-transform:uppercase; color:var(--gold); margin-bottom:10px; }
+.price-val { font-family:var(--H); font-size:52px; font-weight:700; color:var(--black); line-height:1; }
+.price-val .cycle { font-family:var(--B); font-size:15px; color:var(--muted); margin-left:6px; font-weight:400; }
+.price-sub { font-size:13px; color:var(--muted); margin-top:6px; line-height:1.55; }
+.price-sub strong { color:var(--black); font-weight:600; }
+.price-cta { display:block; text-align:center; margin-top:20px; font-family:var(--H); font-size:14px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; padding:14px; border-radius:2px; text-decoration:none; transition:all 0.18s; }
+.price-cta.primary { background:var(--black); color:var(--white); }
+.price-cta.primary:hover { background:var(--gold); color:var(--black); }
+.price-cta.gold { background:var(--gold); color:var(--black); }
+.price-cta.gold:hover { opacity:0.9; }
+.price-save { display:inline-block; background:var(--gold); color:var(--black); font-family:var(--H); font-size:10px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; padding:3px 10px; border-radius:2px; margin-left:10px; }
+
+.btn-primary { font-family:var(--H); font-size:15px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--white); background:var(--black); padding:16px 38px; border-radius:2px; text-decoration:none; display:inline-block; transition:background 0.18s; white-space:nowrap; }
+.btn-primary:hover { background:var(--gold); color:var(--black); }
+.btn-gold { font-family:var(--H); font-size:16px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--black); background:var(--gold); padding:18px 44px; border-radius:2px; text-decoration:none; display:inline-block; transition:opacity 0.18s; white-space:nowrap; }
+.btn-gold:hover { opacity:0.88; }
+.btn-secondary { font-family:var(--B); font-size:14px; font-weight:500; color:var(--muted); padding:14px 32px; border-radius:2px; border:1.5px solid var(--border); text-decoration:none; display:inline-block; transition:all 0.18s; white-space:nowrap; }
+.btn-secondary:hover { border-color:var(--gold); color:var(--gold); }
+
+.section-eyebrow { font-family:var(--B); font-size:11px; font-weight:600; letter-spacing:0.24em; text-transform:uppercase; color:var(--gold); margin-bottom:12px; }
+.section-title { font-family:var(--H); font-size:clamp(36px,5vw,56px); font-weight:700; line-height:0.95; letter-spacing:0.02em; text-transform:uppercase; color:var(--black); margin-bottom:20px; }
+.section-body { font-size:16px; color:var(--muted); max-width:640px; line-height:1.75; }
+.pad { padding:88px 52px; max-width:1200px; margin:0 auto; }
+.pad-narrow { padding:88px 52px; max-width:900px; margin:0 auto; }
+@media (max-width:768px) { .pad, .pad-narrow { padding:64px 24px; } }
+.divider { height:1px; background:var(--border); margin:0 52px; }
+@media (max-width:768px) { .divider { margin:0 24px; } }
+
+.inside-bg { background:var(--cream); border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
+
+/* Library grid */
+.library-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:40px; }
+@media (max-width:900px) { .library-grid { grid-template-columns:repeat(2,1fr); } }
+@media (max-width:600px) { .library-grid { grid-template-columns:1fr; } }
+.lib-card { background:var(--white); border:1px solid var(--border); border-radius:2px; padding:24px; }
+.lib-card .tag { font-family:var(--B); font-size:9px; font-weight:600; letter-spacing:0.2em; text-transform:uppercase; color:var(--gold); margin-bottom:8px; }
+.lib-card h4 { font-family:var(--H); font-size:18px; font-weight:700; text-transform:uppercase; color:var(--black); margin-bottom:6px; letter-spacing:0.02em; }
+.lib-card p { font-size:13px; color:var(--muted); line-height:1.65; }
+.lib-card .was { font-size:11px; color:var(--muted); margin-top:10px; font-style:italic; }
+.lib-card .was strong { color:var(--gold); font-style:normal; font-weight:600; }
+
+/* Perks */
+.perks-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:16px; margin-top:40px; }
+@media (max-width:700px) { .perks-grid { grid-template-columns:1fr; } }
+.perk-card { background:var(--white); border:1px solid var(--border); border-radius:2px; padding:28px; display:flex; gap:18px; align-items:flex-start; }
+.perk-num { font-family:var(--H); font-size:32px; font-weight:700; color:var(--gold); line-height:1; flex-shrink:0; width:44px; }
+.perk-card h4 { font-family:var(--H); font-size:18px; font-weight:700; text-transform:uppercase; color:var(--black); margin-bottom:8px; letter-spacing:0.02em; }
+.perk-card p { font-size:14px; color:var(--muted); line-height:1.65; }
+
+/* Value stack */
+.value-stack { margin-top:36px; border:1px solid var(--border); border-radius:2px; background:var(--white); overflow:hidden; }
+.value-row { display:flex; justify-content:space-between; padding:18px 26px; border-bottom:1px solid var(--soft); align-items:center; gap:16px; }
+.value-row:last-child { border-bottom:none; }
+.value-row.total { background:var(--cream); }
+.value-row.total .v-name, .value-row.total .v-price { color:var(--black); font-weight:700; }
+.v-name { font-size:15px; color:var(--muted); }
+.v-name strong { color:var(--black); font-weight:600; }
+.v-price { font-family:var(--H); font-size:17px; font-weight:700; color:var(--black); letter-spacing:0.02em; white-space:nowrap; }
+.v-price.strike { color:var(--muted); text-decoration:line-through; }
+
+.callout { background:var(--cream); border:1px solid var(--border); border-left:4px solid var(--gold); padding:28px 32px; border-radius:0 2px 2px 0; margin:32px 0; }
+.callout-title { font-family:var(--H); font-size:14px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:var(--gold); margin-bottom:10px; }
+.callout-body { font-family:var(--H); font-size:22px; font-weight:700; line-height:1.35; color:var(--black); text-transform:uppercase; letter-spacing:0.01em; }
+
+.faq-item { padding:24px 0; border-bottom:1px solid var(--soft); }
+.faq-item:first-child { border-top:1px solid var(--soft); }
+.faq-q { font-family:var(--H); font-size:18px; font-weight:700; text-transform:uppercase; letter-spacing:0.02em; color:var(--black); margin-bottom:10px; }
+.faq-a { font-size:15px; color:var(--muted); line-height:1.75; }
+.faq-a strong { color:var(--black); font-weight:600; }
+.faq-a a { color:var(--gold); text-decoration:none; }
+
+.cta-band { background:var(--gold); padding:72px 52px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:32px; }
+@media (max-width:768px) { .cta-band { padding:56px 24px; flex-direction:column; align-items:flex-start; } }
+.cta-title { font-family:var(--H); font-size:clamp(36px,5vw,56px); font-weight:700; line-height:0.92; text-transform:uppercase; color:var(--black); margin-bottom:10px; }
+.cta-sub { font-size:15px; color:rgba(17,19,24,0.6); line-height:1.55; max-width:460px; }
+.btn-cta { font-family:var(--H); font-size:15px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:var(--gold); background:var(--black); padding:18px 44px; border-radius:2px; text-decoration:none; white-space:nowrap; flex-shrink:0; transition:opacity 0.18s; }
+.btn-cta:hover { opacity:0.88; }
+
+footer { background:var(--cream); border-top:1px solid var(--border); padding:48px 52px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:28px; }
+@media (max-width:768px) { footer { padding:40px 24px; } }
+.foot-logo { font-family:var(--H); font-size:20px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--black); }
+.foot-logo span { color:var(--gold); }
+.foot-tagline { font-size:11px; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); margin-top:5px; }
+.foot-links { display:flex; gap:28px; flex-wrap:wrap; }
+.foot-links a { font-size:12px; font-weight:500; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); text-decoration:none; transition:color 0.18s; }
+.foot-links a:hover { color:var(--gold); }
+.foot-copy { width:100%; text-align:center; font-size:11px; color:var(--muted); padding-top:24px; border-top:1px solid var(--soft); opacity:0.6; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">Built to <span>Hoop</span></a>
+  <div class="nav-links">
+    <a href="tier-1.html">Tier 1</a>
+    <a href="tier-2.html">Tier 2 Rise</a>
+    <a href="tier-3.html" class="current">Tier 3 Stay Ready</a>
+    <a href="addons.html">Add-Ons</a>
+    <a href="about.html">About</a>
+  </div>
+  <a href="reset.html" class="nav-cta">Free Reset</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Tier 3 · BTH Stay Ready · Live</div>
+    <h1 class="hero-title">
+      Every <span class="gold">Program.</span><br>
+      Every Update.<br>
+      Always On.
+    </h1>
+    <p class="hero-sub">
+      The full BTH library. <strong>Tier 1 + Tier 2 + all 5 add-on tracks + monthly updates + batched Q&A.</strong> Think of it like a streaming service for BTH — not a new program. It's the whole system, always on, for the hooper who wants the full ride.
+    </p>
+
+    <div class="pricing-grid">
+      <div class="price-card">
+        <div class="price-tag">Monthly</div>
+        <div class="price-val">$27<span class="cycle">/month</span></div>
+        <div class="price-sub"><strong>Flexible.</strong> Cancel anytime. Keep everything you've already downloaded.</div>
+        <a href="https://builttohoop.gumroad.com/l/thxqs" class="price-cta primary" target="_blank">Start Monthly →</a>
+      </div>
+      <div class="price-card featured">
+        <div class="price-tag">Annual <span class="price-save">Save $127</span></div>
+        <div class="price-val">$197<span class="cycle">/year</span></div>
+        <div class="price-sub"><strong>Best value.</strong> 7 months free vs monthly. Lock in the rate for 12 months.</div>
+        <a href="https://builttohoop.gumroad.com/l/thxqs" class="price-cta gold" target="_blank">Start Annual →</a>
+      </div>
+    </div>
+
+    <div style="font-size: 13px; color: var(--muted); line-height: 1.55;">Tier 3 unlocks everything the moment you sign up. Tier 1, Tier 2 Rise, all 5 add-on tracks, monthly updates, and batched Q&A.</div>
+  </div>
+</section>
+
+<!-- WHAT'S INCLUDED -->
+<div class="inside-bg">
+  <div class="pad">
+    <div class="section-eyebrow">What's Inside</div>
+    <h2 class="section-title">The Full Library.<br>Unlocked.</h2>
+    <p class="section-body">Every current BTH program plus every future one. Think streaming service. You pay monthly or annually and you get the whole catalog — including things that don't exist yet.</p>
+
+    <div class="library-grid">
+      <div class="lib-card">
+        <div class="tag">Tier 1 · Foundation</div>
+        <h4>Phases 1–2</h4>
+        <p>Reset + Rebuild. The full entry system. 3-day training, pickup recovery rules, exercise library.</p>
+        <div class="was">Standalone: <strong>$19</strong></div>
+      </div>
+      <div class="lib-card">
+        <div class="tag">Tier 2 · Rise</div>
+        <h4>Phases 3–5</h4>
+        <p>Strength to Bounce, Game Speed, Stay Ready. 12 weeks. 3 phases. Full performance system.</p>
+        <div class="was">Standalone: <strong>$57</strong></div>
+      </div>
+      <div class="lib-card">
+        <div class="tag">Add-On · Injury</div>
+        <h4>Hip Reset Track</h4>
+        <p>Open tight hips. Rebuild control. The foundation most hoopers skip.</p>
+        <div class="was">Standalone: <strong>$17–$27</strong></div>
+      </div>
+      <div class="lib-card">
+        <div class="tag">Add-On · Injury</div>
+        <h4>Knee Protection Track</h4>
+        <p>Strong knees that hold up through cutting and landing.</p>
+        <div class="was">Standalone: <strong>$17–$27</strong></div>
+      </div>
+      <div class="lib-card">
+        <div class="tag">Add-On · Injury</div>
+        <h4>Ankle Rebuild Track</h4>
+        <p>Build the stability you never trained for. Step off the brace.</p>
+        <div class="was">Standalone: <strong>$17–$27</strong></div>
+      </div>
+      <div class="lib-card">
+        <div class="tag">Add-On · Performance</div>
+        <h4>Skill Builder</h4>
+        <p>Court-specific work — handles, finishing, footwork that transfers.</p>
+        <div class="was">Standalone: <strong>$17–$27</strong></div>
+      </div>
+      <div class="lib-card">
+        <div class="tag">Add-On · Recovery</div>
+        <h4>Recovery System</h4>
+        <p>Protocols that get you to the next game without the grind.</p>
+        <div class="was">Standalone: <strong>$17</strong></div>
+      </div>
+      <div class="lib-card" style="background: var(--black); border-color: var(--black);">
+        <div class="tag" style="color: var(--gold);">Ongoing</div>
+        <h4 style="color: var(--white);">Monthly Updates</h4>
+        <p style="color: rgba(243,239,231,0.65);">New drops, new protocols, new tracks. Added to your library as they come out.</p>
+        <div class="was" style="color: rgba(243,239,231,0.5);"><strong style="color:var(--gold);">Free inside Tier 3</strong></div>
+      </div>
+      <div class="lib-card" style="background: var(--black); border-color: var(--black);">
+        <div class="tag" style="color: var(--gold);">Ongoing</div>
+        <h4 style="color: var(--white);">Batched Q&A</h4>
+        <p style="color: rgba(243,239,231,0.65);">Submit questions. I answer in batches — weekly or biweekly. Priority support.</p>
+        <div class="was" style="color: rgba(243,239,231,0.5);"><strong style="color:var(--gold);">Members only</strong></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- VALUE STACK -->
+<div class="pad-narrow">
+  <div class="section-eyebrow">The Math</div>
+  <h2 class="section-title">What You're Unlocking.</h2>
+  <p class="section-body">Here's what everything costs if you bought it piece by piece. Then what you pay inside Tier 3.</p>
+
+  <div class="value-stack">
+    <div class="value-row">
+      <div class="v-name"><strong>Tier 1 — Foundation</strong> · one-time</div>
+      <div class="v-price strike">$19</div>
+    </div>
+    <div class="value-row">
+      <div class="v-name"><strong>Tier 2 — Rise</strong> · one-time</div>
+      <div class="v-price strike">$57</div>
+    </div>
+    <div class="value-row">
+      <div class="v-name">Hip Reset Track</div>
+      <div class="v-price strike">$17–27</div>
+    </div>
+    <div class="value-row">
+      <div class="v-name">Knee Protection Track</div>
+      <div class="v-price strike">$17–27</div>
+    </div>
+    <div class="value-row">
+      <div class="v-name">Ankle Rebuild Track</div>
+      <div class="v-price strike">$17–27</div>
+    </div>
+    <div class="value-row">
+      <div class="v-name">Skill Builder</div>
+      <div class="v-price strike">$17–27</div>
+    </div>
+    <div class="value-row">
+      <div class="v-name">Recovery System</div>
+      <div class="v-price strike">$17</div>
+    </div>
+    <div class="value-row">
+      <div class="v-name">Monthly updates + batched Q&A</div>
+      <div class="v-price strike">—</div>
+    </div>
+    <div class="value-row total">
+      <div class="v-name">Total value (a la carte)</div>
+      <div class="v-price">$161–201+</div>
+    </div>
+    <div class="value-row total">
+      <div class="v-name">Tier 3 Annual</div>
+      <div class="v-price" style="color:var(--gold);">$197 / year</div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <div class="callout-title">Why Tier 3 Makes Sense</div>
+    <div class="callout-body">"If you know you want the full system — monthly costs less than Tier 2 alone, and annual is cheaper than buying Tier 1 + Tier 2 + any two add-ons."</div>
+  </div>
+</div>
+
+<!-- PERKS -->
+<div class="inside-bg">
+  <div class="pad">
+    <div class="section-eyebrow">Member Perks</div>
+    <h2 class="section-title">What You Get<br>Beyond the Library.</h2>
+    <div class="perks-grid">
+      <div class="perk-card">
+        <div class="perk-num">01</div>
+        <div>
+          <h4>Monthly Updates</h4>
+          <p>New drops. New protocols. New tracks. Everything added to your library automatically — no upgrade charge, no extra fee.</p>
+        </div>
+      </div>
+      <div class="perk-card">
+        <div class="perk-num">02</div>
+        <div>
+          <h4>Batched Q&A</h4>
+          <p>Send me your question. I answer in batches — weekly or biweekly. Real coaching, not 1-on-1, but close enough for most situations.</p>
+        </div>
+      </div>
+      <div class="perk-card">
+        <div class="perk-num">03</div>
+        <div>
+          <h4>Priority Support</h4>
+          <p>Members get first access to everything. New add-ons drop for Tier 3 first. Pre-launches, early pricing, member-only drops.</p>
+        </div>
+      </div>
+      <div class="perk-card">
+        <div class="perk-num">04</div>
+        <div>
+          <h4>Cancel Anytime</h4>
+          <p>Monthly can be canceled any time. Annual locks the rate for 12 months. No lock-in scams. No dark patterns.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FAQ -->
+<div class="pad-narrow">
+  <div class="section-eyebrow">Questions</div>
+  <h2 class="section-title">Real Answers.</h2>
+  <div style="margin-top: 36px;">
+    <div class="faq-item">
+      <div class="faq-q">Do I need Tier 1 or Tier 2 first?</div>
+      <div class="faq-a">Nope. Tier 3 unlocks everything. <strong>If you know you want the full system, Tier 3 is the play from day one.</strong> Most hoopers who want the whole thing skip straight here.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">What if I already bought Tier 1 or Tier 2?</div>
+      <div class="faq-a">Email <a href="mailto:builttohoop@gmail.com">builttohoop@gmail.com</a> with your Gumroad receipt — you get a credit toward Tier 3 for what you've already paid.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">What's Q&A look like?</div>
+      <div class="faq-a"><strong>Batched, not live.</strong> Submit your question whenever. I answer in rolling batches — weekly or biweekly depending on volume. You get real responses, just not real-time. Think asynchronous coaching.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">What if I only want one add-on?</div>
+      <div class="faq-a">Go to <a href="addons.html">the add-ons page</a> — each one is available standalone. Tier 3 makes sense if you want two or more, or if you want the main programs too.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Monthly or annual — which do I pick?</div>
+      <div class="faq-a">If you want to test it, monthly. If you know you'll use it for a year or more, <strong>annual saves $127</strong> — basically 7 months free.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">If I cancel, do I lose everything?</div>
+      <div class="faq-a">You keep the programs you downloaded as long as they're yours. Member-only content (monthly updates, Q&A, member-only drops) stops when your membership ends.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">What happens when new tracks or programs drop?</div>
+      <div class="faq-a"><strong>They get added to your library automatically.</strong> No upgrade fee, no extra charge. That's the whole point of the membership.</div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA BAND -->
+<div class="cta-band">
+  <div>
+    <div class="section-eyebrow" style="color: rgba(17,19,24,0.5); margin-bottom: 8px;">Tier 3 · Stay Ready</div>
+    <div class="cta-title">Unlock Everything.<br>Starting Today.</div>
+    <div class="cta-sub">Monthly or annual. Cancel anytime on monthly. Save $127 on annual. Your choice — but the library is the same either way.</div>
+  </div>
+  <a href="https://builttohoop.gumroad.com/l/thxqs" class="btn-cta" target="_blank">Join Tier 3 →</a>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="foot-logo">Built to <span>Hoop</span>.</div>
+    <div class="foot-tagline">Stay Ready.</div>
+  </div>
+  <div class="foot-links">
+    <a href="index.html">Home</a>
+    <a href="tier-1.html">Tier 1</a>
+    <a href="tier-2.html">Tier 2</a>
+    <a href="addons.html">Add-Ons</a>
+    <a href="reset.html">Free Reset</a>
+    <a href="about.html">About</a>
+  </div>
+  <div class="foot-copy">© 2026 Built to Hoop. All rights reserved. &nbsp;·&nbsp; builttohoop@gmail.com</div>
+</footer>
+
+</body>
+</html>
