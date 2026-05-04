@@ -43,13 +43,13 @@ Use commit message: `Remove obsolete pages and unused assets`
 
 ## Step 3 — DO NOT TOUCH
 
-- **`CNAME`** — This is the custom domain config (`builttohoop.com`). Leave it alone. It must stay in the repo or the custom domain breaks.
+- **`CNAME`** — This is the custom domain config (`built-to-hoop.com`). Leave it alone. It must stay in the repo or the custom domain breaks.
 
 ---
 
 ## Step 4 — Verify the live site (after ~1–2 min)
 
-Visit **https://builttohoop.com** (or the GitHub Pages URL) and check:
+Visit **https://built-to-hoop.com** (or the GitHub Pages URL) and check:
 
 - [ ] Homepage loads with cream/white/gold/black palette, Oswald + DM Sans fonts
 - [ ] Tier 1, Tier 2, Tier 3 cards all show **"Available Now"**
