@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" style="color-scheme: light;">
 <head>
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+    <link rel="shortcut icon" href="assets/favicon.ico">
+
 <meta name="facebook-domain-verification" content="c6uyj2nusyk3ugfqg5gvnucltmm04e" />
 <!-- ─── BTH TRACKING (auto-injected) ─── -->
 <!-- GTM (loads first; can manage all pixels through the container) -->
@@ -501,25 +507,104 @@ nav {
 
 /* ─── GEAR ─── */
 .gear-bg { background: var(--white); border-top: 1px solid var(--border); }
-.gear-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 44px; }
-@media (max-width: 768px) { .gear-grid { grid-template-columns: 1fr; } }
-.gear-card {
-  background: var(--cream); border: 1px solid var(--border);
-  border-radius: 2px; padding: 28px 24px;
-  transition: border-color 0.18s;
+.gear-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 14px;
+  margin-top: 44px;
 }
-.gear-card:hover { border-color: var(--gold); }
+@media (max-width: 1100px) { .gear-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 720px)  { .gear-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; } }
+@media (max-width: 420px)  { .gear-grid { grid-template-columns: 1fr; } }
+
+.gear-card {
+  background: var(--cream);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+  display: flex; flex-direction: column;
+  transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+  position: relative;
+}
+.gear-card:hover {
+  border-color: var(--gold);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(17,19,24,0.08);
+}
+.gear-img-wrap {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  background: linear-gradient(135deg, #fafaf7 0%, #ebe6da 100%);
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+}
+.gear-img-wrap img {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform 0.4s ease;
+}
+.gear-card:hover .gear-img-wrap img { transform: scale(1.04); }
+.gear-img-placeholder {
+  font-family: var(--H); font-size: 28px; font-weight: 700;
+  color: var(--muted); text-align: center; letter-spacing: 0.04em;
+  padding: 0 16px; line-height: 1.1;
+}
+.gear-img-placeholder span { display: block; font-size: 10px; letter-spacing: 0.22em; color: var(--gold); margin-top: 8px; font-weight: 600; }
+.gear-soon-badge {
+  position: absolute; top: 12px; right: 12px;
+  background: var(--black); color: var(--cream);
+  font-family: var(--B); font-size: 9px; font-weight: 700;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  padding: 5px 9px; border-radius: 2px;
+  z-index: 2;
+}
+.gear-body { padding: 18px 18px 22px; flex: 1; display: flex; flex-direction: column; }
 .gear-label {
-  font-family: var(--B); font-size: 9px; font-weight: 600;
-  letter-spacing: 0.2em; text-transform: uppercase;
-  color: var(--gold); margin-bottom: 10px;
+  font-family: var(--B); font-size: 9px; font-weight: 700;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 6px;
 }
 .gear-name {
-  font-family: var(--H); font-size: 26px; font-weight: 700;
-  color: var(--black); margin-bottom: 10px; text-transform: uppercase;
+  font-family: var(--H); font-size: 18px; font-weight: 700;
+  color: var(--black); margin-bottom: 6px; text-transform: uppercase;
+  line-height: 1.05;
 }
-.gear-desc { font-size: 13px; color: var(--muted); line-height: 1.65; margin-bottom: 16px; }
-.gear-status { font-size: 11px; color: var(--muted); padding-top: 14px; border-top: 1px solid var(--soft); }
+.gear-desc { font-size: 12px; color: var(--muted); line-height: 1.55; margin-bottom: 12px; flex: 1; }
+.gear-status { font-size: 10px; color: var(--muted); padding-top: 10px; border-top: 1px solid var(--soft); letter-spacing: 0.05em; }
+
+.gear-notify {
+  margin-top: 36px;
+  background: var(--black); color: var(--cream);
+  padding: 32px 28px; border-radius: 4px;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 20px;
+}
+.gear-notify-text { flex: 1 1 280px; }
+.gear-notify-eyebrow {
+  font-family: var(--B); font-size: 10px; font-weight: 700;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 8px;
+}
+.gear-notify-title {
+  font-family: var(--H); font-size: 22px; font-weight: 700;
+  text-transform: uppercase; line-height: 1.15;
+}
+.gear-notify-form { display: flex; gap: 8px; flex: 1 1 320px; max-width: 480px; }
+.gear-notify-form input {
+  flex: 1; padding: 14px 16px; font-size: 14px; font-family: var(--B);
+  background: var(--cream); color: var(--black); border: 0; border-radius: 2px;
+}
+.gear-notify-form button {
+  background: var(--gold); color: var(--black);
+  font-family: var(--B); font-size: 12px; font-weight: 700;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  padding: 0 22px; border: 0; border-radius: 2px; cursor: pointer;
+  transition: filter 0.18s;
+}
+.gear-notify-form button:hover { filter: brightness(0.92); }
+@media (max-width: 720px) {
+  .gear-notify { padding: 24px 20px; }
+  .gear-notify-form { flex-direction: column; }
+}
 
 /* ─── CTA BAND ─── */
 .cta-band {
@@ -903,9 +988,80 @@ footer {
       </div>
     </div>
     <div class="gear-grid" style="margin-top:40px;text-align:left;">
-      <div class="gear-card"><div class="gear-label">Drop 01</div><div class="gear-name">BTH Hoodie</div><p class="gear-desc">Performance wear. BTH on the chest, sleeve detail. Built for the court and the gym.</p><div class="gear-status">Demand building — launching soon</div></div>
-      <div class="gear-card"><div class="gear-label">Drop 01</div><div class="gear-name">BTH Shorts</div><p class="gear-desc">Court-ready cut. Clean logo, movement-focused fit. Made to hoop in.</p><div class="gear-status">Demand building — launching soon</div></div>
-      <div class="gear-card"><div class="gear-label">Coming</div><div class="gear-name">More Drops</div><p class="gear-desc">More pieces on the way. Follow @builttohoop2026 to stay up on what's next before it drops.</p><div class="gear-status">@builttohoop2026 — follow for early access</div></div>
+      <div class="gear-card">
+        <div class="gear-img-wrap">
+          <span class="gear-soon-badge">Coming Soon</span>
+          <img src="/assets/products/shorts-01.png" alt="BTH Graffiti Mesh Shorts" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'gear-img-placeholder',innerHTML:'GRAFFITI<br>MESH<span>DROP 01</span>'}))">
+        </div>
+        <div class="gear-body">
+          <div class="gear-label">Drop 01 · Shorts</div>
+          <div class="gear-name">Graffiti Mesh</div>
+          <p class="gear-desc">Hand-tagged graphics. Mesh build. Cream + black. Built to be seen on the court.</p>
+          <div class="gear-status">Demand building — launching soon</div>
+        </div>
+      </div>
+      <div class="gear-card">
+        <div class="gear-img-wrap">
+          <span class="gear-soon-badge">Coming Soon</span>
+          <img src="/assets/products/shorts-02.png" alt="BTH Court Plan Shorts" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'gear-img-placeholder',innerHTML:'COURT<br>PLAN<span>DROP 01</span>'}))">
+        </div>
+        <div class="gear-body">
+          <div class="gear-label">Drop 01 · Shorts</div>
+          <div class="gear-name">Court Plan</div>
+          <p class="gear-desc">Blacked-out mesh with court diagrams in gold. Stay Ready written into the fabric.</p>
+          <div class="gear-status">Demand building — launching soon</div>
+        </div>
+      </div>
+      <div class="gear-card">
+        <div class="gear-img-wrap">
+          <span class="gear-soon-badge">Coming Soon</span>
+          <img src="/assets/products/shorts-03.png" alt="BTH Minimal Elite Shorts" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'gear-img-placeholder',innerHTML:'MINIMAL<br>ELITE<span>DROP 01</span>'}))">
+        </div>
+        <div class="gear-body">
+          <div class="gear-label">Drop 01 · Shorts</div>
+          <div class="gear-name">Minimal Elite</div>
+          <p class="gear-desc">Clean black mesh, white side panels, gold trim. Performance fit. Wear it anywhere.</p>
+          <div class="gear-status">Demand building — launching soon</div>
+        </div>
+      </div>
+      <div class="gear-card">
+        <div class="gear-img-wrap">
+          <span class="gear-soon-badge">Coming Soon</span>
+          <img src="/assets/products/shorts-04.png" alt="BTH Recovery Wave Shorts" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'gear-img-placeholder',innerHTML:'RECOVERY<br>WAVE<span>DROP 02</span>'}))">
+        </div>
+        <div class="gear-body">
+          <div class="gear-label">Drop 02 · Shorts</div>
+          <div class="gear-name">Recovery Wave</div>
+          <p class="gear-desc">Light grey mesh with flow-line graphics. Designed for off-day mobility and recovery work.</p>
+          <div class="gear-status">Demand building — launching soon</div>
+        </div>
+      </div>
+      <div class="gear-card">
+        <div class="gear-img-wrap">
+          <span class="gear-soon-badge">Coming Soon</span>
+          <img src="/assets/products/shorts-05.png" alt="BTH No Random Shorts" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'gear-img-placeholder',innerHTML:'NO RANDOM<br>TRAINING<span>DROP 02</span>'}))">
+        </div>
+        <div class="gear-body">
+          <div class="gear-label">Drop 02 · Shorts</div>
+          <div class="gear-name">No Random</div>
+          <p class="gear-desc">Split black + cream panels with gold accents. The mantra in the fabric: no random training.</p>
+          <div class="gear-status">Demand building — launching soon</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Early access email capture for the merch line -->
+    <div class="gear-notify reveal">
+      <div class="gear-notify-text">
+        <div class="gear-notify-eyebrow">Early Access</div>
+        <div class="gear-notify-title">First 100 Get the Drop Before Anyone Else.</div>
+      </div>
+      <form class="gear-notify-form" action="https://assets.mailerlite.com/jsonp/1918834/forms/175289018826588406/subscribe" data-code="" method="post" target="_blank">
+        <input type="email" name="fields[email]" placeholder="your@email.com" required>
+        <input type="hidden" name="ml-submit" value="1">
+        <input type="hidden" name="anticsrf" value="true">
+        <button type="submit">Notify Me →</button>
+      </form>
     </div>
   </div>
 </div>
