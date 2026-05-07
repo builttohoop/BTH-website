@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en" style="color-scheme: light;">
+<head>
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+  <link rel="shortcut icon" href="assets/favicon.ico">
+
+  <meta name="facebook-domain-verification" content="8j7jq4cgnwak31awpllczhuyqbxpq8" />
+  <!-- ─── BTH TRACKING ─── -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({"gtm.start":new Date().getTime(),event:"gtm.js"});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!="dataLayer"?"&l="+l:"";j.async=true;j.src="https://www.googletagmanager.com/gtm.js?id="+i+dl;f.parentNode.insertBefore(j,f);})(window,document,"script","dataLayer","GTM-T9SFFTB7");</script>
+  <!-- GA4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-P72FN3GQ7G"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-P72FN3GQ7G");</script>
+  <!-- Meta Pixel -->
+  <script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version="2.0";n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,"script","https://connect.facebook.net/en_US/fbevents.js");fbq("init","1728040128369123");fbq("track","PageView");</script>
+  <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1728040128369123&ev=PageView&noscript=1"/></noscript>
+  <!-- TikTok Pixel -->
+  <script>!function(w,d,t){w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e};ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js",o=n&&n.partner;ttq._i=ttq._i||{};ttq._i[e]=[];ttq._i[e]._u=r;ttq._t=ttq._t||{};ttq._t[e]=+new Date;ttq._o=ttq._o||{};ttq._o[e]=n||{};n=document.createElement("script");n.type="text/javascript";n.async=!0;n.src=r+"?sdkid="+e+"&lib="+t;e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(n,e)};ttq.load("D7RNU1RC77U2TFGF3SO0");ttq.page();}(window,document,"ttq");</script>
+  <!-- ─── /BTH TRACKING ─── -->
+  <!-- BTH unified tracker -->
+  <script src="assets/bth-tracking.js" defer></script>
+
+  <!-- Fire Lead event on page load — this page = confirmed email opt-in -->
+  <script>
+  (function fireLead() {
+    var props = { content_name: "free_reset_optin", content_category: "lead_magnet" };
+    function attempt() {
+      try { if (window.gtag) window.gtag("event", "Lead", props); } catch(e) {}
+      try { if (window.fbq) window.fbq("track", "Lead", props); } catch(e) {}
+      try { if (window.ttq) window.ttq.track("Lead", props); } catch(e) {}
+      try {
+        (window.dataLayer = window.dataLayer || []).push({
+          event: "bth_lead",
+          bth_event_name: "Lead",
+          bth_content_name: "free_reset_optin",
+          bth_content_category: "lead_magnet"
+        });
+      } catch(e) {}
+    }
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", attempt);
+    } else {
+      attempt();
+    }
+  })();
+  </script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light">
+  <title>You're In — Free Reset Confirmed | Built to Hoop</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+  :root { color-scheme: light only; --cream:#F3EFE7; --white:#FFFFFF; --black:#111318; --gold:#E6A800; --muted:rgba(17,19,24,0.5); --border:rgba(17,19,24,0.12); --soft:rgba(17,19,24,0.06); --H:'Oswald',sans-serif; --B:'DM Sans',sans-serif; }
+  *,*::before,*::after { margin:0; padding:0; box-sizing:border-box; -webkit-text-size-adjust:100%; }
+  html { scroll-behavior:smooth; background:var(--white); }
+  body { background:var(--white); color:var(--black); font-family:var(--B); font-size:16px; line-height:1.6; overflow-x:hidden; -webkit-font-smoothing:antialiased; color-scheme:light; }
+
+  /* ─── NAV (OVERRIDE) ─── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    height: 64px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 52px;
+    background: var(--black);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    backdrop-filter: none; -webkit-backdrop-filter: none;
+  }
+  @media (max-width: 768px) { nav { padding: 0 20px; } }
+  .nav-logo {
+    font-family: var(--H); font-size: 20px; font-weight: 700;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--white); text-decoration: none; flex-shrink: 0;
+  }
+  .nav-logo span { color: var(--gold); }
+  .nav-links { display: flex; gap: 28px; align-items: center; }
+  .nav-links a {
+    font-family: var(--B); font-size: 11px; font-weight: 700;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: rgba(255,255,255,0.48);
+    text-decoration: none; transition: color 0.18s;
+    position: relative; padding-bottom: 3px;
+  }
+  .nav-links a::after {
+    content: ''; position: absolute; bottom: -1px; left: 0; right: 0;
+    height: 1px; background: var(--gold);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 0.22s ease;
+  }
+  .nav-links a:hover { color: var(--white); }
+  .nav-links a:hover::after { transform: scaleX(1); }
+  @media (max-width: 900px) { .nav-links { display: none; } }
+  .nav-cta {
+    font-family: var(--H); font-size: 11px; font-weight: 700;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--black); background: var(--gold);
+    padding: 10px 20px; border-radius: 2px;
+    text-decoration: none; transition: filter 0.18s; flex-shrink: 0;
+  }
+  .nav-cta:hover { filter: brightness(0.88); }
+  .nav-toggle {
+    display: none; background: none; border: none; cursor: pointer;
+    padding: 8px 4px; flex-direction: column; justify-content: center;
+    gap: 5px; z-index: 101; flex-shrink: 0;
+  }
+  .nav-toggle span {
+    display: block; width: 24px; height: 2px; background: var(--white);
+    transition: transform 0.22s, opacity 0.22s; border-radius: 1px;
+  }
+  .nav-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+  .nav-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  @media (max-width: 900px) { .nav-toggle { display: flex; } }
+  .mobile-menu {
+    display: none; position: fixed; top: 64px; left: 0; right: 0; bottom: 0;
+    background: var(--black); z-index: 98; padding: 32px 24px 48px;
+    flex-direction: column; overflow-y: auto;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a {
+    font-family: var(--H); font-size: 28px; font-weight: 700;
+    letter-spacing: 0.04em; text-transform: uppercase;
+    color: rgba(255,255,255,0.65);
+    text-decoration: none; padding: 18px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    transition: color 0.18s;
+  }
+  .mobile-menu a:hover { color: var(--gold); }
+  .mobile-menu .mobile-cta {
+    margin-top: 28px; text-align: center;
+    background: var(--gold); color: var(--black);
+    border-radius: 2px; padding: 20px 24px;
+    font-size: 15px; letter-spacing: 0.12em;
+    border-bottom: none; font-weight: 700;
+  }
+  .mobile-menu .mobile-cta:hover { filter: brightness(0.9); color: var(--black); }
+
+  /* ─── PAGE ─── */
+  .hero {
+    min-height: 100vh; display: flex; align-items: center;
+    padding: 100px 52px 80px; background: var(--black);
+    position: relative; overflow: hidden;
+  }
+  @media (max-width: 768px) { .hero { padding: 100px 24px 64px; } }
+  .hero::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse 60% 50% at 70% 50%, rgba(230,168,0,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-inner { max-width: 760px; margin: 0 auto; position: relative; z-index: 1; }
+
+  .confirm-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(230,168,0,0.12); border: 1px solid rgba(230,168,0,0.3);
+    border-radius: 2px; padding: 8px 16px; margin-bottom: 32px;
+  }
+  .confirm-badge-dot {
+    width: 8px; height: 8px; border-radius: 50%; background: var(--gold);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.85); }
+  }
+  .confirm-badge-text {
+    font-family: var(--B); font-size: 11px; font-weight: 700;
+    letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold);
+  }
+
+  .hero-title {
+    font-family: var(--H); font-size: clamp(48px, 8vw, 96px);
+    font-weight: 700; line-height: 0.92; letter-spacing: 0.02em;
+    text-transform: uppercase; color: var(--white); margin-bottom: 24px;
+  }
+  .hero-title .gold { color: var(--gold); }
+
+  .hero-sub {
+    font-size: 18px; color: rgba(255,255,255,0.6);
+    max-width: 580px; line-height: 1.7; margin-bottom: 48px;
+  }
+  .hero-sub strong { color: var(--white); font-weight: 600; }
+
+  .days-grid {
+    display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px;
+    margin-bottom: 48px;
+  }
+  @media (max-width: 600px) { .days-grid { grid-template-columns: repeat(5, 1fr); gap: 2px; } }
+  .day-card {
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 2px; padding: 16px 10px; text-align: center;
+  }
+  .day-num {
+    font-family: var(--H); font-size: 11px; font-weight: 700;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 6px;
+  }
+  .day-label {
+    font-family: var(--H); font-size: clamp(10px, 1.5vw, 13px); font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.04em;
+    color: rgba(255,255,255,0.65); line-height: 1.2;
+  }
+
+  .divider-line {
+    height: 1px; background: rgba(255,255,255,0.1); margin-bottom: 48px;
+  }
+
+  .next-section-label {
+    font-family: var(--B); font-size: 11px; font-weight: 700;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: rgba(255,255,255,0.35); margin-bottom: 20px;
+  }
+  .next-title {
+    font-family: var(--H); font-size: clamp(22px, 3.5vw, 32px); font-weight: 700;
+    text-transform: uppercase; color: var(--white); margin-bottom: 12px;
+    letter-spacing: 0.02em; line-height: 1.1;
+  }
+  .next-body {
+    font-size: 15px; color: rgba(255,255,255,0.55); line-height: 1.7;
+    max-width: 520px; margin-bottom: 28px;
+  }
+  .next-body strong { color: rgba(255,255,255,0.85); font-weight: 600; }
+
+  .btn-gold {
+    font-family: var(--H); font-size: 15px; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--black); background: var(--gold);
+    padding: 16px 36px; border-radius: 2px;
+    text-decoration: none; display: inline-block;
+    transition: filter 0.18s;
+  }
+  .btn-gold:hover { filter: brightness(0.9); }
+  .btn-ghost {
+    font-family: var(--B); font-size: 14px; font-weight: 500;
+    color: rgba(255,255,255,0.45);
+    padding: 14px 28px; border-radius: 2px;
+    border: 1px solid rgba(255,255,255,0.12);
+    text-decoration: none; display: inline-block;
+    transition: all 0.18s; white-space: nowrap;
+  }
+  .btn-ghost:hover { color: var(--white); border-color: rgba(255,255,255,0.35); }
+  .btn-row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+
+  /* Footer */
+  footer {
+    background: var(--cream); border-top: 1px solid var(--border);
+    padding: 48px 52px; display: flex; justify-content: space-between;
+    align-items: center; flex-wrap: wrap; gap: 28px;
+  }
+  @media (max-width: 768px) { footer { padding: 40px 24px; } }
+  .foot-logo { font-family: var(--H); font-size: 20px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--black); }
+  .foot-logo span { color: var(--gold); }
+  .foot-tagline { font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-top: 5px; }
+  .foot-links { display: flex; gap: 28px; flex-wrap: wrap; }
+  .foot-links a { font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.18s; }
+  .foot-links a:hover { color: var(--gold); }
+  .foot-copy { width: 100%; text-align: center; font-size: 11px; color: var(--muted); padding-top: 24px; border-top: 1px solid rgba(17,19,24,0.06); opacity: 0.6; }
+  </style>
+</head>
+<body>
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T9SFFTB7" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">Built to <span>Hoop</span></a>
+  <div class="nav-links">
+    <a href="tier-1.html">Foundation</a>
+    <a href="tier-2.html">Rise</a>
+    <a href="tier-3.html">Stay Ready</a>
+    <a href="addons.html">Tracks</a>
+    <a href="about.html">About</a>
+  </div>
+  <a href="reset.html" class="nav-cta">Free Reset</a>
+  <button class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div id="mobile-menu" class="mobile-menu" role="navigation" aria-label="Mobile navigation">
+  <a href="tier-1.html">Foundation</a>
+  <a href="tier-2.html">Rise</a>
+  <a href="tier-3.html">Stay Ready</a>
+  <a href="addons.html">Tracks</a>
+  <a href="about.html">About</a>
+  <a href="reset.html" class="mobile-cta">Free Reset</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+
+    <div class="confirm-badge">
+      <div class="confirm-badge-dot"></div>
+      <span class="confirm-badge-text">You're confirmed</span>
+    </div>
+
+    <h1 class="hero-title">
+      Day 1 Is<br>On Its <span class="gold">Way.</span>
+    </h1>
+
+    <p class="hero-sub">
+      Check your inbox — the first email lands within a few minutes. <strong>5 days. No workouts. No equipment.</strong> Just the exact moves that fix the stiffness and get you back to feeling like yourself on the court.
+    </p>
+
+    <!-- 5-Day Reset Preview -->
+    <div class="days-grid">
+      <div class="day-card">
+        <div class="day-num">Day 1</div>
+        <div class="day-label">Hip Open</div>
+      </div>
+      <div class="day-card">
+        <div class="day-num">Day 2</div>
+        <div class="day-label">Ankle Reset</div>
+      </div>
+      <div class="day-card">
+        <div class="day-num">Day 3</div>
+        <div class="day-label">Lower Back</div>
+      </div>
+      <div class="day-card">
+        <div class="day-num">Day 4</div>
+        <div class="day-label">Knee Load</div>
+      </div>
+      <div class="day-card">
+        <div class="day-num">Day 5</div>
+        <div class="day-label">Full Reset</div>
+      </div>
+    </div>
+
+    <div class="divider-line"></div>
+
+    <!-- Soft upsell -->
+    <div class="next-section-label">While You Wait</div>
+    <div class="next-title">Want the Full System<br>After the Reset?</div>
+    <p class="next-body">
+      The Reset fixes the stiffness. <strong>BTH Foundation is the program that makes sure it doesn't come back.</strong> 6 weeks. 3 days a week. Built around pickup — not against it. $19 one-time.
+    </p>
+    <div class="btn-row">
+      <a href="tier-1.html" class="btn-gold">See BTH Foundation — $19</a>
+      <a href="index.html" class="btn-ghost">Explore the site →</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="foot-logo">Built to <span>Hoop</span>.</div>
+    <div class="foot-tagline">The Court Isn't Done With You.</div>
+  </div>
+  <div class="foot-links">
+    <a href="index.html">Home</a>
+    <a href="tier-1.html">Foundation</a>
+    <a href="tier-3.html">Stay Ready</a>
+    <a href="about.html">About</a>
+  </div>
+  <div class="foot-copy">© 2026 Built to Hoop. All rights reserved. &nbsp;·&nbsp; tyrell@built-to-hoop.com</div>
+</footer>
+
+<script>
+(function(){
+  var t = document.querySelector('.nav-toggle');
+  var m = document.getElementById('mobile-menu');
+  if (!t || !m) return;
+  t.addEventListener('click', function(){
+    var open = m.classList.toggle('open');
+    t.setAttribute('aria-expanded', open ? 'true' : 'false');
+    document.body.style.overflow = open ? 'hidden' : '';
+  });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape' && m.classList.contains('open')) {
+      m.classList.remove('open');
+      t.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+      t.focus();
+    }
+  });
+})();
+</script>
+</body>
+</html>
