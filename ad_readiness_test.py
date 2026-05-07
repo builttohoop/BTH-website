@@ -140,7 +140,8 @@ GTM_ID     = "GTM-T9SFFTB7"
 GA4_ID     = "G-P72FN3GQ7G"
 META_ID    = "1728040128369123"
 TIKTOK_ID  = "D7RNU1RC77U2TFGF3SO0"
-ML_FORM_ID = "175289018826588406"
+ML_FORM_ID = "kJZHo2"
+ML_ACCOUNT_ID = "2179959"
 
 pixel_pages = CORE_PAGES[:-1]  # exclude thank-you for bulk check (checked separately)
 
@@ -192,13 +193,13 @@ if r and r.status_code == 200:
     else:
         fail("thank-you.html missing Lead pixel event")
 
-# MailerLite form ID
+# MailerLite Universal embed
 r = pages.get("/reset.html")
 if r and r.status_code == 200:
-    if ML_FORM_ID in r.text:
-        ok(f"MailerLite form ID ({ML_FORM_ID}) on reset.html")
+    if ML_FORM_ID in r.text and ML_ACCOUNT_ID in r.text:
+        ok(f"MailerLite Universal embed (form={ML_FORM_ID}, account={ML_ACCOUNT_ID}) on reset.html")
     else:
-        fail("MailerLite form ID not found on reset.html", "check embed code")
+        fail("MailerLite Universal embed not found on reset.html", "check embed code")
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # CATEGORY 3 — GUMROAD CTAs
