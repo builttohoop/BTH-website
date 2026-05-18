@@ -4,6 +4,42 @@ _Conversion tracking: GA4 G-P72FN3GQ7G linked to Google Ads_
 
 ---
 
+## ✅ PRE-VERIFIED (site audit confirmed — no action needed)
+
+- GA4 `G-P72FN3GQ7G` firing on all pages
+- Meta Pixel `1728040128369123` firing on all pages
+- TikTok Pixel `D7RNU1RC77U2TFGF3SO0` firing on all pages
+- GTM `GTM-T9SFFTB7` noscript on all pages
+- All landing page URLs live (200 OK): `/knee.html`, `/tier-1.html`, `/tier-2.html`, `/tier-3.html`, `/addons.html`, `/bounce.html`, `/mobility.html`, `/reset.html`, `/about.html`
+- `thank-you.html` fires Lead pixel on load — conversion tracking confirmed
+- All Gumroad CTAs wired with correct slugs + `rel=noopener` + new tab
+- Refund policy updated site-wide: **All sales final · No refunds**
+
+---
+
+## 🚀 QUICK START — DO THESE IN ORDER
+
+**Step 1 — Google Ads account setup (one-time, ~15 min)**
+1. Go to [ads.google.com](https://ads.google.com) → Settings → Linked accounts → Link GA4 `G-P72FN3GQ7G`
+2. Enable auto-tagging: Settings → Account settings → Auto-tagging → ON
+3. Confirm billing is active
+
+**Step 2 — Create conversion actions (~10 min)**
+1. Tools → Conversions → New conversion action → Website
+2. `BTH Lead` — URL contains `thank-you` — value: $0 (lead, not sale)
+3. `BTH Initiate Checkout` — Import from GA4 → select `InitiateCheckout` event
+
+**Step 3 — Add shared negative keywords (~5 min)**
+See SHARED NEGATIVE KEYWORDS section below — add these at the account level before creating any campaigns.
+
+**Step 4 — Launch Week 1 campaigns only**
+Build Campaign 1 (Knee Pain) and Campaign 2 (Adult Training). $20/day total. Do NOT build Campaigns 3–6 yet.
+
+**Step 5 — Add extensions to both campaigns**
+See EXTENSIONS section — sitelinks, callouts, structured snippets.
+
+---
+
 ## SETUP CHECKLIST (before creating campaigns)
 
 - [ ] GA4 (G-P72FN3GQ7G) linked to Google Ads account
@@ -122,7 +158,7 @@ MRI
 8. Adult Hoopers — Knee Protocol
 9. Works Around Your Pickup Schedule
 10. Hooper-Built. Not Generic PT.
-11. 7-Day Refund Guarantee
+11. Instant Digital Delivery
 12. Instant Digital Download
 13. Fix the Pain. Keep Playing.
 14. Resting It Isn't Working
@@ -132,7 +168,7 @@ MRI
 **Descriptions:**
 ```
 D1: Patellar tendon pain doesn't go away with rest alone. Build load tolerance — the 3-phase protocol built for pickup players.
-D2: BTH Knee Protection Track: isometrics → heavy slow resistance → dynamic loading. $19. Instant download. 7-day refund guarantee.
+D2: BTH Knee Protection Track: isometrics → heavy slow resistance → dynamic loading. $19. Instant download. Built for pickup players.
 D3: Your knee pain isn't a rest problem — it's a load tolerance problem. Fix it with a system built for adult hoopers.
 D4: The BTH protocol rebalances VMO strength, fixes ankle-hip mechanics, and builds the tendon to handle pickup demands. $19.
 ```
@@ -165,7 +201,7 @@ D4: The BTH protocol rebalances VMO strength, fixes ankle-hip mechanics, and bui
 6. Jump Without the Ache
 7. Adult Basketball Knee Protocol
 8. Load Tolerance, Not Just Rest
-9. 7-Day Refund — No Risk
+9. Instant Digital Download
 10. Instant Download
 ```
 
@@ -236,7 +272,7 @@ drills for kids
 10. Built by a Hooper. For Hoopers.
 11. Works at Planet Fitness Level Gym
 12. $19 One-Time. Keep Forever.
-13. 7-Day Refund Guarantee
+13. Instant Digital Delivery
 14. Instant Digital Download
 15. Phases 1 + 2 of the BTH Method
 ```
@@ -470,11 +506,11 @@ About Built to Hoop → https://built-to-hoop.com/about.html
 
 ### Callouts (add to all campaigns)
 ```
-7-Day Refund Guarantee
 Instant Digital Download
 No Subscription Required
 Built for Adult Hoopers
 Works at Any Gym
+Pickup-First Training System
 ```
 
 ### Structured Snippets
