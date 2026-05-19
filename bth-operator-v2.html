@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0a0a0a">
+<meta name="apple-mobile-web-app-title" content="BTH">
+<title>BTH Operator</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0a0a;--s1:#141414;--s2:#1c1c1c;--s3:#242424;
+  --border:#2c2c2c;--gold:#c9a84c;--goldfade:rgba(201,168,76,0.12);
+  --white:#f0ede8;--dim:#5a5a5a;--dim2:#888;
+  --green:#27ae60;--greenfade:rgba(39,174,96,0.12);
+  --red:#c0392b;--redfade:rgba(192,57,43,0.12);
+  --blue:#2980b9;--bluefade:rgba(41,128,185,0.12);
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--white);font-family:'Montserrat',sans-serif;font-size:14px;}
+body{display:flex;flex-direction:column;max-width:480px;margin:0 auto;position:relative;}
+
+/* HEADER */
+.hdr{background:var(--bg);border-bottom:1px solid var(--border);padding:14px 16px 12px;flex-shrink:0;position:relative;z-index:10;}
+.hdr-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+.hdr-brand{font-size:14px;font-weight:900;letter-spacing:4px;color:var(--gold);}
+.hdr-date{font-family:'Space Mono',monospace;font-size:10px;color:var(--dim2);}
+.badges{display:flex;gap:6px;flex-wrap:wrap;}
+.bdg{font-size:9px;font-weight:700;letter-spacing:1.5px;padding:5px 11px;border-radius:3px;text-transform:uppercase;cursor:pointer;border:1px solid transparent;transition:all .15s;user-select:none;}
+.bdg-gym{background:var(--greenfade);color:var(--green);border-color:rgba(39,174,96,0.25);}
+.bdg-gym.on{background:var(--green);color:#fff;border-color:var(--green);}
+.bdg-work{background:var(--bluefade);color:var(--blue);border-color:rgba(41,128,185,0.25);}
+.bdg-work.on{background:var(--blue);color:#fff;border-color:var(--blue);}
+.bdg-rest{background:var(--redfade);color:var(--red);border-color:rgba(192,57,43,0.25);}
+.bdg-rest.on{background:var(--red);color:#fff;border-color:var(--red);}
+
+/* SCROLL */
+.content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:16px 16px 90px;}
+
+/* TABS */
+.tabbar{position:fixed;bottom:0;left:0;right:0;max-width:480px;margin:0 auto;background:var(--s1);border-top:1px solid var(--border);display:grid;grid-template-columns:repeat(4,1fr);z-index:100;}
+.tb{padding:11px 4px 9px;text-align:center;cursor:pointer;transition:all .15s;}
+.tb-ico{font-size:20px;display:block;}
+.tb-lbl{font-size:8px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--dim);display:block;margin-top:2px;}
+.tb.active .tb-lbl{color:var(--gold);}
+
+/* PANELS */
+.pnl{display:none;}.pnl.active{display:block;}
+
+/* SECTION LABEL */
+.slbl{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin:20px 0 10px;}
+.slbl:first-child{margin-top:0;}
+
+/* CARD */
+.card{background:var(--s1);border:1px solid var(--border);border-radius:6px;padding:14px;margin-bottom:10px;}
+
+/* BTH TIME HERO */
+.time-hero{background:var(--goldfade);border:1px solid rgba(201,168,76,0.25);border-radius:6px;padding:18px;text-align:center;margin-bottom:10px;}
+.time-hero .big{font-size:40px;font-weight:900;color:var(--gold);line-height:1;}
+.time-hero .lbl{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--dim2);margin-top:6px;}
+.time-hero .note{font-size:11px;color:var(--dim2);margin-top:4px;}
+
+/* WELLNESS */
+.walert{border-radius:6px;padding:12px 14px;margin-bottom:10px;border:1px solid;}
+.walert.red{background:var(--redfade);border-color:rgba(192,57,43,0.3);}
+.walert.gold{background:var(--goldfade);border-color:rgba(201,168,76,0.3);}
+.walert.green{background:var(--greenfade);border-color:rgba(39,174,96,0.3);}
+.wa-t{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:5px;}
+.walert.red .wa-t{color:var(--red);}
+.walert.gold .wa-t{color:var(--gold);}
+.walert.green .wa-t{color:var(--green);}
+.wa-b{font-size:11px;color:var(--dim2);line-height:1.6;}
+.wa-fix{font-size:11px;color:var(--white);font-weight:700;margin-top:6px;}
+
+/* TASKS */
+.task-item{display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-bottom:1px solid var(--border);}
+.task-item:last-child{border-bottom:none;}
+.tcheck{width:24px;height:24px;min-width:24px;border:2px solid var(--border);border-radius:4px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;margin-top:1px;}
+.tcheck.done{background:var(--gold);border-color:var(--gold);}
+.tcheck.done::after{content:'✓';font-size:13px;font-weight:900;color:#000;}
+.tinput{flex:1;background:transparent;border:none;color:var(--white);font-family:'Montserrat',sans-serif;font-size:13px;font-weight:600;outline:none;line-height:1.4;padding:0;}
+.tinput::placeholder{color:var(--dim);}
+.tinput.done{text-decoration:line-through;color:var(--dim);}
+.auto-pill{display:inline-block;font-size:8px;font-weight:700;letter-spacing:1.5px;padding:2px 7px;border-radius:2px;background:var(--goldfade);color:var(--gold);text-transform:uppercase;margin-top:4px;}
+
+/* SLIDERS */
+.slrow{display:grid;grid-template-columns:80px 1fr 40px;align-items:center;gap:10px;margin-bottom:14px;}
+.slrow:last-child{margin-bottom:0;}
+.sl-lbl{font-size:11px;font-weight:700;color:var(--dim2);}
+input[type=range]{-webkit-appearance:none;width:100%;height:4px;background:var(--s3);border-radius:2px;outline:none;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;background:var(--gold);border-radius:50%;cursor:pointer;box-shadow:0 0 0 3px rgba(201,168,76,0.2);}
+.sl-val{font-family:'Space Mono',monospace;font-size:11px;color:var(--gold);text-align:right;}
+
+/* COUNTER ROW */
+.ctr-row{display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--border);}
+.ctr-row:last-child{border-bottom:none;padding-bottom:0;}
+.ctr-lbl{font-size:12px;font-weight:600;}
+.ctr-sub{font-size:9px;color:var(--dim);margin-top:2px;}
+.ctr-ctrl{display:flex;align-items:center;gap:10px;}
+.cbtn{width:30px;height:30px;background:var(--s2);border:1px solid var(--border);border-radius:5px;color:var(--white);font-size:18px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .1s;}
+.cbtn:active{background:var(--s3);}
+.cval{font-family:'Space Mono',monospace;font-size:14px;font-weight:700;color:var(--gold);min-width:38px;text-align:center;}
+
+/* TOGGLE ROWS */
+.trow{display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--border);}
+.trow:last-child{border-bottom:none;padding-bottom:0;}
+.trow-lbl{font-size:12px;font-weight:600;}
+.tog{width:44px;height:26px;background:var(--s3);border-radius:13px;cursor:pointer;position:relative;transition:background .2s;flex-shrink:0;border:1px solid var(--border);}
+.tog.on{background:var(--gold);border-color:var(--gold);}
+.tog::after{content:'';position:absolute;width:20px;height:20px;background:#fff;border-radius:50%;top:2px;left:2px;transition:transform .2s;box-shadow:0 1px 3px rgba(0,0,0,0.4);}
+.tog.on::after{transform:translateX(18px);}
+
+/* SCHED ROWS */
+.srow{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);}
+.srow:last-child{border-bottom:none;}
+.stime{font-family:'Space Mono',monospace;font-size:9px;color:var(--gold);min-width:65px;padding-top:2px;}
+.sname{font-size:12px;font-weight:700;line-height:1.3;}
+.snote{font-size:10px;color:var(--dim2);margin-top:3px;line-height:1.4;}
+
+/* STATS */
+.sgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;}
+.sbox{background:var(--s1);border:1px solid var(--border);border-radius:6px;padding:14px;text-align:center;}
+.snum{font-size:30px;font-weight:900;line-height:1;}
+.snum.gold{color:var(--gold);}
+.snum.green{color:var(--green);}
+.snum.red{color:var(--red);}
+.slabel{font-size:9px;color:var(--dim2);margin-top:4px;font-weight:600;letter-spacing:1px;text-transform:uppercase;}
+
+/* PROGRESS */
+.prow{margin-bottom:12px;}
+.prow:last-child{margin-bottom:0;}
+.phdr{display:flex;justify-content:space-between;margin-bottom:5px;}
+.pname{font-size:11px;font-weight:700;}
+.ppct{font-family:'Space Mono',monospace;font-size:11px;color:var(--gold);}
+.pbar{height:5px;background:var(--s3);border-radius:3px;overflow:hidden;}
+.pfill{height:100%;border-radius:3px;transition:width .5s ease;}
+.pfill.gold{background:var(--gold);}
+.pfill.green{background:var(--green);}
+
+/* REPORT */
+.grade-hero{background:var(--s1);border:1px solid var(--border);border-radius:6px;padding:24px;text-align:center;margin-bottom:10px;}
+.grade-ltr{font-size:72px;font-weight:900;line-height:1;}
+.grade-sub{font-size:10px;color:var(--dim2);letter-spacing:2px;text-transform:uppercase;margin-top:6px;}
+.rblock{background:var(--s1);border:1px solid var(--border);border-radius:6px;padding:14px;margin-bottom:10px;}
+.rbtitle{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;}
+.rbtitle.green{color:var(--green);}
+.rbtitle.red{color:var(--red);}
+.rbtitle.gold{color:var(--gold);}
+.rbtitle.blue{color:var(--blue);}
+.ritem{font-size:12px;color:var(--dim2);padding:6px 0;border-bottom:1px solid var(--border);line-height:1.6;}
+.ritem:last-child{border-bottom:none;padding-bottom:0;}
+.ritem strong{color:var(--white);}
+
+/* STREAK */
+.streak-box{text-align:center;padding:16px;}
+.streak-n{font-size:52px;font-weight:900;color:var(--gold);line-height:1;}
+.streak-l{font-size:9px;color:var(--dim2);letter-spacing:2px;text-transform:uppercase;margin-top:4px;}
+.streak-dots{display:flex;justify-content:center;gap:6px;margin-top:14px;flex-wrap:wrap;}
+.sdot{width:10px;height:10px;border-radius:50%;background:var(--s3);}
+.sdot.hit{background:var(--gold);}
+.sdot.today{background:var(--gold);box-shadow:0 0 0 3px rgba(201,168,76,0.3);}
+
+/* BTH PIPELINE */
+.pipeline-stat{text-align:center;padding:12px;}
+.pipeline-n{font-size:36px;font-weight:900;color:var(--gold);}
+.pipeline-l{font-size:9px;color:var(--dim2);letter-spacing:1.5px;text-transform:uppercase;margin-top:3px;}
+.pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border-radius:6px;overflow:hidden;margin-bottom:10px;}
+.pcell{background:var(--s1);padding:14px 8px;}
+
+/* INSTALL */
+.install-step{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--border);}
+.install-step:last-child{border-bottom:none;}
+.step-num{width:26px;height:26px;min-width:26px;background:var(--gold);color:#000;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;}
+.step-body{flex:1;}
+.step-title{font-size:12px;font-weight:700;margin-bottom:2px;}
+.step-note{font-size:11px;color:var(--dim2);}
+
+/* UTILS */
+.btn{width:100%;padding:13px;border-radius:5px;border:none;cursor:pointer;font-family:'Montserrat',sans-serif;font-weight:700;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;margin-top:8px;transition:opacity .15s;}
+.btn:active{opacity:.8;}
+.btn-gold{background:var(--gold);color:#000;}
+.btn-outline{background:transparent;border:1px solid var(--border);color:var(--dim2);}
+.divider{height:1px;background:var(--border);margin:4px 0;}
+.mono{font-family:'Space Mono',monospace;}
+textarea{width:100%;background:transparent;border:none;color:var(--white);font-family:'Montserrat',sans-serif;font-size:12px;resize:none;outline:none;line-height:1.6;}
+textarea::placeholder{color:var(--dim);}
+input[type=number]{background:var(--s2);border:1px solid var(--border);color:var(--white);padding:5px 8px;border-radius:4px;font-family:'Montserrat',sans-serif;font-size:12px;outline:none;width:60px;text-align:center;}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="hdr">
+  <div class="hdr-row">
+    <div class="hdr-brand">BTH</div>
+    <div class="hdr-date mono" id="hdrDate"></div>
+  </div>
+  <div class="badges">
+    <div class="bdg bdg-gym" id="bdgGym" onclick="toggleDayType('gym')">🏋️ Gym</div>
+    <div class="bdg bdg-work" id="bdgWork" onclick="toggleDayType('work')">🌙 Work Night</div>
+    <div class="bdg bdg-rest" id="bdgRest" onclick="toggleDayType('rest')">💤 Rest Day</div>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="content">
+
+  <!-- ══ TODAY ══ -->
+  <div class="pnl active" id="pnl-today">
+    <div id="wellnessZone"></div>
+    <div id="timeHero"></div>
+
+    <div class="slbl">Today's Schedule</div>
+    <div class="card" id="schedCard"></div>
+
+    <div class="slbl">3 Daily Tasks</div>
+    <div class="card" id="taskCard">
+      <div id="taskList"></div>
+      <button class="btn btn-outline" onclick="autoTasks()" style="margin-top:12px;">⚡ Auto-Generate Backup Tasks</button>
+    </div>
+
+    <div class="slbl">Daily Log</div>
+    <div class="card">
+      <div class="slrow">
+        <div class="sl-lbl">Sleep</div>
+        <input type="range" min="0" max="12" step="0.5" id="slSleep" oninput="onSlider('sleep',this.value)">
+        <div class="sl-val" id="vSleep">0h</div>
+      </div>
+      <div class="slrow">
+        <div class="sl-lbl">Energy</div>
+        <input type="range" min="1" max="10" step="1" id="slEnergy" oninput="onSlider('energy',this.value)">
+        <div class="sl-val" id="vEnergy">5</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="ctr-row">
+        <div><div class="ctr-lbl">💪 Protein</div><div class="ctr-sub">Goal: 200g daily</div></div>
+        <div class="ctr-ctrl">
+          <div class="cbtn" onclick="adj('protein',-10)">−</div>
+          <div class="cval" id="vProtein">0g</div>
+          <div class="cbtn" onclick="adj('protein',10)">+</div>
+        </div>
+      </div>
+      <div class="ctr-row">
+        <div><div class="ctr-lbl">💧 Water</div><div class="ctr-sub">Goal: 8 cups</div></div>
+        <div class="ctr-ctrl">
+          <div class="cbtn" onclick="adj('water',-1)">−</div>
+          <div class="cval" id="vWater">0</div>
+          <div class="cbtn" onclick="adj('water',1)">+</div>
+        </div>
+      </div>
+      <div class="ctr-row">
+        <div><div class="ctr-lbl">🥤 Protein Shakes</div><div class="ctr-sub">Default: 2/day</div></div>
+        <div class="ctr-ctrl">
+          <div class="cbtn" onclick="adj('shakes',-1)">−</div>
+          <div class="cval" id="vShakes">0</div>
+          <div class="cbtn" onclick="adj('shakes',1)">+</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slbl">BTH Checklist</div>
+    <div class="card">
+      <div class="trow"><div class="trow-lbl">📱 Posted Content</div><div class="tog" id="t-posted" onclick="togCheck('posted')"></div></div>
+      <div class="trow"><div class="trow-lbl">🎬 Filmed Something</div><div class="tog" id="t-filmed" onclick="togCheck('filmed')"></div></div>
+      <div class="trow"><div class="trow-lbl">✂️ Edited Video</div><div class="tog" id="t-edited" onclick="togCheck('edited')"></div></div>
+      <div class="trow"><div class="trow-lbl">💬 Engaged (5 comments)</div><div class="tog" id="t-engaged" onclick="togCheck('engaged')"></div></div>
+      <div class="trow"><div class="trow-lbl">📝 Planned / Scripted</div><div class="tog" id="t-planned" onclick="togCheck('planned')"></div></div>
+      <div class="trow"><div class="trow-lbl">💪 Gym Session Done</div><div class="tog" id="t-gymDone" onclick="togCheck('gymDone')"></div></div>
+      <div class="trow"><div class="trow-lbl">🦴 Recovery Protocol</div><div class="tog" id="t-recovery" onclick="togCheck('recovery')"></div></div>
+      <div class="trow">
+        <div class="trow-lbl">📚 Reading</div>
+        <div style="display:flex;align-items:center;gap:8px;"><span style="font-size:10px;color:var(--dim2);">mins:</span><input type="number" min="0" max="180" id="readMins" oninput="d.readMins=+this.value;save()" style="width:60px;"></div>
+      </div>
+    </div>
+
+    <div class="slbl">Tomorrow's 3 Tasks (Set Tonight)</div>
+    <div class="card">
+      <div id="tmrTasks"></div>
+      <div style="font-size:10px;color:var(--dim);margin-top:10px;">Setting these now = no decision-making when you wake up.</div>
+    </div>
+  </div>
+
+  <!-- ══ WEEK ══ -->
+  <div class="pnl" id="pnl-week">
+    <div class="slbl">This Week</div>
+    <div class="sgrid" id="weekStats"></div>
+
+    <div class="slbl">Progress Bars</div>
+    <div class="card" id="weekBars"></div>
+
+    <div class="slbl">BTH Streak</div>
+    <div class="card" id="streakCard"></div>
+
+    <div class="slbl">BTH Activity</div>
+    <div class="card" id="weekBTH"></div>
+  </div>
+
+  <!-- ══ BTH ══ -->
+  <div class="pnl" id="pnl-bth">
+    <div class="slbl">BTH Time Today</div>
+    <div id="bthTimeToday"></div>
+
+    <div class="slbl">Content Pipeline (This Week)</div>
+    <div class="pgrid" id="pipeline">
+      <div class="pcell">
+        <div class="pipeline-stat">
+          <div class="pipeline-n" id="pFilmed">0</div>
+          <div class="pipeline-l">Filmed</div>
+        </div>
+        <div style="display:flex;justify-content:center;gap:8px;">
+          <div class="cbtn" onclick="adjP('filmed',-1)">−</div>
+          <div class="cbtn" onclick="adjP('filmed',1)">+</div>
+        </div>
+      </div>
+      <div class="pcell">
+        <div class="pipeline-stat">
+          <div class="pipeline-n" id="pEdited">0</div>
+          <div class="pipeline-l">Edited</div>
+        </div>
+        <div style="display:flex;justify-content:center;gap:8px;">
+          <div class="cbtn" onclick="adjP('edited',-1)">−</div>
+          <div class="cbtn" onclick="adjP('edited',1)">+</div>
+        </div>
+      </div>
+      <div class="pcell">
+        <div class="pipeline-stat">
+          <div class="pipeline-n" id="pPosted">0</div>
+          <div class="pipeline-l">Posted</div>
+        </div>
+        <div style="display:flex;justify-content:center;gap:8px;">
+          <div class="cbtn" onclick="adjP('posted',-1)">−</div>
+          <div class="cbtn" onclick="adjP('posted',1)">+</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slbl">Current BTH Focus</div>
+    <div class="card"><textarea id="bthFocus" rows="4" placeholder="What is BTH working on this week? Update this..." oninput="p.focus=this.value;saveP()"></textarea></div>
+
+    <div class="slbl">Weekly Content Blueprint</div>
+    <div class="card">
+      <div class="srow"><div class="stime">OFF DAY 1</div><div><div class="sname">Film Day — Batch 3 clips</div><div class="snote">Set up once. Film all 3 back-to-back. Raw is fine.</div></div></div>
+      <div class="srow"><div class="stime">OFF DAY 2</div><div><div class="sname">Edit Day — Edit 2 clips, post 1</div><div class="snote">Canva/CapCut. Captions + BTH text overlay. Post immediately.</div></div></div>
+      <div class="srow"><div class="stime">SHIFT DAY</div><div><div class="sname">Post 3rd clip + 15 min engagement</div><div class="snote">Value comments on 5 niche accounts.</div></div></div>
+    </div>
+
+    <div class="slbl">Low-Energy Backup Protocol</div>
+    <div class="card">
+      <div class="ritem">🏀 Write 3 content hooks <strong>(10 min)</strong></div>
+      <div class="ritem">🏀 Write tomorrow's 3 tasks <strong>(5 min)</strong></div>
+      <div class="ritem">🏀 Reply to 3 comments or DMs <strong>(10 min)</strong></div>
+      <div class="ritem">🏀 Organize 1 content folder <strong>(10 min)</strong></div>
+      <div class="ritem">💪 SI joint reset instead of full gym <strong>(15 min)</strong></div>
+      <div class="ritem">💪 30-min walk if gym isn't happening</div>
+      <div class="ritem">🛠 Clean desk surface only <strong>(5 min)</strong></div>
+    </div>
+  </div>
+
+  <!-- ══ REPORT ══ -->
+  <div class="pnl" id="pnl-report">
+    <div id="reportOut"></div>
+    <button class="btn btn-gold" onclick="buildReport()">Generate This Week's Report</button>
+
+    <div class="slbl" style="margin-top:20px;">Install on Your Phone</div>
+    <div class="card">
+      <div style="font-size:10px;font-weight:700;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:12px;">iPhone (Safari Only)</div>
+      <div class="install-step"><div class="step-num">1</div><div class="step-body"><div class="step-title">Open this file in Safari</div><div class="step-note">Must be Safari — Chrome won't work for install.</div></div></div>
+      <div class="install-step"><div class="step-num">2</div><div class="step-body"><div class="step-title">Tap the Share button</div><div class="step-note">The box with the arrow pointing up at the bottom.</div></div></div>
+      <div class="install-step"><div class="step-num">3</div><div class="step-body"><div class="step-title">Tap "Add to Home Screen"</div><div class="step-note">Scroll down the share sheet if you don't see it.</div></div></div>
+      <div class="install-step"><div class="step-num">4</div><div class="step-body"><div class="step-title">Name it "BTH" and tap Add</div><div class="step-note">It now lives on your home screen like a native app.</div></div></div>
+
+      <div class="divider" style="margin:16px 0;"></div>
+      <div style="font-size:10px;font-weight:700;letter-spacing:2px;color:var(--blue);text-transform:uppercase;margin-bottom:12px;">Android (Chrome)</div>
+      <div class="install-step"><div class="step-num">1</div><div class="step-body"><div class="step-title">Open in Chrome</div><div class="step-note">Download the file, tap to open in Chrome.</div></div></div>
+      <div class="install-step"><div class="step-num">2</div><div class="step-body"><div class="step-title">Tap the 3-dot menu (top right)</div><div class="step-note">Then tap "Add to Home Screen".</div></div></div>
+      <div class="install-step"><div class="step-num">3</div><div class="step-body"><div class="step-title">Tap Add</div><div class="step-note">Done. BTH lives on your home screen.</div></div></div>
+
+      <div class="divider" style="margin:16px 0;"></div>
+      <div style="font-size:10px;font-weight:700;letter-spacing:2px;color:var(--green);text-transform:uppercase;margin-bottom:8px;">Best Option: Host on GitHub Pages</div>
+      <div class="step-note" style="font-size:11px;color:var(--dim2);line-height:1.6;">You already have built-to-hoop.com on GitHub Pages. Upload this file there as <strong style="color:var(--white);">operator.html</strong> and access it at <strong style="color:var(--white);">built-to-hoop.com/operator.html</strong> from any device, always up to date. Then add that URL to your home screen.</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- TABS -->
+<div class="tabbar">
+  <div class="tb active" id="tab-today" onclick="switchTab('today')"><span class="tb-ico">📋</span><span class="tb-lbl">Today</span></div>
+  <div class="tb" id="tab-week" onclick="switchTab('week')"><span class="tb-ico">📊</span><span class="tb-lbl">Week</span></div>
+  <div class="tb" id="tab-bth" onclick="switchTab('bth')"><span class="tb-ico">🏀</span><span class="tb-lbl">BTH</span></div>
+  <div class="tb" id="tab-report" onclick="switchTab('report')"><span class="tb-ico">📈</span><span class="tb-lbl">Report</span></div>
+</div>
+
+<script>
+// ─────────────────────────────────────────────
+// DATA STRUCTURE
+// ─────────────────────────────────────────────
+const GYM_DAYS = [1,2,4,5]; // Mon Tue Thu Fri (JS: 0=Sun)
+
+function todayKey(){
+  const n=new Date();
+  return 'day-'+n.getFullYear()+'-'+(n.getMonth()+1)+'-'+n.getDate();
+}
+function weekKey(){
+  const now=new Date(),day=now.getDay(),diff=now.getDate()-day+(day===0?-6:1);
+  const m=new Date(now); m.setDate(diff);
+  return 'wk-'+m.getFullYear()+'-'+(m.getMonth()+1)+'-'+m.getDate();
+}
+function ls(k,fb){try{const v=localStorage.getItem(k);return v!=null?JSON.parse(v):fb;}catch{return fb;}}
+function ss(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch{}}
+
+const defaultDay = () => ({
+  isGymDay: GYM_DAYS.includes(new Date().getDay()),
+  isWorkNight: false,
+  isRestDay: false,
+  tasks: [{text:'',done:false,auto:false},{text:'',done:false,auto:false},{text:'',done:false,auto:false}],
+  tmrTasks: ['','',''],
+  sleep: 6, energy: 5,
+  protein: 0, water: 0, shakes: 0,
+  posted: false, filmed: false, edited: false, engaged: false,
+  planned: false, gymDone: false, recovery: false, readMins: 0,
+  autoGenerated: false
+});
+const defaultPipeline = () => ({filmed:0, edited:0, posted:0, focus:''});
+
+let d = ls(todayKey(), defaultDay());
+let p = ls('pipeline-'+weekKey(), defaultPipeline());
+
+function save(){ss(todayKey(),d); updateWeekSnapshot();}
+function saveP(){ss('pipeline-'+weekKey(),p);}
+
+// ─────────────────────────────────────────────
+// HEADER & DAY TYPE
+// ─────────────────────────────────────────────
+function initHeader(){
+  const now=new Date();
+  const days=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  const months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  document.getElementById('hdrDate').textContent=days[now.getDay()]+', '+months[now.getMonth()]+' '+now.getDate();
+  refreshBadges();
+}
+
+function toggleDayType(type){
+  if(type==='gym'){d.isGymDay=!d.isGymDay; if(d.isRestDay&&d.isGymDay)d.isRestDay=false;}
+  if(type==='work'){d.isWorkNight=!d.isWorkNight; if(d.isRestDay&&d.isWorkNight)d.isRestDay=false;}
+  if(type==='rest'){d.isRestDay=!d.isRestDay; if(d.isRestDay){d.isGymDay=false;d.isWorkNight=false;}}
+  save();
+  refreshBadges();
+  renderTimeHero();
+  renderSchedule();
+  renderWellness();
+}
+
+function refreshBadges(){
+  document.getElementById('bdgGym').className='bdg bdg-gym'+(d.isGymDay?' on':'');
+  document.getElementById('bdgWork').className='bdg bdg-work'+(d.isWorkNight?' on':'');
+  document.getElementById('bdgRest').className='bdg bdg-rest'+(d.isRestDay?' on':'');
+}
+
+// ─────────────────────────────────────────────
+// BTH TIME HERO
+// ─────────────────────────────────────────────
+function getBTHMins(){
+  if(d.isRestDay) return {mins:0, label:'Rest Day', note:'No obligations. Recover fully.'};
+  if(d.isGymDay && d.isWorkNight) return {mins:30, label:'Pre-Shift BTH', note:'30 min before 6 PM. Creator mode.'};
+  if(d.isGymDay && !d.isWorkNight) return {mins:90, label:'Post-Gym BTH', note:'Gym → eat → 90 min BTH block.'};
+  if(!d.isGymDay && d.isWorkNight) return {mins:90, label:'BTH Window', note:'Off gym + work night = 1h 30m BTH.'};
+  return {mins:120, label:'Full BTH Day', note:'Off gym + off work = 2 full hours.'};
+}
+
+function renderTimeHero(){
+  const el=document.getElementById('timeHero');
+  const bt=getBTHMins();
+  if(bt.mins===0){
+    el.innerHTML='<div class="card" style="text-align:center;padding:20px;"><div style="font-size:32px;">💤</div><div style="font-weight:900;color:var(--dim2);margin-top:6px;">'+bt.label+'</div><div style="font-size:11px;color:var(--dim);margin-top:4px;">'+bt.note+'</div></div>';
+    return;
+  }
+  const h=Math.floor(bt.mins/60), m=bt.mins%60;
+  const disp = h>0 ? (m>0 ? h+'h '+m+'m' : h+'h') : m+'m';
+  el.innerHTML='<div class="time-hero"><div class="big">'+disp+'</div><div class="lbl">'+bt.label+'</div><div class="note">'+bt.note+'</div></div>';
+}
+
+// Also render in BTH tab
+function renderBTHTimeToday(){
+  const el=document.getElementById('bthTimeToday');
+  if(!el)return;
+  const bt=getBTHMins();
+  const h=Math.floor(bt.mins/60), m=bt.mins%60;
+  const disp=bt.mins===0?'Rest Day':h>0?(m>0?h+'h '+m+'m':h+'h'):m+'m';
+  el.innerHTML='<div class="time-hero"><div class="big">'+disp+'</div><div class="lbl">'+bt.label+'</div><div class="note">'+bt.note+'</div></div>';
+}
+
+// ─────────────────────────────────────────────
+// WELLNESS ALERTS
+// ─────────────────────────────────────────────
+function renderWellness(){
+  const el=document.getElementById('wellnessZone');
+  const alerts=[];
+  if(d.sleep>0 && d.sleep<5.5){
+    alerts.push({cls:'red',title:'⚠ LOW SLEEP',body:'You logged '+d.sleep+'h. Willpower is compromised. Stick to low-effort BTH tasks only.',fix:'Switch to backup tasks. SI joint reset instead of full gym.'});
+  }
+  if(d.energy>=1 && d.energy<=3){
+    alerts.push({cls:'gold',title:'⚡ LOW ENERGY MODE',body:'Energy at '+d.energy+'/10. Auto-switching to minimum protocol.',fix:'Write 3 hooks + reply 3 comments + 15-min recovery. That\'s a complete day.'});
+  }
+  if(d.protein>0 && d.protein<100 && new Date().getHours()>18){
+    alerts.push({cls:'gold',title:'🥤 PROTEIN ALERT',body:'Only '+d.protein+'g logged. Need '+(200-d.protein)+'g more.',fix:'Have your 2nd protein shake right now.'});
+  }
+  if(d.sleep>=7 && d.energy>=7){
+    alerts.push({cls:'green',title:'✅ FULL EXECUTION DAY',body:'Sleep and energy are solid. No shortcuts today — this is a full BTH execution window.',fix:''});
+  }
+  el.innerHTML=alerts.map(a=>'<div class="walert '+a.cls+'"><div class="wa-t">'+a.title+'</div><div class="wa-b">'+a.body+'</div>'+(a.fix?'<div class="wa-fix">→ '+a.fix+'</div>':'')+'</div>').join('');
+}
+
+// ─────────────────────────────────────────────
+// SCHEDULE
+// ─────────────────────────────────────────────
+function renderSchedule(){
+  const el=document.getElementById('schedCard');
+  let rows=[];
+  if(d.isRestDay){
+    rows=[{t:'ALL DAY',n:'Complete Rest',x:'Sleep, eat, recover. Zero BTH obligations.'}];
+  } else if(d.isGymDay && d.isWorkNight){
+    rows=[
+      {t:'2:00 PM',n:'Wake up',x:'Water + write 3 tasks. No phone for 20 min.'},
+      {t:'2:30 PM',n:'🏋️ Gym Session',x:'Anchor habit. Hip/leg work included.'},
+      {t:'Post-gym',n:'Eat + Protein Shake',x:'Hit protein target. Recovery window.'},
+      {t:'4:30 PM',n:'🏀 BTH Block (30 min)',x:'Creator mode — 1 tab, timer, phone down.'},
+      {t:'5:50 PM',n:'Write tomorrow\'s 3 tasks',x:'Before you leave. Non-negotiable.'},
+      {t:'6:00 PM',n:'🌙 Shift starts',x:'6 PM – 6 AM Mannington Mills.'}
+    ];
+  } else if(!d.isGymDay && !d.isWorkNight){
+    rows=[
+      {t:'WAKE UP',n:'Water + 3 tasks. No phone 20 min.',x:''},
+      {t:'+30 MIN',n:'🏋️ Gym or 30-min walk',x:'Low energy? Walk counts.'},
+      {t:'Post-gym',n:'Eat + Recovery window',x:'Protein shake. Hit your numbers.'},
+      {t:'+2 HRS',n:'🏀 BTH Block (2 hours)',x:'Creator mode. Film, edit, script, or outreach.'},
+      {t:'MID-DAY',n:'🛠 Environment (15 min)',x:'Clean desk, organize files, prep gear.'},
+      {t:'EVENING',n:'🏀 Optional 2nd BTH Block',x:'25 min: hooks, trends, comments.'},
+      {t:'BEFORE BED',n:'Write tomorrow\'s 3 tasks. Phone away.',x:''}
+    ];
+  } else if(!d.isGymDay && d.isWorkNight){
+    rows=[
+      {t:'WAKE UP',n:'Water + 3 tasks. No phone 20 min.',x:''},
+      {t:'+30 MIN',n:'🏀 BTH Block (90 min)',x:'Creator mode. No gym today — more BTH time.'},
+      {t:'+2 HRS',n:'🦴 SI Joint Reset (15 min)',x:'Daily recovery protocol. Always.'},
+      {t:'PRE-SHIFT',n:'Write tomorrow\'s 3 tasks.',x:'30 sec before leaving.'},
+      {t:'6:00 PM',n:'🌙 Shift starts',x:'6 PM – 6 AM Mannington Mills.'}
+    ];
+  } else {
+    rows=[
+      {t:'WAKE UP',n:'Water + 3 tasks. No phone 20 min.',x:''},
+      {t:'+30 MIN',n:'🏀 BTH Block (90 min)',x:'Creator mode.'},
+      {t:'+2 HRS',n:'🦴 SI Joint Reset + walk',x:'Recovery and mobility.'},
+      {t:'BEFORE BED',n:'Write tomorrow\'s 3 tasks.',x:''}
+    ];
+  }
+  el.innerHTML=rows.map(r=>'<div class="srow"><div class="stime">'+r.t+'</div><div><div class="sname">'+r.n+'</div>'+(r.x?'<div class="snote">'+r.x+'</div>':'')+'</div></div>').join('');
+}
+
+// ─────────────────────────────────────────────
+// TASKS
+// ─────────────────────────────────────────────
+const BACKUP=[
+  'Write 3 content hooks for BTH',
+  'Write tomorrow\'s 3 tasks',
+  'Reply to 3 comments or DMs',
+  'Organize 1 BTH content folder',
+  'Post 1 Instagram or TikTok story',
+  'Read for 15 minutes',
+  'Do SI joint reset protocol (15 min)',
+  'Research 2 trending hooks in your niche',
+  'Write 1 caption for a future post'
+];
+
+function autoTasks(){
+  const empty=d.tasks.filter(t=>!t.text).length;
+  if(empty===0){alert('You already have tasks set! Clear one first if you want backup tasks.');return;}
+  const pool=[...BACKUP].sort(()=>Math.random()-0.5);
+  let pi=0;
+  for(let i=0;i<3;i++){
+    if(!d.tasks[i].text){d.tasks[i]={text:pool[pi++],done:false,auto:true};}
+  }
+  d.autoGenerated=true;
+  save();
+  renderTasks();
+}
+
+function renderTasks(){
+  const el=document.getElementById('taskList');
+  el.innerHTML=d.tasks.map((t,i)=>`
+    <div class="task-item">
+      <div class="tcheck ${t.done?'done':''}" onclick="toggleTask(${i})"></div>
+      <div style="flex:1;">
+        <input class="tinput ${t.done?'done':''}" value="${esc(t.text)}" placeholder="Task ${i+1}..." oninput="d.tasks[${i}].text=this.value;save()">
+        ${t.auto?'<div><span class="auto-pill">Auto</span></div>':''}
+      </div>
+    </div>`).join('');
+}
+
+function renderTmrTasks(){
+  const el=document.getElementById('tmrTasks');
+  el.innerHTML=d.tmrTasks.map((t,i)=>`
+    <div class="task-item">
+      <div style="width:24px;height:24px;min-width:24px;border:2px dashed var(--border);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--dim);margin-top:1px;">${i+1}</div>
+      <input class="tinput" value="${esc(t)}" placeholder="Tomorrow's task ${i+1}..." oninput="d.tmrTasks[${i}]=this.value;save()">
+    </div>`).join('');
+}
+
+function toggleTask(i){
+  d.tasks[i].done=!d.tasks[i].done;
+  save();
+  renderTasks();
+}
+
+function esc(s){return(s||'').replace(/"/g,'&quot;').replace(/</g,'&lt;');}
+
+// ─────────────────────────────────────────────
+// SLIDERS & COUNTERS
+// ─────────────────────────────────────────────
+function onSlider(key,val){
+  val=parseFloat(val); d[key]=val;
+  if(key==='sleep') document.getElementById('vSleep').textContent=val+'h';
+  if(key==='energy') document.getElementById('vEnergy').textContent=val+'/10';
+  save(); renderWellness();
+}
+
+function adj(key,delta){
+  const limits={protein:[0,300],water:[0,20],shakes:[0,6]};
+  const lim=limits[key];
+  d[key]=Math.max(lim[0],Math.min(lim[1],(d[key]||0)+delta));
+  const ids={protein:'vProtein',water:'vWater',shakes:'vShakes'};
+  document.getElementById(ids[key]).textContent=key==='protein'?d[key]+'g':d[key];
+  save(); renderWellness();
+}
+
+// ─────────────────────────────────────────────
+// TOGGLES
+// ─────────────────────────────────────────────
+function togCheck(key){
+  d[key]=!d[key];
+  const el=document.getElementById('t-'+key);
+  if(el) el.className='tog'+(d[key]?' on':'');
+  save();
+}
+
+function refreshToggles(){
+  ['posted','filmed','edited','engaged','planned','gymDone','recovery'].forEach(k=>{
+    const el=document.getElementById('t-'+k);
+    if(el) el.className='tog'+(d[k]?' on':'');
+  });
+  const rm=document.getElementById('readMins');
+  if(rm) rm.value=d.readMins||'';
+}
+
+// ─────────────────────────────────────────────
+// WEEK SNAPSHOT
+// ─────────────────────────────────────────────
+function updateWeekSnapshot(){
+  const wk=ls(weekKey(),{days:{}});
+  wk.days[todayKey()]={
+    tasksDone:d.tasks.filter(t=>t.done).length,
+    tasksTotal:d.tasks.filter(t=>t.text).length,
+    gymDone:d.gymDone, posted:d.posted, filmed:d.filmed,
+    edited:d.edited, engaged:d.engaged, planned:d.planned,
+    sleep:d.sleep, energy:d.energy, protein:d.protein,
+    water:d.water, readMins:d.readMins, recovery:d.recovery,
+    hadBTH:d.posted||d.filmed||d.planned||d.engaged||d.edited||d.tasks.some(t=>t.done)
+  };
+  ss(weekKey(),wk);
+}
+
+// ─────────────────────────────────────────────
+// WEEK PANEL
+// ─────────────────────────────────────────────
+function renderWeek(){
+  const wk=ls(weekKey(),{days:{}});
+  const days=Object.values(wk.days);
+  const n=Math.max(days.length,1);
+
+  const sum=(arr,key)=>arr.reduce((s,x)=>s+(x[key]||0),0);
+  const cnt=(arr,key)=>arr.filter(x=>x[key]).length;
+
+  const tasksDone=sum(days,'tasksDone');
+  const tasksTotal=Math.max(sum(days,'tasksTotal'),1);
+  const gymDays=cnt(days,'gymDone');
+  const posts=cnt(days,'posted');
+  const films=cnt(days,'filmed');
+  const edits=cnt(days,'edited');
+  const engages=cnt(days,'engaged');
+  const plans=cnt(days,'planned');
+  const sleepAvg=(sum(days,'sleep')/n).toFixed(1);
+  const proteinAvg=Math.round(sum(days,'protein')/n);
+  const energyAvg=(sum(days,'energy')/n).toFixed(1);
+  const bthDays=cnt(days,'hadBTH');
+
+  // Stats grid
+  document.getElementById('weekStats').innerHTML=[
+    {n:gymDays+'/4',l:'Gym Sessions',c:gymDays>=3?'green':gymDays>=2?'gold':'red'},
+    {n:posts+'/3',l:'BTH Posts',c:posts>=3?'green':posts>=2?'gold':'red'},
+    {n:sleepAvg+'h',l:'Avg Sleep',c:parseFloat(sleepAvg)>=6.5?'green':parseFloat(sleepAvg)<5.5?'red':'gold'},
+    {n:proteinAvg+'g',l:'Avg Protein',c:proteinAvg>=170?'green':proteinAvg<120?'red':'gold'},
+    {n:energyAvg+'/10',l:'Avg Energy',c:parseFloat(energyAvg)>=6?'green':parseFloat(energyAvg)<4?'red':'gold'},
+    {n:bthDays+'/7',l:'BTH Active Days',c:bthDays>=6?'green':bthDays>=4?'gold':'red'}
+  ].map(s=>'<div class="sbox"><div class="snum '+s.c+'">'+s.n+'</div><div class="slabel">'+s.l+'</div></div>').join('');
+
+  // Progress bars
+  const bars=[
+    {name:'Task Completion',pct:Math.round(tasksDone/tasksTotal*100),cls:'gold'},
+    {name:'Gym Sessions (4/wk)',pct:Math.round(gymDays/4*100),cls:'green'},
+    {name:'Posting (3/wk)',pct:Math.min(Math.round(posts/3*100),100),cls:'gold'},
+    {name:'BTH Days Active (7/7)',pct:Math.round(bthDays/7*100),cls:'green'}
+  ];
+  document.getElementById('weekBars').innerHTML=bars.map(b=>'<div class="prow"><div class="phdr"><span class="pname">'+b.name+'</span><span class="ppct">'+b.pct+'%</span></div><div class="pbar"><div class="pfill '+b.cls+'" style="width:'+b.pct+'%"></div></div></div>').join('');
+
+  // Streak
+  const streak=calcStreak(wk.days);
+  const dotDays=[];
+  for(let i=6;i>=0;i--){const dd=new Date();dd.setDate(dd.getDate()-i);dotDays.push('day-'+dd.getFullYear()+'-'+(dd.getMonth()+1)+'-'+dd.getDate());}
+  const dots=dotDays.map((k,i)=>{const hit=wk.days[k]&&wk.days[k].hadBTH;const isToday=(i===6);return '<div class="sdot'+(isToday?' today':hit?' hit':'')+'"></div>';}).join('');
+  document.getElementById('streakCard').innerHTML='<div class="streak-box"><div class="streak-n">'+streak+'</div><div class="streak-l">Day BTH Streak</div><div class="streak-dots">'+dots+'</div></div>';
+
+  // BTH Activity
+  document.getElementById('weekBTH').innerHTML=[
+    ['🎬 Filming Sessions',films],['✂️ Editing Sessions',edits],
+    ['📤 Posts Published',posts],['💬 Engagement Days',engages],['📝 Planning Sessions',plans]
+  ].map(r=>'<div class="trow"><div class="trow-lbl">'+r[0]+'</div><div class="mono" style="color:var(--gold);font-size:14px;font-weight:700;">'+r[1]+'</div></div>').join('');
+}
+
+function calcStreak(days){
+  let s=0;const now=new Date();
+  for(let i=0;i<60;i++){
+    const d2=new Date(now);d2.setDate(d2.getDate()-i);
+    const k='day-'+d2.getFullYear()+'-'+(d2.getMonth()+1)+'-'+d2.getDate();
+    if(days[k]&&days[k].hadBTH) s++;
+    else if(i>0) break;
+  }
+  return s;
+}
+
+// ─────────────────────────────────────────────
+// BTH PANEL
+// ─────────────────────────────────────────────
+function renderBTH(){
+  renderBTHTimeToday();
+  document.getElementById('pFilmed').textContent=p.filmed||0;
+  document.getElementById('pEdited').textContent=p.edited||0;
+  document.getElementById('pPosted').textContent=p.posted||0;
+  document.getElementById('bthFocus').value=p.focus||'';
+}
+
+function adjP(key,delta){
+  p[key]=Math.max(0,(p[key]||0)+delta);
+  saveP();
+  const ids={filmed:'pFilmed',edited:'pEdited',posted:'pPosted'};
+  document.getElementById(ids[key]).textContent=p[key];
+}
+
+// ─────────────────────────────────────────────
+// REPORT
+// ─────────────────────────────────────────────
+function buildReport(){
+  const wk=ls(weekKey(),{days:{}});
+  const days=Object.values(wk.days);
+  if(!days.length){
+    document.getElementById('reportOut').innerHTML='<div class="card" style="text-align:center;padding:20px;color:var(--dim2);">No data logged yet. Start tracking daily and come back.</div>';
+    return;
+  }
+  const n=Math.max(days.length,1);
+  const sum=(arr,key)=>arr.reduce((s,x)=>s+(x[key]||0),0);
+  const cnt=(arr,key)=>arr.filter(x=>x[key]).length;
+
+  const tasksDone=sum(days,'tasksDone');
+  const tasksTotal=Math.max(sum(days,'tasksTotal'),1);
+  const gymDays=cnt(days,'gymDone');
+  const posts=cnt(days,'posted');
+  const films=cnt(days,'filmed');
+  const engages=cnt(days,'engaged');
+  const bthDays=cnt(days,'hadBTH');
+  const sleepAvg=sum(days,'sleep')/n;
+  const proteinAvg=sum(days,'protein')/n;
+  const energyAvg=sum(days,'energy')/n;
+  const readDays=days.filter(x=>(x.readMins||0)>0).length;
+
+  // Score
+  let score=0;
+  score+=Math.round(tasksDone/tasksTotal*20);
+  score+=Math.round(gymDays/4*20);
+  score+=Math.min(Math.round(posts/3*20),20);
+  score+=Math.round(bthDays/7*20);
+  score+=Math.round(Math.min(sleepAvg,7)/7*20);
+  const grade=score>=90?'A':score>=78?'B':score>=65?'C':score>=50?'D':'F';
+  const gradeColor=score>=78?'var(--green)':score>=50?'var(--gold)':'var(--red)';
+
+  // Strengths
+  const S=[];
+  if(gymDays>=3) S.push('Gym at <strong>'+gymDays+'/4</strong> — anchor habit is holding.');
+  if(posts>=3) S.push('Hit the <strong>3 post/week</strong> BTH target. Content is moving.');
+  if(sleepAvg>=6.5) S.push('Sleep averaged <strong>'+sleepAvg.toFixed(1)+'h</strong> — recovery is supporting your execution.');
+  if(bthDays>=5) S.push('BTH had work on <strong>'+bthDays+'/7 days</strong> — the no-zero streak is building identity.');
+  if(proteinAvg>=170) S.push('Protein at <strong>'+Math.round(proteinAvg)+'g avg</strong> — fueling correctly.');
+  if(readDays>=3) S.push('Read on <strong>'+readDays+' days</strong> this week.');
+  if(!S.length) S.push('You opened the app and tracked. That\'s the first step. Keep going.');
+
+  // Gaps
+  const G=[];
+  if(posts<3) G.push('<strong>BTH posting at '+posts+'/3.</strong> Batch film your next off day — film all 3 clips in one session.');
+  if(gymDays<3) G.push('<strong>Gym at '+gymDays+'/4.</strong> Missing sessions breaks momentum. Walk 30 min on low-energy days to protect the habit.');
+  if(sleepAvg<6) G.push('<strong>Sleep at '+sleepAvg.toFixed(1)+'h avg.</strong> This is the root of your low energy and avoidance. Same sleep window on off days is the fix.');
+  if(proteinAvg<150) G.push('<strong>Protein at '+Math.round(proteinAvg)+'g avg.</strong> Have both shakes every day without exception.');
+  if(films<2) G.push('<strong>Only '+films+' filming session(s).</strong> Content pipeline is blocked. No filming = no posting.');
+  if(engages<3) G.push('<strong>Engagement only '+engages+' day(s).</strong> 15 min of comments daily builds the algorithm more than posting alone.');
+  if(bthDays<5) G.push('<strong>BTH only active '+bthDays+'/7 days.</strong> No zero days is the most important rule.');
+  if(!G.length) G.push('No major gaps this week. Raise the bar — push for more on your weakest category.');
+
+  // Key recommendation
+  let rec='';
+  if(sleepAvg<6) rec='<strong>Fix sleep first.</strong> Every other problem — low energy, avoidance, poor execution — traces back here. Same sleep window on off days, phone not in reach.';
+  else if(proteinAvg<150) rec='<strong>Fix protein.</strong> 2 shakes + protein in every meal. Low protein = low energy = low BTH output. It\'s that direct.';
+  else if(posts<2&&films<2) rec='<strong>Your content pipeline is blocked.</strong> Next off day: film 3 clips back-to-back. Don\'t plan, don\'t perfect. Just film.';
+  else if(bthDays<5) rec='<strong>No-zero days is broken.</strong> Before bed tonight, set tomorrow\'s 3 tasks. Wake up with the decision already made. That\'s the fix.';
+  else rec='<strong>You\'re building momentum.</strong> This week: push posts to 3/3 and protect the gym streak. Those two metrics compound fastest.';
+
+  document.getElementById('reportOut').innerHTML=
+    '<div class="grade-hero"><div class="grade-ltr" style="color:'+gradeColor+'">'+grade+'</div><div class="grade-sub">Week Score: '+score+'/100</div></div>'+
+    '<div class="rblock"><div class="rbtitle green">✅ What You Did Well</div>'+S.map(s=>'<div class="ritem">→ '+s+'</div>').join('')+'</div>'+
+    '<div class="rblock"><div class="rbtitle red">🔺 Where You Fell Short</div>'+G.map(g=>'<div class="ritem">→ '+g+'</div>').join('')+'</div>'+
+    '<div class="rblock"><div class="rbtitle gold">⚡ This Week\'s Key Move</div><div class="ritem">'+rec+'</div></div>'+
+    '<div class="rblock"><div class="rbtitle blue">📊 The Numbers</div>'+
+    [['Tasks',tasksDone+'/'+tasksTotal+' completed'],['Gym',gymDays+'/4 sessions'],
+     ['Posts',posts+'/3 goal'],['Sleep avg',sleepAvg.toFixed(1)+'h/night'],
+     ['Protein avg',Math.round(proteinAvg)+'g/day'],['Energy avg',energyAvg.toFixed(1)+'/10'],
+     ['Reading',readDays+' days this week']].map(r=>'<div class="ritem">'+r[0]+': <strong>'+r[1]+'</strong></div>').join('')+
+    '</div>';
+}
+
+// ─────────────────────────────────────────────
+// TAB SWITCHING
+// ─────────────────────────────────────────────
+function switchTab(name){
+  document.querySelectorAll('.pnl').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tb').forEach(t=>t.classList.remove('active'));
+  document.getElementById('pnl-'+name).classList.add('active');
+  document.getElementById('tab-'+name).classList.add('active');
+  if(name==='week') renderWeek();
+  if(name==='bth') renderBTH();
+  if(name==='report') buildReport();
+  // Scroll to top
+  document.querySelector('.content').scrollTop=0;
+}
+
+// ─────────────────────────────────────────────
+// INIT
+// ─────────────────────────────────────────────
+function init(){
+  initHeader();
+  renderTimeHero();
+  renderSchedule();
+  renderWellness();
+  renderTasks();
+  renderTmrTasks();
+  refreshToggles();
+
+  // Set slider positions
+  document.getElementById('slSleep').value=d.sleep;
+  document.getElementById('vSleep').textContent=d.sleep+'h';
+  document.getElementById('slEnergy').value=d.energy;
+  document.getElementById('vEnergy').textContent=d.energy+'/10';
+
+  // Set counter displays
+  document.getElementById('vProtein').textContent=d.protein+'g';
+  document.getElementById('vWater').textContent=d.water;
+  document.getElementById('vShakes').textContent=d.shakes;
+
+  // Auto-generate backup tasks if nothing set and it's late enough
+  const hour=new Date().getHours();
+  const shouldAuto=d.tasks.every(t=>!t.text)&&!d.autoGenerated&&hour>=15;
+  if(shouldAuto) autoTasks();
+
+  updateWeekSnapshot();
+}
+
+window.addEventListener('load', init);
+</script>
+</body>
+</html>
