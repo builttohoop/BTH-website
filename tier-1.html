@@ -30,12 +30,12 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Built to Hoop">
 <meta property="og:title" content="BTH Foundation — Tier 1 | Built to Hoop">
-<meta property="og:description" content="The $19 foundation program for adult hoopers. 6-week reset that fixes the pain, rebuilds the base, gets you back on the court.">
+<meta property="og:description" content="The $31.99 foundation program for adult hoopers. 6-week reset that fixes the pain, rebuilds the base, gets you back on the court.">
 <meta property="og:url" content="https://built-to-hoop.com/tier-1.html">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="BTH Foundation — Tier 1 | Built to Hoop">
-<meta name="twitter:description" content="The $19 foundation program for adult hoopers. 6-week reset that fixes the pain, rebuilds the base, gets you back on the court.">
-<meta name="description" content="BTH Tier 1 Foundation — $19. The complete 3-day system built around pickup. Reset + Rebuild. Get back on the court and stay there.">
+<meta name="twitter:description" content="The $31.99 foundation program for adult hoopers. 6-week reset that fixes the pain, rebuilds the base, gets you back on the court.">
+<meta name="description" content="BTH Foundation Month — $31.99. The complete 3-day system built around pickup. Reset + Rebuild. Get back on the court and stay there.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -317,11 +317,11 @@ nav {
       BTH Foundation is the 3-day training system built around pickup — not against it. Phases 1 and 2 of the full BTH method: <strong>Restore</strong> the body you stopped trusting, then <strong>Rebuild</strong> the base everything else sits on.
     </p>
     <div class="price-strip">
-      <div class="price-big">$19<span class="small">one time · no subscription</span></div>
+      <div class="price-big">$31.99<span class="small">one time · no subscription</span></div>
       <div class="price-meta"><strong>Instant Gumroad download.</strong><br>Everything included. Keep forever.</div>
     </div>
     <div class="btn-row">
-      <a href="https://builttohoop.gumroad.com/l/ecyzaa" class="btn-gold" target="_blank" rel="noopener noreferrer">Get Tier 1 — $19</a>
+      <a href="https://builttohoop.gumroad.com/l/ecyzaa" class="btn-gold" target="_blank" rel="noopener noreferrer">Get Foundation Month — $31.99</a>
       <a href="reset.html" class="btn-secondary">Try the Free Reset First →</a>
     </div>
     <p style="font-size:12px;color:var(--muted);margin-top:10px;letter-spacing:0.03em;">All sales final · No refunds</p>
@@ -442,8 +442,8 @@ nav {
   <h2 class="section-title">Real Answers.</h2>
   <div style="margin-top: 36px;">
     <div class="faq-item">
-      <div class="faq-q">Why is it only $19?</div>
-      <div class="faq-a">The barrier to starting should be low — <strong>what you get isn't.</strong> $19 gets you the full program: workouts, recovery rules, pickup guide, progression built in. More than that though — it gets you out of the cycle of guessing and starting over.</div>
+      <div class="faq-q">Why is the price set this way?</div>
+      <div class="faq-a">The barrier to starting should be low — <strong>what you get isn't.</strong> $31.99 gets you the full program: workouts, recovery rules, pickup guide, progression built in. More than that though — it gets you out of the cycle of guessing and starting over.</div>
     </div>
     <div class="faq-item">
       <div class="faq-q">Do I need a gym?</div>
@@ -471,7 +471,7 @@ nav {
 <div class="cta-band">
   <div>
     <div class="section-eyebrow" style="color: rgba(17,19,24,0.5); margin-bottom: 8px;">Tier 1 · Live Now</div>
-    <div class="cta-title">$19.<br>Instant Download.</div>
+    <div class="cta-title">$31.99.<br>Instant Download.</div>
     <div class="cta-sub">You've been guessing long enough. This is the system that made guessing unnecessary.</div>
   </div>
   <div style="text-align:center;flex-shrink:0;">
@@ -516,5 +516,47 @@ nav {
   });
 })();
 </script>
+
+<!-- BTH 30-second membership popup -->
+<div id="bth-popup" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9999;padding:0 16px 16px;">
+  <div style="max-width:480px;margin:0 auto;background:#111318;border:1px solid #E6A800;border-radius:12px;padding:20px 24px;box-shadow:0 8px 32px rgba(0,0,0,0.6);">
+    <button onclick="bthDismissPopup()" style="position:absolute;top:12px;right:16px;background:none;border:none;color:#F3EFE7;font-size:20px;cursor:pointer;opacity:0.7;">✕</button>
+    <div style="font-family:Oswald,sans-serif;color:#E6A800;font-size:13px;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:6px;">Limited Offer</div>
+    <div style="font-family:Oswald,sans-serif;color:#F3EFE7;font-size:20px;font-weight:700;line-height:1.2;margin-bottom:8px;">10% off your first month of BTH Rise</div>
+    <div style="font-family:DM Sans,sans-serif;color:rgba(243,239,231,0.75);font-size:14px;margin-bottom:16px;">Use code <strong style="color:#E6A800;">RISE10</strong> at checkout. $27/mo becomes $24.30 your first month. Expires tonight.</div>
+    <a href="https://builttohoop.gumroad.com/l/thxqs" target="_blank" rel="noopener noreferrer"
+       onclick="bthDismissPopup()"
+       style="display:block;background:#E6A800;color:#111318;font-family:Oswald,sans-serif;font-weight:700;font-size:15px;text-align:center;padding:12px 20px;border-radius:8px;text-decoration:none;letter-spacing:0.05em;">
+      Join BTH Rise — Use RISE10 →
+    </a>
+  </div>
+</div>
+<script>
+(function(){
+  var POPUP_KEY = 'bth_popup_dismissed';
+  var POPUP_DELAY = 30000; // 30 seconds
+  function shouldShow() {
+    try {
+      var dismissed = localStorage.getItem(POPUP_KEY);
+      if (!dismissed) return true;
+      // Re-show after 24 hours
+      return (Date.now() - parseInt(dismissed)) > 86400000;
+    } catch(e) { return true; }
+  }
+  function showPopup() {
+    var el = document.getElementById('bth-popup');
+    if (el) { el.style.display = 'block'; }
+  }
+  window.bthDismissPopup = function() {
+    var el = document.getElementById('bth-popup');
+    if (el) { el.style.display = 'none'; }
+    try { localStorage.setItem('bth_popup_dismissed', Date.now().toString()); } catch(e) {}
+  };
+  if (shouldShow()) {
+    setTimeout(showPopup, POPUP_DELAY);
+  }
+})();
+</script>
+<!-- End BTH popup -->
 </body>
 </html>

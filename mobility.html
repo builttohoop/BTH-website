@@ -30,7 +30,7 @@
 <meta name="robots" content="index,follow">
 <link rel="canonical" href="https://built-to-hoop.com/mobility.html">
 <meta property="og:title" content="Hip Mobility for Hoopers — Built to Hoop">
-<meta property="og:description" content="Hip Reset for the hooper who can't get loose anymore. Structured. 6 weeks. $19.">
+<meta property="og:description" content="Hip Reset for the hooper who can't get loose anymore. Structured. 6 weeks. $41.99.">
 <meta property="og:url" content="https://built-to-hoop.com/mobility.html">
 <meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -371,7 +371,7 @@ nav {
     <div class="offer-card">
       <div class="offer-card-eyebrow">If hips are the main thing</div>
       <div class="offer-card-title">Hip Reset Track</div>
-      <div class="offer-card-price">$19 · One-time</div>
+      <div class="offer-card-price">$31.99 · One-time</div>
       <div class="offer-card-desc">6 weeks. Hip-specific progression — open the joint, own the range, load it, then express it on the court. Yours forever — no subscription.</div>
       <a href="https://builttohoop.gumroad.com/l/dwcyc" class="btn-gold" target="_blank" rel="noopener noreferrer">Get the Hip Reset →</a>
     </div>
@@ -379,7 +379,7 @@ nav {
     <div class="offer-card">
       <div class="offer-card-eyebrow">If you're rebuilding the whole base</div>
       <div class="offer-card-title">Tier 1 — Foundation</div>
-      <div class="offer-card-price">$19 · One-time</div>
+      <div class="offer-card-price">$31.99 · One-time</div>
       <div class="offer-card-desc">If you're returning from a layoff or your whole base feels off — start here. The full 3-day BTH structure: hip and ankle reset, then load, then integrate with pickup.</div>
       <a href="https://builttohoop.gumroad.com/l/ecyzaa" class="btn-gold" target="_blank" rel="noopener noreferrer">Get Tier 1 →</a>
     </div>
@@ -459,5 +459,47 @@ nav {
   });
 })();
 </script>
+
+<!-- BTH 30-second membership popup -->
+<div id="bth-popup" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9999;padding:0 16px 16px;">
+  <div style="max-width:480px;margin:0 auto;background:#111318;border:1px solid #E6A800;border-radius:12px;padding:20px 24px;box-shadow:0 8px 32px rgba(0,0,0,0.6);">
+    <button onclick="bthDismissPopup()" style="position:absolute;top:12px;right:16px;background:none;border:none;color:#F3EFE7;font-size:20px;cursor:pointer;opacity:0.7;">✕</button>
+    <div style="font-family:Oswald,sans-serif;color:#E6A800;font-size:13px;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:6px;">Limited Offer</div>
+    <div style="font-family:Oswald,sans-serif;color:#F3EFE7;font-size:20px;font-weight:700;line-height:1.2;margin-bottom:8px;">10% off your first month of BTH Rise</div>
+    <div style="font-family:DM Sans,sans-serif;color:rgba(243,239,231,0.75);font-size:14px;margin-bottom:16px;">Use code <strong style="color:#E6A800;">RISE10</strong> at checkout. $27/mo becomes $24.30 your first month. Expires tonight.</div>
+    <a href="https://builttohoop.gumroad.com/l/thxqs" target="_blank" rel="noopener noreferrer"
+       onclick="bthDismissPopup()"
+       style="display:block;background:#E6A800;color:#111318;font-family:Oswald,sans-serif;font-weight:700;font-size:15px;text-align:center;padding:12px 20px;border-radius:8px;text-decoration:none;letter-spacing:0.05em;">
+      Join BTH Rise — Use RISE10 →
+    </a>
+  </div>
+</div>
+<script>
+(function(){
+  var POPUP_KEY = 'bth_popup_dismissed';
+  var POPUP_DELAY = 30000; // 30 seconds
+  function shouldShow() {
+    try {
+      var dismissed = localStorage.getItem(POPUP_KEY);
+      if (!dismissed) return true;
+      // Re-show after 24 hours
+      return (Date.now() - parseInt(dismissed)) > 86400000;
+    } catch(e) { return true; }
+  }
+  function showPopup() {
+    var el = document.getElementById('bth-popup');
+    if (el) { el.style.display = 'block'; }
+  }
+  window.bthDismissPopup = function() {
+    var el = document.getElementById('bth-popup');
+    if (el) { el.style.display = 'none'; }
+    try { localStorage.setItem('bth_popup_dismissed', Date.now().toString()); } catch(e) {}
+  };
+  if (shouldShow()) {
+    setTimeout(showPopup, POPUP_DELAY);
+  }
+})();
+</script>
+<!-- End BTH popup -->
 </body>
 </html>

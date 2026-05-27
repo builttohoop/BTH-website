@@ -327,11 +327,11 @@ nav {
       12 weeks. 3 phases. Phases 3–5 of the BTH method. <strong>Strength to Bounce</strong> → <strong>Game Speed</strong> → <strong>Stay Ready</strong>. For hoopers ready to convert the foundation into real output on the court.
     </p>
     <div class="price-strip">
-      <div class="price-big"><span class="strike">$67</span>$57<span class="small">launch price · one time</span></div>
+      <div class="price-big">$97<span class="small">launch price · one time</span></div>
       <div class="price-meta"><strong>Goes up to $67 after the first 5 testimonials.</strong><br>Lock in the launch rate now. Keep forever.</div>
     </div>
     <div class="btn-row">
-      <a href="#buy" class="btn-gold">Get BTH Rise — $57</a>
+      <a href="#buy" class="btn-gold">Get BTH Rise — $97</a>
       <a href="tier-3.html" class="btn-secondary">Or unlock everything with Tier 3 →</a>
     </div>
     <p style="font-size:12px;color:var(--muted);margin-top:10px;letter-spacing:0.03em;">All sales final · No refunds</p>
@@ -458,8 +458,8 @@ nav {
       </div>
       <div class="compare-row">
         <div class="compare-cell feat">Price</div>
-        <div class="compare-cell">$19 one-time</div>
-        <div class="compare-cell" style="background:rgba(230,168,0,0.05);"><strong style="color:var(--gold);">$57 launch</strong> · goes to $67</div>
+        <div class="compare-cell">$31.99 one-time</div>
+        <div class="compare-cell" style="background:rgba(230,168,0,0.05);"><strong style="color:var(--gold);">$97</strong></div>
       </div>
     </div>
   </div>
@@ -476,7 +476,7 @@ nav {
     </div>
     <div class="faq-item">
       <div class="faq-q">Why is it a launch price?</div>
-      <div class="faq-a"><strong>$57 now. Goes to $67 after the first 5 testimonials come in.</strong> That's it. No fake urgency. If you get in now, you lock in the rate and you own it forever.</div>
+      <div class="faq-a"><strong>$97 one-time.</strong> That's it. No fake urgency. If you get in now, you lock in the rate and you own it forever.</div>
     </div>
     <div class="faq-item">
       <div class="faq-q">Can I do this while still playing pickup?</div>
@@ -501,7 +501,7 @@ nav {
 <div class="cta-band">
   <div>
     <div class="section-eyebrow" style="color: rgba(17,19,24,0.5); margin-bottom: 8px;">Tier 2 · BTH Rise · Launch Price</div>
-    <div class="cta-title">$57.<br>Lock It In.</div>
+    <div class="cta-title">$97.<br>Lock It In.</div>
     <div class="cta-sub">12 weeks of real progression. Rate goes up once the first 5 testimonials come in. Every hooper who waits pays more.</div>
   </div>
   <div style="text-align:center;flex-shrink:0;">
@@ -546,5 +546,47 @@ nav {
   });
 })();
 </script>
+
+<!-- BTH 30-second membership popup -->
+<div id="bth-popup" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9999;padding:0 16px 16px;">
+  <div style="max-width:480px;margin:0 auto;background:#111318;border:1px solid #E6A800;border-radius:12px;padding:20px 24px;box-shadow:0 8px 32px rgba(0,0,0,0.6);">
+    <button onclick="bthDismissPopup()" style="position:absolute;top:12px;right:16px;background:none;border:none;color:#F3EFE7;font-size:20px;cursor:pointer;opacity:0.7;">✕</button>
+    <div style="font-family:Oswald,sans-serif;color:#E6A800;font-size:13px;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:6px;">Limited Offer</div>
+    <div style="font-family:Oswald,sans-serif;color:#F3EFE7;font-size:20px;font-weight:700;line-height:1.2;margin-bottom:8px;">10% off your first month of BTH Rise</div>
+    <div style="font-family:DM Sans,sans-serif;color:rgba(243,239,231,0.75);font-size:14px;margin-bottom:16px;">Use code <strong style="color:#E6A800;">RISE10</strong> at checkout. $27/mo becomes $24.30 your first month. Expires tonight.</div>
+    <a href="https://builttohoop.gumroad.com/l/thxqs" target="_blank" rel="noopener noreferrer"
+       onclick="bthDismissPopup()"
+       style="display:block;background:#E6A800;color:#111318;font-family:Oswald,sans-serif;font-weight:700;font-size:15px;text-align:center;padding:12px 20px;border-radius:8px;text-decoration:none;letter-spacing:0.05em;">
+      Join BTH Rise — Use RISE10 →
+    </a>
+  </div>
+</div>
+<script>
+(function(){
+  var POPUP_KEY = 'bth_popup_dismissed';
+  var POPUP_DELAY = 30000; // 30 seconds
+  function shouldShow() {
+    try {
+      var dismissed = localStorage.getItem(POPUP_KEY);
+      if (!dismissed) return true;
+      // Re-show after 24 hours
+      return (Date.now() - parseInt(dismissed)) > 86400000;
+    } catch(e) { return true; }
+  }
+  function showPopup() {
+    var el = document.getElementById('bth-popup');
+    if (el) { el.style.display = 'block'; }
+  }
+  window.bthDismissPopup = function() {
+    var el = document.getElementById('bth-popup');
+    if (el) { el.style.display = 'none'; }
+    try { localStorage.setItem('bth_popup_dismissed', Date.now().toString()); } catch(e) {}
+  };
+  if (shouldShow()) {
+    setTimeout(showPopup, POPUP_DELAY);
+  }
+})();
+</script>
+<!-- End BTH popup -->
 </body>
 </html>

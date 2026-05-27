@@ -370,37 +370,37 @@ nav {
         <div class="tag">Tier 2 · Rise</div>
         <h4>Phases 3–5</h4>
         <p>Strength to Bounce, Game Speed, Stay Ready. 12 weeks. 3 phases. Full performance system.</p>
-        <div class="was">Standalone: <strong>$57</strong></div>
+        <div class="was">Standalone: <strong>$97</strong></div>
       </div>
       <div class="lib-card">
         <div class="tag">Add-On · Injury</div>
         <h4>Hip Reset Track</h4>
         <p>Open tight hips. Rebuild control. The foundation most hoopers skip.</p>
-        <div class="was">Standalone: <strong>$17–$27</strong></div>
+        <div class="was">Standalone: <strong>$41.99</strong></div>
       </div>
       <div class="lib-card">
         <div class="tag">Add-On · Injury</div>
         <h4>Knee Protection Track</h4>
         <p>Strong knees that hold up through cutting and landing.</p>
-        <div class="was">Standalone: <strong>$17–$27</strong></div>
+        <div class="was">Standalone: <strong>$41.99</strong></div>
       </div>
       <div class="lib-card">
         <div class="tag">Add-On · Injury</div>
         <h4>Ankle Rebuild Track</h4>
         <p>Build the stability you never trained for. Step off the brace.</p>
-        <div class="was">Standalone: <strong>$17–$27</strong></div>
+        <div class="was">Standalone: <strong>$41.99</strong></div>
       </div>
       <div class="lib-card">
         <div class="tag">Add-On · Performance</div>
         <h4>Skill Builder</h4>
         <p>Court-specific work — handles, finishing, footwork that transfers.</p>
-        <div class="was">Standalone: <strong>$17–$27</strong></div>
+        <div class="was">Standalone: <strong>$41.99</strong></div>
       </div>
       <div class="lib-card">
         <div class="tag">Add-On · Recovery</div>
         <h4>Recovery System</h4>
         <p>Protocols that get you to the next game without the grind.</p>
-        <div class="was">Standalone: <strong>$17</strong></div>
+        <div class="was">Standalone: <strong>$41.99</strong></div>
       </div>
       <div class="lib-card" style="background: var(--black); border-color: var(--black);">
         <div class="tag" style="color: var(--gold);">Ongoing</div>
@@ -431,7 +431,7 @@ nav {
     </div>
     <div class="value-row">
       <div class="v-name"><strong>Tier 2 — Rise</strong> · one-time</div>
-      <div class="v-price strike">$57</div>
+      <div class="v-price strike">$97</div>
     </div>
     <div class="value-row">
       <div class="v-name">Hip Reset Track</div>
@@ -451,7 +451,7 @@ nav {
     </div>
     <div class="value-row">
       <div class="v-name">Recovery System</div>
-      <div class="v-price strike">$17</div>
+      <div class="v-price strike">$41.99</div>
     </div>
     <div class="value-row">
       <div class="v-name">Monthly updates + batched Q&A</div>
@@ -597,5 +597,47 @@ nav {
   });
 })();
 </script>
+
+<!-- BTH 30-second membership popup -->
+<div id="bth-popup" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9999;padding:0 16px 16px;">
+  <div style="max-width:480px;margin:0 auto;background:#111318;border:1px solid #E6A800;border-radius:12px;padding:20px 24px;box-shadow:0 8px 32px rgba(0,0,0,0.6);">
+    <button onclick="bthDismissPopup()" style="position:absolute;top:12px;right:16px;background:none;border:none;color:#F3EFE7;font-size:20px;cursor:pointer;opacity:0.7;">✕</button>
+    <div style="font-family:Oswald,sans-serif;color:#E6A800;font-size:13px;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:6px;">Limited Offer</div>
+    <div style="font-family:Oswald,sans-serif;color:#F3EFE7;font-size:20px;font-weight:700;line-height:1.2;margin-bottom:8px;">10% off your first month of BTH Rise</div>
+    <div style="font-family:DM Sans,sans-serif;color:rgba(243,239,231,0.75);font-size:14px;margin-bottom:16px;">Use code <strong style="color:#E6A800;">RISE10</strong> at checkout. $27/mo becomes $24.30 your first month. Expires tonight.</div>
+    <a href="https://builttohoop.gumroad.com/l/thxqs" target="_blank" rel="noopener noreferrer"
+       onclick="bthDismissPopup()"
+       style="display:block;background:#E6A800;color:#111318;font-family:Oswald,sans-serif;font-weight:700;font-size:15px;text-align:center;padding:12px 20px;border-radius:8px;text-decoration:none;letter-spacing:0.05em;">
+      Join BTH Rise — Use RISE10 →
+    </a>
+  </div>
+</div>
+<script>
+(function(){
+  var POPUP_KEY = 'bth_popup_dismissed';
+  var POPUP_DELAY = 30000; // 30 seconds
+  function shouldShow() {
+    try {
+      var dismissed = localStorage.getItem(POPUP_KEY);
+      if (!dismissed) return true;
+      // Re-show after 24 hours
+      return (Date.now() - parseInt(dismissed)) > 86400000;
+    } catch(e) { return true; }
+  }
+  function showPopup() {
+    var el = document.getElementById('bth-popup');
+    if (el) { el.style.display = 'block'; }
+  }
+  window.bthDismissPopup = function() {
+    var el = document.getElementById('bth-popup');
+    if (el) { el.style.display = 'none'; }
+    try { localStorage.setItem('bth_popup_dismissed', Date.now().toString()); } catch(e) {}
+  };
+  if (shouldShow()) {
+    setTimeout(showPopup, POPUP_DELAY);
+  }
+})();
+</script>
+<!-- End BTH popup -->
 </body>
 </html>
