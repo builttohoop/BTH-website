@@ -37,6 +37,9 @@ Day 1 is below. Takes 10 minutes. You'll feel it working before you finish.
 
 **Day 1 — Hip Release**
 
+→ **[Download your Day 1 Workout Guide (PDF)](https://built-to-hoop.com/reset-pdfs/output/BTH-Reset-Day-01-Hip-Release.pdf)**
+Print it or pull it up on your phone. Everything below is in there.
+
 This is where most guys are locked. Not because of age. Because of how pickup loads the hips and nobody ever resets them.
 
 Do these 3 moves. In order. Take your time.
@@ -146,6 +149,9 @@ More on Day 5.
 
 **Day 2 — Ankle & Lower Leg Reset**
 
+→ **[Download your Day 2 Workout Guide (PDF)](https://built-to-hoop.com/reset-pdfs/output/BTH-Reset-Day-02-Ankle-Reset.pdf)**
+Print it or pull it up on your phone. Everything below is in there.
+
 1. **Tibialis Raise** — 3 × 15 reps
    Stand with your back against a wall, heels 6 inches out. Lift your toes up. This wakes up the muscle most ignored in ankle health.
 
@@ -208,6 +214,9 @@ Talk tomorrow.
 
 **Day 3 — Knee + Quad Reset**
 
+→ **[Download your Day 3 Workout Guide (PDF)](https://built-to-hoop.com/reset-pdfs/output/BTH-Reset-Day-03-Knee-Quad-Reset.pdf)**
+Print it or pull it up on your phone. Everything below is in there.
+
 1. **Spanish Squat** — 3 × 10, 3 sec hold at bottom
    Strap or post hold, heels down, load the quads in the deepest position. This is direct patellar tendon work.
 
@@ -256,6 +265,9 @@ Tomorrow is Day 5 — your final reset day, and the day I send you the membershi
 ---
 
 **Day 4 — Core + Movement Quality**
+
+→ **[Download your Day 4 Workout Guide (PDF)](https://built-to-hoop.com/reset-pdfs/output/BTH-Reset-Day-04-Core-Movement-Quality.pdf)**
+Print it or pull it up on your phone. Everything below is in there.
 
 1. **Dead Bug** — 3 × 8 each side
    Back flat, lower opposite arm/leg slowly, don't let your back arch. This is basketball-specific core stability.
@@ -331,7 +343,10 @@ The membership is the better deal. But the choice is yours.
 
 — Ty, BTH
 
-**Day 5 — Full Reset + Readiness Check**
+**Day 5 — Power Reset + Readiness Check**
+
+→ **[Download your Day 5 Workout Guide (PDF)](https://built-to-hoop.com/reset-pdfs/output/BTH-Reset-Day-05-Power-Reset.pdf)**
+Print it or pull it up on your phone. Everything below is in there.
 
 1. Repeat Day 1 hip sequence
 2. Do the single-leg balance reach from Day 2
