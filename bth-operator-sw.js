@@ -1,7 +1,7 @@
 /* BTH Operator — optional offline service worker.
    The app is fully functional without this file (foreground reminders + install still work).
    Drop this next to bth-operator-v2.html on your site to enable full offline use. */
-const CACHE='bth-operator-v2';
+const CACHE='bth-operator-v2-20260531';
 const SHELL=['./','./bth-operator-v2.html'];
 self.addEventListener('install',e=>{self.skipWaiting();e.waitUntil(caches.open(CACHE).then(c=>c.addAll(SHELL)).catch(()=>{}));});
 self.addEventListener('activate',e=>{e.waitUntil((async()=>{const ks=await caches.keys();await Promise.all(ks.filter(k=>k!==CACHE).map(k=>caches.delete(k)));await self.clients.claim();})());});
