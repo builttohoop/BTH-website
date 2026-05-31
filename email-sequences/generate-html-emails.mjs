@@ -92,7 +92,7 @@ function wrap(subject, bodyHtml) {
 // ─── HELPERS ─────────────────────────────────────────────────────
 
 function greeting() {
-  return `<p style="margin:0 0 24px;font-size:16px;color:${BRAND.black};">{{ subscriber.name | default: "Hooper" }},</p>`;
+  return `<p style="margin:0 0 24px;font-size:16px;color:${BRAND.black};">Hooper,</p>`;
 }
 
 function divider() {
