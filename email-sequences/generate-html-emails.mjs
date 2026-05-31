@@ -76,7 +76,7 @@ function wrap(subject, bodyHtml) {
             <p style="margin:0 0 12px;font-family:'DM Sans',Arial,sans-serif;font-size:12px;color:rgba(255,255,255,0.45);">built-to-hoop.com · tyrell@built-to-hoop.com</p>
             <p style="margin:0;font-family:'DM Sans',Arial,sans-serif;font-size:11px;color:rgba(255,255,255,0.3);line-height:1.6;">
               You're on this list because you signed up for the Free 5-Day Basketball Reset.<br>
-              <a href="{$unsubscribe}" style="color:rgba(255,255,255,0.4);text-decoration:underline;">Unsubscribe</a>
+              <a href="{{ unsubscribe_url }}" style="color:rgba(255,255,255,0.4);text-decoration:underline;">Unsubscribe</a>
             </p>
           </td>
         </tr>
@@ -92,7 +92,7 @@ function wrap(subject, bodyHtml) {
 // ─── HELPERS ─────────────────────────────────────────────────────
 
 function greeting() {
-  return `<p style="margin:0 0 24px;font-size:16px;color:${BRAND.black};">{$name|Hooper},</p>`;
+  return `<p style="margin:0 0 24px;font-size:16px;color:${BRAND.black};">{{ subscriber.name | default: "Hooper" }},</p>`;
 }
 
 function divider() {
