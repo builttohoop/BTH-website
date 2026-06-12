@@ -834,7 +834,7 @@ Built for hoopers who are all-in.
 
 ---
 
-### 5 Urgency / Scarcity Ad Copy Examples
+### 4 Urgency / Scarcity Ad Copy Examples
 
 **Urgency 1 — Rise One-Time Offer**
 ```
@@ -858,15 +858,7 @@ You're not being dramatic. You're accumulating damage.
 Start the reset. Today. Not next week.
 ```
 
-**Urgency 4 — Founding Group**
-```
-The first 100 BTH members get the founding price.
-$31.99 Tier 1. $27/mo Tier 3.
-After 100, the prices go up.
-Get in before the price changes.
-```
-
-**Urgency 5 — Personal**
+**Urgency 4 — Personal**
 ```
 How many runs did you miss last year because the body wasn't ready?
 How many did you sit out halfway through?

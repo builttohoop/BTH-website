@@ -151,7 +151,7 @@ MRI
 1. Knee Pain on the Court? [PIN pos 1]
 2. Built for Basketball Players [PIN pos 2]
 3. Fix Patellar Tendon Pain
-4. $41.99 Knee Protection Protocol
+4. Knee Protection — $41.99
 5. Stop Resting. Start Rebuilding.
 6. 3-Phase Tendon Rebuild System
 7. Play Without the Knee Ache
@@ -312,7 +312,7 @@ D4: 6 weeks. 3 days/week. Works at any gym. Built for guys 28–50 who want to k
 3. For Guys Who Haven't Stopped Caring
 4. 6 Weeks Back to Full Speed
 5. Fix the Body. Get Back to the Court.
-6. Pickup-Ready in 6 Weeks — $31.99
+6. Pickup-Ready in 6 Weeks
 7. Built for the Comeback
 8. Not Just Fitness. Court-Ready Fitness.
 ```
@@ -404,7 +404,7 @@ D2: Most hoopers train strength but skip elastic output. BTH teaches your legs t
 **Headlines:**
 ```
 1. Tight Hips Ruining Your Game? [PIN pos 1]
-2. BTH Hip Reset Protocol — $41.99 [PIN pos 2]
+2. BTH Hip Reset — $41.99 [PIN pos 2]
 3. Fix Hip Pain From Pickup
 4. Hip Flexor Reset for Hoopers
 5. Hips Locked After Sitting All Day?
