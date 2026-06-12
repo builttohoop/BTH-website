@@ -14,7 +14,7 @@ _Format: Product Name → Summary → Description body_
 
 ## PRODUCT 1 — BTH Foundation
 **Gumroad slug:** ecyzaa
-**Price:** $19 (one-time)
+**Price:** $31.99 (one-time)
 
 ### Name
 BTH Foundation — The 6-Week Hooper Program
@@ -78,7 +78,7 @@ A 3-day training structure built around pickup — so you can train AND play wit
 
 ## PRODUCT 2 — BTH Rise
 **Gumroad slug:** groedz
-**Price:** $57 launch price (→ $67 after first 5 testimonials)
+**Price:** $97 (one-time)
 
 ### Name
 BTH Rise — The 12-Week Performance Program
@@ -133,7 +133,6 @@ Not sure? Start with Foundation. You'll know when you're ready for Rise.
 - Standard gym setup required (dumbbells, barbell, box)
 - One-time payment — keep forever
 - **7-day refund via Gumroad. No questions asked.**
-- Price goes up to $67 after the first 5 testimonials. Lock in the launch rate now.
 
 ---
 
@@ -192,7 +191,7 @@ Think of it like a streaming service for BTH. You get access to everything that 
 
 Hoopers who know they want the full system. Guys who would run more than two programs or tracks. Anyone who wants to stop buying piecemeal and just be in the system.
 
-**If you want to start smaller:** BTH Foundation is $19 one-time and is the right entry point. Upgrade to Tier 3 anytime — you won't pay twice for Foundation.
+**If you want to start smaller:** BTH Foundation is $31.99 one-time and is the right entry point. Upgrade to Tier 3 anytime — you won't pay twice for Foundation.
 
 ---
 
@@ -206,7 +205,7 @@ Hoopers who know they want the full system. Guys who would run more than two pro
 
 ## PRODUCT 4 — BTH Hip Reset Track
 **Gumroad slug:** dwcyc
-**Price:** $19
+**Price:** $41.99
 
 ### Name
 BTH Hip Reset Track — Full Hip Mobility Rebuild for Hoopers
@@ -249,7 +248,7 @@ The BTH Hip Reset Track is the targeted rebuild.
 ---
 
 **Part of the Injury Bundle:**
-The Hip Reset pairs with Knee Protection and Ankle Rebuild. Run all three together in sequence (ankle → knee → hip) for the full joint rebuild. [Bundle available — save $10+ off standalone pricing.]
+The Hip Reset pairs with Knee Protection and Ankle Rebuild. Run all three together in sequence (ankle → knee → hip) for the full joint rebuild. [Bundle available — save $45.98 off standalone pricing.]
 
 **7-day refund via Gumroad. No questions asked.**
 
@@ -257,7 +256,7 @@ The Hip Reset pairs with Knee Protection and Ankle Rebuild. Run all three togeth
 
 ## PRODUCT 5 — BTH Knee Protection Track
 **Gumroad slug:** novpg
-**Price:** $19
+**Price:** $41.99
 
 ### Name
 BTH Knee Protection Track — Patellar Tendon Rebuild + Jump Load Protocol
@@ -308,7 +307,7 @@ Pairs with Hip Reset and Ankle Rebuild. Run in sequence for the full joint chain
 
 ## PRODUCT 6 — BTH Ankle Rebuild Track
 **Gumroad slug:** mtqyvi
-**Price:** $19
+**Price:** $41.99
 
 ### Name
 BTH Ankle Rebuild Track — 3-Phase Stability + Strength Rebuild for Hoopers
@@ -359,7 +358,7 @@ Run ankle first, then knee, then hip. That's the sequence.
 
 ## PRODUCT 7 — BTH Skill Builder Track
 **Gumroad slug:** axona
-**Price:** $19
+**Price:** $41.99
 
 ### Name
 BTH Skill Builder Track — Game-Speed Handle, Finishing & Decision Reps
@@ -407,7 +406,7 @@ The BTH Skill Builder Track is that system.
 
 ## PRODUCT 8 — BTH Recovery System Track
 **Gumroad slug:** xbxhqc
-**Price:** $19
+**Price:** $41.99
 
 ### Name
 BTH Recovery System — Post-Pickup Reset + Off-Day Protocol for Hoopers
@@ -455,7 +454,7 @@ The BTH Recovery System gives you the full picture.
 
 ## PRODUCT 9 — BTH Injury Bundle
 **Gumroad slug:** esgvfq
-**Price:** $47 (Hip + Knee + Ankle standalone = $57)
+**Price:** $79.99 (Hip + Knee + Ankle standalone = $125.97)
 
 ### Name
 BTH Injury Bundle — Hip + Knee + Ankle Rebuild (Sequenced)
@@ -492,11 +491,11 @@ A day-by-day protocol for the first 30 days back after a layoff or injury. Not j
 ---
 
 **The math:**
-- Hip Reset standalone: $19
-- Knee Protection standalone: $19
-- Ankle Rebuild standalone: $19
-- **Total standalone: $57**
-- **Bundle price: $47 — save $10**
+- Hip Reset standalone: $41.99
+- Knee Protection standalone: $41.99
+- Ankle Rebuild standalone: $41.99
+- **Total standalone: $125.97**
+- **Bundle price: $79.99 — save $45.98**
 
 ---
 
