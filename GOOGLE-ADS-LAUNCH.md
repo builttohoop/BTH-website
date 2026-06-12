@@ -103,7 +103,7 @@ workout free
 
 ## CAMPAIGN 1 — KNEE PAIN
 **Daily budget:** $10  
-**Goal:** Drive to `/knee.html` or `/addons.html` → sell Knee Protection Track ($19)
+**Goal:** Drive to `/knee.html` or `/addons.html` → sell Knee Protection Track ($41.99)
 
 ### Campaign Settings
 - Campaign name: `BTH — Search — Knee Pain`
@@ -151,7 +151,7 @@ MRI
 1. Knee Pain on the Court? [PIN pos 1]
 2. Built for Basketball Players [PIN pos 2]
 3. Fix Patellar Tendon Pain
-4. $19 Knee Protection Protocol
+4. $41.99 Knee Protection Protocol
 5. Stop Resting. Start Rebuilding.
 6. 3-Phase Tendon Rebuild System
 7. Play Without the Knee Ache
@@ -168,9 +168,9 @@ MRI
 **Descriptions:**
 ```
 D1: Patellar tendon pain doesn't go away with rest alone. Build load tolerance — the 3-phase protocol built for pickup players.
-D2: BTH Knee Protection Track: isometrics → heavy slow resistance → dynamic loading. $19. Instant download. Built for pickup players.
+D2: BTH Knee Protection Track: isometrics → heavy slow resistance → dynamic loading. $41.99. Instant download. Built for pickup players.
 D3: Your knee pain isn't a rest problem — it's a load tolerance problem. Fix it with a system built for adult hoopers.
-D4: The BTH protocol rebalances VMO strength, fixes ankle-hip mechanics, and builds the tendon to handle pickup demands. $19.
+D4: The BTH protocol rebalances VMO strength, fixes ankle-hip mechanics, and builds the tendon to handle pickup demands. $41.99.
 ```
 
 **Final URL:** `https://built-to-hoop.com/knee.html?utm_source=google&utm_medium=cpc&utm_campaign=knee_pain&utm_content=patellar_v1`
@@ -194,7 +194,7 @@ D4: The BTH protocol rebalances VMO strength, fixes ankle-hip mechanics, and bui
 **Headlines:**
 ```
 1. Weak Quads Causing Knee Pain? [PIN pos 1]
-2. The BTH Knee Fix — $19 [PIN pos 2]
+2. The BTH Knee Fix — $41.99 [PIN pos 2]
 3. VMO + Patellar Tendon Protocol
 4. Rebalance. Rebuild. Keep Playing.
 5. Not Generic PT. Built for Hoopers.
@@ -207,7 +207,7 @@ D4: The BTH protocol rebalances VMO strength, fixes ankle-hip mechanics, and bui
 
 **Descriptions:**
 ```
-D1: VMO imbalance and poor quad tracking are behind most patellar pain. Fix the root cause — $19 hooper-specific protocol.
+D1: VMO imbalance and poor quad tracking are behind most patellar pain. Fix the root cause — $41.99 hooper-specific protocol.
 D2: Stop guessing which exercises help. Get the 3-phase system built for basketball: tendon rebuild + VMO balance + landing mechanics.
 ```
 
@@ -217,7 +217,7 @@ D2: Stop guessing which exercises help. Get the 3-phase system built for basketb
 
 ## CAMPAIGN 2 — ADULT BASKETBALL TRAINING
 **Daily budget:** $10  
-**Goal:** Drive to `/tier-1.html` → sell BTH Foundation ($19) or Free Reset opt-in
+**Goal:** Drive to `/tier-1.html` → sell BTH Foundation ($31.99) or Free Reset opt-in
 
 ### Campaign Settings
 - Campaign name: `BTH — Search — Adult Basketball Training`
@@ -261,7 +261,7 @@ drills for kids
 **Headlines:**
 ```
 1. Train for Pickup Basketball [PIN pos 1]
-2. Built to Hoop — $19 Program [PIN pos 2]
+2. Built to Hoop — $31.99 Program [PIN pos 2]
 3. 6-Week Hooper Training Program
 4. For Adult Pickup Players 30+
 5. Train AND Play. Not One or the Other.
@@ -271,7 +271,7 @@ drills for kids
 9. Keep Playing — Stop Starting Over
 10. Built by a Hooper. For Hoopers.
 11. Works at Planet Fitness Level Gym
-12. $19 One-Time. Keep Forever.
+12. $31.99 One-Time. Keep Forever.
 13. Instant Digital Delivery
 14. Instant Digital Download
 15. Phases 1 + 2 of the BTH Method
@@ -279,10 +279,10 @@ drills for kids
 
 **Descriptions:**
 ```
-D1: The training system built around pickup — not against it. 3-day schedule, progressive loading, readiness framework. $19. Keep forever.
-D2: You train to play. Not the other way around. BTH Foundation: 6 weeks, 3 phases, built so you can train and still make the run. $19.
+D1: The training system built around pickup — not against it. 3-day schedule, progressive loading, readiness framework. $31.99. Keep forever.
+D2: You train to play. Not the other way around. BTH Foundation: 6 weeks, 3 phases, built so you can train and still make the run. $31.99.
 D3: Fix the stiffness, rebuild the base, stop the cycle of pain and starting over. The structured program adult hoopers have been missing.
-D4: 6 weeks. 3 days/week. Works at any gym. Built for guys 28–50 who want to keep playing and stop getting hurt. Instant download. $19.
+D4: 6 weeks. 3 days/week. Works at any gym. Built for guys 28–50 who want to keep playing and stop getting hurt. Instant download. $31.99.
 ```
 
 **Final URL:** `https://built-to-hoop.com/tier-1.html?utm_source=google&utm_medium=cpc&utm_campaign=adult_bball_training&utm_content=foundation_v1`
@@ -312,15 +312,15 @@ D4: 6 weeks. 3 days/week. Works at any gym. Built for guys 28–50 who want to k
 3. For Guys Who Haven't Stopped Caring
 4. 6 Weeks Back to Full Speed
 5. Fix the Body. Get Back to the Court.
-6. Pickup-Ready in 6 Weeks — $19
+6. Pickup-Ready in 6 Weeks — $31.99
 7. Built for the Comeback
 8. Not Just Fitness. Court-Ready Fitness.
 ```
 
 **Descriptions:**
 ```
-D1: BTH Foundation gets you from "out of it" to pickup-ready in 6 weeks. 3 days/week, built around your schedule. $19.
-D2: The return-to-pickup program for adult hoopers. Fix stiffness, build strength, know exactly when your body is ready to go. $19.
+D1: BTH Foundation gets you from "out of it" to pickup-ready in 6 weeks. 3 days/week, built around your schedule. $31.99.
+D2: The return-to-pickup program for adult hoopers. Fix stiffness, build strength, know exactly when your body is ready to go. $31.99.
 ```
 
 **Final URL:** `https://built-to-hoop.com/tier-1.html?utm_source=google&utm_medium=cpc&utm_campaign=adult_bball_training&utm_content=return_v1`
@@ -404,7 +404,7 @@ D2: Most hoopers train strength but skip elastic output. BTH teaches your legs t
 **Headlines:**
 ```
 1. Tight Hips Ruining Your Game? [PIN pos 1]
-2. BTH Hip Reset Protocol — $19 [PIN pos 2]
+2. BTH Hip Reset Protocol — $41.99 [PIN pos 2]
 3. Fix Hip Pain From Pickup
 4. Hip Flexor Reset for Hoopers
 5. Hips Locked After Sitting All Day?
@@ -415,8 +415,8 @@ D2: Most hoopers train strength but skip elastic output. BTH teaches your legs t
 
 **Descriptions:**
 ```
-D1: Locked hips = back pain, knee tracking issues, limited defensive stance. The BTH Hip Reset fixes the source, not the symptom. $19.
-D2: Full hip capsule, flexor, and rotator protocol. Pickup-specific prep included. Rebuild the hip health that pickup is eating up. $19.
+D1: Locked hips = back pain, knee tracking issues, limited defensive stance. The BTH Hip Reset fixes the source, not the symptom. $41.99.
+D2: Full hip capsule, flexor, and rotator protocol. Pickup-specific prep included. Rebuild the hip health that pickup is eating up. $41.99.
 ```
 
 **Final URL:** `https://built-to-hoop.com/mobility.html?utm_source=google&utm_medium=cpc&utm_campaign=hip_mobility&utm_content=hip_reset_v1`
@@ -445,7 +445,7 @@ D2: Full hip capsule, flexor, and rotator protocol. Pickup-specific prep include
 **Headlines:**
 ```
 1. Keep Rolling the Same Ankle? [PIN pos 1]
-2. BTH Ankle Rebuild — $19 [PIN pos 2]
+2. BTH Ankle Rebuild — $41.99 [PIN pos 2]
 3. 3-Phase Stability Protocol
 4. Stop Bracing. Start Rebuilding.
 5. Proprioception Training for Hoopers
@@ -455,7 +455,7 @@ D2: Full hip capsule, flexor, and rotator protocol. Pickup-specific prep include
 
 **Descriptions:**
 ```
-D1: Chronic ankle sprains mean your nervous system doesn't trust the joint. The BTH 3-phase rebuild fixes that. $19, for pickup players.
+D1: Chronic ankle sprains mean your nervous system doesn't trust the joint. The BTH 3-phase rebuild fixes that. $41.99, for pickup players.
 D2: Phase 1: mobility. Phase 2: stability. Phase 3: loaded strength. The full ankle rebuild basketball players actually need.
 ```
 
@@ -481,13 +481,13 @@ D2: Phase 1: mobility. Phase 2: stability. Phase 3: loaded strength. The full an
 1. Built to Hoop — Official Site [PIN pos 1]
 2. Hooper Training Programs — Live [PIN pos 2]
 3. Foundation · Rise · Stay Ready
-4. $19 to Start. Keep Playing.
+4. $31.99 to Start. Keep Playing.
 ```
 
 **Descriptions:**
 ```
 D1: The training system built for adult pickup players. Free 5-Day Reset available. Foundation, Rise, and Stay Ready programs live now.
-D2: BTH Foundation $19. BTH Rise $57. Tier 3 $27/mo. Free Reset. Built for hoopers who aren't ready to stop playing.
+D2: BTH Foundation $31.99. BTH Rise $97. Tier 3 $27/mo. Free Reset. Built for hoopers who aren't ready to stop playing.
 ```
 
 **Final URL:** `https://built-to-hoop.com/?utm_source=google&utm_medium=cpc&utm_campaign=brand&utm_content=brand_v1`
@@ -499,7 +499,7 @@ D2: BTH Foundation $19. BTH Rise $57. Tier 3 $27/mo. Free Reset. Built for hoope
 ### Sitelinks
 ```
 Free 5-Day Reset → https://built-to-hoop.com/reset.html
-BTH Foundation $19 → https://built-to-hoop.com/tier-1.html
+BTH Foundation $31.99 → https://built-to-hoop.com/tier-1.html
 Full Library — $27/mo → https://built-to-hoop.com/tier-3.html
 About Built to Hoop → https://built-to-hoop.com/about.html
 ```
@@ -545,9 +545,9 @@ Pickup-First Training System
 
 | Campaign | Landing Page | Conversion Goal |
 |----------|-------------|-----------------|
-| Knee Pain | /knee.html | Gumroad click (Knee Track $19) |
-| Adult Training | /tier-1.html | Gumroad click (Foundation $19) |
+| Knee Pain | /knee.html | Gumroad click (Knee Track $41.99) |
+| Adult Training | /tier-1.html | Gumroad click (Foundation $31.99) |
 | Bounce | /bounce.html | Gumroad click (Tier 1 or 2) |
-| Hip/Mobility | /mobility.html | Gumroad click (Hip Reset $19) |
-| Ankle | /addons.html | Gumroad click (Ankle Track $19) |
+| Hip/Mobility | /mobility.html | Gumroad click (Hip Reset $41.99) |
+| Ankle | /addons.html | Gumroad click (Ankle Track $41.99) |
 | Brand | /index.html | Any conversion |

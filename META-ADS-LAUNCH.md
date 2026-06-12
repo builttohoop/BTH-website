@@ -241,7 +241,7 @@ Free. 5 days. 10 minutes a day. Your inbox.
 
 **Headline:**
 ```
-$19. The System You Keep Putting Off.
+$31.99. The System You Keep Putting Off.
 ```
 
 **Primary Text:**
@@ -254,7 +254,7 @@ BTH Foundation is the structured way out.
 
 6 weeks. 3 days a week. Built around your pickup schedule so you can train AND play.
 
-$19. One-time. Keep it forever.
+$31.99. One-time. Keep it forever.
 
 7-day refund if it's not for you. No questions.
 ```
@@ -262,7 +262,7 @@ $19. One-time. Keep it forever.
 **Call to Action:** Shop Now
 **Description:**
 ```
-$19 one-time. 7-day refund guarantee.
+$31.99 one-time. 7-day refund guarantee.
 ```
 
 ---
@@ -284,7 +284,7 @@ BTH Foundation assumes you train to PLAY.
 
 That's the difference. The 3-day structure is built around your pickup schedule. The readiness framework tells you exactly when to train legs and when to back off. The recovery layer keeps you ready week over week.
 
-$19. The foundation you should've had two years ago.
+$31.99. The foundation you should've had two years ago.
 ```
 
 **Call to Action:** Shop Now
@@ -323,7 +323,7 @@ You grabbed the Free Reset. You've felt what the BTH approach does.
 
 The 5-Day Reset fixes the stiffness. BTH Foundation makes sure it doesn't come back.
 
-6 weeks. 3 days a week. $19.
+6 weeks. 3 days a week. $31.99.
 
 This is the next step.
 ```
@@ -350,13 +350,13 @@ This is the next step.
 
 ---
 
-### AD 7 — "$19 and You Never Start Over Again"
+### AD 7 — "$31.99 and You Never Start Over Again"
 **Ad name:** `Cold_Tier1_NeverStartOver_v1`
 **Destination URL:** `https://built-to-hoop.com/tier-1.html?utm_source=meta&utm_medium=paid_social&utm_campaign=cold_tier1_direct&utm_content=cold_tier1_neverstartover_v1`
 
 **Headline:**
 ```
-Stop Starting Over. $19 Fixes That.
+Stop Starting Over. $31.99 Fixes That.
 ```
 
 **Primary Text:**
@@ -369,7 +369,7 @@ That cycle doesn't end until you have a system.
 
 BTH Foundation is built around pickup. Not against it. 3 days a week. 6 weeks. Progressive. The readiness framework so you always know when to push and when to back off.
 
-$19 one-time. Instant download.
+$31.99 one-time. Instant download.
 
 7-day refund. No questions.
 ```
@@ -410,7 +410,7 @@ Your patellar tendon isn't conditioned to handle pickup. You need to build it up
 
 The BTH Knee Protection Track is a 3-phase protocol built specifically for hoopers: isometrics → heavy slow resistance → dynamic loading.
 
-$19. Targeted. Built to run alongside your pickup schedule.
+$41.99. Targeted. Built to run alongside your pickup schedule.
 ```
 
 **Call to Action:** Shop Now
@@ -475,7 +475,7 @@ $19. Targeted. Built to run alongside your pickup schedule.
 ---
 
 ## NOTES
-- Do NOT run Tier 2 ($57) or Tier 3 ($27/mo) to cold traffic until Tier 1 is proven
+- Do NOT run Tier 2 ($97) or Tier 3 ($27/mo) to cold traffic until Tier 1 is proven
 - Free Reset → Tier 1 is the proven funnel entry — protect CPL obsessively
 - All ads go to the website first — never direct to Gumroad from cold traffic
 - Check Meta Events Manager after Day 3 to confirm Lead events are firing

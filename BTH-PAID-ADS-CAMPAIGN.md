@@ -10,20 +10,20 @@
 
 ### The Right Traffic Strategy for BTH
 
-Built to Hoop has a $0 entry point (Free Reset), a $19 entry paid product (Tier 1), and a $27/mo membership (Tier 3). That ladder is the entire strategy. Paid ads exist to fill the top of it.
+Built to Hoop has a $0 entry point (Free Reset), a $31.99 entry paid product (Tier 1), and a $27/mo membership (Tier 3). That ladder is the entire strategy. Paid ads exist to fill the top of it.
 
-**Do not lead with $57 or $27/mo to cold traffic.** Cold buyers need a reason to trust the brand before they spend money. The Free Reset is the trust mechanism — it gets the email, proves the method, and creates a reason to upgrade.
+**Do not lead with $97 or $27/mo to cold traffic.** Cold buyers need a reason to trust the brand before they spend money. The Free Reset is the trust mechanism — it gets the email, proves the method, and creates a reason to upgrade.
 
 **Lead offer to cold traffic:** Free 5-Day Reset  
-**First paid offer to warm traffic:** Tier 1 Foundation — $19  
-**Retargeting upsell:** Tier 2 Rise ($57) or Tier 3 Stay Ready ($27/mo)  
+**First paid offer to warm traffic:** Tier 1 Foundation — $31.99<br>
+**Retargeting upsell:** Tier 2 Rise ($97) or Tier 3 Stay Ready ($27/mo)<br>
 
 ### Offer Priority Order
 
 1. **Free Reset** — cold traffic, all paid platforms. Zero barrier, builds list, feeds automation.
-2. **Tier 1 ($19)** — warm traffic (visited site, downloaded reset), retargeting. Easy yes.
+2. **Tier 1 ($31.99)** — warm traffic (visited site, downloaded reset), retargeting. Easy yes.
 3. **Tier 3 ($27/mo)** — retarget buyers + warm email list. All-in pitch after trust is earned.
-4. **Tier 2 ($57)** — retarget Tier 1 buyers who've completed the foundation.
+4. **Tier 2 ($97)** — retarget Tier 1 buyers who've completed the foundation.
 5. **Add-ons** — retarget visitors of specific pain pages (knee.html, mobility.html, bounce.html).
 
 ### Customer Journey
@@ -35,7 +35,7 @@ Meta/Google Ad → Free Reset Landing Page
      ↓
 Email opt-in → Automation Day 1–5 (BTH reset content)
      ↓
-Email Day 3: Tier 1 pitch ($19) — "Ready to build on the reset?"
+Email Day 3: Tier 1 pitch ($31.99) — "Ready to build on the reset?"
      ↓
 Tier 1 purchase → Gumroad receipt → Buyers email sequence
      ↓
@@ -119,7 +119,7 @@ Retargeting ads reinforce at each stage
 - Gender: Primarily male (do not exclude female — test)
 - Location: United States (start), add Canada + UK in week 3+
 - Education: Not needed
-- Income: Middle income and up (they have $19–$57 to spend)
+- Income: Middle income and up (they have $31.99–$97 to spend)
 
 ---
 
@@ -253,7 +253,7 @@ Week 3: Scale winner, test new hook on same angle
 - **Headline:** Get Your Legs Back. Start the 5-Day Reset Free.
 - **Description:** Strength, power, and bounce rebuilt specifically for pickup hoopers.
 - **CTA:** Sign Up
-- **Creative idea:** Video of someone training with text: "This is what training for basketball actually looks like." Show contrast between generic gym exercises and court-integrated movement. End with: "BTH Foundation. $19. Built different."
+- **Creative idea:** Video of someone training with text: "This is what training for basketball actually looks like." Show contrast between generic gym exercises and court-integrated movement. End with: "BTH Foundation. $31.99. Built different."
 - **Why this works:** "Where did my legs go" is an identity pain — it's about who they used to be, not just a physical symptom. This ad goes emotional first, then rational.
 
 ---
@@ -393,7 +393,7 @@ Week 3: Scale winner, test new hook on same angle
   - Not a Generic Fitness Program
   - Start the Free 5-Day Reset Today
   - Basketball-Specific Knee Protocol
-  - $19 Foundation. Built for Hoopers.
+  - $31.99 Foundation. Built for Hoopers.
   - Tendon Health + Pain Reduction
   - Stop Playing Through It Wrong
   - Hoopers Built This. For Hoopers.
@@ -424,7 +424,7 @@ Week 3: Scale winner, test new hook on same angle
 - **Headlines:**
   - Train for Basketball. Not Just the Gym.
   - Built for Adult Hoopers Who Still Run
-  - The BTH Foundation — $19
+  - The BTH Foundation — $31.99
   - 3 Days a Week. Built Around Pickup.
   - Strength, Speed, Bounce. Rebuilt.
   - Start the Free 5-Day Reset
@@ -433,7 +433,7 @@ Week 3: Scale winner, test new hook on same angle
   - Play. Train. Recover. Repeat.
   - Adult Basketball Performance System
 - **Descriptions:**
-  - BTH Foundation is the $19 basketball training system for adult hoopers. 6 weeks of progressive training built around your pickup schedule. Free reset included.
+  - BTH Foundation is the $31.99 basketball training system for adult hoopers. 6 weeks of progressive training built around your pickup schedule. Free reset included.
   - Stop guessing your training. BTH is built specifically for hoopers who still play but need their body to hold up. Start free, stay on the court.
 - **Best landing page:** tier-1.html (or reset.html for lead gen objective)
 - **Why this matters:** Volume keyword group. Many searchers are 30-50 year old hoopers who know they need structure but haven't found a basketball-specific solution.
@@ -466,10 +466,10 @@ Week 3: Scale winner, test new hook on same angle
   - Start the Free 5-Day Reset
   - The BTH Performance System
   - Built for Real Hoopers Over 30
-  - $19 Foundation. Bounce Protocol Included.
+  - $31.99 Foundation. Bounce Protocol Included.
 - **Descriptions:**
   - BTH Foundation rebuilds explosive strength, first step speed, and vertical jump through basketball-specific progressive loading. Start with the free reset.
-  - You didn't lose your bounce. You lost the training that builds it. BTH Foundation rebuilds force production specifically for pickup hoopers. $19.
+  - You didn't lose your bounce. You lost the training that builds it. BTH Foundation rebuilds force production specifically for pickup hoopers. $31.99.
 - **Best landing page:** bounce.html (or tier-1.html)
 - **Why this matters:** This searcher has a very specific, emotionally loaded want. They want to feel athletic again. High conversion intent — they are ready to buy something that promises this outcome credibly.
 
@@ -498,12 +498,12 @@ Week 3: Scale winner, test new hook on same angle
   - Move Better on the Court
   - Basketball-Specific Mobility Work
   - Not Yoga. Not Generic Stretching.
-  - The BTH Mobility System — $19
+  - The BTH Mobility System — $41.99
   - Built for Pickup. Applied to Your Body.
   - Start Free. 5-Day Reset.
   - Real Protocols for Real Hoopers
 - **Descriptions:**
-  - BTH Hip Reset and Ankle Rebuild Tracks are built specifically for basketball movement demands. Structured, progressive, and designed for hoopers who still run. $19.
+  - BTH Hip Reset and Ankle Rebuild Tracks are built specifically for basketball movement demands. Structured, progressive, and designed for hoopers who still run. $41.99 each.
   - Stop doing generic mobility work. BTH mobility protocols are built around pickup basketball patterns — hip loading, ankle stability, court-ready movement. Start free.
 - **Best landing page:** mobility.html or addons.html
 - **Why this matters:** Specific problem → specific solution. These searchers convert well because you can match ad copy exactly to their search term and deliver a directly relevant landing page.
@@ -642,7 +642,7 @@ are not the same thing.
 BTH Foundation trains the patterns, force, and readiness
 that actually transfer to your game.
 
-$19. One time. Built for pickup hoopers.
+$31.99. One time. Built for pickup hoopers.
 Try the free reset first.
 ```
 
@@ -664,7 +664,7 @@ You know exactly which joint it is for you.
 
 BTH has a targeted track for each one.
 Hip Reset. Ankle Rebuild. Knee Protection.
-$19 each. Or start with the free 5-day reset and feel the difference.
+$41.99 each. Or start with the free 5-day reset and feel the difference.
 ```
 
 **7 — The Structure Problem**
@@ -728,7 +728,7 @@ Drop your email and Day 1 of the free reset lands in your inbox.
 4. Built for Hoopers Who Refuse to Stop.
 5. Get Your Bounce Back. Start Today.
 6. Stop the Breakdown Cycle.
-7. Basketball-Specific Training. $19.
+7. Basketball-Specific Training. $31.99.
 8. 5 Days. Free. Built for Pickup Hoopers.
 9. The System Your Body Was Missing.
 10. Built to Hoop. Stay on the Court.
@@ -741,7 +741,7 @@ Drop your email and Day 1 of the free reset lands in your inbox.
 2. Fix Knee Pain and Stay on the Court
 3. Rebuild Bounce, Speed, and Strength
 4. Free 5-Day Basketball Reset — No Card
-5. BTH Foundation — $19 One-Time
+5. BTH Foundation — $31.99 One-Time
 6. Built for Pickup. Not Generic Fitness.
 7. Tight Hips? Sore Knees? Start Here.
 8. Readiness-Based Basketball Training
@@ -752,15 +752,15 @@ Drop your email and Day 1 of the free reset lands in your inbox.
 
 ### 10 Google Search Descriptions
 
-1. BTH Foundation is the $19 basketball training program built for adult hoopers. 6 weeks of structure, pickup recovery rules, and progressive loading. Start free.
+1. BTH Foundation is the $31.99 basketball training program built for adult hoopers. 6 weeks of structure, pickup recovery rules, and progressive loading. Start free.
 2. Stop guessing your training. BTH is the readiness system built specifically for hoopers who still play but need their body to hold up. Free reset included.
 3. Knee pain, tight hips, lost bounce — BTH has specific protocols for each. Start with the free 5-day reset and feel the difference before you buy anything.
 4. Built to Hoop is the basketball performance system for adult hoopers. Not a generic workout — a structured program built around your pickup schedule.
-5. The BTH Knee Protection Track reduces pain and rebuilds the tendons that keep breaking down. $19. Built specifically for pickup basketball demands.
+5. The BTH Knee Protection Track reduces pain and rebuilds the tendons that keep breaking down. $41.99. Built specifically for pickup basketball demands.
 6. Get your first step back. BTH Foundation rebuilds explosive strength and court speed through basketball-specific progressive loading. Free reset first.
-7. You don't need to stop playing. You need the right training. BTH Foundation keeps you on the court while rebuilding what matters. $19 one-time.
+7. You don't need to stop playing. You need the right training. BTH Foundation keeps you on the court while rebuilding what matters. $31.99 one-time.
 8. Every pickup hooper over 30 needs a readiness framework. BTH gives you one. Train. Play. Recover. Repeat. Start with the free 5-day reset.
-9. Tendon health, hip mobility, ankle stability, and bounce — all in one basketball-specific system. Start free. Upgrade to Foundation for $19.
+9. Tendon health, hip mobility, ankle stability, and bounce — all in one basketball-specific system. Start free. Upgrade to Foundation for $31.99.
 10. Built from real pickup training logs. BTH Foundation is the system that keeps adult hoopers playing longer, moving better, and breaking down less.
 
 ---
@@ -799,7 +799,7 @@ You did the reset.
 You felt what BTH training is about.
 
 The Foundation is the next step.
-6 weeks. $19. Builds everything the reset started.
+6 weeks. $31.99. Builds everything the reset started.
 Your legs are asking for it.
 ```
 **Headline:** Ready to Build on the Reset? → Tier 1 Foundation.
@@ -808,14 +808,14 @@ Your legs are asking for it.
 
 **Retarget 4 — Visited Tier 1 Page, Did Not Buy**
 ```
-The BTH Foundation is $19.
+The BTH Foundation is $31.99.
 One time. No subscription.
 You keep it forever.
 
 If you're still playing pickup and your body isn't cooperating —
 this is the program. Not a program. The program.
 ```
-**Headline:** $19. One Time. Keep It Forever. → Get Foundation
+**Headline:** $31.99. One Time. Keep It Forever. → Get Foundation
 
 ---
 
@@ -836,12 +836,10 @@ Built for hoopers who are all-in.
 
 ### 5 Urgency / Scarcity Ad Copy Examples
 
-**Urgency 1 — Launch Price**
+**Urgency 1 — Rise One-Time Offer**
 ```
-Tier 2 is $57 right now.
-Goes to $67 after the first 5 testimonials come in.
-You lock in the launch rate. You own it forever.
-This is the last time it's this price.
+Tier 2 is $97.
+One time. You own the full program forever.
 ```
 
 **Urgency 2 — Season-Based**
@@ -863,7 +861,7 @@ Start the reset. Today. Not next week.
 **Urgency 4 — Founding Group**
 ```
 The first 100 BTH members get the founding price.
-$19 Tier 1. $27/mo Tier 3.
+$31.99 Tier 1. $27/mo Tier 3.
 After 100, the prices go up.
 Get in before the price changes.
 ```
@@ -921,7 +919,7 @@ BTH Foundation includes:
 — Keep the Bounce protocol
 — Instant Gumroad download after purchase
 
-$19. One time. Yours forever.
+$31.99. One time. Yours forever.
 Not a subscription. Not a membership you forget to cancel.
 Just the program.
 ```
@@ -932,7 +930,7 @@ If you go through the BTH Foundation for 30 days
 and feel like it wasn't built for what you needed —
 Gumroad gives you a full refund. No questions.
 
-$19. Try it. The risk is on us.
+$31.99. Try it. The risk is on us.
 ```
 
 **Trust 5 — No Hype**
@@ -995,7 +993,7 @@ That's it. That's the claim. It's real.
 |----------|-----------|-------|----------|
 | All site visitors 7d | Awareness reminder | Free Reset | Meta |
 | Reset page visitors 14d | "Still thinking about it?" | Free Reset | Meta |
-| Tier 1 page visitors 30d | "$19. One time. Risk-free." | Tier 1 | Meta + Google |
+| Tier 1 page visitors 30d | "$31.99. One time. Risk-free." | Tier 1 | Meta + Google |
 | Email leads (non-buyers) | "Ready to take the next step?" | Tier 1 | Meta |
 | Tier 1 buyers | "Go all-in with Stay Ready" | Tier 3 | Meta |
 | Checkout abandoners | "You were one click away" | Tier 1 or Tier 3 | Meta |
@@ -1054,8 +1052,8 @@ Priority order:
 | Conversion | Type | Value |
 |-----------|------|-------|
 | Email signup (Lead) | Lead | $3–$5 (estimated value) |
-| Tier 1 Purchase | Purchase | $19 |
-| Tier 2 Purchase | Purchase | $57 |
+| Tier 1 Purchase | Purchase | $31.99 |
+| Tier 2 Purchase | Purchase | $97 |
 | Tier 3 Purchase | Purchase | $27 |
 
 **Setup:** Import GA4 goals into Google Ads. Or use Google Ads tag directly.
@@ -1134,7 +1132,7 @@ https://built-to-hoop.com/reset.html
 - 50–100 daily landing page visits
 - 5–15 email leads per day at $3–$8 CPL
 - 1–3 Tier 1 purchases per week
-- $19–$57 weekly revenue from paid ads alone
+- $31.99–$95.97 weekly revenue from paid ads alone
 - First 30 days: break-even to small loss — this is data collection, not profit yet
 
 **How long to test before changing:** 7 full days minimum on any single ad creative. 14 days before making campaign-level decisions.
@@ -1319,8 +1317,8 @@ https://built-to-hoop.com/reset.html
 - **Hook:** "This is what BTH training actually looks like."
 - **Visual:** Someone doing court-integrated movements — not in a gym, on or near a court. Progressive. Purposeful.
 - **Text on screen:** Labels for each movement ("Hip reset," "Force production," "Pickup recovery protocol")
-- **Caption:** "Not generic fitness. Basketball fitness. The BTH Foundation trains the exact patterns your pickup game demands. $19. Start free."
-- **CTA:** Get Foundation — $19
+- **Caption:** "Not generic fitness. Basketball fitness. The BTH Foundation trains the exact patterns your pickup game demands. $31.99. Start free."
+- **CTA:** Get Foundation — $31.99
 
 ---
 
@@ -1347,7 +1345,7 @@ https://built-to-hoop.com/reset.html
 **Image 1 — Dark Background / Bold Text**
 - Visual: Black background, white Oswald type, gold accent line
 - Text: "THE COURT ISN'T DONE WITH YOU. / Your body just needs the right system."
-- Subtext: "BTH Foundation — $19 — Built for Hoopers"
+- Subtext: "BTH Foundation — $31.99 — Built for Hoopers"
 - Why: Clean, premium, emotional. Works as a static stop in the feed.
 
 **Image 2 — Court Graphic**
@@ -1374,10 +1372,10 @@ https://built-to-hoop.com/reset.html
 
 **Carousel 2 — The BTH Product Ladder**
 - Card 1: "Start Here — Free 5-Day Reset"
-- Card 2: "Build Here — Tier 1 Foundation ($19)"
-- Card 3: "Level Up — Tier 2 Rise ($57)"
+- Card 2: "Build Here — Tier 1 Foundation ($31.99)"
+- Card 3: "Level Up — Tier 2 Rise ($97)"
 - Card 4: "Go All-In — Tier 3 Stay Ready ($27/mo)"
-- Card 5: "Specific Problem? Add-On Tracks ($19 each)"
+- Card 5: "Specific Problem? Add-On Tracks ($41.99 each)"
 - Final card: "Where do you start? The reset. Link below."
 
 ---
@@ -1491,7 +1489,7 @@ Start with 10 keywords total:
 ## QUICK REFERENCE — BTH CAMPAIGN SUMMARY
 
 **Lead offer:** Free 5-Day Reset (reset.html)  
-**Paid entry offer:** Tier 1 Foundation — $19 (tier-1.html)  
+**Paid entry offer:** Tier 1 Foundation — $31.99 (tier-1.html)<br>
 **Upsell:** Tier 3 Stay Ready — $27/mo (tier-3.html)  
 
 **Meta cold target:** Men 28–48, basketball interest, US  
