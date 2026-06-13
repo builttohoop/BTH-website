@@ -916,13 +916,13 @@ Not a subscription. Not a membership you forget to cancel.
 Just the program.
 ```
 
-**Trust 4 — Guarantee**
+**Trust 4 — Know Before You Buy**
 ```
-If you go through the BTH Foundation for 30 days
-and feel like it wasn't built for what you needed —
-Gumroad gives you a full refund. No questions.
+You see exactly what's inside before you buy —
+the phases, the weekly structure, every movement.
+No subscription. No auto-renew. One payment, yours forever.
 
-$31.99. Try it. The risk is on us.
+$31.99. All sales final — so buy it knowing exactly what you're getting.
 ```
 
 **Trust 5 — No Hype**
@@ -1381,7 +1381,7 @@ https://built-to-hoop.com/reset.html
 - [ ] Create a thank-you page (`/thank-you.html`) — fires the Lead pixel event, says "Day 1 is on its way"
 - [ ] Check Tier 1 Gumroad link works on mobile — buy your own product with a test card
 - [ ] Add 2–3 screenshots of Tier 1 content to tier-1.html (what does the program look like?)
-- [ ] Add the guarantee language near every Gumroad buy button: "7-day refund via Gumroad. No questions."
+- [ ] Show the policy near every Gumroad buy button: "All sales final · No refunds"
 - [ ] Test mobile nav on an actual phone — does it open, close, keyboard navigate?
 
 ### Step 2 — Install Tracking

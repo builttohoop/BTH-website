@@ -17,7 +17,7 @@ _Format: Product Name → Summary → Description body_
 **Price:** $31.99 (one-time)
 
 ### Name
-BTH Foundation — The 6-Week Hooper Program
+BTH Foundation — The 3-Day System Built Around Pickup
 
 ### Summary (140 chars max — shown under price)
 The structured way back. 6 weeks. 3 days a week. Built around pickup, not against it. Fix the pain. Build the base. Keep playing.
@@ -72,7 +72,7 @@ A 3-day training structure built around pickup — so you can train AND play wit
 - Instant digital download via Gumroad
 - Works at any standard gym (Planet Fitness level)
 - No subscriptions — buy once, keep forever
-- **7-day refund via Gumroad. No questions asked.**
+- **All sales final · No refunds.**
 
 ---
 
@@ -132,7 +132,7 @@ Not sure? Start with Foundation. You'll know when you're ready for Rise.
 - Instant digital download
 - Standard gym setup required (dumbbells, barbell, box)
 - One-time payment — keep forever
-- **7-day refund via Gumroad. No questions asked.**
+- **All sales final · No refunds.**
 
 ---
 
@@ -199,7 +199,7 @@ Hoopers who know they want the full system. Guys who would run more than two pro
 
 - Cancel monthly anytime. Keep everything you've already downloaded.
 - Annual plan locks in the rate for 12 months.
-- **7-day refund via Gumroad. No questions asked.**
+- **All sales final · No refunds.**
 
 ---
 
@@ -250,7 +250,7 @@ The BTH Hip Reset Track is the targeted rebuild.
 **Part of the Injury Bundle:**
 The Hip Reset pairs with Knee Protection and Ankle Rebuild. Run all three together in sequence (ankle → knee → hip) for the full joint rebuild. [Bundle available — save $45.98 off standalone pricing.]
 
-**7-day refund via Gumroad. No questions asked.**
+**All sales final · No refunds.**
 
 ---
 
@@ -259,7 +259,7 @@ The Hip Reset pairs with Knee Protection and Ankle Rebuild. Run all three togeth
 **Price:** $41.99
 
 ### Name
-BTH Knee Protection Track — Patellar Tendon Rebuild + Jump Load Protocol
+BTH Knee Protection — The Knee-Saving Track for Hoopers Who Still Play
 
 ### Summary
 For the patellar tendon pain, the knees that ache after hard jumps, the VMO weakness you feel every time you land. Built on the actual tendon rehab science, not generic "quad sets."
@@ -301,7 +301,7 @@ The BTH Knee Protection Track is built on tendon load science: isometrics → he
 **Part of the Injury Bundle:**
 Pairs with Hip Reset and Ankle Rebuild. Run in sequence for the full joint chain.
 
-**7-day refund via Gumroad. No questions asked.**
+**All sales final · No refunds.**
 
 ---
 
@@ -310,7 +310,7 @@ Pairs with Hip Reset and Ankle Rebuild. Run in sequence for the full joint chain
 **Price:** $41.99
 
 ### Name
-BTH Ankle Rebuild Track — 3-Phase Stability + Strength Rebuild for Hoopers
+BTH Ankle Rebuild — The Ankle Stability Track for Hoopers
 
 ### Summary
 For the chronic sprains, the ankles that just roll, the calf/achilles tightness and unstable landings. The full rebuild — not another resistance band routine.
@@ -352,7 +352,7 @@ The BTH Ankle Rebuild Track rebuilds that trust through a progressive, 3-phase p
 **Part of the Injury Bundle:**
 Run ankle first, then knee, then hip. That's the sequence.
 
-**7-day refund via Gumroad. No questions asked.**
+**All sales final · No refunds.**
 
 ---
 
@@ -400,7 +400,7 @@ The BTH Skill Builder Track is that system.
 
 ---
 
-**7-day refund via Gumroad. No questions asked.**
+**All sales final · No refunds.**
 
 ---
 
@@ -448,7 +448,7 @@ The BTH Recovery System gives you the full picture.
 
 ---
 
-**7-day refund via Gumroad. No questions asked.**
+**All sales final · No refunds.**
 
 ---
 
@@ -457,7 +457,7 @@ The BTH Recovery System gives you the full picture.
 **Price:** $79.99 (Hip + Knee + Ankle standalone = $125.97)
 
 ### Name
-BTH Injury Bundle — Hip + Knee + Ankle Rebuild (Sequenced)
+BTH Injury Bundle — Hip Reset + Knee Protection + Ankle Rebuild
 
 ### Summary
 All three joint rebuild tracks, sequenced the way they should be run: ankle foundation → knee tracking → hip control. For hoopers who've been bouncing between YouTube, PT, and guesswork with no system.
@@ -499,4 +499,4 @@ A day-by-day protocol for the first 30 days back after a layoff or injury. Not j
 
 ---
 
-**7-day money-back guarantee via Gumroad. No questions asked.**
+**All sales final · No refunds.**

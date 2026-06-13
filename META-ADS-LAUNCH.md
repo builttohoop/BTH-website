@@ -256,13 +256,13 @@ BTH Foundation is the structured way out.
 
 $31.99. One-time. Keep it forever.
 
-7-day refund if it's not for you. No questions.
+No subscription. No auto-renew. Yours the day you buy it.
 ```
 
 **Call to Action:** Shop Now
 **Description:**
 ```
-$31.99 one-time. 7-day refund guarantee.
+$31.99 one-time. All sales final.
 ```
 
 ---
@@ -371,7 +371,7 @@ BTH Foundation is built around pickup. Not against it. 3 days a week. 6 weeks. P
 
 $31.99 one-time. Instant download.
 
-7-day refund. No questions.
+One payment. Yours forever.
 ```
 
 **Call to Action:** Shop Now
