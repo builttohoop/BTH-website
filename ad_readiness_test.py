@@ -34,16 +34,19 @@ CORE_PAGES = [
 
 PRODUCT_PAGES = ["/tier-1.html", "/tier-2.html", "/tier-3.html", "/addons.html"]
 
+# Live Gumroad permalinks (readable slugs) → home page + display label.
+# Prices verified against the Gumroad CLI + live pages on 2026-06-16.
+# The site links these as gumroad.com/l/<slug> anchors (overlay + embed checkout).
 GUMROAD_SLUGS = {
-    "ecyzaa":  ("tier-1.html", "BTH Foundation $19"),
-    "groedz":  ("tier-2.html", "BTH Rise $57"),
-    "thxqs":   ("tier-3.html", "BTH Stay Ready $27/mo"),
-    "dwcyc":   ("addons.html", "Hip Reset $19"),
-    "novpg":   ("addons.html", "Knee Protection $19"),
-    "mtqyvi":  ("addons.html", "Ankle Rebuild $19"),
-    "axona":   ("addons.html", "Skill Builder $19"),
-    "xbxhqc":  ("addons.html", "Recovery System $19"),
-    "esgvfq":  ("addons.html", "Bundle $47"),
+    "bth-foundation":    ("tier-1.html", "BTH Foundation $31.99"),
+    "bth-rise":          ("tier-2.html", "BTH Rise $97"),
+    "stay-ready":        ("tier-3.html", "BTH Stay Ready $27/mo or $197/yr"),
+    "hip-reset":         ("addons.html", "Hip Reset $41.99"),
+    "knee-protection":   ("addons.html", "Knee Protection $41.99"),
+    "ankle-rebuild":     ("addons.html", "Ankle Rebuild $41.99"),
+    "skill-builder":     ("addons.html", "Skill Builder $41.99"),
+    "recovery-system":   ("addons.html", "Recovery System $41.99"),
+    "bth-injury-bundle": ("addons.html", "Injury Bundle $79.99"),
 }
 
 # ─── helpers ──────────────────────────────────────────────────────────────────
@@ -283,10 +286,10 @@ for path in guarantee_pages:
 
 # Price visible on product pages
 price_checks = {
-    "/tier-1.html": "$19",
-    "/tier-2.html": "$57",
-    "/tier-3.html": "$27",
-    "/addons.html": "$19",
+    "/tier-1.html": "$31.99",   # BTH Foundation (one-time)
+    "/tier-2.html": "$97",      # BTH Rise (one-time)
+    "/tier-3.html": "$27",      # BTH Stay Ready ($27/mo membership)
+    "/addons.html": "$41.99",   # individual tracks (bundle is $79.99)
 }
 for path, price in price_checks.items():
     r = pages.get(path)
