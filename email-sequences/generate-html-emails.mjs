@@ -389,15 +389,16 @@ ${sig()}
   // EMAIL 6 — URGENCY CLOSE
   {
     filename: 'email-6-urgency-close.html',
-    subject: 'your code expires tonight',
+    subject: 'The reset\'s done. Keep the body that earned it.',
     body: `
 ${greeting()}
 ${p('Quick one.')}
-${p('Your 10% discount code — <strong style="color:${BRAND.gold};letter-spacing:0.06em;">RISE10</strong> — expires tonight.')}
-${p('After that, BTH Rise is $27/month. Which is still the best deal in the system. But if you want the first month at $24.30, today is the day.')}
+${p('You finished the reset. Five days in, your hips are looser, your ankles move better, your knees feel less stacked. You earned that.')}
+${p('But a reset is maintenance, not building. Stop now and it slips. Keep going and you build on top of it.')}
+${p('That\'s what BTH Rise is for. Foundation Month picks up exactly where the reset left off — $27/month, cancel anytime, keep everything you download.')}
 ${membershipCta(false)}
-${p('If you have questions — reply to this email. I read every one.')}
-${p('If you\'re not ready yet — no pressure. The list stays open. But don\'t let the code go to waste if you were already thinking about it.')}
+${p('Questions? Reply to this email. I read every one.')}
+${p('Not ready yet? No pressure — the list stays open. But the body you just earned is worth keeping.')}
 ${sig()}
 `},
 

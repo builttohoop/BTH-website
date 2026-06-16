@@ -358,9 +358,8 @@ Then ask yourself: am I looser than I was Monday? If yes — that's what the sys
 
 ## EMAIL 6 — DAY 6 / URGENCY CLOSE
 **Send:** Day 6 (24hr after Day 5)
-**Subject A:** `your code expires tonight`
-**Subject B:** `24 hours left on RISE10`
-**Preview:** `After tonight it's full price.`
+**Subject A:** `The reset's done. Keep the body that earned it.`
+**Preview:** `5 days got you moving better. Here's how you keep it.`
 
 ---
 
@@ -368,15 +367,17 @@ Then ask yourself: am I looser than I was Monday? If yes — that's what the sys
 
 Quick one.
 
-Your 10% discount code — **RISE10** — expires tonight.
+You finished the reset. Five days in, your hips are looser, your ankles move better, your knees feel less stacked. You earned that.
 
-After that, BTH Rise is $27/month. Which is still the best deal in the system. But if you want the first month at $24.30, today is the day.
+But a reset is maintenance, not building. Stop now and it slips. Keep going and you build on top of it.
+
+That's what BTH Rise is for. Foundation Month picks up exactly where the reset left off — $27/month, cancel anytime, keep everything you download.
 
 → https://builttohoop.gumroad.com/l/thxqs
 
-If you have questions — reply to this email. I read every one.
+Questions? Reply to this email. I read every one.
 
-If you're not ready yet — no pressure. The list stays open. But don't let the code go to waste if you were already thinking about it.
+Not ready yet? No pressure — the list stays open. But the body you just earned is worth keeping.
 
 — Ty, BTH
 
