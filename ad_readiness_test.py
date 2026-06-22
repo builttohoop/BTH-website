@@ -273,16 +273,17 @@ for slug, (expected_page, label) in GUMROAD_SLUGS.items():
 # ═══════════════════════════════════════════════════════════════════════════════
 section("4 / 6  —  CONVERSION ELEMENTS")
 
-# Guarantee language near buy buttons
-guarantee_pages = {"/tier-1.html", "/tier-2.html", "/tier-3.html", "/addons.html"}
-for path in guarantee_pages:
+# Refund / cancellation policy stated near buy buttons
+# BTH policy is "All sales final - No refunds" (memberships add "Cancel anytime") - NOT a money-back guarantee.
+policy_pages = {"/tier-1.html", "/tier-2.html", "/tier-3.html", "/addons.html"}
+for path in policy_pages:
     r = pages.get(path)
     if r and r.status_code == 200:
         txt = r.text.lower()
-        if "refund" in txt or "guarantee" in txt or "money-back" in txt:
-            ok(f"Guarantee language on {path}")
+        if "no refunds" in txt or "all sales final" in txt or "cancel anytime" in txt:
+            ok(f"Refund policy stated on {path}")
         else:
-            fail(f"No guarantee language on {path}", "add '7-day refund' near buy button")
+            fail(f"No refund policy on {path}", "state the policy near the buy button, e.g. 'All sales final - No refunds' (memberships: 'Cancel anytime - No refunds')")
 
 # Price visible on product pages
 price_checks = {
