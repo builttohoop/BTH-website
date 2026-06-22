@@ -1,0 +1,58 @@
+{
+  "_README": "Canonical BTH announcement registry — the single source of truth for the Updates page (web), the app's What's New (mirrored into bth-app-native/src/content/announcements.ts), and the email broadcast. To post a new update: add an entry at the TOP of `items` and re-render each surface. Voice: veteran hooper — direct, athletic, premium, real. No hype. `audience`: \"public\" shows everywhere; \"member\" gets a 'Member Update' badge on the site (label-only — the site has no auth) and is gated to members in the app.",
+  "updated_at": "2026-06-22",
+  "items": [
+    {
+      "id": "reset-upgrade-2026-06",
+      "area": "Resource",
+      "title": "The 5-Day Reset, Rebuilt",
+      "status": "New & Improved",
+      "status_tone": "new",
+      "audience": "public",
+      "eyebrow": "Free Update",
+      "summary": "Same 5 days. More depth. Still free — and already yours.",
+      "body": "You already trusted BTH with the original 5-Day Reset. We took it back into the lab and rebuilt it deeper — clearer day-by-day structure, more detail on every movement, and real lower-body protection woven through all five days. Same five days you know. More complete. The original got people moving again — that was never the problem. This is the next version of it, and it's free for everyone already on the list. If you ran the first Reset, this is your upgrade. Re-download Day 1 and feel the difference.",
+      "cta": { "label": "Get the upgraded Reset", "href": "reset.html" },
+      "date": "2026-06-22"
+    },
+    {
+      "id": "bth-app-coming-soon",
+      "area": "App",
+      "title": "The BTH App",
+      "status": "Coming Soon",
+      "status_tone": "soon",
+      "audience": "public",
+      "eyebrow": "In Testing",
+      "summary": "Your whole BTH system — in your pocket.",
+      "body": "One home for your training, your updates, and your access. Your next session picked for you off how your body's responding, your streak, every track, and announcements like this one — all in one place. It's built and in testing now. Members get in first — and it all starts with the Free Reset.",
+      "cta": { "label": "Start the Free Reset", "href": "reset.html" },
+      "date": "2026-06-22"
+    },
+    {
+      "id": "bth-rise-available",
+      "area": "Program",
+      "title": "BTH Rise",
+      "status": "Available Now",
+      "status_tone": "live",
+      "audience": "public",
+      "eyebrow": "The Performance System",
+      "summary": "The 12-week system built to make you faster — and keep you on the court while it does.",
+      "body": "BTH Rise is the performance half of the method — 12 weeks across Strength to Bounce, Game Speed, and Stay Ready. Built for the hooper who's done breaking down and wants it to show up on the court: jump higher, move quicker, hold up deeper into the run. Open to everyone — included in your Stay Ready membership, or one-time on its own.",
+      "cta": { "label": "See BTH Rise", "href": "tier-2.html" },
+      "date": "2026-06-22"
+    },
+    {
+      "id": "lower-body-protection",
+      "area": "Inside Rise",
+      "title": "Extra Lower-Body Protection",
+      "status": "Now Included",
+      "status_tone": "live",
+      "audience": "member",
+      "eyebrow": "Member Update",
+      "summary": "Built to keep your hips, knees and ankles in the game while you build.",
+      "body": "Rise doesn't just build power — it protects the joints that pay for it. Dedicated work for hips, knees, ankles, shins, tendons and landing mechanics is built into the system, so you keep getting stronger without breaking down to do it. Members: it's already live in your Rise track — no extra step, no extra cost.",
+      "cta": { "label": "Open your Rise track", "href": "https://app.built-to-hoop.com" },
+      "date": "2026-06-22"
+    }
+  ]
+}

@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BTH Reset · Day 05 · Power Reset</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 8.5in; background: #FFFFFF; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  color: #111318;
+  font-size: 10.5pt;
+  line-height: 1.5;
+  padding: 0;
+}
+
+/* ─── TOP BAR ─── */
+.top-bar {
+  background: #111318;
+  padding: 16px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.logo {
+  font-family: 'Oswald', sans-serif;
+  font-size: 16pt;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #FFFFFF;
+}
+.logo span { color: #E6A800; }
+.top-label {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 8pt;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+}
+
+/* ─── HERO BAND ─── */
+.hero-band {
+  background: #E6A800;
+  padding: 24px 40px 22px;
+  position: relative;
+  overflow: hidden;
+}
+.hero-band::after {
+  content: '05';
+  position: absolute;
+  right: -8px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: 'Oswald', sans-serif;
+  font-size: 120pt;
+  font-weight: 700;
+  color: rgba(17,19,24,0.08);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  pointer-events: none;
+}
+.day-label {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 8pt;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgba(17,19,24,0.6);
+  margin-bottom: 6px;
+}
+.day-title {
+  font-family: 'Oswald', sans-serif;
+  font-size: 34pt;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: #111318;
+  line-height: 0.95;
+  margin-bottom: 8px;
+}
+.day-tagline {
+  font-size: 10.5pt;
+  font-weight: 500;
+  color: rgba(17,19,24,0.65);
+}
+.day-meta {
+  position: relative;
+  z-index: 2;
+  margin-top: 12px;
+  display: flex;
+  gap: 22px;
+}
+.day-meta div { font-size: 8pt; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(17,19,24,0.7); }
+.day-meta b { display: block; font-family: 'Oswald', sans-serif; font-size: 12pt; letter-spacing: 0.04em; color: #111318; margin-top: 2px; }
+
+/* ─── MAIN CONTENT ─── */
+.content { padding: 22px 40px 0; }
+
+/* ─── INTRO ─── */
+.intro-block {
+  background: #F3EFE7;
+  border-left: 3px solid #E6A800;
+  padding: 13px 18px;
+  margin-bottom: 20px;
+  border-radius: 0 2px 2px 0;
+}
+.intro-text { font-size: 9.5pt; color: rgba(17,19,24,0.78); line-height: 1.6; }
+
+/* ─── BLOCK ─── */
+.block { margin-bottom: 18px; break-inside: avoid; }
+.block-label {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 8pt;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #E6A800;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+.block-label em { font-style: normal; font-weight: 600; letter-spacing: 0.04em; color: rgba(17,19,24,0.4); text-transform: none; font-size: 8.5pt; }
+
+/* ─── EXERCISE CARD ─── */
+.exercise {
+  background: #FFFFFF;
+  border: 1px solid rgba(17,19,24,0.12);
+  border-radius: 2px;
+  padding: 13px 18px;
+  margin-bottom: 8px;
+  border-left: 3px solid #111318;
+  break-inside: avoid;
+}
+.ex-header { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 6px; }
+.ex-num {
+  font-family: 'Oswald', sans-serif;
+  font-size: 17pt;
+  font-weight: 700;
+  color: #E6A800;
+  line-height: 1;
+  flex-shrink: 0;
+  width: 30px;
+}
+.ex-name {
+  font-family: 'Oswald', sans-serif;
+  font-size: 12.5pt;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: #111318;
+  line-height: 1.1;
+}
+.ex-sets { font-size: 8.5pt; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #E6A800; margin-top: 3px; }
+.ex-cue { font-size: 9pt; color: rgba(17,19,24,0.7); line-height: 1.55; padding-left: 44px; }
+
+/* ─── FEEL / FOCUS ─── */
+.feel-band { margin: 20px 0 0; padding: 16px 18px; background: #111318; border-radius: 2px; break-inside: avoid; }
+.feel-title { font-family: 'Oswald', sans-serif; font-size: 9pt; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #E6A800; margin-bottom: 8px; }
+.feel-list { list-style: none; display: flex; flex-wrap: wrap; gap: 6px 22px; margin-bottom: 12px; }
+.feel-list li { font-size: 9pt; color: rgba(255,255,255,0.82); position: relative; padding-left: 16px; }
+.feel-list li::before { content: '↑'; position: absolute; left: 0; color: #E6A800; font-weight: 700; }
+.focus-line { font-size: 9pt; color: rgba(255,255,255,0.7); line-height: 1.55; border-top: 1px solid rgba(255,255,255,0.12); padding-top: 10px; }
+.focus-line b { color: #E6A800; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; font-size: 8pt; }
+
+/* ─── FOOTER ─── */
+.foot {
+  padding: 18px 40px 18px;
+  margin-top: 18px;
+  border-top: 1px solid rgba(17,19,24,0.12);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.foot-logo { font-family: 'Oswald', sans-serif; font-size: 10pt; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(17,19,24,0.3); }
+.foot-logo span { color: #E6A800; }
+.foot-url { font-size: 8pt; color: rgba(17,19,24,0.3); letter-spacing: 0.04em; }
+.foot-day { font-family: 'Oswald', sans-serif; font-size: 9pt; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(17,19,24,0.35); }
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  <div class="logo">Built to <span>Hoop</span></div>
+  <div class="top-label">Free 5-Day Reset</div>
+</div>
+
+<!-- HERO BAND -->
+<div class="hero-band">
+  <div class="day-label">Day 05 of 05</div>
+  <div class="day-title">Power Reset</div>
+  <div class="day-tagline">Turn five days of work into game-ready power.</div>
+  <div class="day-meta">
+    <div>Goal<b>POWER</b></div>
+    <div>Time<b>20–25 MIN</b></div>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="content">
+
+  <!-- INTRO -->
+  <div class="intro-block">
+    <p class="intro-text">Rapidly convert all your resetting into game-ready power. This is what the first four days were building toward. Land soft. Absorb first — then explode. Don’t crash into the ground and hope. The power comes from control, not force — the same principle as every day this week.</p>
+  </div>
+
+  <!-- BLOCKS -->
+  
+    <div class="block">
+      <div class="block-label"><span>Movement Block</span><em>Convert mobility to power</em></div>
+      
+      <div class="exercise">
+        <div class="ex-header">
+          <span class="ex-num">01</span>
+          <div>
+            <div class="ex-name">Skater Bounds</div>
+            <div class="ex-sets">3 × 4 each side</div>
+          </div>
+        </div>
+        <p class="ex-cue">Land on one leg. Absorb and hold. Load before you explode.</p>
+      </div>
+      <div class="exercise">
+        <div class="ex-header">
+          <span class="ex-num">02</span>
+          <div>
+            <div class="ex-name">Scissor Jumps</div>
+            <div class="ex-sets">3 × 8</div>
+          </div>
+        </div>
+        <p class="ex-cue">Quick switch. Land soft. Stay springy between reps.</p>
+      </div>
+      <div class="exercise">
+        <div class="ex-header">
+          <span class="ex-num">03</span>
+          <div>
+            <div class="ex-name">Side Lunge + Crossover Step</div>
+            <div class="ex-sets">2 × 6 each side</div>
+          </div>
+        </div>
+        <p class="ex-cue">Lateral load, then cross. Feel the hip working.</p>
+      </div>
+    </div>
+    <div class="block">
+      <div class="block-label"><span>Athletic Block</span><em>Speed and explosiveness</em></div>
+      
+      <div class="exercise">
+        <div class="ex-header">
+          <span class="ex-num">04</span>
+          <div>
+            <div class="ex-name">Approach Jumps</div>
+            <div class="ex-sets">3 × 3</div>
+          </div>
+        </div>
+        <p class="ex-cue">Two-step run-up. Jump, land, and stick. Full intent on each one.</p>
+      </div>
+      <div class="exercise">
+        <div class="ex-header">
+          <span class="ex-num">05</span>
+          <div>
+            <div class="ex-name">Reactive Sprints (Short)</div>
+            <div class="ex-sets">4 × 1</div>
+          </div>
+        </div>
+        <p class="ex-cue">Accelerate hard. Stop under control. 10–15 yards max.</p>
+      </div>
+    </div>
+    <div class="block">
+      <div class="block-label"><span>Big Finish</span><em>2-minute basketball finisher — 1 round, full intent</em></div>
+      
+      <div class="exercise">
+        <div class="ex-header">
+          <span class="ex-num">06</span>
+          <div>
+            <div class="ex-name">Dribble Drills (any)</div>
+            <div class="ex-sets">1 round</div>
+          </div>
+        </div>
+        <p class="ex-cue">Move like a hooper. This is what the whole week was for.</p>
+      </div>
+      <div class="exercise">
+        <div class="ex-header">
+          <span class="ex-num">07</span>
+          <div>
+            <div class="ex-name">Layups</div>
+            <div class="ex-sets">Full intent</div>
+          </div>
+        </div>
+        <p class="ex-cue">Finish clean at the rim. Every one counts.</p>
+      </div>
+      <div class="exercise">
+        <div class="ex-header">
+          <span class="ex-num">08</span>
+          <div>
+            <div class="ex-name">Pull-Up Jumpers</div>
+            <div class="ex-sets">Full intent</div>
+          </div>
+        </div>
+        <p class="ex-cue">Explode to your spot. Shoot with authority.</p>
+      </div>
+    </div>
+
+  <!-- FEEL / FOCUS -->
+  <div class="feel-band">
+    <div class="feel-title">What you should feel</div>
+    <ul class="feel-list"><li>Light — move explosive</li><li>Reactive off the floor</li><li>Powerful when it counts</li></ul>
+    <div class="focus-line"><b>Focus</b> &nbsp;Full intent every rep. Land soft, explode fast. Finish strong. Five days done — now go unleash your game.</div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="foot">
+  <div class="foot-logo">Built to <span>Hoop</span></div>
+  <div class="foot-day">Five days done. Go unleash your game.</div>
+  <div class="foot-url">built-to-hoop.com</div>
+</div>
+
+</body>
+</html>

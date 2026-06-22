@@ -18,143 +18,224 @@ const C = {
 };
 
 // ─── DAY DATA ───
+// CANONICAL SOURCE: the real "_v2" Free 5-Day Reset PDFs in Ty's Drive
+// (folder 1zPk3z3erNdwCSv7qCTQkQMb3xGw4IFwV, set dated 2026-05-31).
+// The earlier delivered version drifted (Days 3/4/5 had the wrong titles and
+// moves). This restores the real program — titles, blocks, exercises, cues.
 const days = [
   {
     num: '01',
-    title: 'Hip Release',
+    title: 'Hip Reset',
+    goal: 'RESET',
+    time: '15–20 MIN',
     tagline: 'Open what pickup locks.',
-    intro: 'Most guys are tight here — not from age, but because pickup loads the hips and nobody ever resets them. Do these three moves in order. Take your time on each.',
-    note: 'You\'ll feel this working before you finish. That\'s the hip flexors and glutes activating like they\'re supposed to.',
-    exercises: [
+    intro: 'Open your hips, reduce stiffness, and give your body a foundation worth building on. Move slow on every rep — this is not a conditioning workout. No pain. If something pinches, back off immediately. This is about control and position, not effort.',
+    blocks: [
       {
-        name: '90/90 Hip Switch',
-        sets: '3 rounds · 30 sec each side',
-        cue: 'Sit on the floor, both legs bent at 90°. Rotate slowly side to side. Let the back hip open — don\'t force it, let gravity do the work.',
+        label: 'Reset Block',
+        sub: 'Breathing + hip mobility first',
+        exercises: [
+          { name: '90/90 Hip Lift Breathing', sets: '2–3 × 4 breaths / side', cue: 'Exhale fully at the bottom. Let the hip melt. No forcing range.' },
+          { name: 'Adductor Rockbacks', sets: '2 × 6 each side', cue: 'Slow and controlled. Stop at the first sign of pinching.' },
+          { name: 'Glute Bridge ISO Hold', sets: '2 × 20 sec', cue: 'Drive through both heels. Squeeze at the top. Breathe through it.' },
+        ],
       },
       {
-        name: 'Couch Stretch',
-        sets: '2 rounds · 45 sec each leg',
-        cue: 'Back knee on the floor, front foot forward. Drive hips forward. You\'ll feel the hip flexor immediately. Keep your glute squeezed on the rear leg.',
-      },
-      {
-        name: 'Glute Bridge Hold',
-        sets: '3 rounds · 10 reps + 3 sec hold',
-        cue: 'Feet flat, drive through your heels, squeeze hard at the top. Hold 3 seconds. Your glutes are probably not firing the way they should — this teaches them.',
+        label: 'Control Block',
+        sub: 'Stability and hip loading',
+        exercises: [
+          { name: 'Assisted Split Squat', sets: '2 × 5 each leg', cue: 'Use a wall or rack for support. Stay tall. Front leg working, not collapsing.' },
+          { name: 'Standing Hip Shift', sets: '2 × 6 each side', cue: 'Slow lateral shift. Feel the hip loading. No rushing — the glute catches the pelvis.' },
+        ],
       },
     ],
+    feel: ['Less stiffness in the hips', 'More control through range', 'Smoother, freer movement'],
+    focus: 'Move slow — every single rep. No pain. Back off if it pinches.',
+    tomorrow: 'Ankle Reset — building stability from the ground up.',
   },
   {
     num: '02',
     title: 'Ankle Reset',
-    tagline: 'Rebuild the joints your body stopped trusting.',
-    intro: 'The ankle isn\'t just tight — it\'s been abandoned. Every hard plant and lateral cut without proper tendon prep builds scar tissue, not stability. Today you rebuild the trust.',
-    note: 'These three moves target the exact structures that fail on bad ankle rolls. Run them in order and don\'t rush the eccentrics.',
-    exercises: [
+    goal: 'STABILITY',
+    time: '15–20 MIN',
+    tagline: 'The joint your knees are paying for.',
+    intro: 'Build ankle strength, control, and stability for cutting, jumping, and landing. When ankles are stiff or unstable, the knees absorb what the ankles should handle — every landing, every cut, every push-off. That load compounds and breaks things down. Today trains the real system, not just taping over it.',
+    blocks: [
       {
-        name: 'Tibialis Raise',
-        sets: '3 × 15 reps',
-        cue: 'Stand with your back against a wall, heels 6 inches out. Lift your toes up toward your shins. This wakes up the muscle most ignored in ankle health — the one that controls dorsiflexion on cuts.',
+        label: 'Reset Block',
+        sub: 'Range and sensation first',
+        exercises: [
+          { name: 'Ankle Rocks — Knee Over Toe', sets: '2 × 8 each side', cue: 'Slow drive forward. Knee tracks over the toe. Full range.' },
+          { name: 'Tibialis Raises', sets: '3 × 15', cue: 'Stand against a wall. Pull your toes up as high as possible. Feel the shin working.' },
+        ],
       },
       {
-        name: 'Calf Raise Eccentric',
-        sets: '3 × 10 reps (3 sec down, explode up)',
-        cue: 'Two feet up, one foot down — slow 3-count on the way down. The eccentric phase is where the tendon work happens. This is the same protocol used in Achilles rehab.',
+        label: 'Stability Block',
+        sub: 'Single-leg control',
+        exercises: [
+          { name: 'Single-Leg Balance', sets: '2 × 20 sec each', cue: 'Eyes open first. Slight knee bend. Stay still. Progress to eyes closed.' },
+          { name: 'Slow Calf Raises', sets: '3 × 10', cue: '3 counts up, 3 counts down. Full range. Both legs, then single-leg if ready.' },
+        ],
       },
       {
-        name: 'Single-Leg Balance Reach',
-        sets: '2 × 30 sec each leg',
-        cue: 'Stand on one leg, reach the other forward / side / back without letting your hip drop. If you wobble badly, you\'ve found the gap. This trains the ankle stability that saves you on lateral cuts.',
+        label: 'Reactivity Block',
+        sub: 'Light and springy',
+        exercises: [
+          { name: 'Mini Pogo Hops (Light)', sets: '2 × 10', cue: 'Quick and springy. Land soft. No heavy stomping — the ankles absorb, not the floor.' },
+        ],
       },
     ],
+    feel: ['Ankles warming up instead of stiff', 'Better balance and control', 'Lighter, more reactive steps'],
+    focus: 'Move light, stay springy. Control every rep and landing. Instability now = the training working.',
+    tomorrow: 'Movement Control — where Days 1 and 2 start connecting.',
   },
   {
     num: '03',
-    title: 'Knee + Quad Reset',
-    tagline: 'Fix the patellar load before it becomes a problem.',
-    intro: 'Knee pain after pickup isn\'t random. It\'s quad dominance without the posterior chain to balance it, and patellar tendons that have never been progressively loaded. Today you start loading them right.',
-    note: 'The Spanish Squat is direct patellar tendon work. Don\'t skip it. The VMO lunge is why your inner knee stabilizes (or doesn\'t) on lateral cuts.',
-    exercises: [
+    title: 'Movement Control',
+    goal: 'CONTROL',
+    time: '20–25 MIN',
+    tagline: 'Where the hips and ankles start talking.',
+    intro: 'Improve control, coordination, and pain-free movement so your body moves efficiently on the court. Hip and ankle work is done — now those two start talking to each other. Movement control is the part most hoopers skip; they go straight from stiff to heavy lifts and it never transfers, because they never taught the body to move with control first.',
+    blocks: [
       {
-        name: 'Spanish Squat',
-        sets: '3 × 10 reps · 3 sec hold at bottom',
-        cue: 'Use a strap or post for support. Heels flat, squat deep, hold 3 seconds at the bottom. This is direct patellar tendon loading — the kind that actually prevents tendinopathy.',
+        label: 'Reset Block',
+        sub: 'Carry over from Days 1 + 2',
+        exercises: [
+          { name: '90/90 Hip Lift', sets: '4 breaths', cue: 'Exhale fully. Reset your breathing pattern.' },
+          { name: 'Ankle Rocks', sets: '2 × 8 each', cue: 'Slow drive. Knee tracks over the toe.' },
+          { name: 'Glute Bridge Hold', sets: '2 × 20 sec', cue: 'Squeeze at the top. Breathe through it.' },
+        ],
       },
       {
-        name: 'VMO Lunge',
-        sets: '3 × 8 each leg',
-        cue: 'Front foot elevated slightly on a small step or plate. Drop the back knee slowly. You\'ll feel the inner quad (VMO) firing hard. That\'s the muscle that prevents your knee from caving on landings.',
+        label: 'Movement Block',
+        sub: 'Direction changes with control',
+        exercises: [
+          { name: 'Controlled Jog → Stop → Change Direction', sets: '3–5 reps', cue: 'Take your time. No rushing the change. Decelerate — don’t crash.' },
+        ],
       },
       {
-        name: 'Single-Leg Glute Bridge',
-        sets: '2 × 12 each leg',
-        cue: 'One leg in the air, drive through the heel on the planted foot. Squeeze hard at the top. This balances the quad dominance most hoopers have from years of running without posterior chain work.',
+        label: 'Control Block',
+        sub: 'Stability under load',
+        exercises: [
+          { name: 'Dead Bugs', sets: '3 × 8 each side', cue: 'Low back stays flat the whole time. Slow and deliberate. Breathe on the way down.' },
+          { name: 'Step-Ups (Controlled)', sets: '3 × 6 each leg', cue: 'Drive through the heel. Don’t push off the back foot. 3 counts up, 3 counts down.' },
+          { name: 'Split Squat Hold', sets: '3 × 20 sec each leg', cue: 'Stay tall. Front knee tracks the toe. Breathe.' },
+          { name: 'Single-Leg Balance Reach', sets: '2 × 6 each side', cue: 'Slow reach in each direction. Control the return. Don’t rush.' },
+        ],
       },
     ],
+    feel: ['More coordination in movement', 'Better balance under control', 'Smoother direction changes'],
+    focus: 'Move controlled — every rep. Stay balanced. No rushed reps, ever.',
+    tomorrow: 'Strength That Moves — the kind that actually transfers.',
   },
   {
     num: '04',
-    title: 'Core + Movement Quality',
-    tagline: 'The stability that makes your first step matter.',
-    intro: 'Core strength for basketball isn\'t about crunches — it\'s about anti-rotation, anti-extension, and staying stiff when the game tries to destabilize you. These three moves build the kind of core that transfers.',
-    note: 'If Dead Bug feels easy, you\'re probably cheating. Keep your lower back glued to the floor. The second your back arches, the rep is done.',
-    exercises: [
+    title: 'Strength That Moves',
+    goal: 'STRENGTH',
+    time: '25–30 MIN',
+    tagline: 'Strength that leaves the gym with you.',
+    intro: 'Build strength that supports movement, not just size. Most gym programs build strength that stays in the gym. Movement-based strength trains through basketball-relevant positions — unilateral, controlled, functional. Every rep today should feel strong but smooth. No grinding through force. This is the foundation that makes Day 5 possible.',
+    blocks: [
       {
-        name: 'Dead Bug',
-        sets: '3 × 8 each side',
-        cue: 'Back flat on the floor, arms straight up, knees at 90°. Slowly extend opposite arm and leg toward the floor. Do NOT let your lower back arch. The whole point is keeping the spine neutral under load.',
+        label: 'Strength Block',
+        sub: 'Lower body load',
+        exercises: [
+          { name: 'Goblet Squats', sets: '3 × 8', cue: 'Chest up. Knees track the toes. Sit into it. Full depth with control.' },
+          { name: 'DB Romanian Deadlift', sets: '3 × 8', cue: 'Hinge at the hips. Slight knee bend. Feel the hamstrings. Back stays neutral.' },
+          { name: 'Split Squats', sets: '2 × 6 each leg', cue: 'Stay tall. Front heel stays down. Control the descent — 3 sec down.' },
+        ],
       },
       {
-        name: 'Pallof Press',
-        sets: '3 × 10 each side',
-        cue: 'Use a band anchored at chest height, or a cable machine. Press straight out from your chest and hold 2 seconds. Anti-rotation — this is the core work that transfers to cuts, not crunches.',
+        label: 'Core + Support Block',
+        sub: 'Stability for movement',
+        exercises: [
+          { name: 'Dead Bugs', sets: '2 × 8 each side', cue: 'Low back flat the whole time. Slow and deliberate. Never rush.' },
+          { name: 'Side Plank', sets: '2 × 20 sec each', cue: 'Hips stacked. Don’t let them sag. Breathe steady.' },
+        ],
       },
       {
-        name: '90/90 to Tall Kneeling',
-        sets: '2 × 5 each side',
-        cue: 'Sit in 90/90 hip position, then rise to tall kneeling without using your hands. This move connects hip mobility (Day 1) to core stability — exactly what\'s required when you plant and cut.',
+        label: 'Control Block',
+        sub: 'Single-leg work to finish',
+        exercises: [
+          { name: 'Step-Ups (Slow)', sets: '2 × 6 each leg', cue: '3 counts up, 3 counts down. No push-off from the back leg. The heel drives.' },
+          { name: 'Single-Leg Balance', sets: '2 × 20 sec each', cue: 'Slight knee bend. Hold perfectly still. Breathe.' },
+        ],
       },
     ],
+    feel: ['Strong but not stiff', 'More stable on one leg', 'Movements feel controlled'],
+    focus: 'Move strong, stay smooth. No forced or grinding reps. Control over load, always.',
+    tomorrow: 'Power Reset — everything converts to game-ready movement. Last one.',
   },
   {
     num: '05',
     title: 'Power Reset',
-    tagline: 'Bring the bounce back — the right way.',
-    intro: 'Day 5. The bounce protocol. Not another round of box jumps that trash your knees — reactive power from a base that\'s actually been reset. You\'ve earned this.',
-    note: 'Also your readiness check: do the Day 1 hip sequence again after this session. If you\'re looser than you were Monday, that\'s the BTH method working.',
-    exercises: [
+    goal: 'POWER',
+    time: '20–25 MIN',
+    tagline: 'Turn five days of work into game-ready power.',
+    intro: 'Rapidly convert all your resetting into game-ready power. This is what the first four days were building toward. Land soft. Absorb first — then explode. Don’t crash into the ground and hope. The power comes from control, not force — the same principle as every day this week.',
+    blocks: [
       {
-        name: 'Hip Reset Recap',
-        sets: 'Full Day 1 sequence · 1 round each',
-        cue: 'Run through all three Day 1 exercises once before loading any power work. This is the activation sequence — hips firing means power transfers. Skip it and you\'re leaving bounce on the floor.',
+        label: 'Movement Block',
+        sub: 'Convert mobility to power',
+        exercises: [
+          { name: 'Skater Bounds', sets: '3 × 4 each side', cue: 'Land on one leg. Absorb and hold. Load before you explode.' },
+          { name: 'Scissor Jumps', sets: '3 × 8', cue: 'Quick switch. Land soft. Stay springy between reps.' },
+          { name: 'Side Lunge + Crossover Step', sets: '2 × 6 each side', cue: 'Lateral load, then cross. Feel the hip working.' },
+        ],
       },
       {
-        name: 'Box Step-Up + Drive',
-        sets: '3 × 6 each leg',
-        cue: 'Step onto a box (12–18 inches), drive the opposite knee up hard at the top. Controlled step down. This is hip extension power — the same movement pattern as your first step.',
+        label: 'Athletic Block',
+        sub: 'Speed and explosiveness',
+        exercises: [
+          { name: 'Approach Jumps', sets: '3 × 3', cue: 'Two-step run-up. Jump, land, and stick. Full intent on each one.' },
+          { name: 'Reactive Sprints (Short)', sets: '4 × 1', cue: 'Accelerate hard. Stop under control. 10–15 yards max.' },
+        ],
       },
       {
-        name: 'Broad Jump + Stick',
-        sets: '4 reps · full reset between each',
-        cue: 'Jump forward as far as you can, land on two feet and STICK it for 3 full seconds. No wobble, no extra steps. Quality over distance. This trains the landing mechanics that let you jump again without pain.',
+        label: 'Big Finish',
+        sub: '2-minute basketball finisher — 1 round, full intent',
+        exercises: [
+          { name: 'Dribble Drills (any)', sets: '1 round', cue: 'Move like a hooper. This is what the whole week was for.' },
+          { name: 'Layups', sets: 'Full intent', cue: 'Finish clean at the rim. Every one counts.' },
+          { name: 'Pull-Up Jumpers', sets: 'Full intent', cue: 'Explode to your spot. Shoot with authority.' },
+        ],
       },
     ],
+    feel: ['Light — move explosive', 'Reactive off the floor', 'Powerful when it counts'],
+    focus: 'Full intent every rep. Land soft, explode fast. Finish strong. Five days done — now go unleash your game.',
+    tomorrow: null,
   },
 ];
 
 // ─── HTML TEMPLATE ───
 function buildHTML(day) {
-  const exercises = day.exercises.map((ex, i) => `
-    <div class="exercise">
-      <div class="ex-header">
-        <span class="ex-num">${String(i + 1).padStart(2, '0')}</span>
-        <div>
-          <div class="ex-name">${ex.name}</div>
-          <div class="ex-sets">${ex.sets}</div>
+  let exNum = 0;
+  const blocks = day.blocks.map((block) => {
+    const exercises = block.exercises.map((ex) => {
+      exNum += 1;
+      return `
+      <div class="exercise">
+        <div class="ex-header">
+          <span class="ex-num">${String(exNum).padStart(2, '0')}</span>
+          <div>
+            <div class="ex-name">${ex.name}</div>
+            <div class="ex-sets">${ex.sets}</div>
+          </div>
         </div>
-      </div>
-      <p class="ex-cue">${ex.cue}</p>
-    </div>
-  `).join('');
+        <p class="ex-cue">${ex.cue}</p>
+      </div>`;
+    }).join('');
+    return `
+    <div class="block">
+      <div class="block-label"><span>${block.label}</span><em>${block.sub}</em></div>
+      ${exercises}
+    </div>`;
+  }).join('');
+
+  const feel = day.feel.map((f) => `<li>${f}</li>`).join('');
+  const tomorrow = day.tomorrow
+    ? `<div class="foot-day">Tomorrow — ${day.tomorrow}</div>`
+    : `<div class="foot-day">Five days done. Go unleash your game.</div>`;
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -166,7 +247,7 @@ function buildHTML(day) {
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
-html, body { width: 8.5in; height: 11in; background: ${C.white}; }
+html, body { width: 8.5in; background: ${C.white}; }
 body {
   font-family: 'DM Sans', sans-serif;
   color: ${C.black};
@@ -178,14 +259,14 @@ body {
 /* ─── TOP BAR ─── */
 .top-bar {
   background: ${C.black};
-  padding: 18px 40px;
+  padding: 16px 40px;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 .logo {
   font-family: 'Oswald', sans-serif;
-  font-size: 17pt;
+  font-size: 16pt;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -204,7 +285,7 @@ body {
 /* ─── HERO BAND ─── */
 .hero-band {
   background: ${C.gold};
-  padding: 28px 40px 24px;
+  padding: 24px 40px 22px;
   position: relative;
   overflow: hidden;
 }
@@ -233,7 +314,7 @@ body {
 }
 .day-title {
   font-family: 'Oswald', sans-serif;
-  font-size: 36pt;
+  font-size: 34pt;
   font-weight: 700;
   letter-spacing: 0.02em;
   text-transform: uppercase;
@@ -246,152 +327,101 @@ body {
   font-weight: 500;
   color: rgba(17,19,24,0.65);
 }
+.day-meta {
+  position: relative;
+  z-index: 2;
+  margin-top: 12px;
+  display: flex;
+  gap: 22px;
+}
+.day-meta div { font-size: 8pt; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(17,19,24,0.7); }
+.day-meta b { display: block; font-family: 'Oswald', sans-serif; font-size: 12pt; letter-spacing: 0.04em; color: ${C.black}; margin-top: 2px; }
 
 /* ─── MAIN CONTENT ─── */
-.content {
-  padding: 24px 40px 0;
-}
+.content { padding: 22px 40px 0; }
 
 /* ─── INTRO ─── */
 .intro-block {
   background: ${C.cream};
   border-left: 3px solid ${C.gold};
-  padding: 14px 20px;
-  margin-bottom: 24px;
+  padding: 13px 18px;
+  margin-bottom: 20px;
   border-radius: 0 2px 2px 0;
 }
-.intro-text {
-  font-size: 10pt;
-  color: rgba(17,19,24,0.75);
-  line-height: 1.65;
-}
+.intro-text { font-size: 9.5pt; color: rgba(17,19,24,0.78); line-height: 1.6; }
 
-/* ─── EXERCISES HEADER ─── */
-.ex-section-label {
+/* ─── BLOCK ─── */
+.block { margin-bottom: 18px; break-inside: avoid; }
+.block-label {
   font-family: 'DM Sans', sans-serif;
-  font-size: 7.5pt;
+  font-size: 8pt;
   font-weight: 700;
-  letter-spacing: 0.24em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   color: ${C.gold};
-  margin-bottom: 14px;
+  margin-bottom: 10px;
   display: flex;
-  align-items: center;
+  align-items: baseline;
   gap: 10px;
 }
-.ex-section-label::after {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: ${C.border};
-}
+.block-label em { font-style: normal; font-weight: 600; letter-spacing: 0.04em; color: rgba(17,19,24,0.4); text-transform: none; font-size: 8.5pt; }
 
 /* ─── EXERCISE CARD ─── */
 .exercise {
   background: ${C.white};
   border: 1px solid ${C.border};
   border-radius: 2px;
-  padding: 16px 20px;
-  margin-bottom: 10px;
-  border-left: 3px solid ${C.black};
-}
-.exercise:last-child { margin-bottom: 0; }
-.ex-header {
-  display: flex;
-  align-items: flex-start;
-  gap: 14px;
+  padding: 13px 18px;
   margin-bottom: 8px;
+  border-left: 3px solid ${C.black};
+  break-inside: avoid;
 }
+.ex-header { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 6px; }
 .ex-num {
   font-family: 'Oswald', sans-serif;
-  font-size: 18pt;
+  font-size: 17pt;
   font-weight: 700;
   color: ${C.gold};
   line-height: 1;
   flex-shrink: 0;
-  width: 32px;
+  width: 30px;
 }
 .ex-name {
   font-family: 'Oswald', sans-serif;
-  font-size: 13pt;
+  font-size: 12.5pt;
   font-weight: 700;
   letter-spacing: 0.03em;
   text-transform: uppercase;
   color: ${C.black};
   line-height: 1.1;
 }
-.ex-sets {
-  font-size: 9pt;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: ${C.gold};
-  margin-top: 3px;
-}
-.ex-cue {
-  font-size: 9.5pt;
-  color: rgba(17,19,24,0.7);
-  line-height: 1.6;
-  padding-left: 46px;
-}
+.ex-sets { font-size: 8.5pt; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: ${C.gold}; margin-top: 3px; }
+.ex-cue { font-size: 9pt; color: rgba(17,19,24,0.7); line-height: 1.55; padding-left: 44px; }
 
-/* ─── NOTE BAND ─── */
-.note-band {
-  margin: 20px 0 0;
-  padding: 14px 20px;
-  background: ${C.black};
-  border-radius: 2px;
-  display: flex;
-  gap: 14px;
-  align-items: flex-start;
-}
-.note-icon {
-  font-family: 'Oswald', sans-serif;
-  font-size: 9pt;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: ${C.gold};
-  flex-shrink: 0;
-  padding-top: 1px;
-}
-.note-text {
-  font-size: 9pt;
-  color: rgba(255,255,255,0.75);
-  line-height: 1.6;
-}
+/* ─── FEEL / FOCUS ─── */
+.feel-band { margin: 20px 0 0; padding: 16px 18px; background: ${C.black}; border-radius: 2px; break-inside: avoid; }
+.feel-title { font-family: 'Oswald', sans-serif; font-size: 9pt; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: ${C.gold}; margin-bottom: 8px; }
+.feel-list { list-style: none; display: flex; flex-wrap: wrap; gap: 6px 22px; margin-bottom: 12px; }
+.feel-list li { font-size: 9pt; color: rgba(255,255,255,0.82); position: relative; padding-left: 16px; }
+.feel-list li::before { content: '↑'; position: absolute; left: 0; color: ${C.gold}; font-weight: 700; }
+.focus-line { font-size: 9pt; color: rgba(255,255,255,0.7); line-height: 1.55; border-top: 1px solid rgba(255,255,255,0.12); padding-top: 10px; }
+.focus-line b { color: ${C.gold}; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; font-size: 8pt; }
 
 /* ─── FOOTER ─── */
 .foot {
-  padding: 20px 40px 18px;
-  margin-top: 20px;
+  padding: 18px 40px 18px;
+  margin-top: 18px;
   border-top: 1px solid ${C.border};
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 6px;
 }
-.foot-logo {
-  font-family: 'Oswald', sans-serif;
-  font-size: 10pt;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: rgba(17,19,24,0.3);
-}
+.foot-logo { font-family: 'Oswald', sans-serif; font-size: 10pt; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(17,19,24,0.3); }
 .foot-logo span { color: ${C.gold}; }
-.foot-url {
-  font-size: 8pt;
-  color: rgba(17,19,24,0.3);
-  letter-spacing: 0.04em;
-}
-.foot-day {
-  font-family: 'Oswald', sans-serif;
-  font-size: 9pt;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: rgba(17,19,24,0.3);
-}
+.foot-url { font-size: 8pt; color: rgba(17,19,24,0.3); letter-spacing: 0.04em; }
+.foot-day { font-family: 'Oswald', sans-serif; font-size: 9pt; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(17,19,24,0.35); }
 </style>
 </head>
 <body>
@@ -407,6 +437,10 @@ body {
   <div class="day-label">Day ${day.num} of 05</div>
   <div class="day-title">${day.title}</div>
   <div class="day-tagline">${day.tagline}</div>
+  <div class="day-meta">
+    <div>Goal<b>${day.goal}</b></div>
+    <div>Time<b>${day.time}</b></div>
+  </div>
 </div>
 
 <!-- CONTENT -->
@@ -417,14 +451,14 @@ body {
     <p class="intro-text">${day.intro}</p>
   </div>
 
-  <!-- EXERCISES -->
-  <div class="ex-section-label">Today's Protocol</div>
-  ${exercises}
+  <!-- BLOCKS -->
+  ${blocks}
 
-  <!-- NOTE -->
-  <div class="note-band">
-    <div class="note-icon">Note</div>
-    <div class="note-text">${day.note}</div>
+  <!-- FEEL / FOCUS -->
+  <div class="feel-band">
+    <div class="feel-title">What you should feel</div>
+    <ul class="feel-list">${feel}</ul>
+    <div class="focus-line"><b>Focus</b> &nbsp;${day.focus}</div>
   </div>
 
 </div>
@@ -432,7 +466,7 @@ body {
 <!-- FOOTER -->
 <div class="foot">
   <div class="foot-logo">Built to <span>Hoop</span></div>
-  <div class="foot-day">Day ${day.num} — ${day.title}</div>
+  ${tomorrow}
   <div class="foot-url">built-to-hoop.com</div>
 </div>
 
