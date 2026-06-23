@@ -17,15 +17,26 @@
   window.dataLayer = window.dataLayer || [];
 
   var PRODUCT_MAP = {
-    "ecyzaa": { name: "BTH Foundation — Tier 1",   value: 31.99, currency: "USD" },
-    "groedz": { name: "BTH Rise — Tier 2",          value: 97,    currency: "USD" },
-    "thxqs":  { name: "BTH Stay Ready — Tier 3",    value: 27,    currency: "USD" },
+    // Clean Gumroad slugs — the current live buy-links (e.g. tier-3.html uses /l/stay-ready).
+    "stay-ready":        { name: "BTH Stay Ready ($27/mo)",        value: 27,    currency: "USD" },
+    "bth-rise":          { name: "BTH Rise (12-Week Program)",     value: 97,    currency: "USD" },
+    "bth-foundation":    { name: "BTH Foundation",                 value: 31.99, currency: "USD" },
+    "hip-reset":         { name: "Hip Reset Track",                value: 41.99, currency: "USD" },
+    "knee-protection":   { name: "Knee Protection Track",          value: 41.99, currency: "USD" },
+    "ankle-rebuild":     { name: "Ankle Rebuild Track",            value: 41.99, currency: "USD" },
+    "skill-builder":     { name: "Skill Track",                    value: 41.99, currency: "USD" },
+    "recovery-system":   { name: "Recovery Track",                 value: 41.99, currency: "USD" },
+    "bth-injury-bundle": { name: "Injury Bundle",                  value: 79.99, currency: "USD" },
+    // Old random slugs kept as aliases (legacy links / redirects still resolve to value).
+    "thxqs":  { name: "BTH Stay Ready ($27/mo)",    value: 27,    currency: "USD" },
+    "groedz": { name: "BTH Rise (12-Week Program)", value: 97,    currency: "USD" },
+    "ecyzaa": { name: "BTH Foundation",             value: 31.99, currency: "USD" },
     "dwcyc":  { name: "Hip Reset Track",            value: 41.99, currency: "USD" },
     "novpg":  { name: "Knee Protection Track",      value: 41.99, currency: "USD" },
     "mtqyvi": { name: "Ankle Rebuild Track",        value: 41.99, currency: "USD" },
     "axona":  { name: "Skill Track",                value: 41.99, currency: "USD" },
     "xbxhqc": { name: "Recovery Track",             value: 41.99, currency: "USD" },
-    "esgvfq": { name: "Add-On Bundle",              value: 79.99, currency: "USD" },
+    "esgvfq": { name: "Injury Bundle",              value: 79.99, currency: "USD" },
   };
 
   function fire(eventName, props) {
