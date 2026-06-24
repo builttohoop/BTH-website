@@ -1,0 +1,336 @@
+/* =============================================================
+   Built to Hoop — Design Tokens
+   Source: builttohoop/BTH-website (index.html, about.html, etc.)
+   Imported from claude.ai/design project "BTH System Visual Design"
+   (_ds/built-to-hoop-design-system-492d549a/colors_and_type.css).
+   This is the CANONICAL token + component layer. Every BTH surface
+   (website, Motherboard, emails, PDFs) mirrors these values.
+   ============================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+:root {
+  color-scheme: light only;
+
+  /* ─── BRAND CORE ────────────────────────────────────────── */
+  --bth-cream:   #F3EFE7;   /* Warm Cream — backgrounds, surfaces */
+  --bth-white:   #FFFFFF;   /* Section backgrounds */
+  --bth-black:   #111318;   /* Near Black — text + primary */
+  --bth-gold:    #E6A800;   /* Electric Gold — CTAs, accents */
+
+  /* ─── DERIVED NEUTRALS (from real site usage) ──────────── */
+  --bth-muted:        rgba(17, 19, 24, 0.50);  /* secondary text */
+  --bth-muted-strong: rgba(17, 19, 24, 0.72);  /* body copy on cream */
+  --bth-border:       rgba(17, 19, 24, 0.12);  /* hairlines */
+  --bth-soft:         rgba(17, 19, 24, 0.06);  /* very faint rule */
+  --bth-cream-hover:  #EDE8DF;                  /* cream card hover */
+  --bth-white-hover:  #FAFAF8;                  /* white card hover */
+
+  /* On-dark equivalents (used in nav + start-here block) */
+  --bth-on-dark-fg:        rgba(255,255,255,0.65);
+  --bth-on-dark-fg-strong: #FFFFFF;
+  --bth-on-dark-muted:     rgba(255,255,255,0.48);
+  --bth-on-dark-faint:     rgba(255,255,255,0.10);
+
+  /* ─── SEMANTIC FOREGROUND / BACKGROUND ─────────────────── */
+  --fg-1: var(--bth-black);
+  --fg-2: var(--bth-muted-strong);
+  --fg-3: var(--bth-muted);
+  --fg-accent: var(--bth-gold);
+
+  --bg-1: var(--bth-white);        /* primary surface */
+  --bg-2: var(--bth-cream);        /* section surface */
+  --bg-inverse: var(--bth-black);  /* dark band */
+
+  /* ─── TYPE FAMILIES ─────────────────────────────────────── */
+  --font-display: 'Oswald', 'Impact', 'Arial Narrow Bold', sans-serif;
+  --font-body:    'DM Sans', system-ui, -apple-system, sans-serif;
+
+  /* Shorthand vars used inline by the live site */
+  --H: var(--font-display);
+  --B: var(--font-body);
+
+  /* ─── TYPE SCALE ────────────────────────────────────────── */
+  /* Display headlines are ALWAYS Oswald Bold, UPPERCASE, tight leading,
+     slight positive letter-spacing (0.02em). Bodies are DM Sans 400/500. */
+  --fs-hero:   clamp(64px, 11vw, 148px); /* H1 — homepage hero */
+  --fs-h1:     clamp(56px, 9vw, 120px);  /* H1 — interior pages */
+  --fs-h2:     clamp(40px, 5.5vw, 68px); /* section title */
+  --fs-h3:     clamp(22px, 3.2vw, 30px); /* pull quote / sub-section */
+  --fs-h4:     22px;                      /* card title */
+  --fs-h5:     17px;                      /* small card title */
+  --fs-eyebrow: 11px;                     /* uppercase eyebrow */
+  --fs-body-lg: 17px;
+  --fs-body:    16px;
+  --fs-body-sm: 14px;
+  --fs-meta:    13px;
+  --fs-micro:   11px;
+  --fs-nano:    10px;
+
+  --lh-tight:    0.92;
+  --lh-display:  0.95;
+  --lh-heading:  1.15;
+  --lh-body:     1.7;
+  --lh-prose:    1.82;
+
+  /* Tracking — display is slightly OPEN (basketball jersey vibe);
+     eyebrows and meta labels are widely tracked. */
+  --tr-display:  0.02em;
+  --tr-headline: 0.04em;
+  --tr-eyebrow:  0.22em;
+  --tr-label:    0.14em;
+  --tr-button:   0.10em;
+
+  /* ─── SPACING ───────────────────────────────────────────── */
+  --sp-1:  4px;
+  --sp-2:  8px;
+  --sp-3:  12px;
+  --sp-4:  16px;
+  --sp-5:  20px;
+  --sp-6:  24px;
+  --sp-7:  32px;
+  --sp-8:  44px;
+  --sp-9:  52px;
+  --sp-10: 72px;
+  --sp-11: 96px;
+  --sp-12: 130px;
+
+  --pad-section:    96px 52px;
+  --pad-section-sm: 72px 24px;
+  --maxw-content:   1400px;
+  --maxw-narrow:    860px;
+
+  /* ─── RADII ─────────────────────────────────────────────── */
+  /* BTH is INTENTIONALLY square. The only radii in use:
+     2px on buttons / cards (a hair, not visible at most sizes),
+     100px on pills (full-round capsules). No mid-radius cards. */
+  --r-square: 2px;
+  --r-pill:   100px;
+  --r-none:   0;
+
+  /* ─── BORDERS ───────────────────────────────────────────── */
+  --bw-hair:  1px;
+  --bw-rule:  1.5px;
+  --bw-bold:  3px;     /* gold accent strip on featured cards */
+  --bw-quote: 4px;     /* left-bar on pull quotes */
+
+  /* ─── SHADOWS ───────────────────────────────────────────── */
+  /* BTH does not use drop shadows. Depth = borders + cream wash.
+     One subtle elevation token reserved for nav glass + future use. */
+  --shadow-none:    none;
+  --shadow-nav:     0 1px 0 var(--bth-border);
+  --shadow-focus:   0 0 0 3px rgba(230, 168, 0, 0.35);
+
+  /* ─── MOTION ────────────────────────────────────────────── */
+  --t-fast:    0.18s;
+  --t-base:    0.22s;
+  --t-reveal:  0.6s;
+  --ease-out:  cubic-bezier(0.2, 0.6, 0.2, 1);
+  --ease-in:   cubic-bezier(0.4, 0, 0.6, 1);
+
+  /* ─── LAYOUT CHROME ─────────────────────────────────────── */
+  --nav-h: 64px;
+}
+
+/* =============================================================
+   SITE SHORTHAND ALIASES (added on import)
+   The live website's inline CSS uses short token names. Map them to
+   the canonical brand tokens so THIS one file is the single source of
+   truth — pages can drop their duplicated :root token block and still
+   resolve var(--cream)/var(--gold)/etc. from here.
+   ============================================================= */
+:root {
+  --cream:  var(--bth-cream);
+  --white:  var(--bth-white);
+  --black:  var(--bth-black);
+  --gold:   var(--bth-gold);
+  --muted:  var(--bth-muted);
+  --border: var(--bth-border);
+  --soft:   var(--bth-soft);
+}
+
+/* =============================================================
+   SEMANTIC TYPE — drop-in classes that reproduce the live site.
+   Use these instead of restating font/size/tracking everywhere.
+   ============================================================= */
+
+.bth-eyebrow {
+  font-family: var(--B);
+  font-size: var(--fs-eyebrow);
+  font-weight: 600;
+  letter-spacing: var(--tr-eyebrow);
+  text-transform: uppercase;
+  color: var(--bth-gold);
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+.bth-eyebrow.has-rule::before {
+  content: "";
+  width: 24px;
+  height: 2px;
+  background: currentColor;
+  flex-shrink: 0;
+}
+
+.bth-h1, h1.bth {
+  font-family: var(--H);
+  font-size: var(--fs-h1);
+  font-weight: 700;
+  line-height: var(--lh-tight);
+  letter-spacing: var(--tr-display);
+  text-transform: uppercase;
+  color: var(--fg-1);
+}
+
+.bth-h2, h2.bth {
+  font-family: var(--H);
+  font-size: var(--fs-h2);
+  font-weight: 700;
+  line-height: var(--lh-display);
+  letter-spacing: var(--tr-display);
+  text-transform: uppercase;
+  color: var(--fg-1);
+}
+
+.bth-h3, h3.bth {
+  font-family: var(--H);
+  font-size: var(--fs-h3);
+  font-weight: 700;
+  line-height: 1.35;
+  letter-spacing: var(--tr-display);
+  text-transform: uppercase;
+  color: var(--fg-1);
+}
+
+.bth-h4, h4.bth {
+  font-family: var(--H);
+  font-size: var(--fs-h4);
+  font-weight: 700;
+  line-height: var(--lh-heading);
+  letter-spacing: var(--tr-headline);
+  text-transform: uppercase;
+  color: var(--fg-1);
+}
+
+.bth-label {
+  font-family: var(--B);
+  font-size: var(--fs-micro);
+  font-weight: 600;
+  letter-spacing: var(--tr-label);
+  text-transform: uppercase;
+  color: var(--fg-3);
+}
+
+.bth-meta {
+  font-family: var(--H);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: var(--tr-eyebrow);
+  text-transform: uppercase;
+  color: rgba(17,19,24,0.35);
+}
+
+.bth-body, p.bth {
+  font-family: var(--B);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  color: var(--fg-3);
+}
+.bth-body strong, p.bth strong {
+  color: var(--fg-1);
+  font-weight: 600;
+}
+
+.bth-body-lg {
+  font-family: var(--B);
+  font-size: var(--fs-body-lg);
+  line-height: var(--lh-prose);
+  color: var(--fg-2);
+}
+
+.bth-gold { color: var(--bth-gold) !important; }
+.bth-outline {
+  -webkit-text-stroke: 2px rgba(17,19,24,0.2);
+  color: transparent;
+}
+
+/* =============================================================
+   BUTTONS — three primary types observed on the live site.
+   Square corners (2px), heavy Oswald uppercase, 0.10em tracking.
+   ============================================================= */
+
+.btn-primary,
+.btn-gold,
+.btn-secondary,
+.btn-outline {
+  display: inline-block;
+  font-family: var(--H);
+  font-weight: 700;
+  letter-spacing: var(--tr-button);
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: var(--r-square);
+  border: 0;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background var(--t-fast), color var(--t-fast),
+              border-color var(--t-fast), opacity var(--t-fast);
+}
+
+.btn-primary {
+  font-size: 15px;
+  color: var(--bth-white);
+  background: var(--bth-black);
+  padding: 16px 38px;
+}
+.btn-primary:hover { background: var(--bth-gold); color: var(--bth-black); }
+
+.btn-gold {
+  font-size: 15px;
+  color: var(--bth-black);
+  background: var(--bth-gold);
+  padding: 14px 36px;
+}
+.btn-gold:hover { opacity: 0.88; }
+
+.btn-secondary {
+  font-family: var(--B);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--fg-3);
+  background: transparent;
+  border: var(--bw-rule) solid var(--bth-border);
+  padding: 14px 32px;
+}
+.btn-secondary:hover { border-color: var(--bth-gold); color: var(--bth-gold); }
+
+.btn-outline {
+  font-size: 13px;
+  color: var(--bth-black);
+  background: transparent;
+  border: var(--bw-rule) solid var(--bth-black);
+  padding: 13px 24px;
+}
+.btn-outline:hover { background: var(--bth-black); color: var(--bth-white); }
+
+/* =============================================================
+   PILL — used for ABOUT page tag list. Full-round capsule only.
+   ============================================================= */
+.bth-pill {
+  display: inline-block;
+  font-family: var(--B);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+  border: 1px solid var(--bth-border);
+  padding: 6px 14px;
+  border-radius: var(--r-pill);
+  background: transparent;
+  transition: border-color var(--t-fast), color var(--t-fast);
+}
+.bth-pill:hover { border-color: var(--bth-gold); color: var(--bth-gold); }

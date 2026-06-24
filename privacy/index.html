@@ -7,16 +7,20 @@
   <meta name="description" content="Built to Hoop privacy policy.">
   <link rel="icon" href="/assets/favicon.ico">
   <title>Privacy Policy | Built to Hoop</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <!-- BTH design system — single source of truth (BTH-GOAL-0005). Fixes off-brand gold #c49e54 -> #E6A800. -->
+  <link rel="stylesheet" href="/assets/bth-system.css">
   <style>
-    :root{--ink:#111318;--cream:#f3efe7;--gold:#c49e54;--surface:#fffdf8;--muted:#65625c;--line:#d8d1c5}
+    :root{ color-scheme: light only; --ink:var(--bth-black); --cream:var(--bth-cream); --gold:var(--bth-gold); --surface:var(--bth-white); --muted:var(--bth-muted); --line:var(--bth-border); }
     *{box-sizing:border-box}
-    body{margin:0;background:var(--cream);color:var(--ink);font-family:Arial,sans-serif}
-    header{background:var(--ink);color:var(--cream);padding:22px max(22px,calc((100vw - 900px)/2))}
-    header a{color:var(--cream);font-weight:900;letter-spacing:2px;text-decoration:none}
+    body{margin:0;background:var(--cream);color:var(--ink);font-family:var(--B)}
+    header{background:var(--ink);color:var(--bth-white);padding:22px max(22px,calc((100vw - 900px)/2))}
+    header a{color:var(--bth-white);font-family:var(--H);font-weight:700;letter-spacing:0.06em;text-decoration:none;text-transform:uppercase}
     header span{color:var(--gold)}
     main{width:min(100% - 40px,900px);margin:0 auto;padding:64px 0 80px}
-    h1{margin:0 0 8px;font-size:48px;line-height:1;text-transform:uppercase;letter-spacing:0}
-    h2{margin:38px 0 10px;font-size:23px;text-transform:uppercase;letter-spacing:0}
+    h1{margin:0 0 8px;font-family:var(--H);font-weight:700;font-size:48px;line-height:0.95;text-transform:uppercase;letter-spacing:0.02em;color:var(--ink)}
+    h2{margin:38px 0 10px;font-family:var(--H);font-weight:700;font-size:23px;text-transform:uppercase;letter-spacing:0.02em;color:var(--ink)}
     p,li{color:var(--muted);font-size:16px;line-height:1.7}
     ul{padding-left:22px}
     .effective{padding-bottom:28px;border-bottom:1px solid var(--line)}
