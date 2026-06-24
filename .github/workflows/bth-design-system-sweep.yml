@@ -99,13 +99,11 @@ jobs:
             process.exit(1);
           }
           NODE
-      - name: Commit sweep and remove temporary workflow
+      - name: Commit sweep page changes
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git rm .github/workflows/bth-design-system-sweep.yml
           git add about.html addons.html reset.html knee.html mobility.html bounce.html tier-1.html tier-2.html tier-3.html updates.html thank-you.html join.html seo/*.html
-          git add -u .github/workflows/bth-design-system-sweep.yml
           if git diff --cached --quiet; then
             echo "No sweep changes to commit."
             exit 0
