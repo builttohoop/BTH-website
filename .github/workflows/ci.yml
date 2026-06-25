@@ -1,0 +1,32 @@
+name: CI
+on:
+  push:
+    branches-ignore: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    name: validate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Syntax-check JS files
+        run: |
+          for f in assets/bth-tracking.js bth-operator-sw.js BTH-Operator.inline.js \
+                   email-sequences/generate-html-emails.mjs; do
+            [ -f "$f" ] && node --check "$f" && echo "✓ $f"
+          done
+
+      - name: Validate JSON files
+        run: |
+          find . -name "*.json" \
+            ! -path "*/.git/*" ! -path "*/node_modules/*" ! -path "*/reset-pdfs/node_modules/*" \
+          | while IFS= read -r f; do
+            node -e "JSON.parse(require('fs').readFileSync(process.argv[1],'utf8'))" "$f" \
+              && echo "✓ $f" || exit 1
+          done
