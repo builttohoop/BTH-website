@@ -2,6 +2,18 @@
 // Run: node email-sequences/generate-html-emails.mjs
 // Output: email-sequences/html/email-0..7.html  → seeded into Mail OS by seed-free-reset.mjs
 //
+// Token source: BTH/design-system/bth-system.css (the single source of truth).
+// Email constraints require inline CSS — the BRAND object below mirrors bth-system.css
+// dark-surface tokens. Any palette change updates bth-system.css first, then this file.
+//
+//   bth-system.css token → email inline value
+//   --bth-gold   #E6A800  → BRAND.gold
+//   --bth-black  #111318  → BRAND.header / BRAND.btnText
+//   --bth-white  #FFFFFF  → BRAND.white / BRAND.heading
+//   --r-square   2px      → border-radius:2px on all buttons (no mid-radius)
+//   --font-display Oswald → Oswald,Arial,sans-serif (safe email stack)
+//   --font-body   DM Sans → 'DM Sans',Arial,sans-serif (safe email stack)
+//
 // Design rules (locked):
 //  • DARK-FIRST premium black/gold (see automations/bth-mail-os/BTH-EMAIL-STYLE.md).
 //    Light emails get force-inverted to mud by Gmail/iOS dark mode; dark designs are left alone.
