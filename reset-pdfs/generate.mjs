@@ -8,6 +8,21 @@ const OUT = join(__dirname, 'output');
 mkdirSync(OUT, { recursive: true });
 
 // ─── BRAND TOKENS ───
+// Source: BTH/design-system/bth-system.css — the single source of truth.
+// PDF constraints require inline CSS; this object mirrors bth-system.css tokens.
+// Any palette change updates bth-system.css first, then propagates here.
+//
+//   bth-system.css token      → C value
+//   --bth-black  #111318      → C.black  (text, headers, card borders)
+//   --bth-white  #FFFFFF      → C.white  (card backgrounds, section fill)
+//   --bth-cream  #F3EFE7      → C.cream  (intro block background)
+//   --bth-gold   #E6A800      → C.gold   (hero band, accents, CTAs)
+//   --bth-muted  rgba(17,19,24,0.52)  → C.muted  (secondary text)
+//   --bth-border rgba(17,19,24,0.12)  → C.border (hairlines)
+//   --r-square   2px          → border-radius:2px on all cards/blocks
+//   --font-display Oswald     → 'Oswald', sans-serif (headings, labels)
+//   --font-body   DM Sans     → 'DM Sans', sans-serif (body text, cues)
+//   --shadow-none             → no box-shadow used; depth via borders only
 const C = {
   black: '#111318',
   white: '#FFFFFF',
