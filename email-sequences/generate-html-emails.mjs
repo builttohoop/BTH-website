@@ -344,8 +344,9 @@ ${greeting()}
 ${p('Day 5. Last one.')}
 ${p('You made it through the reset. If you did all 5 days, your hips are looser, your ankles have more range, and your knees are less compressed than they were on Day 1.')}
 ${p('That\'s real. That\'s the BTH method working.')}
-${p('But here\'s the truth: <strong>the reset is maintenance, not building.</strong>')}
-${p('The reset gets you back to baseline. Foundation Month builds you above it.')}
+${p('Here\'s the truth: <strong>the reset is maintenance, not building.</strong> It gets your body back to baseline. It doesn\'t keep building once you stop opening the emails.')}
+${p('The reset ends today. The work doesn\'t have to.')}
+${p('Stay Ready is the system that keeps going where the reset stops — same method, same coaching voice, now in the BTH app so it fits into the weeks you actually play.')}
 ${membershipCta(true)}
 ${divider()}
 ${h('What you get starting today:')}
@@ -360,19 +361,26 @@ ${p('Your last reset day — convert five days of work into game-ready power. Th
 ${sig()}
 `},
 
-  // EMAIL 6 — URGENCY CLOSE (no reset content)
+  // EMAIL 6 — THE CLOSE (no reset content, no fake deadlines)
   {
-    filename: 'email-6-urgency-close.html',
+    filename: 'email-6-the-close.html',
     subject: 'The reset\'s done. Keep the body that earned it.',
     body: `
 ${greeting()}
-${p('Quick one.')}
-${p('You finished the reset. Five days in, your hips are looser, your ankles move better, your knees feel less stacked. You earned that.')}
-${p('But a reset is maintenance, not building. Stop now and it slips. Keep going and you build on top of it.')}
-${p('That\'s what Stay Ready is for. Foundation Month picks up exactly where the reset left off — $27/month, cancel anytime, keep everything you download.')}
-${membershipCta(false)}
+${p('Straight talk.')}
+${p('You finished the reset. Five days in, your hips are looser, your ankles move better, your knees feel less stacked. You earned that — and you did the work to get it.')}
+${p('Here\'s the part most guys miss: a reset is maintenance, not building. Stop now and it slips back in a few weeks. Keep going and you build on top of it instead.')}
+${p('That\'s the whole difference between Stay Ready and everything else you\'ve tried.')}
+${h('What you\'re actually getting:')}
+<ul style="margin:0 0 18px;padding-left:20px;color:${BRAND.body};font-size:15px;line-height:2;">
+  <li>The full BTH method — Foundation Month, then the Performance Track, run for you month to month</li>
+  <li>Hip Reset, Knee Protection, Ankle Rebuild, Skill Builder, and Recovery System — all included</li>
+  <li>The BTH app, so the training lives on your phone instead of in your inbox</li>
+</ul>
+${p('$27/month. Cancel anytime. Keep everything you download.')}
+${membershipCta(true)}
 ${p('Questions? Reply to this email. I read every one.')}
-${p('Not ready yet? No pressure — the list stays open. But the body you just earned is worth keeping.')}
+${p('Not ready yet? No pressure — the list stays open. But the body you just earned is worth keeping ready.')}
 ${sig()}
 `},
 
