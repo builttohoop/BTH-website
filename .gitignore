@@ -1,0 +1,7 @@
+# Build artifacts / dependencies — regenerated on demand, never committed
+node_modules/
+reset-pdfs/node_modules/
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db

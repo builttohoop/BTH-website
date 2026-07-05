@@ -5,6 +5,15 @@ Repo: `builttohoop/BTH-website` → GitHub Pages
 
 Static HTML/CSS/JS. No build pipeline. Edit files, push to `main`, site updates in ~60 seconds.
 
+> ⚠️ **Business facts below (tier prices, the Gumroad products table, MailerLite IDs) may be stale.**
+> Pricing/offer changes and the **GUMROAD-OFF cutover** (owned Mail OS licensing + Stripe replacing
+> Gumroad) are in flight. **Source of truth for the offer = Motherboard `data/command-center/products.json`
+> (membership = BTH Stay Ready $27/mo).** Treat the tables here as a rough map, not the live truth.
+>
+> **Business/strategy/ads docs that used to sit in this repo root were relocated to the BTH tree on
+> 2026-07-05** — `03-strategy/marketing-ops/`, `04-content/copy/`, `08-handoffs-and-prompts/`. See
+> `BTH/MIGRATION-LOG.md`.
+
 ---
 
 ## Site structure
@@ -28,11 +37,10 @@ Static HTML/CSS/JS. No build pipeline. Edit files, push to `main`, site updates 
 │   └── apple-touch-icon.png
 │
 ├── seo/                10 SEO content pages targeting specific search queries
+├── privacy/  updates/  Privacy page · announcements registry (updates.json)
 │
-├── email-sequences/    MailerLite automation copy (paste into dashboard)
-│
-├── AUDIT_REPORT.md     Site audit — bugs fixed + conversion recommendations
-└── GTM-SETUP-GUIDE.md  Optional GTM tag configuration guide
+├── email-sequences/    Free-reset funnel email generator + generated HTML
+└── reset-pdfs/         Free 5-Day Reset PDFs + Puppeteer generator (node_modules gitignored)
 ```
 
 ---
