@@ -6,10 +6,11 @@
  * Events:
  *   ViewContent      — on tier/addon/knee/mobility/bounce page load
  *   Lead             — on MailerLite email form submit
- *   InitiateCheckout — on any Gumroad CTA link click
+ *   InitiateCheckout — on any Gumroad CTA link click, OR any element carrying
+ *                      data-bth-checkout (owned/off-Gumroad CTAs, e.g. coaching)
  *
  * PageView fires automatically from each pixel's base code in <head>.
- * Purchase is tracked server-side via Gumroad webhook.
+ * Purchase is tracked server-side via the payment webhook.
  */
 (function () {
   "use strict";
@@ -118,6 +119,29 @@
     }, true);
   }
 
+  // InitiateCheckout — fires on any owned/off-Gumroad CTA carrying data-bth-checkout.
+  // Reads content from data attributes so it works without a Gumroad slug (coaching,
+  // and any future owned Mail OS checkout). Attributes:
+  //   data-bth-checkout            (presence = bind)
+  //   data-bth-id / -name / -value / -currency
+  function bindDataCheckoutClicks() {
+    document.addEventListener("click", function (e) {
+      var a = e.target && e.target.closest && e.target.closest("[data-bth-checkout]");
+      if (!a) return;
+      if (a.dataset.bthFired === "1") return;
+      a.dataset.bthFired = "1";
+      var val = parseFloat(a.getAttribute("data-bth-value"));
+      fire("InitiateCheckout", {
+        content_id:   a.getAttribute("data-bth-id")   || "unknown",
+        content_name: a.getAttribute("data-bth-name") || null,
+        content_type: "product",
+        value:        isNaN(val) ? null : val,
+        currency:     a.getAttribute("data-bth-currency") || "USD",
+      });
+      setTimeout(function () { delete a.dataset.bthFired; }, 2000);
+    }, true);
+  }
+
   // Lead — fires on MailerLite form submit
   function bindEmailSubmits() {
     document.addEventListener("submit", function (e) {
@@ -134,11 +158,13 @@
     document.addEventListener("DOMContentLoaded", function () {
       fireViewContent();
       bindCheckoutClicks();
+      bindDataCheckoutClicks();
       bindEmailSubmits();
     });
   } else {
     fireViewContent();
     bindCheckoutClicks();
+    bindDataCheckoutClicks();
     bindEmailSubmits();
   }
 })();
