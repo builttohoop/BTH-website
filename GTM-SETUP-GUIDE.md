@@ -1,7 +1,7 @@
 # BTH Google Tag Manager Setup Guide
 
 **GTM Container:** GTM-T9SFFTB7  
-**GA4 Measurement ID:** G-P72FN3GQ7G  
+**GA4 Measurement ID:** G-YBE7PRPCLK  
 **Meta Pixel ID:** 1728040128369123  
 **TikTok Pixel ID:** D7RNU1RC77U2TFGF3SO0
 
@@ -19,7 +19,7 @@ In GTM: **Tags → New**
 |-------|-------|
 | Name | `GA4 — Google Tag` |
 | Tag Type | **Google Tag** |
-| Tag ID | `G-P72FN3GQ7G` |
+| Tag ID | `G-YBE7PRPCLK` |
 | Trigger | **All Pages** |
 
 Save. This replaces the direct GA4 script that was removed from the HTML.

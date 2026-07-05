@@ -400,6 +400,6 @@ Campaigns 3–6 (Bounce, Hip, Ankle, Brand) are documented in GOOGLE-ADS-LAUNCH.
 
 ## KEY REFERENCE
 - Site: https://built-to-hoop.com
-- GA4: G-P72FN3GQ7G
+- GA4: G-YBE7PRPCLK
 - Full campaign specs: GOOGLE-ADS-LAUNCH.md in this repo
 - Landing pages confirmed live: knee.html, tier-1.html, tier-2.html, tier-3.html, addons.html, bounce.html, mobility.html, reset.html, about.html
