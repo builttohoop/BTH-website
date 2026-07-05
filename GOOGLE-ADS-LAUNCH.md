@@ -1,12 +1,12 @@
 # BTH Google Search Ads — Campaign Launch File
 _Execution-ready. Copy every field exactly into Google Ads (ads.google.com)._
-_Conversion tracking: GA4 G-P72FN3GQ7G linked to Google Ads_
+_Conversion tracking: GA4 G-YBE7PRPCLK linked to Google Ads_
 
 ---
 
 ## ✅ PRE-VERIFIED (site audit confirmed — no action needed)
 
-- GA4 `G-P72FN3GQ7G` firing on all pages
+- GA4 `G-YBE7PRPCLK` firing on all pages
 - Meta Pixel `1728040128369123` firing on all pages
 - TikTok Pixel `D7RNU1RC77U2TFGF3SO0` firing on all pages
 - GTM `GTM-T9SFFTB7` noscript on all pages
@@ -20,7 +20,7 @@ _Conversion tracking: GA4 G-P72FN3GQ7G linked to Google Ads_
 ## 🚀 QUICK START — DO THESE IN ORDER
 
 **Step 1 — Google Ads account setup (one-time, ~15 min)**
-1. Go to [ads.google.com](https://ads.google.com) → Settings → Linked accounts → Link GA4 `G-P72FN3GQ7G`
+1. Go to [ads.google.com](https://ads.google.com) → Settings → Linked accounts → Link GA4 `G-YBE7PRPCLK`
 2. Enable auto-tagging: Settings → Account settings → Auto-tagging → ON
 3. Confirm billing is active
 
@@ -42,7 +42,7 @@ See EXTENSIONS section — sitelinks, callouts, structured snippets.
 
 ## SETUP CHECKLIST (before creating campaigns)
 
-- [ ] GA4 (G-P72FN3GQ7G) linked to Google Ads account
+- [ ] GA4 (G-YBE7PRPCLK) linked to Google Ads account
 - [ ] Conversion actions created in Google Ads:
   - `BTH Lead` — triggered when someone lands on /thank-you.html
   - `BTH Initiate Checkout` — triggered on Gumroad link clicks (via GA4 event import)
