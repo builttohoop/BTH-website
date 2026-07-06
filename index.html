@@ -21,6 +21,7 @@
 <!-- ─── /BTH TRACKING ─── -->
 <!-- BTH unified tracker -->
 <script src="assets/bth-tracking.js" defer></script>
+<script src="assets/bth-form.js" defer></script>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -40,6 +41,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <!-- BTH design system — single source of truth for tokens/type/components (BTH-GOAL-0005) -->
 <link rel="stylesheet" href="assets/bth-system.css">
+<link rel="stylesheet" href="assets/bth-form.css">
 <style>
 /* ─── FORCE LIGHT MODE ─── */
 :root { color-scheme: light only; }
@@ -1055,7 +1057,23 @@ nav {
     <div class="reset-right reveal">
       <h3 class="form-title">Get Day 1<br>Right Now.</h3>
       <p class="form-sub">Drop your email. Day 1 lands in your inbox today. Free. No strings.</p>
-      <div class="ml-embedded" data-form="kJZHo2"></div>
+      <form class="bth-mail-form" action="https://bth-mail-os.tyrell-38b.workers.dev/api/subscribe" method="post" novalidate data-bth-redirect="/thank-you.html">
+      <div class="bth-field">
+        <input type="text" name="name" placeholder="First name" autocomplete="given-name">
+      </div>
+      <div class="bth-field">
+        <input type="email" name="email" placeholder="Email address" required autocomplete="email" id="bth-email-index-html">
+        <p class="bth-field-error-msg"></p>
+      </div>
+      <input type="hidden" name="source" value="free_reset">
+      <input type="hidden" name="sequence" value="free-reset-to-rise">
+      <input type="hidden" name="consent_version" value="bth-email-consent-v1">
+      <input type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true" class="bth-hp">
+      <button type="submit" class="bth-btn-commit">
+        <span class="bth-spinner"></span><span class="bth-btn-label" data-working-label="Sending&hellip;">Send Me Day 1 &rarr;</span>
+      </button>
+      <p class="bth-form-success" role="status">You're in &#9889;</p>
+    </form>
       <p class="form-note">No spam. Your info stays private.<br>Just the workouts — one per day for 5 days.</p>
     </div>
   </div>
