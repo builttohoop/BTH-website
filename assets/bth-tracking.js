@@ -5,7 +5,8 @@
  *
  * Events:
  *   ViewContent      — on tier/addon/knee/mobility/bounce page load
- *   Lead             — on MailerLite email form submit
+ *   Lead             — on MailerLite email form submit, OR the owned .bth-mail-form
+ *                      submit (BTH-GOAL-0027 — the owned Mail OS signup form)
  *   InitiateCheckout — on any Gumroad CTA link click, OR any element carrying
  *                      data-bth-checkout (owned/off-Gumroad CTAs, e.g. coaching)
  *
@@ -142,14 +143,16 @@
     }, true);
   }
 
-  // Lead — fires on MailerLite form submit
+  // Lead — fires on MailerLite form submit (legacy, kept during the parallel window)
+  // OR the owned Mail OS form submit (.bth-mail-form — the BTH-GOAL-0027 replacement).
   function bindEmailSubmits() {
     document.addEventListener("submit", function (e) {
       var f = e.target;
       if (!f || !f.matches) return;
       var isML = (f.action && /mailerlite\.com/i.test(f.action)) ||
                  (f.className && /ml-block-form|ml-form-embedSubmitLoad|ml-subscribe-form/i.test(f.className));
-      if (!isML) return;
+      var isOwned = f.className && /\bbth-mail-form\b/.test(f.className);
+      if (!isML && !isOwned) return;
       fire("Lead", { content_name: "email_signup", content_category: "newsletter" });
     }, true);
   }

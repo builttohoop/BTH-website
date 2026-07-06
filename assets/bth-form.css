@@ -1,0 +1,169 @@
+/* =============================================================
+   BTH Owned Form — Tier-1 commit skeleton
+   Source: BTH/design-system/templates/bth-forms-cta-spec.md
+   Pair with bth-system.css (tokens) + bth-form.js (behavior).
+
+   One skeleton for every BTH form (signup / contact / waitlist):
+   eyebrow -> headline -> copy -> field(s) -> Tier-1 button -> fine print.
+   This file is the shared, page-independent version of the legacy
+   per-page .form-card / .ml-form-wrap / .form-input rules — every
+   page that includes this file gets the identical production form,
+   regardless of what local styles it also carries.
+   ============================================================= */
+
+.bth-form-card {
+  background: var(--bth-cream, var(--cream, #F3EFE7));
+  border: 1px solid var(--bth-border, var(--border, rgba(17,19,24,.12)));
+  border-radius: 2px;
+  padding: 44px 36px;
+  position: relative;
+  box-shadow: 0 1px 0 rgba(17,19,24,0.04);
+}
+@media (max-width:560px) { .bth-form-card { padding: 32px 24px; } }
+.bth-form-card::before {
+  content: 'FREE';
+  position: absolute; top: -12px; left: 28px;
+  background: var(--bth-gold, var(--gold, #E6A800));
+  color: var(--bth-black, var(--black, #111318));
+  font-family: var(--font-display, var(--H), 'Oswald', sans-serif);
+  font-size: 11px; font-weight: 700; letter-spacing: 0.18em;
+  padding: 5px 14px; border-radius: 2px;
+  text-transform: uppercase;
+}
+.bth-form-card.bth-form-no-badge::before { display: none; }
+
+.bth-form-eyebrow {
+  font-family: var(--font-body, var(--B), 'DM Sans', sans-serif);
+  font-size: 11px; font-weight: 600; letter-spacing: .22em;
+  text-transform: uppercase; color: var(--bth-gold, var(--gold, #E6A800));
+  margin-bottom: 10px;
+}
+.bth-form-h {
+  font-family: var(--font-display, var(--H), 'Oswald', sans-serif);
+  font-size: clamp(24px, 3.6vw, 32px);
+  font-weight: 700; letter-spacing: 0.02em; text-transform: uppercase;
+  color: var(--bth-black, var(--black, #111318));
+  line-height: 1.05; margin: 0 0 10px;
+}
+.bth-form-h .gold { color: var(--bth-gold, var(--gold, #E6A800)); }
+.bth-form-sub {
+  font-size: 14px; color: var(--bth-muted-strong, var(--muted, rgba(17,19,24,.65)));
+  margin: 0 0 24px; line-height: 1.65;
+}
+
+.bth-mail-form { margin: 0; }
+.bth-mail-form .bth-field { margin-bottom: 12px; position: relative; }
+.bth-mail-form input[type="text"],
+.bth-mail-form input[type="email"] {
+  width: 100%;
+  padding: 14px 15px;
+  font-family: var(--font-body, var(--B), 'DM Sans', sans-serif);
+  font-size: 15px;
+  border: 1px solid var(--bth-border, var(--border, rgba(17,19,24,.16)));
+  border-radius: 2px;
+  background: var(--bth-white, var(--white, #FFFFFF));
+  color: var(--bth-black, var(--black, #111318));
+  transition: border-color .18s cubic-bezier(.2,.6,.2,1), box-shadow .18s cubic-bezier(.2,.6,.2,1);
+  box-sizing: border-box;
+  -webkit-appearance: none;
+}
+.bth-mail-form input::placeholder { color: rgba(17,19,24,.38); }
+.bth-mail-form input:focus {
+  outline: none;
+  border-color: var(--bth-gold, var(--gold, #E6A800));
+  box-shadow: 0 0 0 3px rgba(230,168,0,.28);
+}
+.bth-mail-form input.bth-field-error {
+  border-color: #C0392B;
+  box-shadow: 0 0 0 3px rgba(192,57,43,.14);
+}
+.bth-field-error-msg {
+  display: none;
+  font-size: 12px; color: #C0392B; margin: 6px 0 0;
+  font-family: var(--font-body, var(--B), 'DM Sans', sans-serif);
+}
+.bth-field-error-msg.is-visible { display: block; }
+
+/* Honeypot — off-screen, never shown to real users */
+.bth-hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+
+/* ---- Tier-1 commit button: press -> working -> success ---- */
+.bth-btn-commit {
+  width: 100%;
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  font-family: var(--font-display, var(--H), 'Oswald', sans-serif);
+  font-size: 14px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--bth-black, var(--black, #111318));
+  background: var(--bth-gold, var(--gold, #E6A800));
+  border: none; border-radius: 2px;
+  padding: 15px 24px;
+  margin-top: 6px;
+  cursor: pointer;
+  transition: transform .18s cubic-bezier(.2,.6,.2,1), box-shadow .18s cubic-bezier(.2,.6,.2,1), background .18s, color .18s, opacity .18s;
+}
+.bth-btn-commit:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(230,168,0,.34);
+}
+.bth-btn-commit:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(230,168,0,.4);
+}
+.bth-btn-commit:active:not(:disabled) { transform: scale(.96); }
+.bth-btn-commit:disabled { opacity: .4; cursor: default; }
+
+/* working state */
+.bth-btn-commit .bth-spinner {
+  display: none;
+  width: 14px; height: 14px;
+  border: 2px solid rgba(17,19,24,.28);
+  border-top-color: #111318;
+  border-radius: 50%;
+  animation: bth-spin .7s linear infinite;
+}
+.bth-btn-commit.is-working .bth-spinner { display: inline-block; }
+.bth-btn-commit.is-working .bth-btn-label::after { content: attr(data-working-label); }
+.bth-btn-commit.is-working .bth-btn-label { font-size: 0; }
+.bth-btn-commit.is-working .bth-btn-label::after { font-size: 14px; }
+@keyframes bth-spin { to { transform: rotate(360deg); } }
+
+/* success state — dark chip, gold text, checkmark pop */
+.bth-form-success {
+  display: none;
+  align-items: center; gap: 10px;
+  background: #1C1F26;
+  color: var(--bth-gold, #E6A800);
+  font-family: var(--font-display, var(--H), 'Oswald', sans-serif);
+  font-size: 14px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase;
+  border-radius: 2px;
+  padding: 16px 20px;
+  margin-top: 6px;
+}
+.bth-form-success.is-visible { display: inline-flex; animation: bth-pop .28s cubic-bezier(.2,.6,.2,1); }
+@keyframes bth-pop { from { transform: scale(.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+.bth-form-trust {
+  font-size: 12px;
+  color: var(--bth-muted, var(--muted, rgba(17,19,24,.5)));
+  margin: 14px 0 0; text-align: center; line-height: 1.55;
+}
+
+/* Contact-form variant: textarea */
+.bth-mail-form textarea {
+  width: 100%;
+  padding: 14px 15px;
+  font-family: var(--font-body, var(--B), 'DM Sans', sans-serif);
+  font-size: 15px;
+  border: 1px solid var(--bth-border, var(--border, rgba(17,19,24,.16)));
+  border-radius: 2px;
+  background: var(--bth-white, var(--white, #FFFFFF));
+  color: var(--bth-black, var(--black, #111318));
+  resize: vertical; min-height: 110px;
+  transition: border-color .18s cubic-bezier(.2,.6,.2,1), box-shadow .18s cubic-bezier(.2,.6,.2,1);
+  box-sizing: border-box;
+}
+.bth-mail-form textarea:focus {
+  outline: none;
+  border-color: var(--bth-gold, var(--gold, #E6A800));
+  box-shadow: 0 0 0 3px rgba(230,168,0,.28);
+}
