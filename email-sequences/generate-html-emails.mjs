@@ -23,6 +23,20 @@
 //  • Checkout happens ON THE WEBSITE (CHECKOUT_URL), not Gumroad. One constant to flip at cutover.
 //
 // This file replaces the old generate→darkify two-step. Do not re-introduce inline workouts.
+//
+// BTH-GOAL-0027 update — adopts the "Center Court" email-1A shell's STRUCTURE
+// (hidden preheader line, header hairline rule under the wordmark, bulletproof
+// MSO <v:roundrect> gold button so Outlook desktop renders a real button instead
+// of a plain link) while keeping the LOCKED dark-first canvas from
+// BTH-EMAIL-STYLE.md. The 1A source file (BTH/design-system/templates/
+// bth-email-template-1A.html) is light-first with dark-mode media queries —
+// that is a real conflict with the locked "no light backgrounds anywhere" rule.
+// Flagged for Ty rather than silently overturning the doctrine: this generator
+// takes 1A's component techniques, not its light canvas. The Worker's
+// renderEmail() still injects the real footer (unsubscribe/preferences/postal
+// address) — this file's own footer stays decorative, no {{PLACEHOLDER}} tokens
+// (the Worker does not resolve {{UNSUBSCRIBE_URL}} etc. in stored HTML, so a
+// literal placeholder would ship broken to inboxes).
 
 import fs from 'fs';
 import path from 'path';
@@ -50,19 +64,25 @@ const BRAND = {
   btnText: '#111318',
 };
 
-function wrap(subject, bodyHtml) {
+function wrap(subject, bodyHtml, preheader) {
+  const preheaderText = preheader || 'A training system built around how pickup basketball actually loads your body.';
   return `<!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="x-apple-disable-message-reformatting">
   <meta name="color-scheme" content="dark light">
   <meta name="supported-color-schemes" content="dark light">
   <title>${subject}</title>
+  <!--[if mso]>
+  <noscript><xml><o:OfficeDocumentSettings><o:PixelsPerInch>96</o:PixelsPerInch></o:OfficeDocumentSettings></xml></noscript>
+  <![endif]-->
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@600;700&family=DM+Sans:wght@400;500;600&display=swap');
     body { margin:0; padding:0; background:${BRAND.canvas}; -webkit-text-size-adjust:100%; }
+    table, td { mso-table-lspace:0pt; mso-table-rspace:0pt; border-collapse:collapse; }
     a { color:${BRAND.gold}; }
     @media only screen and (max-width:620px) {
       .email-wrap { padding:16px 0 !important; }
@@ -75,10 +95,16 @@ function wrap(subject, bodyHtml) {
 </head>
 <body style="margin:0;padding:0;background:${BRAND.canvas};font-family:'DM Sans',Arial,sans-serif;">
 
+  <!-- PREHEADER (hidden inbox-preview line) -->
+  <div style="display:none;font-size:1px;line-height:1px;max-height:0;max-width:0;opacity:0;overflow:hidden;mso-hide:all;">
+    ${preheaderText}
+  </div>
+
 <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:${BRAND.canvas};">
   <tr>
     <td align="center" class="email-wrap" style="padding:32px 16px;">
 
+      <!--[if mso]><table role="presentation" width="600" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
       <table width="600" cellpadding="0" cellspacing="0" border="0" style="max-width:600px;width:100%;background:${BRAND.card};border:1px solid ${BRAND.border};">
 
         <!-- HEADER -->
@@ -96,10 +122,16 @@ function wrap(subject, bodyHtml) {
             </table>
           </td>
         </tr>
+        <!-- header hairline (the 1A metallic-accent rule) -->
+        <tr>
+          <td style="padding:0 40px;background:${BRAND.card};">
+            <table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="height:2px;width:46px;background:${BRAND.gold};line-height:2px;font-size:1px;">&nbsp;</td></tr></table>
+          </td>
+        </tr>
 
         <!-- BODY -->
         <tr>
-          <td class="email-body" style="padding:40px;color:${BRAND.body};font-family:'DM Sans',Arial,sans-serif;font-size:16px;line-height:1.75;">
+          <td class="email-body" style="padding:32px 40px 40px;color:${BRAND.body};font-family:'DM Sans',Arial,sans-serif;font-size:16px;line-height:1.75;">
             ${bodyHtml}
           </td>
         </tr>
@@ -116,6 +148,7 @@ function wrap(subject, bodyHtml) {
         </tr>
 
       </table>
+      <!--[if mso]></td></tr></table><![endif]-->
     </td>
   </tr>
 </table>
@@ -124,6 +157,30 @@ function wrap(subject, bodyHtml) {
 }
 
 // ─── HELPERS ─────────────────────────────────────────────────────
+
+// Bulletproof gold button: real <table>-based fallback for every client, PLUS
+// an MSO <v:roundrect> so Outlook desktop (Word rendering engine) draws an
+// actual button instead of collapsing the table cell padding. Same technique
+// as bth-email-template-1A.html's CTA, ported into the dark-first palette.
+function msoButton(url, label, widthPx = 260) {
+  return `<!--[if mso]>
+<v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="${url}" style="height:48px;v-text-anchor:middle;width:${widthPx}px;" arcsize="4%" fillcolor="${BRAND.gold}" stroke="f">
+<w:anchorlock/>
+<center style="color:${BRAND.btnText};font-family:Arial,sans-serif;font-size:14px;font-weight:bold;letter-spacing:1px;">${label.toUpperCase()}</center>
+</v:roundrect>
+<![endif]-->
+<!--[if !mso]><!-->
+<table cellpadding="0" cellspacing="0" border="0">
+  <tr>
+    <td style="background:${BRAND.gold};border-radius:2px;">
+      <a href="${url}" class="btn" style="display:inline-block;font-family:Oswald,Arial,sans-serif;font-size:14px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:${BRAND.btnText};text-decoration:none;padding:15px 30px;">
+        ${label}
+      </a>
+    </td>
+  </tr>
+</table>
+<!--<![endif]-->`;
+}
 
 function greeting() {
   return `<p style="margin:0 0 24px;font-size:16px;color:${BRAND.body};">Hooper,</p>`;
@@ -140,17 +197,7 @@ function resetButton(day, title, filename) {
 <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:24px 0;">
   <tr>
     <td>
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td style="background:${BRAND.gold};border-radius:2px;">
-            <a href="${RESET_BASE}/${filename}"
-               class="btn"
-               style="display:inline-block;font-family:Oswald,Arial,sans-serif;font-size:14px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:${BRAND.btnText};text-decoration:none;padding:15px 30px;">
-              ↓ Open Day ${day} — ${title}
-            </a>
-          </td>
-        </tr>
-      </table>
+      ${msoButton(`${RESET_BASE}/${filename}`, `Open Day ${day} — ${title}`, 300)}
       <p style="margin:10px 0 0;font-size:13px;color:${BRAND.muted};">The full workout, step by step. Pull it up on your phone or print it before you start.</p>
     </td>
   </tr>
@@ -166,27 +213,15 @@ function membershipCta(featured) {
       <p style="margin:0 0 4px;font-family:Oswald,Arial,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:${BRAND.gold};">The next step</p>
       <p style="margin:0 0 12px;font-family:Oswald,Arial,sans-serif;font-size:22px;font-weight:700;color:${BRAND.heading};line-height:1.2;">Stay Ready — $27/month</p>
       <p style="margin:0 0 16px;font-size:15px;color:${BRAND.body};line-height:1.7;">Cancel anytime. Keep everything you download. Foundation Month picks up exactly where the reset left off.</p>
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td style="background:${BRAND.gold};border-radius:2px;">
-            <a href="${CHECKOUT_URL}" class="btn"
-               style="display:inline-block;font-family:Oswald,Arial,sans-serif;font-size:14px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:${BRAND.btnText};text-decoration:none;padding:15px 30px;">
-              Join Stay Ready →
-            </a>
-          </td>
-        </tr>
-      </table>
+      ${msoButton(CHECKOUT_URL, 'Join Stay Ready →', 240)}
     </td>
   </tr>
 </table>`;
   }
   return `
-<p style="margin:24px 0 8px;">
-  <a href="${CHECKOUT_URL}"
-     style="display:inline-block;font-family:Oswald,Arial,sans-serif;font-size:14px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:${BRAND.btnText};background:${BRAND.gold};text-decoration:none;padding:15px 30px;border-radius:2px;">
-    Join Stay Ready →
-  </a>
-</p>`;
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:24px 0 8px;">
+  <tr><td>${msoButton(CHECKOUT_URL, 'Join Stay Ready →', 240)}</td></tr>
+</table>`;
 }
 
 function p(text, opts = {}) {
