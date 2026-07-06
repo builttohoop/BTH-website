@@ -7,11 +7,12 @@
  *   ViewContent      — on tier/addon/knee/mobility/bounce page load
  *   Lead             — on MailerLite email form submit, OR the owned .bth-mail-form
  *                      submit (BTH-GOAL-0027 — the owned Mail OS signup form)
- *   InitiateCheckout — on any Gumroad CTA link click, OR any element carrying
- *                      data-bth-checkout (owned/off-Gumroad CTAs, e.g. coaching)
+ *   InitiateCheckout — on the owned Stripe Payment Link CTA (STRIPE_LINK_MAP), any
+ *                      legacy Gumroad CTA link (kept live through the cutover parallel
+ *                      window), OR any element carrying data-bth-checkout (e.g. coaching)
  *
  * PageView fires automatically from each pixel's base code in <head>.
- * Purchase is tracked server-side via the payment webhook.
+ * Purchase is tracked server-side via the Mail OS Stripe/payment webhook.
  */
 (function () {
   "use strict";
@@ -40,6 +41,20 @@
     "xbxhqc": { name: "Recovery Track",             value: 41.99, currency: "USD" },
     "esgvfq": { name: "Injury Bundle",              value: 79.99, currency: "USD" },
   };
+
+  // Owned Stripe Payment Links (post-Gumroad cutover, BTH-GOAL-0026). Keyed by the
+  // buy.stripe.com URL. Only fires InitiateCheckout on click-through; the Purchase is
+  // confirmed server-side by the Mail OS Stripe webhook.
+  var STRIPE_LINK_MAP = {
+    "https://buy.stripe.com/4gMaEXbvh7nu1sccHJaAw00":
+      { content_id: "stay-ready", content_name: "BTH Stay Ready ($27/mo)", content_type: "product", value: 27, currency: "USD" },
+  };
+
+  function stripePropsFromHref(href) {
+    if (!href) return null;
+    var base = String(href).split(/[?#]/)[0];
+    return STRIPE_LINK_MAP[base] || STRIPE_LINK_MAP[href] || { content_id: "stripe-checkout", content_type: "product" };
+  }
 
   function fire(eventName, props) {
     props = props || {};
@@ -143,6 +158,19 @@
     }, true);
   }
 
+  // InitiateCheckout — fires on any owned Stripe Payment Link click (buy.stripe.com).
+  // This is the post-Gumroad membership checkout (join.html + any swapped CTAs).
+  function bindStripeCheckoutClicks() {
+    document.addEventListener("click", function (e) {
+      var a = e.target && e.target.closest && e.target.closest("a[href*='buy.stripe.com']");
+      if (!a) return;
+      if (a.dataset.bthFired === "1") return;
+      a.dataset.bthFired = "1";
+      fire("InitiateCheckout", stripePropsFromHref(a.href));
+      setTimeout(function () { delete a.dataset.bthFired; }, 2000);
+    }, true);
+  }
+
   // Lead — fires on MailerLite form submit (legacy, kept during the parallel window)
   // OR the owned Mail OS form submit (.bth-mail-form — the BTH-GOAL-0027 replacement).
   function bindEmailSubmits() {
@@ -161,12 +189,14 @@
     document.addEventListener("DOMContentLoaded", function () {
       fireViewContent();
       bindCheckoutClicks();
+      bindStripeCheckoutClicks();
       bindDataCheckoutClicks();
       bindEmailSubmits();
     });
   } else {
     fireViewContent();
     bindCheckoutClicks();
+    bindStripeCheckoutClicks();
     bindDataCheckoutClicks();
     bindEmailSubmits();
   }
