@@ -120,12 +120,13 @@ footer { padding:48px 52px; max-width:1180px; margin:0 auto; display:flex; justi
     <div class="buy-price"><span class="amt">$27</span><span class="per">/ month</span></div>
     <div class="buy-note">Cancel anytime. Keep everything you download.</div>
     <!--
-      CHECKOUT LINK — Ty's one-line swap at cutover.
-      Replace the href below with your live Stripe Payment Link (or PayPal checkout) when the
-      account is connected. It currently points to the existing checkout so the buy flow never
-      dead-ends. After payment, the Mail OS payment webhook emails the member their BTH key + app link.
+      CHECKOUT LINK — live Stripe Payment Link for BTH Stay Ready ($27/mo).
+      Cutover 2026-07-06 (BTH-GOAL-0026 Phase 3): was builttohoop.gumroad.com/l/stay-ready.
+      InitiateCheckout fires on click via assets/bth-tracking.js (STRIPE_LINK_MAP).
+      After payment, the Mail OS Stripe webhook (POST /webhooks/stripe -> markBuyerAndQueueAccess)
+      mints the BTH license and emails the member their key + app link; Purchase is server-side.
     -->
-    <a class="buy-btn" id="checkout" href="https://builttohoop.gumroad.com/l/stay-ready" rel="noopener">Join Stay Ready →</a>
+    <a class="buy-btn" id="checkout" href="https://buy.stripe.com/4gMaEXbvh7nu1sccHJaAw00" rel="noopener">Join Stay Ready →</a>
     <p class="buy-trust">Secure checkout. Your membership key + app access are emailed to you the moment you join.</p>
   </div>
 </section>

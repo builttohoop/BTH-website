@@ -29,19 +29,19 @@
 //
 // This file replaces the old generate→darkify two-step. Do not re-introduce inline workouts.
 //
-// BTH-GOAL-0027 update — adopts the "Center Court" email-1A shell in full: paper
-// canvas by default (#EDEAE3 page / #FBF9F4 card), auto-inverting to the dark
-// palette (#0B0C0F page / #17191F card) via @media (prefers-color-scheme: dark)
-// and [data-ogsc] for Outlook.com/app — exactly as bth-email-template-1A.html.
-// Gold (#E6A800) is the one constant that reads on both, so the CTA button
-// never changes between modes. Also carries 1A's structural pieces: hidden
-// preheader line, header hairline rule under the wordmark, and a bulletproof
-// MSO <v:roundrect> gold button so Outlook desktop renders a real button
-// instead of a plain link. The Worker's renderEmail() still injects the real
-// footer (unsubscribe/preferences/postal address) — this file's own footer
-// stays decorative, no {{PLACEHOLDER}} tokens (the Worker does not resolve
-// {{UNSUBSCRIBE_URL}} etc. in stored HTML, so a literal placeholder would ship
-// broken to inboxes).
+// BTH-GOAL-0027 update — adopts the "Center Court" email-1A shell's STRUCTURE
+// (hidden preheader line, header hairline rule under the wordmark, bulletproof
+// MSO <v:roundrect> gold button so Outlook desktop renders a real button instead
+// of a plain link) while keeping the LOCKED dark-first canvas from
+// BTH-EMAIL-STYLE.md. The 1A source file (BTH/design-system/templates/
+// bth-email-template-1A.html) is light-first with dark-mode media queries —
+// that is a real conflict with the locked "no light backgrounds anywhere" rule.
+// Flagged for Ty rather than silently overturning the doctrine: this generator
+// takes 1A's component techniques, not its light canvas. The Worker's
+// renderEmail() still injects the real footer (unsubscribe/preferences/postal
+// address) — this file's own footer stays decorative, no {{PLACEHOLDER}} tokens
+// (the Worker does not resolve {{UNSUBSCRIBE_URL}} etc. in stored HTML, so a
+// literal placeholder would ship broken to inboxes).
 
 import fs from 'fs';
 import path from 'path';
@@ -93,43 +93,17 @@ function wrap(subject, bodyHtml, preheader) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="x-apple-disable-message-reformatting">
-  <meta name="color-scheme" content="light dark">
-  <meta name="supported-color-schemes" content="light dark">
+  <meta name="color-scheme" content="dark light">
+  <meta name="supported-color-schemes" content="dark light">
   <title>${subject}</title>
   <!--[if mso]>
   <noscript><xml><o:OfficeDocumentSettings><o:PixelsPerInch>96</o:PixelsPerInch></o:OfficeDocumentSettings></xml></noscript>
   <![endif]-->
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@600;700&family=DM+Sans:wght@400;500;600&display=swap');
-    :root { color-scheme: light dark; supported-color-schemes: light dark; }
-    html, body { margin:0 !important; padding:0 !important; width:100% !important; }
-    body { background:${BRAND.pageLight}; -webkit-text-size-adjust:100%; }
+    body { margin:0; padding:0; background:${BRAND.canvas}; -webkit-text-size-adjust:100%; }
     table, td { mso-table-lspace:0pt; mso-table-rspace:0pt; border-collapse:collapse; }
-    a { color:${BRAND.goldLight}; }
-
-    /* ---- DARK MODE (Apple Mail, iOS, modern clients) ---- */
-    @media (prefers-color-scheme: dark) {
-      .bg-page     { background:${BRAND.pageDark} !important; }
-      .bg-card     { background:${BRAND.cardDark} !important; }
-      .border-card { border-color:${BRAND.borderDark} !important; }
-      .t-ink       { color:${BRAND.inkDark} !important; }
-      .t-body      { color:${BRAND.bodyDark} !important; }
-      .t-gold      { color:${BRAND.goldDark} !important; }
-      .t-muted     { color:${BRAND.mutedDark} !important; }
-      .rule        { background-color:${BRAND.borderDark} !important; }
-      .link        { color:${BRAND.goldDark} !important; }
-    }
-    /* ---- DARK MODE (Outlook.com / Outlook app) ---- */
-    [data-ogsc] .bg-page     { background:${BRAND.pageDark} !important; }
-    [data-ogsc] .bg-card     { background:${BRAND.cardDark} !important; }
-    [data-ogsc] .border-card { border-color:${BRAND.borderDark} !important; }
-    [data-ogsc] .t-ink       { color:${BRAND.inkDark} !important; }
-    [data-ogsc] .t-body      { color:${BRAND.bodyDark} !important; }
-    [data-ogsc] .t-gold      { color:${BRAND.goldDark} !important; }
-    [data-ogsc] .t-muted     { color:${BRAND.mutedDark} !important; }
-    [data-ogsc] .rule        { background-color:${BRAND.borderDark} !important; }
-    [data-ogsc] .link        { color:${BRAND.goldDark} !important; }
-
+    a { color:${BRAND.gold}; }
     @media only screen and (max-width:620px) {
       .email-wrap { padding:16px 0 !important; }
       .email-body { padding:32px 24px !important; }
@@ -146,12 +120,12 @@ function wrap(subject, bodyHtml, preheader) {
     ${preheaderText}
   </div>
 
-<table width="100%" cellpadding="0" cellspacing="0" border="0" class="bg-page" style="background-color:${BRAND.pageLight};">
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:${BRAND.canvas};">
   <tr>
     <td align="center" class="email-wrap" style="padding:32px 16px;">
 
       <!--[if mso]><table role="presentation" width="600" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
-      <table width="600" cellpadding="0" cellspacing="0" border="0" class="bg-card border-card" style="max-width:600px;width:100%;background-color:${BRAND.cardLight};border:1px solid ${BRAND.borderLight};border-radius:2px;">
+      <table width="600" cellpadding="0" cellspacing="0" border="0" style="max-width:600px;width:100%;background:${BRAND.card};border:1px solid ${BRAND.border};">
 
         <!-- HEADER (near-black band, both modes — matches 1A's wordmark treatment) -->
         <tr>
@@ -170,14 +144,14 @@ function wrap(subject, bodyHtml, preheader) {
         </tr>
         <!-- header hairline (the 1A metallic-accent rule) -->
         <tr>
-          <td class="bg-card" style="padding:0 40px;background-color:${BRAND.cardLight};">
+          <td style="padding:0 40px;background:${BRAND.card};">
             <table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="height:2px;width:46px;background:${BRAND.gold};line-height:2px;font-size:1px;">&nbsp;</td></tr></table>
           </td>
         </tr>
 
         <!-- BODY -->
         <tr>
-          <td class="email-body t-body" style="padding:32px 40px 40px;color:${BRAND.bodyLight};font-family:'DM Sans',Arial,sans-serif;font-size:16px;line-height:1.75;">
+          <td class="email-body" style="padding:32px 40px 40px;color:${BRAND.body};font-family:'DM Sans',Arial,sans-serif;font-size:16px;line-height:1.75;">
             ${bodyHtml}
           </td>
         </tr>
@@ -206,9 +180,8 @@ function wrap(subject, bodyHtml, preheader) {
 
 // Bulletproof gold button: real <table>-based fallback for every client, PLUS
 // an MSO <v:roundrect> so Outlook desktop (Word rendering engine) draws an
-// actual button instead of collapsing the table cell padding. Identical
-// technique to bth-email-template-1A.html's CTA — gold fill is the one
-// constant that never changes between light and dark mode.
+// actual button instead of collapsing the table cell padding. Same technique
+// as bth-email-template-1A.html's CTA, ported into the dark-first palette.
 function msoButton(url, label, widthPx = 260) {
   return `<!--[if mso]>
 <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="${url}" style="height:48px;v-text-anchor:middle;width:${widthPx}px;" arcsize="4%" fillcolor="${BRAND.gold}" stroke="f">
@@ -245,7 +218,7 @@ function resetButton(day, title, filename) {
   <tr>
     <td>
       ${msoButton(`${RESET_BASE}/${filename}`, `Open Day ${day} — ${title}`, 300)}
-      <p class="t-muted" style="margin:10px 0 0;font-size:13px;color:${BRAND.mutedLight};">The full workout, step by step. Pull it up on your phone or print it before you start.</p>
+      <p style="margin:10px 0 0;font-size:13px;color:${BRAND.muted};">The full workout, step by step. Pull it up on your phone or print it before you start.</p>
     </td>
   </tr>
 </table>`;
@@ -256,10 +229,10 @@ function membershipCta(featured) {
     return `
 <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:28px 0;">
   <tr>
-    <td class="bg-page border-card" style="background-color:${BRAND.pageLight};border:1px solid ${BRAND.borderLight};border-left:4px solid ${BRAND.gold};padding:24px 28px;">
-      <p class="t-gold" style="margin:0 0 4px;font-family:Oswald,Arial,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:${BRAND.goldLight};">The next step</p>
-      <p class="t-ink" style="margin:0 0 12px;font-family:Oswald,Arial,sans-serif;font-size:22px;font-weight:700;color:${BRAND.inkLight};line-height:1.2;">Stay Ready — $27/month</p>
-      <p class="t-body" style="margin:0 0 16px;font-size:15px;color:${BRAND.bodyLight};line-height:1.7;">Cancel anytime. Keep everything you download. Foundation Month picks up exactly where the reset left off.</p>
+    <td style="background:${BRAND.canvas};border:1px solid ${BRAND.border};border-left:4px solid ${BRAND.gold};padding:24px 28px;">
+      <p style="margin:0 0 4px;font-family:Oswald,Arial,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:${BRAND.gold};">The next step</p>
+      <p style="margin:0 0 12px;font-family:Oswald,Arial,sans-serif;font-size:22px;font-weight:700;color:${BRAND.heading};line-height:1.2;">Stay Ready — $27/month</p>
+      <p style="margin:0 0 16px;font-size:15px;color:${BRAND.body};line-height:1.7;">Cancel anytime. Keep everything you download. Foundation Month picks up exactly where the reset left off.</p>
       ${msoButton(CHECKOUT_URL, 'Join Stay Ready →', 240)}
     </td>
   </tr>
