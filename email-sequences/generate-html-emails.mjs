@@ -7,16 +7,21 @@
 // dark-surface tokens. Any palette change updates bth-system.css first, then this file.
 //
 //   bth-system.css token → email inline value
-//   --bth-gold   #E6A800  → BRAND.gold
-//   --bth-black  #111318  → BRAND.header / BRAND.btnText
-//   --bth-white  #FFFFFF  → BRAND.white / BRAND.heading
+//   --bth-gold   #E6A800  → BRAND.gold / BRAND.goldDark (BRAND.goldLight = deep #B4841A on paper)
+//   --bth-black  #111318  → BRAND.header / BRAND.btnText / BRAND.inkLight
+//   --bth-white  #FFFFFF  → BRAND.headerFg / BRAND.inkDark
 //   --r-square   2px      → border-radius:2px on all buttons (no mid-radius)
 //   --font-display Oswald → Oswald,Arial,sans-serif (safe email stack)
 //   --font-body   DM Sans → 'DM Sans',Arial,sans-serif (safe email stack)
 //
 // Design rules (locked):
-//  • DARK-FIRST premium black/gold (see automations/bth-mail-os/BTH-EMAIL-STYLE.md).
-//    Light emails get force-inverted to mud by Gmail/iOS dark mode; dark designs are left alone.
+//  • PAPER-FIRST premium cream/gold, adaptive to dark mode (Ty's doctrine call,
+//    2026-07-06 — supersedes the prior dark-first-only rule). Canvas/card default
+//    to the "Center Court" 1A paper palette; @media (prefers-color-scheme: dark)
+//    + [data-ogsc] (Outlook.com/app dark mode) flip every surface to the 1A dark
+//    palette. See automations/bth-mail-os/BTH-EMAIL-STYLE.md — due for an update
+//    to reflect this; the canonical palette now lives in
+//    BTH/design-system/templates/bth-email-template-1A.html.
 //  • LINK-ONLY reset delivery — emails NEVER list the exercises. Each reset-day email carries
 //    ONE gold CTA that links to that day's real reset (the workout lives in the PDF, not the email).
 //  • Membership = "Stay Ready" $27/mo (locked taxonomy). No "BTH Rise", no RISE10 discount, no hype.
@@ -50,18 +55,33 @@ const CHECKOUT_URL = 'https://built-to-hoop.com/join';
 // Base path for the real reset PDFs (restored from Ty's canonical Drive set — see reset-pdfs/generate.mjs).
 const RESET_BASE = 'https://built-to-hoop.com/reset-pdfs/output';
 
-// ─── DARK PALETTE (BTH-EMAIL-STYLE.md) ───────────────────────────
+// ─── PAPER-FIRST PALETTE (bth-email-template-1A.html "Center Court") ──────
+// Light values are the CSS defaults (inline styles below); dark values are
+// applied ONLY via the @media (prefers-color-scheme: dark) + [data-ogsc]
+// overrides in wrap()'s <style> block, matching 1A exactly. Gold is the one
+// constant — same hex in both modes.
 const BRAND = {
-  canvas:  '#0B0C0F',
-  card:    '#15171C',
-  header:  '#111318',
-  border:  '#2A2D34',
-  gold:    '#E6A800',
-  white:   '#FFFFFF',
-  heading: '#FFFFFF',
-  body:    '#D7D9DE',
-  muted:   '#A8ABB2',
-  btnText: '#111318',
+  // paper (light, default)
+  pageLight:   '#EDEAE3',
+  cardLight:   '#FBF9F4',
+  borderLight: '#E1DCD0',
+  inkLight:    '#111318',
+  bodyLight:   '#45474D',
+  goldLight:   '#B4841A', // deep gold — reads on paper (wordmark accent, eyebrow, links)
+  mutedLight:  '#8A8578',
+  // dark (auto, via media query / [data-ogsc])
+  pageDark:    '#0B0C0F',
+  cardDark:    '#17191F',
+  borderDark:  '#2A2D35',
+  inkDark:     '#F3EFE7',
+  bodyDark:    '#C9CBD0',
+  goldDark:    '#E6A800', // electric gold — reads on dark
+  mutedDark:   '#8A8D94',
+  // constants
+  gold:        '#E6A800', // CTA button fill — identical in both modes (1A rule)
+  btnText:     '#111318',
+  header:      '#111318', // header band + footer band stay near-black in BOTH modes (1A keeps the wordmark strip dark on paper too)
+  headerFg:    '#FFFFFF',
 };
 
 function wrap(subject, bodyHtml, preheader) {
@@ -93,7 +113,7 @@ function wrap(subject, bodyHtml, preheader) {
     }
   </style>
 </head>
-<body style="margin:0;padding:0;background:${BRAND.canvas};font-family:'DM Sans',Arial,sans-serif;">
+<body class="bg-page" style="margin:0;padding:0;background-color:${BRAND.pageLight};font-family:'DM Sans',Arial,sans-serif;">
 
   <!-- PREHEADER (hidden inbox-preview line) -->
   <div style="display:none;font-size:1px;line-height:1px;max-height:0;max-width:0;opacity:0;overflow:hidden;mso-hide:all;">
@@ -107,13 +127,13 @@ function wrap(subject, bodyHtml, preheader) {
       <!--[if mso]><table role="presentation" width="600" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
       <table width="600" cellpadding="0" cellspacing="0" border="0" style="max-width:600px;width:100%;background:${BRAND.card};border:1px solid ${BRAND.border};">
 
-        <!-- HEADER -->
+        <!-- HEADER (near-black band, both modes — matches 1A's wordmark treatment) -->
         <tr>
           <td class="email-header" style="background:${BRAND.header};padding:24px 40px;">
             <table width="100%" cellpadding="0" cellspacing="0" border="0">
               <tr>
                 <td>
-                  <span style="font-family:Oswald,Arial,sans-serif;font-size:20px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:${BRAND.white};">BUILT TO <span style="color:${BRAND.gold};">HOOP</span></span>
+                  <span style="font-family:Oswald,Arial,sans-serif;font-size:20px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:${BRAND.headerFg};">BUILT TO <span style="color:${BRAND.gold};">HOOP</span></span>
                 </td>
                 <td align="right">
                   <span style="font-family:'DM Sans',Arial,sans-serif;font-size:11px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:rgba(255,255,255,0.45);">FREE 5-DAY RESET</span>
@@ -136,10 +156,10 @@ function wrap(subject, bodyHtml, preheader) {
           </td>
         </tr>
 
-        <!-- FOOTER -->
+        <!-- FOOTER (near-black band, both modes) -->
         <tr>
           <td class="email-footer" style="background:${BRAND.header};padding:28px 40px;text-align:center;">
-            <p style="margin:0 0 6px;font-family:Oswald,Arial,sans-serif;font-size:14px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:${BRAND.white};">BUILT TO <span style="color:${BRAND.gold};">HOOP</span></p>
+            <p style="margin:0 0 6px;font-family:Oswald,Arial,sans-serif;font-size:14px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:${BRAND.headerFg};">BUILT TO <span style="color:${BRAND.gold};">HOOP</span></p>
             <p style="margin:0 0 12px;font-family:'DM Sans',Arial,sans-serif;font-size:12px;color:rgba(255,255,255,0.45);">built-to-hoop.com · tyrell@built-to-hoop.com</p>
             <p style="margin:0;font-family:'DM Sans',Arial,sans-serif;font-size:11px;color:rgba(255,255,255,0.3);line-height:1.6;">
               You're on this list because you signed up for the Free 5-Day Basketball Reset.
@@ -183,11 +203,11 @@ function msoButton(url, label, widthPx = 260) {
 }
 
 function greeting() {
-  return `<p style="margin:0 0 24px;font-size:16px;color:${BRAND.body};">Hooper,</p>`;
+  return `<p class="t-body" style="margin:0 0 24px;font-size:16px;color:${BRAND.bodyLight};">Hooper,</p>`;
 }
 
 function divider() {
-  return `<table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:28px 0;"><tr><td style="height:1px;background:${BRAND.border};"></td></tr></table>`;
+  return `<table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:28px 0;"><tr><td class="rule" style="height:1px;background-color:${BRAND.borderLight};line-height:1px;font-size:1px;">&nbsp;</td></tr></table>`;
 }
 
 // The ONLY reset content in an email: a single gold CTA to that day's real workout (PDF).
@@ -226,18 +246,20 @@ function membershipCta(featured) {
 
 function p(text, opts = {}) {
   const mb = opts.mb !== undefined ? opts.mb : 18;
-  const color = opts.color || BRAND.body;
+  const tone = opts.tone || 'body'; // 'body' | 'muted'
+  const color = opts.color || (tone === 'muted' ? BRAND.mutedLight : BRAND.bodyLight);
+  const cls = opts.color ? '' : (tone === 'muted' ? ' class="t-muted"' : ' class="t-body"');
   const size = opts.size || 16;
-  return `<p style="margin:0 0 ${mb}px;font-size:${size}px;color:${color};line-height:1.75;">${text}</p>`;
+  return `<p${cls} style="margin:0 0 ${mb}px;font-size:${size}px;color:${color};line-height:1.75;">${text}</p>`;
 }
 
 function h(text, level = 2) {
   const sizes = { 1: 28, 2: 20, 3: 16 };
-  return `<p style="margin:0 0 12px;font-family:Oswald,Arial,sans-serif;font-size:${sizes[level]}px;font-weight:700;letter-spacing:0.03em;text-transform:uppercase;color:${BRAND.heading};">${text}</p>`;
+  return `<p class="t-ink" style="margin:0 0 12px;font-family:Oswald,Arial,sans-serif;font-size:${sizes[level]}px;font-weight:700;letter-spacing:0.03em;text-transform:uppercase;color:${BRAND.inkLight};">${text}</p>`;
 }
 
 function sig(name = 'Ty, BTH') {
-  return `${divider()}<p style="margin:0;font-size:15px;color:${BRAND.body};">— ${name}<br><span style="font-size:13px;color:${BRAND.muted};">Built to Hoop · <a href="https://built-to-hoop.com" style="color:${BRAND.muted};">built-to-hoop.com</a></span></p>`;
+  return `${divider()}<p class="t-body" style="margin:0;font-size:15px;color:${BRAND.bodyLight};">— ${name}<br><span class="t-muted" style="font-size:13px;color:${BRAND.mutedLight};">Built to Hoop · <a class="link" href="https://built-to-hoop.com" style="color:${BRAND.mutedLight};">built-to-hoop.com</a></span></p>`;
 }
 
 // ─── EMAILS ──────────────────────────────────────────────────────
@@ -305,9 +327,9 @@ ${p('Everything you\'ve tried — YouTube workouts, gym programs, "just rest mor
 ${p('<strong>BTH exists to break that cycle.</strong>')}
 ${p('The reset is 5 days. The real system is month by month. And the first month — Foundation Month — is what I built Tier 1 around before I turned it into the starting point for Stay Ready.')}
 ${p('It rebuilds the base: hips, ankles, knees, core, tendon prep. In the right order. Around pickup, not against it.')}
-${p('More on Day 5.', { color: BRAND.muted })}
+${p('More on Day 5.', { tone: 'muted' })}
 ${resetButton(2, 'Ankle Reset', 'BTH-Reset-Day-02-Ankle-Reset.pdf')}
-${p('Your ankles are probably the real reason your knees hurt. Today trains the real system — not just taping over it.', { size: 14, color: BRAND.muted })}
+${p('Your ankles are probably the real reason your knees hurt. Today trains the real system — not just taping over it.', { size: 14, tone: 'muted' })}
 ${sig()}
 `},
 
@@ -325,13 +347,13 @@ ${p('Here\'s what happens:')}
 
 ${h('Month 1 — Foundation', 3)}
 ${p('This is where the rebuild starts. 6 weeks of structured training that fixes the body before it tries to perform. Hips, ankles, knees, tendons, core movement patterns. The readiness framework so you always know when to train and when to back off. Built around pickup, not against it.')}
-${p('<em style="color:' + BRAND.muted + ';font-size:14px;">This is what used to be Tier 1 — now it\'s your starting point inside Stay Ready.</em>')}
+${p('<em class="t-muted" style="color:' + BRAND.mutedLight + ';font-size:14px;">This is what used to be Tier 1 — now it\'s your starting point inside Stay Ready.</em>')}
 
 ${h('Month 2+ — Performance Track', 3)}
 ${p('After Foundation, you move into the performance layer. Strength to bounce. Game speed. Deceleration. Pickup-specific conditioning. The phase where your legs start feeling different by warmups.')}
 
 ${h('Also included, from day 1:', 3)}
-<ul style="margin:0 0 18px;padding-left:20px;color:${BRAND.body};font-size:15px;line-height:2;">
+<ul class="t-body" style="margin:0 0 18px;padding-left:20px;color:${BRAND.bodyLight};font-size:15px;line-height:2;">
   <li>Hip Reset Track</li>
   <li>Knee Protection Track</li>
   <li>Ankle Rebuild Track</li>
@@ -339,9 +361,9 @@ ${h('Also included, from day 1:', 3)}
   <li>Recovery System</li>
 </ul>
 ${p('All of it. $27/month. Cancel anytime, keep everything you download.')}
-${p('The full link goes live on Day 5.', { color: BRAND.muted })}
+${p('The full link goes live on Day 5.', { tone: 'muted' })}
 ${resetButton(3, 'Movement Control', 'BTH-Reset-Day-03-Movement-Control.pdf')}
-${p('Today the hip and ankle work start talking to each other.', { size: 14, color: BRAND.muted })}
+${p('Today the hip and ankle work start talking to each other.', { size: 14, tone: 'muted' })}
 ${sig()}
 `},
 
@@ -364,9 +386,9 @@ ${p('He found the BTH method. Did Foundation Month. Eight weeks later he was pla
 ${p('Not because it was magic. Because for the first time, the training matched the sport.')}
 ${p('<strong>That\'s what Stay Ready is.</strong>')}
 ${divider()}
-${p('Tomorrow is Day 5 — your final reset day, and the day I send you the link to join.', { color: BRAND.muted })}
+${p('Tomorrow is Day 5 — your final reset day, and the day I send you the link to join.', { tone: 'muted' })}
 ${resetButton(4, 'Strength That Moves', 'BTH-Reset-Day-04-Strength-That-Moves.pdf')}
-${p('Strength that supports movement — not strength that stays in the gym. This is the foundation that makes Day 5 possible.', { size: 14, color: BRAND.muted })}
+${p('Strength that supports movement — not strength that stays in the gym. This is the foundation that makes Day 5 possible.', { size: 14, tone: 'muted' })}
 ${sig()}
 `},
 
@@ -392,7 +414,7 @@ ${p('Strength to bounce, game speed, pickup conditioning. This is where the legs
 ${p('<strong>All included:</strong> Hip Reset, Knee Protection, Ankle Rebuild, Skill Builder, Recovery System.')}
 ${p('Cancel anytime. Keep everything you download. <strong>$27/month.</strong>')}
 ${resetButton(5, 'Power Reset', 'BTH-Reset-Day-05-Power-Reset.pdf')}
-${p('Your last reset day — convert five days of work into game-ready power. Then ask yourself: am I looser than I was on Day 1?', { size: 14, color: BRAND.muted })}
+${p('Your last reset day — convert five days of work into game-ready power. Then ask yourself: am I looser than I was on Day 1?', { size: 14, tone: 'muted' })}
 ${sig()}
 `},
 
@@ -407,7 +429,7 @@ ${p('You finished the reset. Five days in, your hips are looser, your ankles mov
 ${p('Here\'s the part most guys miss: a reset is maintenance, not building. Stop now and it slips back in a few weeks. Keep going and you build on top of it instead.')}
 ${p('That\'s the whole difference between Stay Ready and everything else you\'ve tried.')}
 ${h('What you\'re actually getting:')}
-<ul style="margin:0 0 18px;padding-left:20px;color:${BRAND.body};font-size:15px;line-height:2;">
+<ul class="t-body" style="margin:0 0 18px;padding-left:20px;color:${BRAND.bodyLight};font-size:15px;line-height:2;">
   <li>The full BTH method — Foundation Month, then the Performance Track, run for you month to month</li>
   <li>Hip Reset, Knee Protection, Ankle Rebuild, Skill Builder, and Recovery System — all included</li>
   <li>The BTH app, so the training lives on your phone instead of in your inbox</li>
@@ -435,7 +457,7 @@ ${divider()}
 ${p('Whatever it is — hit reply and tell me. I\'ll give you a straight answer.')}
 ${p('If you\'re in a spot where your body is the thing keeping you from playing the way you want — Stay Ready is built for exactly that.')}
 ${membershipCta(false)}
-${p('If you\'re genuinely not interested, no hard feelings. The reset was free and I hope it helped.', { color: BRAND.muted, size: 14 })}
+${p('If you\'re genuinely not interested, no hard feelings. The reset was free and I hope it helped.', { tone: 'muted', size: 14 })}
 ${sig()}
 `},
 ];
@@ -449,4 +471,4 @@ for (const email of emails) {
   console.log(`✓ ${email.filename}`);
 }
 
-console.log(`\nDone. ${emails.length} emails written to ${OUT_DIR}/  (dark, link-only, Stay Ready)`);
+console.log(`\nDone. ${emails.length} emails written to ${OUT_DIR}/  (paper-first, adaptive dark mode, link-only, Stay Ready)`);
