@@ -44,7 +44,7 @@ const RESET_BASE = 'https://built-to-hoop.com/reset-pdfs/output';
 // black header band (gold stripe) that never flips — so the top always looks
 // intentional in either inbox.
 const C = {
-  page:    '#E9E7E1',   // 1B light page canvas
+  page:    '#F1F1F2',   // 1B light page canvas (cool neutral gray, matches the 1B mock)
   card:    '#FFFFFF',   // 1B light card = white
   border:  '#E7E3D9',   // light hairline / card border
   band:    '#111318',   // header band fill — CONSTANT both modes
@@ -128,7 +128,7 @@ function wrap(subject, bodyHtml, preheader) {
       <td align="center" style="padding:32px 16px;">
 
         <!--[if mso]><table role="presentation" width="600" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
-        <table role="presentation" width="600" cellpadding="0" cellspacing="0" class="container bg-card border-card" style="width:600px;max-width:600px;background-color:${C.card};border:1px solid ${C.border};border-radius:2px;overflow:hidden;">
+        <table role="presentation" width="600" cellpadding="0" cellspacing="0" class="container bg-card border-card" style="width:600px;max-width:600px;background-color:${C.card};border:1px solid ${C.border};border-radius:16px;overflow:hidden;">
 
           <!-- HEADER · black band + gold stripe (constant both modes) -->
           <tr>
@@ -174,20 +174,18 @@ function wrap(subject, bodyHtml, preheader) {
 // ─── HELPERS ─────────────────────────────────────────────────────
 
 // ── CTA SYSTEM (BTH Forms & CTA System — button by how important the click is) ──
-// Tier 1 · Primary (COMMIT): the design team's 1B button — solid INK (#111318) with
-// white text on light (matches the 1B "Baseline" light render), flipping to solid GOLD
-// with ink text on dark via the .btn1 class (so it stays visible on a near-black card —
-// exactly the 1B dark render). Reserved for commit actions ("Start the 5-Day Reset",
-// "Join Stay Ready"). Bulletproof: MSO <v:roundrect> (ink, light default) + link fallback.
+// Tier 1 · Primary (COMMIT): solid electric-gold — the CTA system's commit button,
+// reserved for "Start the 5-Day Reset" / "Join Stay Ready". Gold reads on both light
+// and dark, so it stays gold in both modes. Bulletproof: MSO <v:roundrect> + link.
 function btnPrimary(url, label, widthPx = 236) {
   return `<!--[if mso]>
-<v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="${url}" style="height:48px;v-text-anchor:middle;width:${widthPx}px;" arcsize="4%" fillcolor="${C.ink}" stroke="f">
+<v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="${url}" style="height:48px;v-text-anchor:middle;width:${widthPx}px;" arcsize="10%" fillcolor="${C.gold}" stroke="f">
 <w:anchorlock/>
-<center style="color:#FFFFFF;font-family:Arial,sans-serif;font-size:14px;font-weight:bold;letter-spacing:1px;">${label.toUpperCase()}</center>
+<center style="color:${C.btnText};font-family:Arial,sans-serif;font-size:14px;font-weight:bold;letter-spacing:1px;">${label.toUpperCase()}</center>
 </v:roundrect>
 <![endif]-->
 <!--[if !mso]><!-->
-<a href="${url}" class="btn1" style="display:inline-block;background-color:${C.ink};color:#FFFFFF;font-family:'Oswald','Arial Narrow',Arial,sans-serif;font-size:14px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;padding:15px 30px;border-radius:2px;">${label}</a>
+<a href="${url}" style="display:inline-block;background-color:${C.gold};color:${C.btnText};font-family:'Oswald','Arial Narrow',Arial,sans-serif;font-size:14px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;padding:15px 30px;border-radius:8px;">${label}</a>
 <!--<![endif]-->`;
 }
 
@@ -202,7 +200,7 @@ function btnSecondary(url, label, widthPx = 300) {
 </v:roundrect>
 <![endif]-->
 <!--[if !mso]><!-->
-<a href="${url}" class="btn2" style="display:inline-block;background:transparent;border:1.5px solid ${C.btn2};color:${C.ink};font-family:'Oswald','Arial Narrow',Arial,sans-serif;font-size:13px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;padding:13px 26px;border-radius:2px;">${label}</a>
+<a href="${url}" class="btn2" style="display:inline-block;background:transparent;border:1.5px solid ${C.btn2};color:${C.ink};font-family:'Oswald','Arial Narrow',Arial,sans-serif;font-size:13px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;padding:13px 26px;border-radius:8px;">${label}</a>
 <!--<![endif]-->`;
 }
 
