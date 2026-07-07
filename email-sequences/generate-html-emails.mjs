@@ -78,6 +78,7 @@ const STYLE = `
     .t-ink{color:#F3EFE7!important;} .t-body{color:#C9CBD0!important;}
     .t-gold{color:#E6A800!important;} .t-muted{color:#8A8D94!important;}
     .rule{background-color:#2A2D35!important;} .link{color:#E6A800!important;}
+    .btn1{background:#E6A800!important;color:#111318!important;}
     .btn2{border-color:rgba(255,255,255,0.30)!important;color:#F3EFE7!important;}
   }
   [data-ogsc] .bg-page{background:#0B0C0F!important;} [data-ogsc] .bg-card{background:#111318!important;}
@@ -86,6 +87,7 @@ const STYLE = `
   [data-ogsc] .t-ink{color:#F3EFE7!important;} [data-ogsc] .t-body{color:#C9CBD0!important;}
   [data-ogsc] .t-gold{color:#E6A800!important;} [data-ogsc] .t-muted{color:#8A8D94!important;}
   [data-ogsc] .rule{background-color:#2A2D35!important;} [data-ogsc] .link{color:#E6A800!important;}
+  [data-ogsc] .btn1{background:#E6A800!important;color:#111318!important;}
   [data-ogsc] .btn2{border-color:rgba(255,255,255,0.30)!important;color:#F3EFE7!important;}
 
   @media only screen and (max-width:600px) {
@@ -172,18 +174,20 @@ function wrap(subject, bodyHtml, preheader) {
 // ─── HELPERS ─────────────────────────────────────────────────────
 
 // ── CTA SYSTEM (BTH Forms & CTA System — button by how important the click is) ──
-// Tier 1 · Primary (COMMIT): solid electric-gold. Reserved for the commit actions —
-// "Start the 5-Day Reset", "Join Stay Ready". Gold reads on both light + dark, so it
-// stays gold in both modes. Bulletproof: MSO <v:roundrect> for Outlook + link fallback.
+// Tier 1 · Primary (COMMIT): the design team's 1B button — solid INK (#111318) with
+// white text on light (matches the 1B "Baseline" light render), flipping to solid GOLD
+// with ink text on dark via the .btn1 class (so it stays visible on a near-black card —
+// exactly the 1B dark render). Reserved for commit actions ("Start the 5-Day Reset",
+// "Join Stay Ready"). Bulletproof: MSO <v:roundrect> (ink, light default) + link fallback.
 function btnPrimary(url, label, widthPx = 236) {
   return `<!--[if mso]>
-<v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="${url}" style="height:48px;v-text-anchor:middle;width:${widthPx}px;" arcsize="4%" fillcolor="${C.gold}" stroke="f">
+<v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="${url}" style="height:48px;v-text-anchor:middle;width:${widthPx}px;" arcsize="4%" fillcolor="${C.ink}" stroke="f">
 <w:anchorlock/>
-<center style="color:${C.btnText};font-family:Arial,sans-serif;font-size:14px;font-weight:bold;letter-spacing:1px;">${label.toUpperCase()}</center>
+<center style="color:#FFFFFF;font-family:Arial,sans-serif;font-size:14px;font-weight:bold;letter-spacing:1px;">${label.toUpperCase()}</center>
 </v:roundrect>
 <![endif]-->
 <!--[if !mso]><!-->
-<a href="${url}" style="display:inline-block;background-color:${C.gold};color:${C.btnText};font-family:'Oswald','Arial Narrow',Arial,sans-serif;font-size:14px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;padding:15px 30px;border-radius:2px;">${label}</a>
+<a href="${url}" class="btn1" style="display:inline-block;background-color:${C.ink};color:#FFFFFF;font-family:'Oswald','Arial Narrow',Arial,sans-serif;font-size:14px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;padding:15px 30px;border-radius:2px;">${label}</a>
 <!--<![endif]-->`;
 }
 
