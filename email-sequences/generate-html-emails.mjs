@@ -44,7 +44,7 @@ const RESET_BASE = 'https://built-to-hoop.com/reset-pdfs/output';
 // black header band (gold stripe) that never flips — so the top always looks
 // intentional in either inbox.
 const C = {
-  page:    '#F1F1F2',   // 1B light page canvas (cool neutral gray, matches the 1B mock)
+  page:    '#FFFFFF',   // 1B light page canvas — plain white (no visible background box)
   card:    '#FFFFFF',   // 1B light card = white
   border:  '#E7E3D9',   // light hairline / card border
   band:    '#111318',   // header band fill — CONSTANT both modes
