@@ -258,7 +258,7 @@ var PHASE2={
 // Workouts are gated for paying BTH members. Right now the gate is OPEN
 // (ENFORCE=false) so Ty has full access while the app is private.
 // AT PUBLIC LAUNCH: set ACCESS.ENFORCE=true. A verified purchase
-// (Gumroad/MailerLite webhook, or the redeem-code screen) just needs to call
+// (payment webhook, or the redeem-code screen) just needs to call
 //   ACCESS.setStatus({active:true,tier:'rise',since:new Date().toISOString()})
 // once — nothing else in the app has to change. canViewWorkouts() does the rest.
 var ACCESS={

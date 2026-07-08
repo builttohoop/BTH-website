@@ -9,7 +9,7 @@
  *                      NOT on form submit. The owned .bth-mail-form redirects to
  *                      thank-you.html only on a successful /api/subscribe, so Lead
  *                      fires exactly once per real opt-in (BTH-GOAL-0032 — removed the
- *                      submit-side double-fire + the dead MailerLite detection).
+ *                      submit-side double-fire + the dead legacy-embed detection).
  *   InitiateCheckout — on the owned Stripe Payment Link CTA (STRIPE_LINK_MAP), any
  *                      legacy Gumroad CTA link (kept live through the cutover parallel
  *                      window), OR any element carrying data-bth-checkout (e.g. coaching)
@@ -199,7 +199,7 @@
   // The owned .bth-mail-form (bth-form.js) redirects to /thank-you.html only on a
   // successful /api/subscribe, so Lead fires exactly once per real opt-in. The old
   // submit-side listener double-counted (it fired on submit AND thank-you.html) and
-  // mis-fired on invalid-email / 429 / network-fail submits; its MailerLite (ml-*)
+  // mis-fired on invalid-email / 429 / network-fail submits; its legacy-embed (ml-*)
   // detection was already dead since the embeds were removed in BTH-GOAL-0027.
   // Removed in BTH-GOAL-0032.
 
