@@ -2,9 +2,12 @@
 // Run: node email-sequences/generate-html-emails.mjs
 // Output: email-sequences/html/email-0..7.html  → seeded into Mail OS by seed-free-reset.mjs
 //
-// Token source: BTH/design-system/bth-system.css (the single source of truth).
-// Email constraints require inline CSS — the BRAND object below mirrors bth-system.css
-// dark-surface tokens. Any palette change updates bth-system.css first, then this file.
+// SHELL = BTH design-system template 1B "Baseline" (the design team's "BTH Email
+// Template" canvas, direction 1B, light render). Light-first canvas with REAL dark
+// mode (@media prefers-color-scheme + Outlook [data-ogsc]). A solid black header
+// band with a 3px gold stripe (constant in both inboxes), left-aligned editorial
+// body, white card on light / near-black on dark. Ty selected 1B on 2026-07-07,
+// superseding 1A "Center Court". Gold (#E6A800) stays the accent constant on both modes.
 //
 //   bth-system.css token → email inline value
 //   --bth-gold   #E6A800  → BRAND.gold / BRAND.goldDark (BRAND.goldLight = deep #B4841A on paper)
@@ -26,22 +29,7 @@
 //    ONE gold CTA that links to that day's real reset (the workout lives in the PDF, not the email).
 //  • Membership = "Stay Ready" $27/mo (locked taxonomy). No "BTH Rise", no RISE10 discount, no hype.
 //  • Checkout happens ON THE WEBSITE (CHECKOUT_URL), not Gumroad. One constant to flip at cutover.
-//
-// This file replaces the old generate→darkify two-step. Do not re-introduce inline workouts.
-//
-// BTH-GOAL-0027 update — adopts the "Center Court" email-1A shell's STRUCTURE
-// (hidden preheader line, header hairline rule under the wordmark, bulletproof
-// MSO <v:roundrect> gold button so Outlook desktop renders a real button instead
-// of a plain link) while keeping the LOCKED dark-first canvas from
-// BTH-EMAIL-STYLE.md. The 1A source file (BTH/design-system/templates/
-// bth-email-template-1A.html) is light-first with dark-mode media queries —
-// that is a real conflict with the locked "no light backgrounds anywhere" rule.
-// Flagged for Ty rather than silently overturning the doctrine: this generator
-// takes 1A's component techniques, not its light canvas. The Worker's
-// renderEmail() still injects the real footer (unsubscribe/preferences/postal
-// address) — this file's own footer stays decorative, no {{PLACEHOLDER}} tokens
-// (the Worker does not resolve {{UNSUBSCRIBE_URL}} etc. in stored HTML, so a
-// literal placeholder would ship broken to inboxes).
+//  • Every email opens with the 1B hero (eyebrow + big headline, ONE gold accent word).
 
 import fs from 'fs';
 import path from 'path';
@@ -49,8 +37,7 @@ import path from 'path';
 const OUT_DIR = './email-sequences/html';
 fs.mkdirSync(OUT_DIR, { recursive: true });
 
-// Website checkout — everyone buys on built-to-hoop.com. The /join page routes to whatever
-// processor is live (Gumroad today → owned Stripe/PayPal checkout at cutover). Flip in ONE place.
+// Website checkout — everyone buys on built-to-hoop.com. Flip in ONE place at cutover.
 const CHECKOUT_URL = 'https://built-to-hoop.com/join';
 // Base path for the real reset PDFs (restored from Ty's canonical Drive set — see reset-pdfs/generate.mjs).
 const RESET_BASE = 'https://built-to-hoop.com/reset-pdfs/output';
@@ -84,34 +71,63 @@ const BRAND = {
   headerFg:    '#FFFFFF',
 };
 
+// The 1B dark-mode + mobile stylesheet. Class = dark override; inline = light value.
+// Note: the header band (.band-*) is deliberately NOT flipped — it stays black in both modes.
+const STYLE = `
+  :root { color-scheme: light dark; supported-color-schemes: light dark; }
+  html, body { margin:0 !important; padding:0 !important; width:100% !important; }
+  * { -ms-text-size-adjust:100%; -webkit-text-size-adjust:100%; }
+  table, td { mso-table-lspace:0pt; mso-table-rspace:0pt; border-collapse:collapse; }
+  img { -ms-interpolation-mode:bicubic; border:0; height:auto; line-height:100%; outline:none; text-decoration:none; }
+  a { text-decoration:none; }
+  body, table, td { font-family:'DM Sans',-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif; }
+  .oswald { font-family:'Oswald','Arial Narrow',Arial,Helvetica,sans-serif; }
+
+  @media (prefers-color-scheme: dark) {
+    .bg-page{background:#0B0C0F!important;} .bg-card{background:#111318!important;}
+    .border-card{border-color:#2A2D35!important;}
+    .box-soft{background:#17191F!important;border-color:#2A2D35!important;}
+    .t-ink{color:#F3EFE7!important;} .t-body{color:#C9CBD0!important;}
+    .t-gold{color:#E6A800!important;} .t-muted{color:#8A8D94!important;}
+    .rule{background-color:#2A2D35!important;} .link{color:#E6A800!important;}
+    .btn1{background:#E6A800!important;color:#111318!important;}
+    .btn2{border-color:rgba(255,255,255,0.30)!important;color:#F3EFE7!important;}
+  }
+  [data-ogsc] .bg-page{background:#0B0C0F!important;} [data-ogsc] .bg-card{background:#111318!important;}
+  [data-ogsc] .border-card{border-color:#2A2D35!important;}
+  [data-ogsc] .box-soft{background:#17191F!important;border-color:#2A2D35!important;}
+  [data-ogsc] .t-ink{color:#F3EFE7!important;} [data-ogsc] .t-body{color:#C9CBD0!important;}
+  [data-ogsc] .t-gold{color:#E6A800!important;} [data-ogsc] .t-muted{color:#8A8D94!important;}
+  [data-ogsc] .rule{background-color:#2A2D35!important;} [data-ogsc] .link{color:#E6A800!important;}
+  [data-ogsc] .btn1{background:#E6A800!important;color:#111318!important;}
+  [data-ogsc] .btn2{border-color:rgba(255,255,255,0.30)!important;color:#F3EFE7!important;}
+
+  @media only screen and (max-width:600px) {
+    .container{width:100%!important;} .px{padding-left:26px!important;padding-right:26px!important;} .h1{font-size:33px!important;}
+  }
+`;
+
+// ─── SHELL (1B "Baseline") ───────────────────────────────────────
+// Black header band + 3px gold stripe (constant in both inboxes), left-aligned
+// editorial body, white card on light / near-black on dark, footer split off by a
+// hairline. Carries the {{MAILING_ADDRESS}}/{{PREFERENCES_URL}}/{{UNSUBSCRIBE_URL}}
+// placeholders + the <!-- BTH-SHELL:1B --> marker the Worker resolves.
 function wrap(subject, bodyHtml, preheader) {
-  const preheaderText = preheader || 'A training system built around how pickup basketball actually loads your body.';
+  const pre = preheader || 'A training system built around how pickup basketball actually loads your body.';
   return `<!DOCTYPE html>
 <html lang="en" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="x-apple-disable-message-reformatting">
-  <meta name="color-scheme" content="dark light">
-  <meta name="supported-color-schemes" content="dark light">
-  <title>${subject}</title>
-  <!--[if mso]>
-  <noscript><xml><o:OfficeDocumentSettings><o:PixelsPerInch>96</o:PixelsPerInch></o:OfficeDocumentSettings></xml></noscript>
-  <![endif]-->
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@600;700&family=DM+Sans:wght@400;500;600&display=swap');
-    body { margin:0; padding:0; background:${BRAND.canvas}; -webkit-text-size-adjust:100%; }
-    table, td { mso-table-lspace:0pt; mso-table-rspace:0pt; border-collapse:collapse; }
-    a { color:${BRAND.gold}; }
-    @media only screen and (max-width:620px) {
-      .email-wrap { padding:16px 0 !important; }
-      .email-body { padding:32px 24px !important; }
-      .email-header { padding:20px 24px !important; }
-      .email-footer { padding:24px 24px !important; }
-      .btn { padding:14px 24px !important; font-size:14px !important; }
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="x-apple-disable-message-reformatting">
+<meta name="color-scheme" content="light dark">
+<meta name="supported-color-schemes" content="light dark">
+<title>${subject}</title>
+<!--[if mso]><noscript><xml><o:OfficeDocumentSettings><o:PixelsPerInch>96</o:PixelsPerInch></o:OfficeDocumentSettings></xml></noscript><![endif]-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>${STYLE}</style>
 </head>
 <body class="bg-page" style="margin:0;padding:0;background-color:${BRAND.pageLight};font-family:'DM Sans',Arial,sans-serif;">
 
@@ -178,27 +194,34 @@ function wrap(subject, bodyHtml, preheader) {
 
 // ─── HELPERS ─────────────────────────────────────────────────────
 
-// Bulletproof gold button: real <table>-based fallback for every client, PLUS
-// an MSO <v:roundrect> so Outlook desktop (Word rendering engine) draws an
-// actual button instead of collapsing the table cell padding. Same technique
-// as bth-email-template-1A.html's CTA, ported into the dark-first palette.
-function msoButton(url, label, widthPx = 260) {
+// ── CTA SYSTEM (BTH Forms & CTA System — button by how important the click is) ──
+// Tier 1 · Primary (COMMIT): solid electric-gold — the CTA system's commit button,
+// reserved for "Start the 5-Day Reset" / "Join Stay Ready". Gold reads on both light
+// and dark, so it stays gold in both modes. Bulletproof: MSO <v:roundrect> + link.
+function btnPrimary(url, label, widthPx = 236) {
   return `<!--[if mso]>
-<v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="${url}" style="height:48px;v-text-anchor:middle;width:${widthPx}px;" arcsize="4%" fillcolor="${BRAND.gold}" stroke="f">
+<v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="${url}" style="height:48px;v-text-anchor:middle;width:${widthPx}px;" arcsize="10%" fillcolor="${C.gold}" stroke="f">
 <w:anchorlock/>
-<center style="color:${BRAND.btnText};font-family:Arial,sans-serif;font-size:14px;font-weight:bold;letter-spacing:1px;">${label.toUpperCase()}</center>
+<center style="color:${C.btnText};font-family:Arial,sans-serif;font-size:14px;font-weight:bold;letter-spacing:1px;">${label.toUpperCase()}</center>
 </v:roundrect>
 <![endif]-->
 <!--[if !mso]><!-->
-<table cellpadding="0" cellspacing="0" border="0">
-  <tr>
-    <td style="background:${BRAND.gold};border-radius:2px;">
-      <a href="${url}" class="btn" style="display:inline-block;font-family:Oswald,Arial,sans-serif;font-size:14px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:${BRAND.btnText};text-decoration:none;padding:15px 30px;">
-        ${label}
-      </a>
-    </td>
-  </tr>
-</table>
+<a href="${url}" style="display:inline-block;background-color:${C.gold};color:${C.btnText};font-family:'Oswald','Arial Narrow',Arial,sans-serif;font-size:14px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;padding:15px 30px;border-radius:8px;">${label}</a>
+<!--<![endif]-->`;
+}
+
+// Tier 2 · Secondary (NAVIGATE): hairline outline that reads quieter than Tier 1.
+// Used for "open the day's workout" — you're going somewhere to read, not committing.
+// Border + label flip to light in dark mode via the .btn2 class.
+function btnSecondary(url, label, widthPx = 300) {
+  return `<!--[if mso]>
+<v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="${url}" style="height:46px;v-text-anchor:middle;width:${widthPx}px;" arcsize="4%" fillcolor="${C.card}" strokecolor="${C.ink}">
+<w:anchorlock/>
+<center style="color:${C.ink};font-family:Arial,sans-serif;font-size:13px;font-weight:bold;letter-spacing:1px;">${label.toUpperCase()}</center>
+</v:roundrect>
+<![endif]-->
+<!--[if !mso]><!-->
+<a href="${url}" class="btn2" style="display:inline-block;background:transparent;border:1.5px solid ${C.btn2};color:${C.ink};font-family:'Oswald','Arial Narrow',Arial,sans-serif;font-size:13px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;padding:13px 26px;border-radius:8px;">${label}</a>
 <!--<![endif]-->`;
 }
 
@@ -210,15 +233,15 @@ function divider() {
   return `<table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:28px 0;"><tr><td class="rule" style="height:1px;background-color:${BRAND.borderLight};line-height:1px;font-size:1px;">&nbsp;</td></tr></table>`;
 }
 
-// The ONLY reset content in an email: a single gold CTA to that day's real workout (PDF).
-// No exercises in the email body — ever.
+// The ONLY reset content in an email: a single Tier-2 (navigate) CTA to that day's
+// real workout (PDF). Quieter than a Tier-1 commit — you're opening a doc to read.
 function resetButton(day, title, filename) {
   return `
-<table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:24px 0;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:24px 0;">
   <tr>
     <td>
-      ${msoButton(`${RESET_BASE}/${filename}`, `Open Day ${day} — ${title}`, 300)}
-      <p style="margin:10px 0 0;font-size:13px;color:${BRAND.muted};">The full workout, step by step. Pull it up on your phone or print it before you start.</p>
+      ${btnSecondary(`${RESET_BASE}/${filename}`, `Open Day ${day} — ${title}`, 300)}
+      <p class="t-muted" style="margin:12px 0 0;font-size:13px;color:${C.muted};">The full workout, step by step. Pull it up on your phone or print it before you start.</p>
     </td>
   </tr>
 </table>`;
@@ -227,20 +250,20 @@ function resetButton(day, title, filename) {
 function membershipCta(featured) {
   if (featured) {
     return `
-<table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:28px 0;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:28px 0;">
   <tr>
-    <td style="background:${BRAND.canvas};border:1px solid ${BRAND.border};border-left:4px solid ${BRAND.gold};padding:24px 28px;">
-      <p style="margin:0 0 4px;font-family:Oswald,Arial,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:${BRAND.gold};">The next step</p>
-      <p style="margin:0 0 12px;font-family:Oswald,Arial,sans-serif;font-size:22px;font-weight:700;color:${BRAND.heading};line-height:1.2;">Stay Ready — $27/month</p>
-      <p style="margin:0 0 16px;font-size:15px;color:${BRAND.body};line-height:1.7;">Cancel anytime. Keep everything you download. Foundation Month picks up exactly where the reset left off.</p>
-      ${msoButton(CHECKOUT_URL, 'Join Stay Ready →', 240)}
+    <td class="box-soft" style="background:${C.boxSoft};border:1px solid ${C.border};border-left:4px solid ${C.gold};padding:24px 28px;">
+      <p class="oswald t-gold" style="margin:0 0 4px;font-size:11px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:${C.goldText};">The next step</p>
+      <p class="oswald t-ink" style="margin:0 0 12px;font-size:22px;font-weight:700;line-height:1.2;color:${C.ink};">Stay Ready — $27/month</p>
+      <p class="t-body" style="margin:0 0 16px;font-size:15px;line-height:1.7;color:${C.body};">Cancel anytime. Keep everything you download. Foundation Month picks up exactly where the reset left off.</p>
+      ${btnPrimary(CHECKOUT_URL, 'Join Stay Ready →', 240)}
     </td>
   </tr>
 </table>`;
   }
   return `
-<table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:24px 0 8px;">
-  <tr><td>${msoButton(CHECKOUT_URL, 'Join Stay Ready →', 240)}</td></tr>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:24px 0 8px;">
+  <tr><td>${btnPrimary(CHECKOUT_URL, 'Join Stay Ready →', 240)}</td></tr>
 </table>`;
 }
 
@@ -263,37 +286,43 @@ function sig(name = 'Ty, BTH') {
 }
 
 // ─── EMAILS ──────────────────────────────────────────────────────
+// Each email = { filename, subject, preheader, hero{...}, body }.
 // Reset-day emails (0,2,3,4,5) carry exactly ONE resetButton and ZERO inline exercises.
 
 const emails = [
 
-  // EMAIL 0 — CONFIRMATION + DAY 1
+  // EMAIL 0 — CONFIRMATION + DAY 1 (the 1A "Center Court" welcome hero)
   {
     filename: 'email-0-day1-hip-release.html',
     subject: 'your reset starts now',
+    preheader: 'The only training system built around how pickup basketball actually loads your body. Start Day 1.',
     body: `
-${greeting()}
-${p('Your 5-Day BTH Reset is live.')}
-${p('Day 1 is ready. Takes about 15 minutes. You\'ll feel it working before you finish.')}
-${resetButton(1, 'Hip Reset', 'BTH-Reset-Day-01-Hip-Reset.pdf')}
+${hero(
+  'Restore · Rebuild · Rise',
+  `Welcome to<br>the ${g('System.')}`,
+  `You just joined the only training system built around how pickup basketball actually loads your body. No dunk-first hype — just a plan that respects the fact you're still playing.`,
+  `${RESET_BASE}/BTH-Reset-Day-01-Hip-Reset.pdf`,
+  'Start the 5-Day Reset'
+)}
+${p('Your 5-Day BTH Reset is live. Day 1 — the Hip Reset — is ready and takes about 15 minutes. You\'ll feel it working before you finish.')}
 ${p('Move slow on every rep. No pain — if something pinches, back off. This is about control and position, not effort.')}
-${divider()}
 ${p('Do this today. Tomorrow I\'m sending Day 2.')}
 ${divider()}
 ${p('One more thing.')}
 ${p('The reset gives you 5 days of relief. But relief isn\'t the same as rebuilding.')}
 ${p('After Day 5, I\'m going to show you what comes next — the full system that keeps the reset working and adds performance on top of it.')}
 ${p('It\'s called <strong>Stay Ready</strong>. It\'s $27/month. And your first month is the Foundation rebuild that makes everything else possible.')}
-${p('More on that Day 5.')}
+${p('More on that Day 5.', { muted: true })}
 ${sig('Ty<br>Built to Hoop')}
 `},
 
-  // EMAIL 1 — DAY 1 / HIP EDUCATION (no reset content — pure education/sell)
+  // EMAIL 1 — DAY 1 / HIP EDUCATION (pure education/sell)
   {
     filename: 'email-1-hip-education.html',
     subject: 'your hips are lying to you',
+    preheader: 'It\'s not that your hips are tight. It\'s that they shut down.',
     body: `
-${greeting()}
+${hero('Day 1 · Hips', `Your hips are ${g('lying')} to you.`)}
 ${p('Here\'s what nobody tells you about hip tightness:')}
 ${p('It\'s not that your hips are tight.')}
 ${p('It\'s that your hips <strong>shut down</strong> — and your lower back took over to protect them.')}
@@ -314,8 +343,9 @@ ${sig()}
   {
     filename: 'email-2-day2-ankle-reset.html',
     subject: 'the cycle every hooper is stuck in',
+    preheader: 'You feel good, you push it, something hurts, you back off, you start over.',
     body: `
-${greeting()}
+${hero('Day 2 · Ankles', `The cycle every hooper's ${g('stuck')} in.`)}
 ${p('Day 2 is ready: Ankle Reset. The link\'s below — but first, let me tell you something.')}
 ${p('I know why you\'re on this list.')}
 ${p('You\'ve been stuck in the cycle.')}
@@ -337,21 +367,20 @@ ${sig()}
   {
     filename: 'email-3-day3-membership-reveal.html',
     subject: 'what Foundation Month actually looks like',
+    preheader: 'You\'re halfway through the reset. Here\'s what comes after it.',
     body: `
-${greeting()}
+${hero('Day 3 · The System', `What Foundation Month ${g('actually')} looks like.`)}
 ${p('Day 3. You\'re halfway through the reset.')}
 ${p('Today I want to show you what comes after it.')}
 ${divider()}
 ${h('Stay Ready — $27/month. Cancel anytime.')}
 ${p('Here\'s what happens:')}
-
 ${h('Month 1 — Foundation', 3)}
 ${p('This is where the rebuild starts. 6 weeks of structured training that fixes the body before it tries to perform. Hips, ankles, knees, tendons, core movement patterns. The readiness framework so you always know when to train and when to back off. Built around pickup, not against it.')}
 ${p('<em class="t-muted" style="color:' + BRAND.mutedLight + ';font-size:14px;">This is what used to be Tier 1 — now it\'s your starting point inside Stay Ready.</em>')}
 
 ${h('Month 2+ — Performance Track', 3)}
 ${p('After Foundation, you move into the performance layer. Strength to bounce. Game speed. Deceleration. Pickup-specific conditioning. The phase where your legs start feeling different by warmups.')}
-
 ${h('Also included, from day 1:', 3)}
 <ul class="t-body" style="margin:0 0 18px;padding-left:20px;color:${BRAND.bodyLight};font-size:15px;line-height:2;">
   <li>Hip Reset Track</li>
@@ -371,8 +400,9 @@ ${sig()}
   {
     filename: 'email-4-day4-core-story.html',
     subject: 'the guy who almost stopped playing at 27',
+    preheader: 'Could be you. Could be me. Could be someone you run with.',
     body: `
-${greeting()}
+${hero('Day 4 · The Story', `The guy who almost ${g('quit')} at 27.`)}
 ${p('Day 4. Almost there.')}
 ${p('Let me tell you about a guy — could be you, could be me, could be someone you run with.')}
 ${p('27 years old. Played pickup three nights a week all through college. Then life happened — desk job, less playing time, came back at 25 and nothing worked the same.')}
@@ -396,8 +426,9 @@ ${sig()}
   {
     filename: 'email-5-day5-offer.html',
     subject: '5 days done. here\'s the move.',
+    preheader: 'The reset ends today. The work doesn\'t have to.',
     body: `
-${greeting()}
+${hero('Day 5 · The Move', `5 days done. Here's the ${g('move.')}`)}
 ${p('Day 5. Last one.')}
 ${p('You made it through the reset. If you did all 5 days, your hips are looser, your ankles have more range, and your knees are less compressed than they were on Day 1.')}
 ${p('That\'s real. That\'s the BTH method working.')}
@@ -422,8 +453,9 @@ ${sig()}
   {
     filename: 'email-6-the-close.html',
     subject: 'The reset\'s done. Keep the body that earned it.',
+    preheader: 'A reset is maintenance, not building. Keep going and you build on top of it.',
     body: `
-${greeting()}
+${hero('The Close', `Keep the body you ${g('earned.')}`)}
 ${p('Straight talk.')}
 ${p('You finished the reset. Five days in, your hips are looser, your ankles move better, your knees feel less stacked. You earned that — and you did the work to get it.')}
 ${p('Here\'s the part most guys miss: a reset is maintenance, not building. Stop now and it slips back in a few weeks. Keep going and you build on top of it instead.')}
@@ -445,8 +477,9 @@ ${sig()}
   {
     filename: 'email-7-re-engage.html',
     subject: 'still thinking about it?',
+    preheader: 'I\'m not going to hit you with another discount. Just one real question.',
     body: `
-${greeting()}
+${hero('Still In?', `What's ${g('stopping')} you?`)}
 ${p('I\'m not going to hit you with another discount.')}
 ${p('I just want to ask you something real:')}
 ${p('<strong>What\'s stopping you?</strong>')}
@@ -465,7 +498,7 @@ ${sig()}
 // ─── WRITE FILES ─────────────────────────────────────────────────
 
 for (const email of emails) {
-  const html = wrap(email.subject, email.body);
+  const html = wrap(email.subject, email.body, email.preheader);
   const outPath = path.join(OUT_DIR, email.filename);
   fs.writeFileSync(outPath, html, 'utf8');
   console.log(`✓ ${email.filename}`);
