@@ -9,20 +9,25 @@
 // body, white card on light / near-black on dark. Ty selected 1B on 2026-07-07,
 // superseding 1A "Center Court". Gold (#E6A800) stays the accent constant on both modes.
 //
-// CTA = BTH Forms & CTA System tiers (button by how important the click is):
-//  • Tier 1 · Primary (COMMIT) — solid gold — "Start the 5-Day Reset", "Join Stay Ready".
-//  • Tier 2 · Secondary (NAVIGATE) — hairline outline — "Open Day X" (go read the workout).
-//
-// Footer + tracking: this shell carries the footer WITH {{MAILING_ADDRESS}} /
-// {{PREFERENCES_URL}} / {{UNSUBSCRIBE_URL}} placeholders and a <!-- BTH-SHELL:1B -->
-// marker. The Mail OS Worker renderEmail() resolves those per-contact and injects
-// the open pixel + click tracking; it must NOT append a second (legacy dark)
-// footer for BTH-SHELL bodies.
+//   bth-system.css token → email inline value
+//   --bth-gold   #E6A800  → BRAND.gold / BRAND.goldDark (BRAND.goldLight = deep #B4841A on paper)
+//   --bth-black  #111318  → BRAND.header / BRAND.btnText / BRAND.inkLight
+//   --bth-white  #FFFFFF  → BRAND.headerFg / BRAND.inkDark
+//   --r-square   2px      → border-radius:2px on all buttons (no mid-radius)
+//   --font-display Oswald → Oswald,Arial,sans-serif (safe email stack)
+//   --font-body   DM Sans → 'DM Sans',Arial,sans-serif (safe email stack)
 //
 // Design rules (locked):
-//  • LINK-ONLY reset delivery — emails NEVER list exercises. Each reset-day email
-//    carries ONE Tier-2 CTA that links to that day's real reset PDF.
-//  • Membership = "Stay Ready" $27/mo (locked taxonomy). No "BTH Rise", no discount, no hype.
+//  • PAPER-FIRST premium cream/gold, adaptive to dark mode (Ty's doctrine call,
+//    2026-07-06 — supersedes the prior dark-first-only rule). Canvas/card default
+//    to the "Center Court" 1A paper palette; @media (prefers-color-scheme: dark)
+//    + [data-ogsc] (Outlook.com/app dark mode) flip every surface to the 1A dark
+//    palette. See automations/bth-mail-os/BTH-EMAIL-STYLE.md — due for an update
+//    to reflect this; the canonical palette now lives in
+//    BTH/design-system/templates/bth-email-template-1A.html.
+//  • LINK-ONLY reset delivery — emails NEVER list the exercises. Each reset-day email carries
+//    ONE gold CTA that links to that day's real reset (the workout lives in the PDF, not the email).
+//  • Membership = "Stay Ready" $27/mo (locked taxonomy). No "BTH Rise", no RISE10 discount, no hype.
 //  • Checkout happens ON THE WEBSITE (CHECKOUT_URL), not Gumroad. One constant to flip at cutover.
 //  • Every email opens with the 1B hero (eyebrow + big headline, ONE gold accent word).
 
@@ -37,26 +42,33 @@ const CHECKOUT_URL = 'https://built-to-hoop.com/join';
 // Base path for the real reset PDFs (restored from Ty's canonical Drive set — see reset-pdfs/generate.mjs).
 const RESET_BASE = 'https://built-to-hoop.com/reset-pdfs/output';
 
-// ─── 1B PALETTE ──────────────────────────────────────────────────
-// Inline styles carry the LIGHT default; the classes below flip to dark via
-// @media (prefers-color-scheme:dark) + [data-ogsc]. Mirrors bth-system.css tokens.
-// 1B "Baseline": white card on light, near-black card on dark, and a CONSTANT
-// black header band (gold stripe) that never flips — so the top always looks
-// intentional in either inbox.
-const C = {
-  page:    '#FFFFFF',   // 1B light page canvas — plain white (no visible background box)
-  card:    '#FFFFFF',   // 1B light card = white
-  border:  '#E7E3D9',   // light hairline / card border
-  band:    '#111318',   // header band fill — CONSTANT both modes
-  bandInk: '#F3EFE7',   // wordmark text on the band
-  ink:     '#111318',   // headings + wordmark (light)
-  body:    '#45474D',   // body copy (light)
-  muted:   '#8A8578',   // secondary text (light)
-  goldText:'#B4841A',   // gold for eyebrow / small text / links on white (reads better than #E6A800 on light)
-  gold:    '#E6A800',   // Tier-1 CTA fill + headline accent — CONSTANT both modes
-  btnText: '#111318',   // Tier-1 CTA label — CONSTANT
-  btn2:    'rgba(17,19,24,0.24)', // Tier-2 outline border (light)
-  boxSoft: '#F6F3EC',   // featured-card fill (light)
+// ─── PAPER-FIRST PALETTE (bth-email-template-1A.html "Center Court") ──────
+// Light values are the CSS defaults (inline styles below); dark values are
+// applied ONLY via the @media (prefers-color-scheme: dark) + [data-ogsc]
+// overrides in wrap()'s <style> block, matching 1A exactly. Gold is the one
+// constant — same hex in both modes.
+const BRAND = {
+  // paper (light, default)
+  pageLight:   '#EDEAE3',
+  cardLight:   '#FBF9F4',
+  borderLight: '#E1DCD0',
+  inkLight:    '#111318',
+  bodyLight:   '#45474D',
+  goldLight:   '#B4841A', // deep gold — reads on paper (wordmark accent, eyebrow, links)
+  mutedLight:  '#8A8578',
+  // dark (auto, via media query / [data-ogsc])
+  pageDark:    '#0B0C0F',
+  cardDark:    '#17191F',
+  borderDark:  '#2A2D35',
+  inkDark:     '#F3EFE7',
+  bodyDark:    '#C9CBD0',
+  goldDark:    '#E6A800', // electric gold — reads on dark
+  mutedDark:   '#8A8D94',
+  // constants
+  gold:        '#E6A800', // CTA button fill — identical in both modes (1A rule)
+  btnText:     '#111318',
+  header:      '#111318', // header band + footer band stay near-black in BOTH modes (1A keeps the wordmark strip dark on paper too)
+  headerFg:    '#FFFFFF',
 };
 
 // The 1B dark-mode + mobile stylesheet. Class = dark override; inline = light value.
@@ -117,56 +129,65 @@ function wrap(subject, bodyHtml, preheader) {
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>${STYLE}</style>
 </head>
-<body class="bg-page" style="margin:0;padding:0;background-color:${C.page};">
-<!-- BTH-SHELL:1B -->
+<body class="bg-page" style="margin:0;padding:0;background-color:${BRAND.pageLight};font-family:'DM Sans',Arial,sans-serif;">
 
   <!-- PREHEADER (hidden inbox-preview line) -->
-  <div style="display:none;font-size:1px;line-height:1px;max-height:0;max-width:0;opacity:0;overflow:hidden;mso-hide:all;">${pre}</div>
+  <div style="display:none;font-size:1px;line-height:1px;max-height:0;max-width:0;opacity:0;overflow:hidden;mso-hide:all;">
+    ${preheaderText}
+  </div>
 
-  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" class="bg-page" style="background-color:${C.page};">
-    <tr>
-      <td align="center" style="padding:32px 16px;">
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:${BRAND.canvas};">
+  <tr>
+    <td align="center" class="email-wrap" style="padding:32px 16px;">
 
-        <!--[if mso]><table role="presentation" width="600" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
-        <table role="presentation" width="600" cellpadding="0" cellspacing="0" class="container bg-card border-card" style="width:600px;max-width:600px;background-color:${C.card};border:1px solid ${C.border};border-radius:16px;overflow:hidden;">
+      <!--[if mso]><table role="presentation" width="600" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+      <table width="600" cellpadding="0" cellspacing="0" border="0" style="max-width:600px;width:100%;background:${BRAND.card};border:1px solid ${BRAND.border};">
 
-          <!-- HEADER · black band + gold stripe (constant both modes) -->
-          <tr>
-            <td class="px" align="center" style="padding:20px 40px;background-color:${C.band};border-bottom:3px solid ${C.gold};">
-              <div class="oswald" style="font-size:16px;font-weight:700;letter-spacing:2.6px;color:${C.bandInk};">BUILT TO <span style="color:${C.gold};">HOOP</span></div>
-            </td>
-          </tr>
+        <!-- HEADER (near-black band, both modes — matches 1A's wordmark treatment) -->
+        <tr>
+          <td class="email-header" style="background:${BRAND.header};padding:24px 40px;">
+            <table width="100%" cellpadding="0" cellspacing="0" border="0">
+              <tr>
+                <td>
+                  <span style="font-family:Oswald,Arial,sans-serif;font-size:20px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:${BRAND.headerFg};">BUILT TO <span style="color:${BRAND.gold};">HOOP</span></span>
+                </td>
+                <td align="right">
+                  <span style="font-family:'DM Sans',Arial,sans-serif;font-size:11px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:rgba(255,255,255,0.45);">FREE 5-DAY RESET</span>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <!-- header hairline (the 1A metallic-accent rule) -->
+        <tr>
+          <td style="padding:0 40px;background:${BRAND.card};">
+            <table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="height:2px;width:46px;background:${BRAND.gold};line-height:2px;font-size:1px;">&nbsp;</td></tr></table>
+          </td>
+        </tr>
 
-          <!-- BODY (left-aligned editorial) -->
-          <tr>
-            <td class="px" style="padding:32px 40px 0;">
-              ${bodyHtml}
-            </td>
-          </tr>
+        <!-- BODY -->
+        <tr>
+          <td class="email-body" style="padding:32px 40px 40px;color:${BRAND.body};font-family:'DM Sans',Arial,sans-serif;font-size:16px;line-height:1.75;">
+            ${bodyHtml}
+          </td>
+        </tr>
 
-          <!-- FOOTER -->
-          <tr>
-            <td class="px" style="padding:26px 40px 0;">
-              <table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr><td class="rule" style="height:1px;background-color:${C.border};line-height:1px;font-size:1px;">&nbsp;</td></tr></table>
-            </td>
-          </tr>
-          <tr>
-            <td class="px" style="padding:16px 40px 34px;">
-              <p class="t-muted" style="margin:0;font-size:12px;line-height:1.6;color:${C.muted};">You're getting this because you joined the Free 5-Day Reset or bought from BTH.<br>Built to Hoop · {{MAILING_ADDRESS}}</p>
-              <p style="margin:10px 0 0;font-size:12px;line-height:1.6;">
-                <a class="link" href="{{PREFERENCES_URL}}" style="color:${C.goldText};text-decoration:underline;">Email preferences</a>
-                <span class="t-muted" style="color:${C.muted};"> · </span>
-                <a class="link" href="{{UNSUBSCRIBE_URL}}" style="color:${C.goldText};text-decoration:underline;">Unsubscribe</a>
-              </p>
-            </td>
-          </tr>
+        <!-- FOOTER (near-black band, both modes) -->
+        <tr>
+          <td class="email-footer" style="background:${BRAND.header};padding:28px 40px;text-align:center;">
+            <p style="margin:0 0 6px;font-family:Oswald,Arial,sans-serif;font-size:14px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:${BRAND.headerFg};">BUILT TO <span style="color:${BRAND.gold};">HOOP</span></p>
+            <p style="margin:0 0 12px;font-family:'DM Sans',Arial,sans-serif;font-size:12px;color:rgba(255,255,255,0.45);">built-to-hoop.com · tyrell@built-to-hoop.com</p>
+            <p style="margin:0;font-family:'DM Sans',Arial,sans-serif;font-size:11px;color:rgba(255,255,255,0.3);line-height:1.6;">
+              You're on this list because you signed up for the Free 5-Day Basketball Reset.
+            </p>
+          </td>
+        </tr>
 
-        </table>
-        <!--[if mso]></td></tr></table><![endif]-->
-
-      </td>
-    </tr>
-  </table>
+      </table>
+      <!--[if mso]></td></tr></table><![endif]-->
+    </td>
+  </tr>
+</table>
 </body>
 </html>`;
 }
@@ -204,22 +225,12 @@ function btnSecondary(url, label, widthPx = 300) {
 <!--<![endif]-->`;
 }
 
-// 1B hero: left-aligned eyebrow + big Oswald headline (pass ONE gold accent word as
-// <span class="t-gold" style="color:#E6A800;">word</span>), optional lead line + Tier-1 CTA.
-function hero(eyebrow, headlineHtml, leadText, ctaUrl, ctaLabel) {
-  return `
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr><td style="padding:0 0 4px;">
-  <div class="t-gold" style="font-family:'DM Sans',Arial,sans-serif;font-size:11px;font-weight:600;letter-spacing:2.2px;text-transform:uppercase;color:${C.goldText};">${eyebrow}</div>
-  <h1 class="oswald h1 t-ink" style="margin:13px 0 0;font-size:38px;line-height:1.02;font-weight:700;letter-spacing:0.4px;text-transform:uppercase;color:${C.ink};">${headlineHtml}</h1>
-  ${leadText ? `<p class="t-body" style="margin:15px 0 0;font-size:15px;line-height:1.68;color:${C.body};">${leadText}</p>` : ''}
-  ${ctaUrl ? `<div style="padding:24px 0 4px;">${btnPrimary(ctaUrl, ctaLabel, 236)}</div>` : ''}
-</td></tr></table>
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:26px 0 0;"><tr><td class="rule" style="height:1px;background:${C.border};line-height:1px;font-size:1px;">&nbsp;</td></tr></table>
-<div style="height:26px;line-height:26px;font-size:1px;">&nbsp;</div>`;
+function greeting() {
+  return `<p class="t-body" style="margin:0 0 24px;font-size:16px;color:${BRAND.bodyLight};">Hooper,</p>`;
 }
 
 function divider() {
-  return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:28px 0;"><tr><td class="rule" style="height:1px;background:${C.border};line-height:1px;font-size:1px;">&nbsp;</td></tr></table>`;
+  return `<table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:28px 0;"><tr><td class="rule" style="height:1px;background-color:${BRAND.borderLight};line-height:1px;font-size:1px;">&nbsp;</td></tr></table>`;
 }
 
 // The ONLY reset content in an email: a single Tier-2 (navigate) CTA to that day's
@@ -258,30 +269,20 @@ function membershipCta(featured) {
 
 function p(text, opts = {}) {
   const mb = opts.mb !== undefined ? opts.mb : 18;
-  const muted = !!opts.muted;
-  const cls = muted ? 't-muted' : 't-body';
-  const color = muted ? C.muted : C.body;
+  const tone = opts.tone || 'body'; // 'body' | 'muted'
+  const color = opts.color || (tone === 'muted' ? BRAND.mutedLight : BRAND.bodyLight);
+  const cls = opts.color ? '' : (tone === 'muted' ? ' class="t-muted"' : ' class="t-body"');
   const size = opts.size || 16;
-  return `<p class="${cls}" style="margin:0 0 ${mb}px;font-size:${size}px;line-height:1.75;color:${color};">${text}</p>`;
+  return `<p${cls} style="margin:0 0 ${mb}px;font-size:${size}px;color:${color};line-height:1.75;">${text}</p>`;
 }
 
 function h(text, level = 2) {
   const sizes = { 1: 28, 2: 20, 3: 16 };
-  return `<p class="oswald t-ink" style="margin:0 0 12px;font-size:${sizes[level]}px;font-weight:700;letter-spacing:0.03em;text-transform:uppercase;color:${C.ink};">${text}</p>`;
-}
-
-// Bulleted list that flips to light text in dark mode (class t-body).
-function ul(items) {
-  return `<ul class="t-body" style="margin:0 0 18px;padding-left:20px;font-size:15px;line-height:2;color:${C.body};">${items.map(i => `<li>${i}</li>`).join('')}</ul>`;
+  return `<p class="t-ink" style="margin:0 0 12px;font-family:Oswald,Arial,sans-serif;font-size:${sizes[level]}px;font-weight:700;letter-spacing:0.03em;text-transform:uppercase;color:${BRAND.inkLight};">${text}</p>`;
 }
 
 function sig(name = 'Ty, BTH') {
-  return `${divider()}<p class="t-body" style="margin:0;font-size:15px;color:${C.body};">— ${name}<br><span class="t-muted" style="font-size:13px;color:${C.muted};">Built to Hoop · <a class="link" href="https://built-to-hoop.com" style="color:${C.goldText};">built-to-hoop.com</a></span></p>`;
-}
-
-// Gold accent word for headlines (constant #E6A800 both modes).
-function g(word) {
-  return `<span class="t-gold" style="color:${C.gold};">${word}</span>`;
+  return `${divider()}<p class="t-body" style="margin:0;font-size:15px;color:${BRAND.bodyLight};">— ${name}<br><span class="t-muted" style="font-size:13px;color:${BRAND.mutedLight};">Built to Hoop · <a class="link" href="https://built-to-hoop.com" style="color:${BRAND.mutedLight};">built-to-hoop.com</a></span></p>`;
 }
 
 // ─── EMAILS ──────────────────────────────────────────────────────
@@ -356,9 +357,9 @@ ${p('Everything you\'ve tried — YouTube workouts, gym programs, "just rest mor
 ${p('<strong>BTH exists to break that cycle.</strong>')}
 ${p('The reset is 5 days. The real system is month by month. And the first month — Foundation Month — is what I built Tier 1 around before I turned it into the starting point for Stay Ready.')}
 ${p('It rebuilds the base: hips, ankles, knees, core, tendon prep. In the right order. Around pickup, not against it.')}
-${p('More on Day 5.', { muted: true })}
+${p('More on Day 5.', { tone: 'muted' })}
 ${resetButton(2, 'Ankle Reset', 'BTH-Reset-Day-02-Ankle-Reset.pdf')}
-${p('Your ankles are probably the real reason your knees hurt. Today trains the real system — not just taping over it.', { size: 14, muted: true })}
+${p('Your ankles are probably the real reason your knees hurt. Today trains the real system — not just taping over it.', { size: 14, tone: 'muted' })}
 ${sig()}
 `},
 
@@ -376,15 +377,22 @@ ${h('Stay Ready — $27/month. Cancel anytime.')}
 ${p('Here\'s what happens:')}
 ${h('Month 1 — Foundation', 3)}
 ${p('This is where the rebuild starts. 6 weeks of structured training that fixes the body before it tries to perform. Hips, ankles, knees, tendons, core movement patterns. The readiness framework so you always know when to train and when to back off. Built around pickup, not against it.')}
-${p('<em>This is what used to be Tier 1 — now it\'s your starting point inside Stay Ready.</em>', { size: 14, muted: true })}
+${p('<em class="t-muted" style="color:' + BRAND.mutedLight + ';font-size:14px;">This is what used to be Tier 1 — now it\'s your starting point inside Stay Ready.</em>')}
+
 ${h('Month 2+ — Performance Track', 3)}
 ${p('After Foundation, you move into the performance layer. Strength to bounce. Game speed. Deceleration. Pickup-specific conditioning. The phase where your legs start feeling different by warmups.')}
 ${h('Also included, from day 1:', 3)}
-${ul(['Hip Reset Track','Knee Protection Track','Ankle Rebuild Track','Skill Builder','Recovery System'])}
+<ul class="t-body" style="margin:0 0 18px;padding-left:20px;color:${BRAND.bodyLight};font-size:15px;line-height:2;">
+  <li>Hip Reset Track</li>
+  <li>Knee Protection Track</li>
+  <li>Ankle Rebuild Track</li>
+  <li>Skill Builder</li>
+  <li>Recovery System</li>
+</ul>
 ${p('All of it. $27/month. Cancel anytime, keep everything you download.')}
-${p('The full link goes live on Day 5.', { muted: true })}
+${p('The full link goes live on Day 5.', { tone: 'muted' })}
 ${resetButton(3, 'Movement Control', 'BTH-Reset-Day-03-Movement-Control.pdf')}
-${p('Today the hip and ankle work start talking to each other.', { size: 14, muted: true })}
+${p('Today the hip and ankle work start talking to each other.', { size: 14, tone: 'muted' })}
 ${sig()}
 `},
 
@@ -408,9 +416,9 @@ ${p('He found the BTH method. Did Foundation Month. Eight weeks later he was pla
 ${p('Not because it was magic. Because for the first time, the training matched the sport.')}
 ${p('<strong>That\'s what Stay Ready is.</strong>')}
 ${divider()}
-${p('Tomorrow is Day 5 — your final reset day, and the day I send you the link to join.', { muted: true })}
+${p('Tomorrow is Day 5 — your final reset day, and the day I send you the link to join.', { tone: 'muted' })}
 ${resetButton(4, 'Strength That Moves', 'BTH-Reset-Day-04-Strength-That-Moves.pdf')}
-${p('Strength that supports movement — not strength that stays in the gym. This is the foundation that makes Day 5 possible.', { size: 14, muted: true })}
+${p('Strength that supports movement — not strength that stays in the gym. This is the foundation that makes Day 5 possible.', { size: 14, tone: 'muted' })}
 ${sig()}
 `},
 
@@ -437,7 +445,7 @@ ${p('Strength to bounce, game speed, pickup conditioning. This is where the legs
 ${p('<strong>All included:</strong> Hip Reset, Knee Protection, Ankle Rebuild, Skill Builder, Recovery System.')}
 ${p('Cancel anytime. Keep everything you download. <strong>$27/month.</strong>')}
 ${resetButton(5, 'Power Reset', 'BTH-Reset-Day-05-Power-Reset.pdf')}
-${p('Your last reset day — convert five days of work into game-ready power. Then ask yourself: am I looser than I was on Day 1?', { size: 14, muted: true })}
+${p('Your last reset day — convert five days of work into game-ready power. Then ask yourself: am I looser than I was on Day 1?', { size: 14, tone: 'muted' })}
 ${sig()}
 `},
 
@@ -453,11 +461,11 @@ ${p('You finished the reset. Five days in, your hips are looser, your ankles mov
 ${p('Here\'s the part most guys miss: a reset is maintenance, not building. Stop now and it slips back in a few weeks. Keep going and you build on top of it instead.')}
 ${p('That\'s the whole difference between Stay Ready and everything else you\'ve tried.')}
 ${h('What you\'re actually getting:')}
-${ul([
-  'The full BTH method — Foundation Month, then the Performance Track, run for you month to month',
-  'Hip Reset, Knee Protection, Ankle Rebuild, Skill Builder, and Recovery System — all included',
-  'The BTH app, so the training lives on your phone instead of in your inbox',
-])}
+<ul class="t-body" style="margin:0 0 18px;padding-left:20px;color:${BRAND.bodyLight};font-size:15px;line-height:2;">
+  <li>The full BTH method — Foundation Month, then the Performance Track, run for you month to month</li>
+  <li>Hip Reset, Knee Protection, Ankle Rebuild, Skill Builder, and Recovery System — all included</li>
+  <li>The BTH app, so the training lives on your phone instead of in your inbox</li>
+</ul>
 ${p('$27/month. Cancel anytime. Keep everything you download.')}
 ${membershipCta(true)}
 ${p('Questions? Reply to this email. I read every one.')}
@@ -482,7 +490,7 @@ ${divider()}
 ${p('Whatever it is — hit reply and tell me. I\'ll give you a straight answer.')}
 ${p('If you\'re in a spot where your body is the thing keeping you from playing the way you want — Stay Ready is built for exactly that.')}
 ${membershipCta(false)}
-${p('If you\'re genuinely not interested, no hard feelings. The reset was free and I hope it helped.', { muted: true, size: 14 })}
+${p('If you\'re genuinely not interested, no hard feelings. The reset was free and I hope it helped.', { tone: 'muted', size: 14 })}
 ${sig()}
 `},
 ];
@@ -496,4 +504,4 @@ for (const email of emails) {
   console.log(`✓ ${email.filename}`);
 }
 
-console.log(`\nDone. ${emails.length} emails written to ${OUT_DIR}/  (1B "Baseline" shell · light-first + dark mode · CTA tiers · link-only · Stay Ready)`);
+console.log(`\nDone. ${emails.length} emails written to ${OUT_DIR}/  (paper-first, adaptive dark mode, link-only, Stay Ready)`);

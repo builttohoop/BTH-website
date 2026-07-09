@@ -5,8 +5,11 @@
  *
  * Events:
  *   ViewContent      — on tier/addon/knee/mobility/bounce page load
- *   Lead             — on MailerLite email form submit, OR the owned .bth-mail-form
- *                      submit (BTH-GOAL-0027 — the owned Mail OS signup form)
+ *   Lead             — fired on thank-you.html (the confirmed free-reset opt-in page),
+ *                      NOT on form submit. The owned .bth-mail-form redirects to
+ *                      thank-you.html only on a successful /api/subscribe, so Lead
+ *                      fires exactly once per real opt-in (BTH-GOAL-0032 — removed the
+ *                      submit-side double-fire + the dead MailerLite detection).
  *   InitiateCheckout — on the owned Stripe Payment Link CTA (STRIPE_LINK_MAP), any
  *                      legacy Gumroad CTA link (kept live through the cutover parallel
  *                      window), OR any element carrying data-bth-checkout (e.g. coaching)
@@ -171,19 +174,13 @@
     }, true);
   }
 
-  // Lead — fires on MailerLite form submit (legacy, kept during the parallel window)
-  // OR the owned Mail OS form submit (.bth-mail-form — the BTH-GOAL-0027 replacement).
-  function bindEmailSubmits() {
-    document.addEventListener("submit", function (e) {
-      var f = e.target;
-      if (!f || !f.matches) return;
-      var isML = (f.action && /mailerlite\.com/i.test(f.action)) ||
-                 (f.className && /ml-block-form|ml-form-embedSubmitLoad|ml-subscribe-form/i.test(f.className));
-      var isOwned = f.className && /\bbth-mail-form\b/.test(f.className);
-      if (!isML && !isOwned) return;
-      fire("Lead", { content_name: "email_signup", content_category: "newsletter" });
-    }, true);
-  }
+  // Lead — fired on thank-you.html (the confirmed free-reset opt-in page), NOT here.
+  // The owned .bth-mail-form (bth-form.js) redirects to /thank-you.html only on a
+  // successful /api/subscribe, so Lead fires exactly once per real opt-in. The old
+  // submit-side listener double-counted (it fired on submit AND thank-you.html) and
+  // mis-fired on invalid-email / 429 / network-fail submits; its MailerLite (ml-*)
+  // detection was already dead since the embeds were removed in BTH-GOAL-0027.
+  // Removed in BTH-GOAL-0032.
 
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", function () {
@@ -191,13 +188,11 @@
       bindCheckoutClicks();
       bindStripeCheckoutClicks();
       bindDataCheckoutClicks();
-      bindEmailSubmits();
     });
   } else {
     fireViewContent();
     bindCheckoutClicks();
     bindStripeCheckoutClicks();
     bindDataCheckoutClicks();
-    bindEmailSubmits();
   }
 })();
