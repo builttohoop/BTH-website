@@ -23,7 +23,8 @@
   window.dataLayer = window.dataLayer || [];
 
   var PRODUCT_MAP = {
-    // Clean Gumroad slugs — the current live buy-links (e.g. tier-3.html uses /l/stay-ready).
+    // Legacy Gumroad slugs — after the BTH-GOAL-0031 Stripe cutover only the Injury Bundle
+    // still checks out on Gumroad (multi-file delivery pending); the rest cover old links.
     "stay-ready":        { name: "BTH Stay Ready ($27/mo)",        value: 27,    currency: "USD" },
     "bth-rise":          { name: "BTH Rise (12-Week Program)",     value: 97,    currency: "USD" },
     "bth-foundation":    { name: "BTH Foundation",                 value: 31.99, currency: "USD" },
@@ -51,6 +52,26 @@
   var STRIPE_LINK_MAP = {
     "https://buy.stripe.com/4gMaEXbvh7nu1sccHJaAw00":
       { content_id: "stay-ready", content_name: "BTH Stay Ready ($27/mo)", content_type: "product", value: 27, currency: "USD" },
+    "https://buy.stripe.com/8x228rczlePW2wg6jlaAw09":
+      { content_id: "stay-ready-annual", content_name: "BTH Stay Ready Annual ($197/yr)", content_type: "product", value: 197, currency: "USD" },
+    "https://buy.stripe.com/fZuaEX8j56jqfj24bdaAw01":
+      { content_id: "bth-foundation", content_name: "BTH Foundation", content_type: "product", value: 31.99, currency: "USD" },
+    "https://buy.stripe.com/00w3cv9n923agn64bdaAw02":
+      { content_id: "bth-rise", content_name: "BTH Rise (12-Week Program)", content_type: "product", value: 97, currency: "USD" },
+    "https://buy.stripe.com/00w28rbvhgY43AkgXZaAw03":
+      { content_id: "hip-reset", content_name: "Hip Reset Track", content_type: "product", value: 41.99, currency: "USD" },
+    "https://buy.stripe.com/28E28rfLx8rygn65fhaAw04":
+      { content_id: "knee-protection", content_name: "Knee Protection Track", content_type: "product", value: 41.99, currency: "USD" },
+    "https://buy.stripe.com/fZueVd7f1ePW1sc7npaAw05":
+      { content_id: "ankle-rebuild", content_name: "Ankle Rebuild Track", content_type: "product", value: 41.99, currency: "USD" },
+    "https://buy.stripe.com/5kQ14nczlePWfj24bdaAw06":
+      { content_id: "recovery-system", content_name: "Recovery Track", content_type: "product", value: 41.99, currency: "USD" },
+    "https://buy.stripe.com/7sYaEX56T6jq5Is8rtaAw07":
+      { content_id: "skill-builder", content_name: "Skill Track", content_type: "product", value: 41.99, currency: "USD" },
+    // Staged ahead of the Injury Bundle cutover (checkout still on Gumroad until
+    // multi-file delivery lands in Mail OS — BTH-0035/Codex):
+    "https://buy.stripe.com/9B68wP8j5bDK9YI8rtaAw08":
+      { content_id: "bth-injury-bundle", content_name: "Injury Bundle", content_type: "product", value: 79.99, currency: "USD" },
   };
 
   function stripePropsFromHref(href) {
