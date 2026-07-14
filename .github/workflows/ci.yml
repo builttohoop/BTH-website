@@ -5,6 +5,9 @@ on:
   pull_request:
     branches: [main]
 
+permissions:
+  contents: read
+
 jobs:
   validate:
     name: validate
@@ -22,6 +25,10 @@ jobs:
             [ -f "$f" ] && node --check "$f" && echo "✓ $f"
           done
 
+      - name: Syntax-check gate scripts
+        run: |
+          for f in .github/scripts/*.mjs; do node --check "$f" && echo "✓ $f"; done
+
       - name: Validate JSON files
         run: |
           find . -name "*.json" \
@@ -30,3 +37,30 @@ jobs:
             node -e "JSON.parse(require('fs').readFileSync(process.argv[1],'utf8'))" "$f" \
               && echo "✓ $f" || exit 1
           done
+
+      - name: Internal link integrity
+        run: node .github/scripts/check-links.mjs
+
+  # Its OWN required check, independent of the gate. A secret or member PII in a diff
+  # blocks the merge whether or not anyone approves it. This is the check that was
+  # sitting unwired on disk while every push went unscanned.
+  leak-scan:
+    name: leak-scan
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Fetch base
+        run: git fetch --no-tags origin "${{ github.event.pull_request.base.ref }}"
+      - name: Scan the diff for secrets, tokens, keys and member PII
+        run: |
+          node .github/scripts/leak-scan.mjs \
+            --repo . \
+            --base "origin/${{ github.event.pull_request.base.ref }}" \
+            --head "${{ github.event.pull_request.head.sha }}"

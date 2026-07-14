@@ -1,0 +1,131 @@
+name: gate
+
+# The BTH merge gate.
+#
+# This is the ONE required check that decides whether a PR may merge without Ty.
+#
+#   PASS if  Ty submitted an approving review                      (always — nothing here can veto Ty)
+#   PASS if  BTH_AUTOMERGE == 'on'  AND  tier is A or B
+#                                   AND  leak scan is clean
+#                                   AND  today's auto-merge cap is not blown
+#   FAIL otherwise, with a message saying exactly why.
+#
+# TWO INDEPENDENT SWITCHES, BOTH TY'S — this workflow is inert until BOTH are thrown:
+#   1. repo variable BTH_AUTOMERGE = 'on'   (unset = off = every PR needs Ty; this is the default)
+#   2. branch protection: required_approving_review_count = 0
+# Until #2 changes, GitHub itself still demands Ty's review no matter what this check reports.
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+  pull_request_review:
+    types: [submitted, dismissed]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: gate-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  gate:
+    name: gate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Fetch base
+        run: git fetch --no-tags origin "${{ github.event.pull_request.base.ref }}"
+
+      - name: Classify the PR
+        id: classify
+        run: |
+          node .github/scripts/classify-pr.mjs \
+            --base "origin/${{ github.event.pull_request.base.ref }}" \
+            --head "${{ github.event.pull_request.head.sha }}"
+
+      - name: Leak scan (secrets / tokens / member PII)
+        id: leak
+        run: |
+          if node .github/scripts/leak-scan.mjs \
+               --repo . \
+               --base "origin/${{ github.event.pull_request.base.ref }}" \
+               --head "${{ github.event.pull_request.head.sha }}"; then
+            echo "clean=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "clean=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Has Ty approved?
+        id: approval
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # Latest review state per reviewer; we only care about the repo owner.
+          approved=$(gh api "repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/reviews" \
+            --jq '[.[] | select(.user.login == "${{ github.repository_owner }}")] | last | .state // "NONE"')
+          echo "Owner's latest review state: $approved"
+          [ "$approved" = "APPROVED" ] && echo "approved=true" >> "$GITHUB_OUTPUT" || echo "approved=false" >> "$GITHUB_OUTPUT"
+
+      - name: Today's auto-merge count (rate cap)
+        id: cap
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cap=$(node -e "console.log(JSON.parse(require('fs').readFileSync('.github/merge-tiers.json','utf8')).rate_cap.max_auto_merges_per_day)")
+          today=$(date -u +%Y-%m-%d)
+          used=$(gh pr list --repo "${{ github.repository }}" --state merged \
+                   --label "auto-merge:eligible" --limit 100 \
+                   --json mergedAt --jq "[.[] | select(.mergedAt >= \"${today}T00:00:00Z\")] | length")
+          echo "Auto-merges today: $used / $cap"
+          echo "cap=$cap"   >> "$GITHUB_OUTPUT"
+          echo "used=$used" >> "$GITHUB_OUTPUT"
+          [ "$used" -lt "$cap" ] && echo "under=true" >> "$GITHUB_OUTPUT" || echo "under=false" >> "$GITHUB_OUTPUT"
+
+      - name: Decide
+        env:
+          GH_TOKEN: ${{ github.token }}
+          AUTOMERGE: ${{ vars.BTH_AUTOMERGE }}
+          TIER: ${{ steps.classify.outputs.tier }}
+          AUTO_ELIGIBLE: ${{ steps.classify.outputs.auto_eligible }}
+          LEAK_CLEAN: ${{ steps.leak.outputs.clean }}
+          APPROVED: ${{ steps.approval.outputs.approved }}
+          UNDER_CAP: ${{ steps.cap.outputs.under }}
+          USED: ${{ steps.cap.outputs.used }}
+          CAP: ${{ steps.cap.outputs.cap }}
+          PR: ${{ github.event.pull_request.number }}
+          REPO: ${{ github.repository }}
+        run: |
+          set -e
+          note() { echo "$1" >> "$GITHUB_STEP_SUMMARY"; }
+
+          # Ty's approval always passes the gate. Nothing below can override him.
+          if [ "$APPROVED" = "true" ]; then
+            note ""; note "### ✅ gate: PASS — Ty approved."
+            gh pr edit "$PR" --repo "$REPO" --remove-label "auto-merge:eligible" 2>/dev/null || true
+            exit 0
+          fi
+
+          fail() {
+            note ""; note "### 🔒 gate: WAITING ON TY"; note ""; note "$1"
+            note ""; note "_Approve the PR and this check turns green._"
+            echo "::error::$1"
+            exit 1
+          }
+
+          [ "$LEAK_CLEAN" = "true" ]   || fail "**Leak scan found something.** A secret, token, private key, or member PII appears in this diff. This never auto-merges and should not be approved until it is removed — see the leak-scan step (values are redacted in the log)."
+          [ "$AUTOMERGE" = "on" ]      || fail "Auto-merge is **off** (repo variable \`BTH_AUTOMERGE\` is not \`on\`). Every PR needs Ty's approval. This is the default and the kill switch."
+          [ "$AUTO_ELIGIBLE" = "true" ] || fail "This PR is **Tier $TIER** — money, tracking, claims, a real send, or an unmapped path. Tier C and D always require Ty. See the classify step for exactly which file triggered it."
+          [ "$UNDER_CAP" = "true" ]    || fail "Daily auto-merge cap reached (**$USED / $CAP**). Volume is its own risk — the rest of today's PRs wait for Ty."
+
+          note ""; note "### ✅ gate: PASS — Tier $TIER, auto-merge eligible ($USED/$CAP used today)."
+          gh pr edit "$PR" --repo "$REPO" --add-label "auto-merge:eligible" 2>/dev/null || true
