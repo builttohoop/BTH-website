@@ -1,0 +1,117 @@
+{
+  "_doc": "BTH MERGE TIER MAP — the machine-readable gate. Read by .github/scripts/classify-pr.mjs, which the `gate` workflow runs on every PR. Tier A/B may auto-merge on green; Tier C/D always require Ty's approving review. Canonical doctrine copy: .claude/agent-system/router/merge-tiers.json. THIS repo copy is what CI actually executes.",
+  "version": 1,
+
+  "_rules_of_evaluation": [
+    "1. If ANY changed path matches force_tier_d -> the PR is Tier D. This wins over everything and cannot be overridden.",
+    "2. Otherwise the PR's tier is the HIGHEST (most restrictive) tier across all its changed paths. D > C > B > A.",
+    "3. Any changed path that matches NO glob below is treated as Tier D. Unknown is never automatic — the map fails CLOSED.",
+    "4. Then the content scan runs on ADDED lines only. Any hit promotes the PR to at least Tier C, regardless of path.",
+    "5. Auto-merge additionally requires the repo variable BTH_AUTOMERGE == 'on'. Unset/anything else = every PR needs Ty."
+  ],
+
+  "default_tier": "D",
+
+  "force_tier_d": {
+    "_why": "THE GATE CANNOT MODIFY ITSELF. Any PR that touches the gate's own machinery, the deploy identity, or the ignore rules is Tier D by construction — so an agent can never widen its own authority, and a green gate can never be manufactured by editing the gate.",
+    "globs": [
+      ".github/**",
+      "CODEOWNERS",
+      "**/merge-tiers.json",
+      "**/classify-pr.mjs",
+      "**/leak-scan.mjs",
+      ".gitignore",
+      ".gitattributes",
+      "CNAME"
+    ]
+  },
+
+  "tiers": {
+    "A": {
+      "auto_merge": true,
+      "label": "Internal — never reaches a customer",
+      "globs": [
+        "README.md",
+        "**/README.md",
+        "docs/**",
+        "_battle-hero-3d/**",
+        "**/*.test.mjs",
+        "**/*.test.js",
+        "tests/**"
+      ]
+    },
+
+    "B": {
+      "auto_merge": true,
+      "label": "Safe public — public but non-money, revertable in ~1 min",
+      "globs": [
+        "about.html",
+        "updates.html",
+        "assets/**",
+        "!assets/bth-tracking.js"
+      ]
+    },
+
+    "C": {
+      "auto_merge": false,
+      "label": "Money & conversion — public AND touches revenue, tracking, claims, or anything that sends",
+      "_why": "Every path here can cost money, break attribution, make a legal claim, or reach a real person. These are judgment calls, and judgment stays with Ty.",
+      "globs": [
+        "index.html",
+        "join.html",
+        "tier-1.html",
+        "tier-2.html",
+        "tier-3.html",
+        "programs.html",
+        "coaching.html",
+        "addons.html",
+        "reset.html",
+        "thank-you.html",
+        "bounce.html",
+        "bth-operator-v2.html",
+        "assets/bth-tracking.js",
+        "bth-operator-sw.js",
+        "email-sequences/**",
+        "reset-pdfs/**",
+        "updates/**",
+        "privacy/**",
+        "seo/**"
+      ],
+      "_path_notes": {
+        "bth-operator-sw.js": "The service worker. It served stale HTML site-wide once already (2026-06-16) — a bad SW poisons every page and survives a revert in users' browsers. Never automatic.",
+        "assets/bth-tracking.js": "Pixels and conversion events. A drifted ID silently destroys attribution and every ad decision downstream.",
+        "email-sequences/**": "These become REAL SENDS to real people. Unrecallable.",
+        "seo/**": "Injury/pain content — medical-adjacent claims by nature. Compliance judgment, not a mechanical check.",
+        "updates/**": "announcements.json is the public claims registry.",
+        "reset-pdfs/**": "Delivered product content."
+      }
+    }
+  },
+
+  "content_promote_to_c": {
+    "_why": "Path rules alone can be defeated by moving a line into a 'safe' file. These patterns run against ADDED lines in the diff and promote the PR to Tier C no matter which file it landed in. Money and claims are caught by what the text SAYS, not where it lives.",
+    "patterns": [
+      { "id": "dollar-amount",      "rx": "\\$\\s?\\d",                                                        "note": "any price or dollar figure" },
+      { "id": "price-word",         "rx": "(?i)\\b(pricing|price|per\\s?month|/mo\\b|monthly|annually|per\\s?year)\\b", "note": "pricing language" },
+      { "id": "checkout",           "rx": "(?i)\\b(checkout|gumroad|stripe|paypal|buy\\s+now|subscribe\\s+now|start\\s+(your\\s+)?(trial|membership))\\b", "note": "purchase path" },
+      { "id": "guarantee-refund",   "rx": "(?i)\\b(guarantee[d]?|refund|money[-\\s]?back|no[-\\s]?risk|cancel\\s+anytime)\\b", "note": "commercial promise — contractual" },
+      { "id": "medical-claim",      "rx": "(?i)\\b(cure[sd]?|heal[s]?|pain[-\\s]?free|injury[-\\s]?proof|diagnos\\w+|treat(s|ment)?|rehab)\\b", "note": "medical claim — liability" },
+      { "id": "results-claim",      "rx": "(?i)\\b(guaranteed\\s+results|add\\s+\\d+\\s*(inches|in\\b)|dunk\\s+in\\s+\\d+|\\d+\\s*%\\s+(more|faster|higher)|proven\\s+to)\\b", "note": "performance claim — substantiation" },
+      { "id": "tracking-id",        "rx": "(?i)(G-[A-Z0-9]{6,}|AW-\\d{6,}|GTM-[A-Z0-9]{4,}|\\bfbq\\(|\\bgtag\\(|pixel[_-]?id)", "note": "analytics/pixel identifier" }
+    ]
+  },
+
+  "rate_cap": {
+    "_why": "A Tier-2 action performed 10,000 times produces a Tier-4 outcome. Volume is its own risk class, independent of any single change being safe.",
+    "max_auto_merges_per_day": 10,
+    "on_exceed": "gate fails — the next PR that day waits for Ty"
+  },
+
+  "kill_switch": {
+    "_how": "Repository variable BTH_AUTOMERGE. Must equal the exact string 'on' for ANY auto-merge to happen. Unset, empty, or any other value = every PR requires Ty's approval, exactly as it works today.",
+    "variable": "BTH_AUTOMERGE",
+    "default_when_unset": "off",
+    "set_it": "gh variable set BTH_AUTOMERGE --body on  --repo builttohoop/BTH-website",
+    "kill_it": "gh variable set BTH_AUTOMERGE --body off --repo builttohoop/BTH-website"
+  }
+}

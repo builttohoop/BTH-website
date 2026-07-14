@@ -1,0 +1,48 @@
+# BTH CODEOWNERS — the second, independent layer of the merge gate.
+#
+# The `gate` check (classify-pr.mjs + merge-tiers.json) is the primary mechanism.
+# This file is the backstop: if the classifier ever has a bug, GitHub ITSELF still
+# demands Ty's review on every money / tracking / claims / sending path below.
+# Two independent systems must both fail for a Tier C change to slip through.
+#
+# Requires branch protection setting: require_code_owner_reviews = true
+#
+# Anything NOT listed here has no code owner — that is deliberate. Those are the
+# Tier A/B paths that are allowed to auto-merge on green.
+# Keep this file in sync with the "C" globs in .github/merge-tiers.json.
+
+# --- The gate's own machinery. Never auto. An agent must never be able to widen its own authority.
+/.github/                       @builttohoop
+/CODEOWNERS                     @builttohoop
+/.gitignore                     @builttohoop
+/CNAME                          @builttohoop
+
+# --- Money & conversion surfaces -----------------------------------------------------
+/index.html                     @builttohoop
+/join.html                      @builttohoop
+/tier-1.html                    @builttohoop
+/tier-2.html                    @builttohoop
+/tier-3.html                    @builttohoop
+/programs.html                  @builttohoop
+/coaching.html                  @builttohoop
+/addons.html                    @builttohoop
+/reset.html                     @builttohoop
+/thank-you.html                 @builttohoop
+/bounce.html                    @builttohoop
+/bth-operator-v2.html           @builttohoop
+
+# --- Tracking & attribution. A drifted pixel ID silently poisons every ad decision.
+/assets/bth-tracking.js         @builttohoop
+
+# --- The service worker. It served stale HTML site-wide once already (2026-06-16).
+#     A bad SW survives a revert in users' browsers — the one thing a rollback can't fix.
+/bth-operator-sw.js             @builttohoop
+
+# --- Anything that becomes a real, unrecallable send -----------------------------------
+/email-sequences/               @builttohoop
+
+# --- Delivered product content, public claims registry, legal, medical-adjacent content
+/reset-pdfs/                    @builttohoop
+/updates/                       @builttohoop
+/privacy/                       @builttohoop
+/seo/                           @builttohoop
