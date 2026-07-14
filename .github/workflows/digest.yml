@@ -1,0 +1,53 @@
+name: digest
+
+# The daily "what shipped while you were away" report.
+#
+# This is the OVERSIGHT half of the merge gate. Auto-merge is only safe because Ty reviews
+# after the fact instead of approving before it — this is the thing he reviews.
+#
+# It posts as a GitHub Issue, so Ty gets it by email with zero extra infrastructure, and every
+# entry carries a working revert command. A digest you can't act on is just noise.
+
+on:
+  schedule:
+    - cron: '0 12 * * *' # 08:00 ET / 07:00 EST — in the inbox before the day starts
+  workflow_dispatch:
+    inputs:
+      days:
+        description: 'How many days to cover'
+        default: '1'
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: read
+
+jobs:
+  digest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Build the digest
+        id: build
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          node .github/scripts/digest.mjs \
+            --repo "${{ github.repository }}" \
+            --days "${{ inputs.days || 1 }}" > digest.md
+          cat digest.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Post it
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          title="BTH shipped — $(date -u +%Y-%m-%d)"
+          gh issue create \
+            --repo "${{ github.repository }}" \
+            --title "$title" \
+            --label "digest" \
+            --body-file digest.md
