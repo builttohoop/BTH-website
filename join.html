@@ -23,9 +23,9 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Built to Hoop">
 <meta property="og:title" content="Basketball Training Membership — Stay Ready | Built to Hoop">
-<meta property="og:description" content="The $27/mo membership that keeps real hoopers training and playing at the same time. One plan, the whole system, the app included.">
+<meta property="og:description" content="The $27/mo membership that keeps real hoopers training and playing at the same time. One plan, the whole system, delivered to your inbox.">
 <meta property="og:url" content="https://built-to-hoop.com/join">
-<meta name="description" content="Join Stay Ready — $27/month. Foundation Month, the full session library, every reset track, and the BTH app. Cancel anytime.">
+<meta name="description" content="Join Stay Ready — $27/month. Foundation Month, the full session library, and every reset track — delivered by email. Cancel anytime.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/bth-system.css">
@@ -105,13 +105,13 @@ footer { padding:48px 52px; max-width:1180px; margin:0 auto; display:flex; justi
   <div>
     <div class="eyebrow">Built To Hoop — The Membership</div>
     <h1 class="title">Stay <span class="gold">Ready.</span></h1>
-    <p class="sub">Training for adult hoopers still playing pickup and leagues — built so you keep training and playing at the same time, instead of picking one. <strong>Stay Ready is the one membership, $27/mo, and the BTH app comes with it.</strong></p>
+    <p class="sub">Training for adult hoopers still playing pickup and leagues — built so you keep training and playing at the same time, instead of picking one. <strong>Stay Ready is the one membership, $27/mo — everything included, delivered straight to your inbox.</strong></p>
     <ul class="bullets">
       <li>Foundation Month — rebuild the base, the right order</li>
       <li>The full session library + every reset track</li>
       <li>Hips, knees, ankles, core, power — all included</li>
       <li>New work added every month</li>
-      <li>The BTH app unlocks the moment you join</li>
+      <li>Everything delivered by email — start the day you join (BTH app coming soon)</li>
     </ul>
   </div>
 
@@ -124,10 +124,12 @@ footer { padding:48px 52px; max-width:1180px; margin:0 auto; display:flex; justi
       Cutover 2026-07-06 (BTH-GOAL-0026 Phase 3): was builttohoop.gumroad.com/l/stay-ready.
       InitiateCheckout fires on click via assets/bth-tracking.js (STRIPE_LINK_MAP).
       After payment, the Mail OS Stripe webhook (POST /webhooks/stripe -> markBuyerAndQueueAccess)
-      mints the BTH license and emails the member their key + app link; Purchase is server-side.
+      mints the BTH license and, while APP_LIVE=false, emails the member an honest "app coming soon"
+      welcome — NO key or app link until the app ships. Purchase is server-side. Do not re-add
+      app-code/app-access promises to this page until the app is actually live.
     -->
     <a class="buy-btn" id="checkout" href="https://buy.stripe.com/4gMaEXbvh7nu1sccHJaAw00" rel="noopener">Join Stay Ready →</a>
-    <p class="buy-trust">Secure checkout. Your membership key + app access are emailed to you the moment you join.</p>
+    <p class="buy-trust">Secure checkout. Your access email lands the moment you join — same way your Free Reset reached you.</p>
   </div>
 </section>
 
@@ -143,13 +145,13 @@ footer { padding:48px 52px; max-width:1180px; margin:0 auto; display:flex; justi
       </div>
       <div class="step">
         <div class="n">Step 2</div>
-        <h4>Get your key</h4>
-        <p>The moment you join, we email your membership key and the link to the BTH app — same way your Free Reset reached you.</p>
+        <h4>Check your email</h4>
+        <p>The moment you join, your access lands in your inbox — same way your Free Reset reached you. Everything's right there.</p>
       </div>
       <div class="step">
         <div class="n">Step 3</div>
-        <h4>Unlock the app</h4>
-        <p>Open the app, tap Unlock, paste your key. Foundation Month and the full system are yours.</p>
+        <h4>Start training</h4>
+        <p>Open it up and get to work. Foundation Month and the full session library are yours — train and play at the same time.</p>
       </div>
     </div>
   </div>
