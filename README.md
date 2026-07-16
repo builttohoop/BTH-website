@@ -50,7 +50,7 @@ Static HTML/CSS/JS. No build pipeline. Edit files, push to `main`, site updates 
 Every page loads:
 - **GTM** `GTM-T9SFFTB7` — container for future tags
 - **GA4** `G-YBE7PRPCLK` — PageView automatic
-- **Meta Pixel** `1728040128369123` — PageView automatic
+- **Meta Pixel** `1320146003572375` — PageView automatic
 - **TikTok Pixel** `D7RNU1RC77U2TFGF3SO0` — PageView automatic
 
 `assets/bth-tracking.js` fires `ViewContent`, `Lead`, and `InitiateCheckout` to all three platforms.
