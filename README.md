@@ -96,3 +96,5 @@ git push origin main
 ```
 
 Site goes live in ~60 seconds. No build step.
+
+<!-- gate verification: Tier A auto-merge test, 2026-07-14 -->
