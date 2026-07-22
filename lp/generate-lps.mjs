@@ -254,6 +254,7 @@ ${valueStrip(kind === 'A' ? A_VALUES : B_VALUES)}
     <a href="../reset.html">Free Reset</a>
     <a href="../join.html">Join</a>
     <a href="../about.html">About</a>
+    <a href="https://billing.stripe.com/p/login/4gMaEXbvh7nu1sccHJaAw00" rel="noopener">Manage membership</a>
   </div>
 </footer>
 </body>
