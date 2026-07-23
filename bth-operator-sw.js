@@ -4,7 +4,7 @@
    reflects the latest deploy when online, and only falls back to cache when offline.
    Static assets (fonts/scripts) use cache-first for speed + offline. The app is fully functional
    without this file (foreground reminders + install still work). */
-const CACHE='bth-operator-v3-20260616';
+const CACHE='bth-operator-v4-20260723';
 const SHELL=['./','./bth-operator-v2.html'];
 self.addEventListener('install',e=>{self.skipWaiting();e.waitUntil(caches.open(CACHE).then(c=>c.addAll(SHELL)).catch(()=>{}));});
 self.addEventListener('activate',e=>{e.waitUntil((async()=>{const ks=await caches.keys();await Promise.all(ks.filter(k=>k!==CACHE).map(k=>caches.delete(k)));await self.clients.claim();})());});
