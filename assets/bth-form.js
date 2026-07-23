@@ -8,7 +8,10 @@
  *   - submit -> preventDefault -> client-side email check (error state if invalid)
  *   - fetch(action, {method:'POST', body:new FormData(form)})
  *   - button runs press(scale)->working(spinner)->success(checkmark) per the spec states
- *   - on success: redirect to /thank-you.html (Lead tracking fires there)
+ *   - on success: redirect to /thank-you.html. A REAL contact write (worker says
+ *     created/queued) also sets sessionStorage "bth_lead" — thank-you.html fires the
+ *     Lead pixels only when that flag is present, so honeypot-dropped submits and
+ *     direct thank-you loads never count as conversions (ghost-conversion fix, 2026-07-23)
  *   - 429 -> inline "too many attempts" message, button re-enabled
  *   - other non-ok / network error -> inline fallback message with the support email
  *   - honeypot ("company") is left untouched here; validation/limiting is server-side
@@ -71,15 +74,27 @@
       fetch(form.action, { method: "POST", body: formData })
         .then(function (res) {
           if (res.ok) {
-            if (btn) {
-              btn.classList.remove("is-working");
-              btn.classList.add("is-success");
-            }
-            if (successEl) successEl.classList.add("is-visible");
-            window.setTimeout(function () {
-              window.location.href = redirectUrl;
-            }, 500);
-            return;
+            // The worker answers 200 ok:true even for submits it silently drops
+            // (honeypot-tripped bots/autofill), so a Lead is only real when the
+            // body says a contact was written: `created` (new worker field) or
+            // queued > 0 (fallback for the currently-deployed worker). The
+            // success UI + redirect run either way — camouflage stays intact.
+            return res.json().catch(function () { return {}; }).then(function (data) {
+              var realLead = (typeof data.created === "boolean")
+                ? data.created
+                : (Number(data.queued) > 0);
+              if (realLead) {
+                try { window.sessionStorage.setItem("bth_lead", "1"); } catch (e) {}
+              }
+              if (btn) {
+                btn.classList.remove("is-working");
+                btn.classList.add("is-success");
+              }
+              if (successEl) successEl.classList.add("is-visible");
+              window.setTimeout(function () {
+                window.location.href = redirectUrl;
+              }, 500);
+            });
           }
           if (btn) {
             btn.disabled = false;

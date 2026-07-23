@@ -22,9 +22,19 @@
   <!-- BTH unified tracker -->
   <script src="assets/bth-tracking.js" defer></script>
 
-  <!-- Fire Lead event on page load — this page = confirmed email opt-in -->
+  <!-- Fire Lead event on page load — this page = confirmed email opt-in.
+       GUARDED (ghost-conversion fix, 2026-07-23): only a submit that actually
+       wrote a contact carries sessionStorage "bth_lead" (set by bth-form.js from
+       the worker's created/queued response). Direct loads, bots, back-button
+       revisits, and honeypot-dropped submits arrive without it and fire nothing. -->
   <script>
   (function fireLead() {
+    var isRealLead = false;
+    try {
+      isRealLead = window.sessionStorage.getItem("bth_lead") === "1";
+      if (isRealLead) window.sessionStorage.removeItem("bth_lead");
+    } catch (e) {}
+    if (!isRealLead) return;
     var props = { content_name: "free_reset_optin", content_category: "lead_magnet" };
     function attempt() {
       try { if (window.gtag) window.gtag("event", "Lead", props); } catch(e) {}
