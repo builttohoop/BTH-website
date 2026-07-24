@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- BTH sitemap — indexable pages only. LPs (lp/**) are noindex by design (ads-only SKAG pages),
+     thank-you.html is noindex (conversion page): both are deliberately absent. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://built-to-hoop.com/</loc></url>
+  <url><loc>https://built-to-hoop.com/about.html</loc></url>
+  <url><loc>https://built-to-hoop.com/programs.html</loc></url>
+  <url><loc>https://built-to-hoop.com/coaching.html</loc></url>
+  <url><loc>https://built-to-hoop.com/reset.html</loc></url>
+  <url><loc>https://built-to-hoop.com/knee.html</loc></url>
+  <url><loc>https://built-to-hoop.com/mobility.html</loc></url>
+  <url><loc>https://built-to-hoop.com/bounce.html</loc></url>
+  <url><loc>https://built-to-hoop.com/addons.html</loc></url>
+  <url><loc>https://built-to-hoop.com/join.html</loc></url>
+  <url><loc>https://built-to-hoop.com/tier-1.html</loc></url>
+  <url><loc>https://built-to-hoop.com/tier-2.html</loc></url>
+  <url><loc>https://built-to-hoop.com/tier-3.html</loc></url>
+  <url><loc>https://built-to-hoop.com/updates.html</loc></url>
+  <url><loc>https://built-to-hoop.com/manage.html</loc></url>
+  <url><loc>https://built-to-hoop.com/privacy/</loc></url>
+  <url><loc>https://built-to-hoop.com/seo/</loc></url>
+  <url><loc>https://built-to-hoop.com/seo/why-knees-hurt-after-basketball.html</loc></url>
+  <url><loc>https://built-to-hoop.com/seo/basketball-injury-prevention.html</loc></url>
+  <url><loc>https://built-to-hoop.com/seo/return-to-basketball-after-injury.html</loc></url>
+  <url><loc>https://built-to-hoop.com/seo/recovery-after-pickup-basketball.html</loc></url>
+  <url><loc>https://built-to-hoop.com/seo/hip-mobility-for-hoopers.html</loc></url>
+  <url><loc>https://built-to-hoop.com/seo/ankle-mobility-for-basketball.html</loc></url>
+  <url><loc>https://built-to-hoop.com/seo/how-to-stop-feeling-stiff-playing-basketball.html</loc></url>
+  <url><loc>https://built-to-hoop.com/seo/how-to-train-legs-for-basketball.html</loc></url>
+  <url><loc>https://built-to-hoop.com/seo/best-basketball-warmup.html</loc></url>
+  <url><loc>https://built-to-hoop.com/seo/vertical-jump-mistakes.html</loc></url>
+</urlset>

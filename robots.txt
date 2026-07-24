@@ -1,0 +1,8 @@
+# built-to-hoop.com — deliberately minimal.
+# lp/** and thank-you.html are handled by meta noindex, NOT by Disallow:
+# a robots Disallow would hide the noindex from crawlers and can leave
+# "indexed, though blocked" stubs. Do not add Disallow rules for them.
+User-agent: *
+Allow: /
+
+Sitemap: https://built-to-hoop.com/sitemap.xml
