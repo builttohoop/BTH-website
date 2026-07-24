@@ -219,6 +219,15 @@ nav {
     <span></span><span></span><span></span>
   </button>
 </nav>
+<div id="mobile-menu" class="mobile-menu" role="navigation" aria-label="Mobile navigation">
+  <a href="../tier-1.html">Foundation</a>
+  <a href="../tier-2.html">Rise</a>
+  <a href="../tier-3.html">Stay Ready</a>
+  <a href="../addons.html">Tracks</a>
+  <a href="../updates.html">Updates</a>
+  <a href="../about.html">About</a>
+  <a href="../reset.html" class="mobile-cta">Free Reset</a>
+</div>
 
 <article class="article-wrap article">
   <div class="article-eyebrow">Stiffness · Pickup</div>
@@ -246,7 +255,7 @@ nav {
   <p>If this is the pattern you're in, the <a href="../tier-1.html">Tier 1 Foundation program</a> is built around exactly this 3-stage approach. Phase 1 (Restore) handles stages 1 and 2 — quieting stiffness and building trust through loaded movement. Phase 2 (Rebuild) handles stage 3 — expressing it on the court.</p>
   <p><a href="../reset.html">The free 5-day reset</a> is also built on this logic if you want to test it before paying anything.</p>
 
-<div class="related"><div class="related-eyebrow">Read Next</div><ul><li><a href="hip-mobility-for-hoopers.html">Hip Mobility for Hoopers</a></li><li><a href="best-basketball-warmup.html">Best Basketball Warmup</a></li><li><a href="recovery-after-pickup-basketball.html">Recovery After Pickup Basketball</a></li></ul></div>
+<div class="related"><div class="related-eyebrow">Read Next</div><ul><li><a href="hip-mobility-for-hoopers.html">Hip Mobility for Hoopers</a></li><li><a href="best-basketball-warmup.html">Best Basketball Warmup</a></li><li><a href="recovery-after-pickup-basketball.html">Recovery After Pickup Basketball</a></li><li><a href="pickup-basketball-overtraining.html">How Many Days a Week Should You Play Pickup?</a></li></ul></div>
 </article>
 
 <div class="cta-band">
@@ -302,5 +311,25 @@ nav {
   <div class="foot-copy">© 2026 Built to Hoop. All rights reserved. &nbsp;·&nbsp; tyrell@built-to-hoop.com</div>
 </footer>
 
+<script>
+(function(){
+  var t=document.querySelector('.nav-toggle');
+  var m=document.getElementById('mobile-menu');
+  if(!t||!m)return;
+  t.addEventListener('click',function(){
+    var open=m.classList.toggle('open');
+    t.setAttribute('aria-expanded',open?'true':'false');
+    document.body.style.overflow=open?'hidden':'';
+  });
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape'&&m.classList.contains('open')){
+      m.classList.remove('open');
+      t.setAttribute('aria-expanded','false');
+      document.body.style.overflow='';
+      t.focus();
+    }
+  });
+})();
+</script>
 </body>
 </html>

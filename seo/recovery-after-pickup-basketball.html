@@ -219,6 +219,15 @@ nav {
     <span></span><span></span><span></span>
   </button>
 </nav>
+<div id="mobile-menu" class="mobile-menu" role="navigation" aria-label="Mobile navigation">
+  <a href="../tier-1.html">Foundation</a>
+  <a href="../tier-2.html">Rise</a>
+  <a href="../tier-3.html">Stay Ready</a>
+  <a href="../addons.html">Tracks</a>
+  <a href="../updates.html">Updates</a>
+  <a href="../about.html">About</a>
+  <a href="../reset.html" class="mobile-cta">Free Reset</a>
+</div>
 
 <article class="article-wrap article">
   <div class="article-eyebrow">Recovery · Pickup</div>
@@ -247,7 +256,7 @@ nav {
   <p>If you want a structured recovery layer that runs alongside your pickup schedule, the <a href="../addons.html">Recovery System</a> add-on is built for exactly this. Active recovery sessions, mobility flows, and the readiness framework that tells you when to train hard vs. when to scale back.</p>
   <p>Or for the full system, the readiness layer is baked into <a href="../tier-1.html">Tier 1 Foundation</a> and <a href="../tier-2.html">Tier 2 Rise</a>.</p>
 
-<div class="related"><div class="related-eyebrow">Read Next</div><ul><li><a href="best-basketball-warmup.html">Best Basketball Warmup</a></li><li><a href="how-to-stop-feeling-stiff-playing-basketball.html">How to Stop Feeling Stiff Playing Basketball</a></li><li><a href="basketball-injury-prevention.html">Basketball Injury Prevention</a></li></ul></div>
+<div class="related"><div class="related-eyebrow">Read Next</div><ul><li><a href="best-basketball-warmup.html">Best Basketball Warmup</a></li><li><a href="how-to-stop-feeling-stiff-playing-basketball.html">How to Stop Feeling Stiff Playing Basketball</a></li><li><a href="basketball-injury-prevention.html">Basketball Injury Prevention</a></li><li><a href="pickup-basketball-overtraining.html">How Many Days a Week Should You Play Pickup?</a></li></ul></div>
 </article>
 
 <div class="cta-band">
@@ -303,5 +312,25 @@ nav {
   <div class="foot-copy">© 2026 Built to Hoop. All rights reserved. &nbsp;·&nbsp; tyrell@built-to-hoop.com</div>
 </footer>
 
+<script>
+(function(){
+  var t=document.querySelector('.nav-toggle');
+  var m=document.getElementById('mobile-menu');
+  if(!t||!m)return;
+  t.addEventListener('click',function(){
+    var open=m.classList.toggle('open');
+    t.setAttribute('aria-expanded',open?'true':'false');
+    document.body.style.overflow=open?'hidden':'';
+  });
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape'&&m.classList.contains('open')){
+      m.classList.remove('open');
+      t.setAttribute('aria-expanded','false');
+      document.body.style.overflow='';
+      t.focus();
+    }
+  });
+})();
+</script>
 </body>
 </html>
