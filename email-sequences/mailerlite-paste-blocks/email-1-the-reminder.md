@@ -27,7 +27,7 @@ You picked the program. You opened the checkout.
 
 Last step.
 
-**Tier 2: Rise — $57 one-time. 12 weeks. Yours forever.**
+**Tier 2: Rise — $97 one-time. 12 weeks. Yours forever.**
 
 → Finish your order: https://builttohoop.gumroad.com/l/groedz
 
@@ -42,7 +42,7 @@ built-to-hoop.com
 
 **If tag = `intent_tier1`:**
 > Replace the offer line with:
-> **Tier 1: Foundation — $19 one-time.**
+> **Tier 1: Foundation — $31.99 one-time.**
 > → Finish your order: https://builttohoop.gumroad.com/l/ecyzaa
 
 **If tag = `intent_tier3`:**

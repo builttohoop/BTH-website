@@ -16,11 +16,11 @@ Hey {$name|hooper},
 
 You didn't finish checkout yesterday. I'm not gonna chase. But I want to put three things on the table because I've watched enough hoopers stall on this page to know what's usually going on.
 
-**1. "It's $57 — I'll do it next paycheck."**
+**1. "It's $97 — I'll do it next paycheck."**
 
-Cool. But know this: every week you wait, you keep training the same way that put you here. Stiffness compounds. So does compensation. The hip you ignored at 28 is the knee surgery at 33. I'm not selling fear — I'm selling a 12-week program that costs less than ONE physical therapy copay.
+Cool. But know this: every week you wait, you keep training the same way that put you here. Stiffness compounds. So does compensation. The hip you ignored at 28 is the knee surgery at 33. I'm not selling fear — I'm selling 12 weeks of structured work that runs about $8 a week, once, and it's yours after that.
 
-If $57 is the issue right now, drop down to **Tier 1: Foundation — $19.** Same system. Smaller commitment. You can upgrade anytime — I'll credit what you paid.
+If $97 isn't the number that works this month, start at **Tier 1: Foundation — $31.99.** Same system, the first block of it. Smaller commitment, and you can upgrade anytime — I'll credit what you paid.
 
 → https://builttohoop.gumroad.com/l/ecyzaa
 

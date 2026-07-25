@@ -9,6 +9,8 @@ Static HTML/CSS/JS. No build pipeline. Edit files, push to `main`, site updates 
 > Pricing/offer changes and the **GUMROAD-OFF cutover** (owned Mail OS licensing + Stripe replacing
 > Gumroad) are in flight. **Source of truth for the offer = Motherboard `data/command-center/products.json`
 > (membership = BTH Stay Ready $27/mo).** Treat the tables here as a rough map, not the live truth.
+> (Price columns reconciled to `products.json` on 2026-07-25; the Gumroad slugs are the OLD keys still
+> used by `assets/bth-tracking.js` PRODUCT_MAP, not the current clean Gumroad slugs.)
 >
 > **Business/strategy/ads docs that used to sit in this repo root were relocated to the BTH tree on
 > 2026-07-05** — `03-strategy/marketing-ops/`, `04-content/copy/`, `08-handoffs-and-prompts/`. See
@@ -21,8 +23,8 @@ Static HTML/CSS/JS. No build pipeline. Edit files, push to `main`, site updates 
 ```
 /
 ├── index.html          Homepage — hero, start-here, tiers, add-ons, about preview
-├── tier-1.html         BTH Foundation — $19 one-time
-├── tier-2.html         BTH Rise — $57 launch price
+├── tier-1.html         BTH Foundation — $31.99 one-time
+├── tier-2.html         BTH Rise — $97 launch price
 ├── tier-3.html         BTH Stay Ready — $27/mo membership
 ├── addons.html         5 targeted add-on tracks
 ├── about.html          Founder story + methodology
@@ -61,15 +63,15 @@ Every page loads:
 
 | Slug | Product | Price |
 |------|---------|-------|
-| `ecyzaa` | BTH Foundation — Tier 1 | $19 |
-| `groedz` | BTH Rise — Tier 2 | $57 |
+| `ecyzaa` | BTH Foundation — Tier 1 | $31.99 |
+| `groedz` | BTH Rise — Tier 2 | $97 |
 | `thxqs` | BTH Stay Ready — Tier 3 | $27/mo |
-| `dwcyc` | Hip Reset Track | $19 |
-| `novpg` | Knee Protection Track | $19 |
-| `mtqyvi` | Ankle Rebuild Track | $19 |
-| `axona` | Skill Track | $19 |
-| `xbxhqc` | Recovery Track | $19 |
-| `esgvfq` | Add-On Bundle | $47 |
+| `dwcyc` | Hip Reset Track | $41.99 |
+| `novpg` | Knee Protection Track | $41.99 |
+| `mtqyvi` | Ankle Rebuild Track | $41.99 |
+| `axona` | Skill Track | $41.99 |
+| `xbxhqc` | Recovery Track | $41.99 |
+| `esgvfq` | Injury Bundle | $79.99 |
 
 ---
 
