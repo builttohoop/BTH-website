@@ -108,7 +108,7 @@ Free plan doesn't allow native A/B in automations (you saw "Upgrade to use" on A
 
 ## Tier swap variants
 
-Default flow assumes Tier 2 ($57) abandon. If you want tier-specific flows later, clone this automation 2 more times and swap:
+Default flow assumes Tier 2 ($97) abandon. If you want tier-specific flows later, clone this automation 2 more times and swap:
 - Tier 1 link: `https://builttohoop.gumroad.com/l/ecyzaa`
 - Tier 3 link: `https://builttohoop.gumroad.com/l/thxqs`
 
