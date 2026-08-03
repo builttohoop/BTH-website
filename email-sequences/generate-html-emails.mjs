@@ -23,6 +23,16 @@
 //  • LINK-ONLY reset delivery — emails NEVER list exercises. Each reset-day email
 //    carries ONE Tier-2 CTA that links to that day's real reset PDF.
 //  • Membership = "Stay Ready" $27/mo (locked taxonomy). No "BTH Rise", no discount, no hype.
+//  • ONE named offer per sequence: Stay Ready $27/mo. (BTH-0041)
+//    BANNED as phase names — they are separate purchasable products with their own checkouts:
+//      "Performance Track" (= BTH Rise, $97 one-time)  → say "The Performance Layer"
+//      "Tier 1 / 2 / 3"    (= the standalone product pages) → never referenced at all
+//    ALLOWED — "Foundation" is the sanctioned name of Stay Ready's month-1 phase (Ty's ruling,
+//    2026-08-03; matches the app's own `foundation` program, access:'member'). It collides with
+//    the standalone "BTH Foundation" $31.99 SKU, so the rule is BINDING, not banning: in this
+//    COLD sequence never let "Foundation" stand alone as if it were a buyable thing — always
+//    pin it to the membership ("your first month inside Stay Ready — not a separate purchase")
+//    and keep it OUT of subject lines, where there is no room to disambiguate.
 //  • Checkout happens ON THE WEBSITE (CHECKOUT_URL), not Gumroad. One constant to flip at cutover.
 //  • Every email opens with the 1B hero (eyebrow + big headline, ONE gold accent word).
 
@@ -249,7 +259,7 @@ function membershipCta(featured) {
     <td class="box-soft" style="background:${C.boxSoft};border:1px solid ${C.border};border-left:4px solid ${C.gold};padding:24px 28px;">
       <p class="oswald t-gold" style="margin:0 0 4px;font-size:11px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:${C.goldText};">The next step</p>
       <p class="oswald t-ink" style="margin:0 0 12px;font-size:22px;font-weight:700;line-height:1.2;color:${C.ink};">Stay Ready — $27/month</p>
-      <p class="t-body" style="margin:0 0 16px;font-size:15px;line-height:1.7;color:${C.body};">Cancel anytime. Keep everything you download. Foundation Month picks up exactly where the reset left off.</p>
+      <p class="t-body" style="margin:0 0 16px;font-size:15px;line-height:1.7;color:${C.body};">Cancel anytime. Keep everything you download. Month 1 picks up exactly where the reset left off.</p>
       ${btnPrimary(CHECKOUT_URL, 'Join Stay Ready →', 240)}
     </td>
   </tr>
@@ -315,7 +325,7 @@ ${divider()}
 ${p('One more thing.')}
 ${p('The reset gives you 5 days of relief. But relief isn\'t the same as rebuilding.')}
 ${p('After Day 5, I\'m going to show you what comes next — the full system that keeps the reset working and adds performance on top of it.')}
-${p('It\'s called <strong>Stay Ready</strong>. It\'s $27/month. And your first month is the Foundation rebuild that makes everything else possible.')}
+${p('It\'s called <strong>Stay Ready</strong>. It\'s $27/month. And your first month is the rebuild that makes everything else possible.')}
 ${p('More on that Day 5.', { muted: true })}
 ${sig('Ty<br>Built to Hoop')}
 `},
@@ -335,7 +345,7 @@ ${p('So your back tightens. Your knees start compensating. Your first step gets 
 ${p('That\'s the cycle.')}
 ${divider()}
 ${p('The reset you\'re doing this week interrupts it. But only for a few days.')}
-${p('What actually fixes it is a progressive system that teaches your hips to load properly and keep loading. That\'s Phase 1 of the BTH method — what I call <strong>Foundation Month.</strong>')}
+${p('What actually fixes it is a progressive system that teaches your hips to load properly and keep loading. That\'s Phase 1 of the BTH method — <strong>the rebuild month.</strong>')}
 ${p('You\'ll hear more about that on Day 5.')}
 ${divider()}
 ${p('For now — did you do the Day 1 hip reset? If not, do it before Day 2 hits tomorrow.')}
@@ -359,7 +369,7 @@ ${p('It\'s not because you\'re getting old. It\'s not bad luck. It\'s not that p
 ${p('It\'s because you\'ve never had a training system built around pickup.')}
 ${p('Everything you\'ve tried — YouTube workouts, gym programs, "just rest more" — was built for someone else. Not for a guy who plays 3 nights a week, goes to the gym in between, and wonders why his body never cooperates.')}
 ${p('<strong>BTH exists to break that cycle.</strong>')}
-${p('The reset is 5 days. The real system is month by month. And the first month — Foundation Month — is what I built Tier 1 around before I turned it into the starting point for Stay Ready.')}
+${p('The reset is 5 days. The real system is month by month. And the first month — the rebuild — is where Stay Ready starts.')}
 ${p('It rebuilds the base: hips, ankles, knees, core, tendon prep. In the right order. Around pickup, not against it.')}
 ${p('More on Day 5.', { muted: true })}
 ${resetButton(2, 'Ankle Reset', 'BTH-Reset-Day-02-Ankle-Reset.pdf')}
@@ -370,10 +380,10 @@ ${sig()}
   // EMAIL 3 — DAY 3 / MEMBERSHIP REVEAL
   {
     filename: 'email-3-day3-membership-reveal.html',
-    subject: 'what Foundation Month actually looks like',
+    subject: 'what month 1 actually looks like',
     preheader: 'You\'re halfway through the reset. Here\'s what comes after it.',
     body: `
-${hero('Day 3 · The System', `What Foundation Month ${g('actually')} looks like.`)}
+${hero('Day 3 · The System', `What month 1 ${g('actually')} looks like.`)}
 ${p('Day 3. You\'re halfway through the reset.')}
 ${p('Today I want to show you what comes after it.')}
 ${divider()}
@@ -381,9 +391,9 @@ ${h('Stay Ready — $27/month. Cancel anytime.')}
 ${p('Here\'s what happens:')}
 ${h('Month 1 — Foundation', 3)}
 ${p('This is where the rebuild starts. 6 weeks of structured training that fixes the body before it tries to perform. Hips, ankles, knees, tendons, core movement patterns. The readiness framework so you always know when to train and when to back off. Built around pickup, not against it.')}
-${p('<em>This is what used to be Tier 1 — now it\'s your starting point inside Stay Ready.</em>', { size: 14, muted: true })}
-${h('Month 2+ — Performance Track', 3)}
-${p('After Foundation, you move into the performance layer. Strength to bounce. Game speed. Deceleration. Pickup-specific conditioning. The phase where your legs start feeling different by warmups.')}
+${p('<em>Foundation is your first month inside Stay Ready — not a separate purchase.</em>', { size: 14, muted: true })}
+${h('Month 2+ — The Performance Layer', 3)}
+${p('After month 1, you move into the performance layer. Strength to bounce. Game speed. Deceleration. Pickup-specific conditioning. The phase where your legs start feeling different by warmups.')}
 ${h('Also included, from day 1:', 3)}
 ${ul(['Hip Reset Track','Knee Protection Track','Ankle Rebuild Track','Skill Builder','Recovery System'])}
 ${p('All of it. $27/month. Cancel anytime, keep everything you download.')}
@@ -409,7 +419,7 @@ ${divider()}
 ${p('What he didn\'t know: <strong>his body had never been trained to handle pickup AND gym work at the same time.</strong>')}
 ${p('Everything he\'d ever done in the gym was built for someone who only went to the gym.')}
 ${p('No one had ever given him a system that accounted for pickup recovery, lateral load, tendon prep, and the specific kind of fatigue that comes from playing 3 nights a week on hardwood.')}
-${p('He found the BTH method. Did Foundation Month. Eight weeks later he was playing full speed without dreading the next day.')}
+${p('He found the BTH method. Did the rebuild month. Eight weeks later he was playing full speed without dreading the next day.')}
 ${p('Not because it was magic. Because for the first time, the training matched the sport.')}
 ${p('<strong>That\'s what Stay Ready is.</strong>')}
 ${divider()}
@@ -435,9 +445,9 @@ ${p('Stay Ready is the system that keeps going where the reset stops — same me
 ${membershipCta(true)}
 ${divider()}
 ${h('What you get starting today:')}
-${h('Month 1 — Foundation Rebuild', 3)}
+${h('Month 1 — Foundation', 3)}
 ${p('6-week base program. Hips, ankles, knees, core, tendon prep, readiness framework. Built around pickup. 3 days/week. Progressive.')}
-${h('Month 2+ — Performance Track', 3)}
+${h('Month 2+ — The Performance Layer', 3)}
 ${p('Strength to bounce, game speed, pickup conditioning. This is where the legs start feeling different.')}
 ${p('<strong>All included:</strong> Hip Reset, Knee Protection, Ankle Rebuild, Skill Builder, Recovery System.')}
 ${p('Cancel anytime. Keep everything you download. <strong>$27/month.</strong>')}
@@ -459,7 +469,7 @@ ${p('Here\'s the part most guys miss: a reset is maintenance, not building. Stop
 ${p('That\'s the whole difference between Stay Ready and everything else you\'ve tried.')}
 ${h('What you\'re actually getting:')}
 ${ul([
-  'The full BTH method — Foundation Month, then the Performance Track, run for you month to month',
+  'The full BTH method — the rebuild month, then the performance layer, run for you month to month',
   'Hip Reset, Knee Protection, Ankle Rebuild, Skill Builder, and Recovery System — all included',
   'The BTH app, so the training lives on your phone instead of in your inbox',
 ])}
@@ -481,7 +491,7 @@ ${p('I\'m not going to hit you with another discount.')}
 ${p('I just want to ask you something real:')}
 ${p('<strong>What\'s stopping you?</strong>')}
 ${p('Is it the price? ($27/month — that\'s one pickup session\'s worth of gym cost)')}
-${p('Is it timing? (Foundation Month is designed for guys who play 2–3x/week and have a regular life)')}
+${p('Is it timing? (Month 1 is designed for guys who play 2–3x/week and have a regular life)')}
 ${p('Is it trust? (That one I can\'t argue — you\'d have to try it)')}
 ${divider()}
 ${p('Whatever it is — hit reply and tell me. I\'ll give you a straight answer.')}
