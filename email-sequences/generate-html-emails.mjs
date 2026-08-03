@@ -23,11 +23,16 @@
 //  • LINK-ONLY reset delivery — emails NEVER list exercises. Each reset-day email
 //    carries ONE Tier-2 CTA that links to that day's real reset PDF.
 //  • Membership = "Stay Ready" $27/mo (locked taxonomy). No "BTH Rise", no discount, no hype.
-//  • ONE named offer per sequence. "Foundation Month" (BTH Foundation, $31.99 one-time) and
-//    "Performance Track" (BTH Rise, $97 one-time) are SEPARATE purchasable products with their
-//    own checkouts — never use their names for a phase inside the $27/mo membership, and never
-//    say "Tier 1/2/3" (those are the standalone product pages). Describe months functionally:
-//    "Month 1 — The Rebuild", "Month 2+ — The Performance Layer". (BTH-0041)
+//  • ONE named offer per sequence: Stay Ready $27/mo. (BTH-0041)
+//    BANNED as phase names — they are separate purchasable products with their own checkouts:
+//      "Performance Track" (= BTH Rise, $97 one-time)  → say "The Performance Layer"
+//      "Tier 1 / 2 / 3"    (= the standalone product pages) → never referenced at all
+//    ALLOWED — "Foundation" is the sanctioned name of Stay Ready's month-1 phase (Ty's ruling,
+//    2026-08-03; matches the app's own `foundation` program, access:'member'). It collides with
+//    the standalone "BTH Foundation" $31.99 SKU, so the rule is BINDING, not banning: in this
+//    COLD sequence never let "Foundation" stand alone as if it were a buyable thing — always
+//    pin it to the membership ("your first month inside Stay Ready — not a separate purchase")
+//    and keep it OUT of subject lines, where there is no room to disambiguate.
 //  • Checkout happens ON THE WEBSITE (CHECKOUT_URL), not Gumroad. One constant to flip at cutover.
 //  • Every email opens with the 1B hero (eyebrow + big headline, ONE gold accent word).
 
@@ -384,9 +389,9 @@ ${p('Today I want to show you what comes after it.')}
 ${divider()}
 ${h('Stay Ready — $27/month. Cancel anytime.')}
 ${p('Here\'s what happens:')}
-${h('Month 1 — The Rebuild', 3)}
+${h('Month 1 — Foundation', 3)}
 ${p('This is where the rebuild starts. 6 weeks of structured training that fixes the body before it tries to perform. Hips, ankles, knees, tendons, core movement patterns. The readiness framework so you always know when to train and when to back off. Built around pickup, not against it.')}
-${p('<em>This is where Stay Ready starts.</em>', { size: 14, muted: true })}
+${p('<em>Foundation is your first month inside Stay Ready — not a separate purchase.</em>', { size: 14, muted: true })}
 ${h('Month 2+ — The Performance Layer', 3)}
 ${p('After month 1, you move into the performance layer. Strength to bounce. Game speed. Deceleration. Pickup-specific conditioning. The phase where your legs start feeling different by warmups.')}
 ${h('Also included, from day 1:', 3)}
@@ -440,7 +445,7 @@ ${p('Stay Ready is the system that keeps going where the reset stops — same me
 ${membershipCta(true)}
 ${divider()}
 ${h('What you get starting today:')}
-${h('Month 1 — The Rebuild', 3)}
+${h('Month 1 — Foundation', 3)}
 ${p('6-week base program. Hips, ankles, knees, core, tendon prep, readiness framework. Built around pickup. 3 days/week. Progressive.')}
 ${h('Month 2+ — The Performance Layer', 3)}
 ${p('Strength to bounce, game speed, pickup conditioning. This is where the legs start feeling different.')}
