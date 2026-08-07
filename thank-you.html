@@ -22,6 +22,31 @@
   <!-- BTH unified tracker -->
   <script src="assets/bth-tracking.js" defer></script>
 
+  <!-- Segmentation personalization — reads the answer reset.html captured at submit.
+       Transport: sessionStorage key "bth_seg" (same-tab redirect; no worker change needed).
+       No value / direct visit / email revisit = the default line stays. -->
+  <script>
+  (function(){
+    var seg = null;
+    try { seg = window.sessionStorage.getItem("bth_seg"); } catch (e) {}
+    var SEG_COPY = {
+      "hurts-today": "You said it hurts today. Go slower than you think you need to — every move below has a no-pain rule. If something pinches, shrink the range and keep breathing.",
+      "tight-after-playing": "You said you're tight after playing. This is the exact 15 minutes that unwinds it — run it tonight, then again after your next game.",
+      "coming-back-after-time-off": "You said you're coming back after time off. Don't rush the ramp — Day 1 rebuilds your positions first, so everything you stack on top actually holds.",
+      "staying-ahead-of-it": "You said you're staying ahead of it. That's how careers get long — keep the hips open before they ever get a vote."
+    };
+    function apply() {
+      var line = document.getElementById("seg-line");
+      if (seg && SEG_COPY[seg] && line) line.textContent = SEG_COPY[seg];
+    }
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", apply);
+    } else {
+      apply();
+    }
+  })();
+  </script>
+
   <!-- Fire Lead event on page load — this page = confirmed email opt-in.
        GUARDED (ghost-conversion fix, 2026-07-23): only a submit that actually
        wrote a contact carries sessionStorage "bth_lead" (set by bth-form.js from
@@ -494,25 +519,6 @@
   <div class="foot-copy">© 2026 Built to Hoop. All rights reserved. &nbsp;·&nbsp; tyrell@built-to-hoop.com</div>
 </footer>
 
-<script>
-// Segmentation personalization — reads the answer reset.html captured at submit.
-// Transport: sessionStorage key "bth_seg" (same-tab redirect; no worker change needed).
-// No value / direct visit / email revisit = the default line stays.
-(function(){
-  var SEG_KEY = "bth_seg";
-  var SEG_COPY = {
-    "hurts-today": "You said it hurts today. Go slower than you think you need to — every move below has a no-pain rule. If something pinches, shrink the range and keep breathing.",
-    "tight-after-playing": "You said you're tight after playing. This is the exact 15 minutes that unwinds it — run it tonight, then again after your next game.",
-    "coming-back-after-time-off": "You said you're coming back after time off. Don't rush the ramp — Day 1 rebuilds your positions first, so everything you stack on top actually holds.",
-    "staying-ahead-of-it": "You said you're staying ahead of it. That's how careers get long — keep the hips open before they ever get a vote."
-  };
-  try {
-    var seg = window.sessionStorage.getItem(SEG_KEY);
-    var line = document.getElementById("seg-line");
-    if (seg && SEG_COPY[seg] && line) line.textContent = SEG_COPY[seg];
-  } catch (e) {}
-})();
-</script>
 <script>
 (function(){
   var t = document.querySelector('.nav-toggle');

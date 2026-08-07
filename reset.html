@@ -86,6 +86,30 @@ nav { position:fixed; top:0; left:0; right:0; z-index:100; height:62px; display:
 .ml-form-wrap button:hover { background:var(--gold); color:var(--black); }
 .form-trust { font-size:12px; color:var(--muted); margin-top:14px; text-align:center; line-height:1.55; }
 
+/* Segmentation question */
+.bth-seg { border:none; margin:2px 0 6px; }
+.bth-seg-label { font-family:var(--B); font-size:12px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--black); margin-bottom:8px; padding:0; }
+.bth-seg-opt { display:flex; align-items:center; gap:10px; padding:8px 10px; margin-bottom:4px; border:1px solid var(--border); border-radius:2px; background:var(--white); cursor:pointer; transition:border-color 0.15s; }
+.bth-seg-opt:hover { border-color:var(--gold); }
+.bth-seg-opt input { accent-color:var(--gold); width:16px; height:16px; flex-shrink:0; cursor:pointer; }
+.bth-seg-opt span { font-family:var(--B); font-size:14px; color:var(--black); line-height:1.3; }
+.bth-seg-opt:has(input:checked) { border-color:var(--gold); background:rgba(230,168,0,0.07); }
+
+/* ─── PHONE (375px class): form first, above the fold ─── */
+@media (max-width: 480px) {
+  .hero-split { display:flex; flex-direction:column; padding:84px 16px 40px; gap:20px; min-height:auto; }
+  .form-card { order:1; padding:26px 18px 22px; }
+  .hero-copy { order:2; }
+  .form-trust { order:3; margin-top:0; }
+  .form-h { font-size:22px; }
+  .form-sub { font-size:13px; margin-bottom:14px; }
+  .ml-form-wrap input[type="email"], .ml-form-wrap input[type="text"] { padding:12px 14px; margin-bottom:8px; }
+  .bth-mail-form input[type="email"], .bth-mail-form input[type="text"] { padding:12px 14px; }
+  .bth-seg-opt { padding:6px 8px; }
+  .bth-seg-opt span { font-size:13px; }
+  .bth-btn-commit { padding:14px; }
+}
+
 .section-eyebrow { font-family:var(--B); font-size:11px; font-weight:600; letter-spacing:0.24em; text-transform:uppercase; color:var(--gold); margin-bottom:12px; }
 .section-title { font-family:var(--H); font-size:clamp(36px,5vw,56px); font-weight:700; line-height:0.95; letter-spacing:0.02em; text-transform:uppercase; color:var(--black); margin-bottom:20px; }
 .section-body { font-size:16px; color:var(--muted); max-width:640px; line-height:1.75; }
@@ -321,8 +345,8 @@ nav {
 </div>
 
 <section class="hero-split">
-  <div>
-    <div class="hero-eyebrow">Free Basketball Training Reset · Delivered To Your Inbox</div>
+  <div class="hero-copy">
+    <div class="hero-eyebrow">Free Basketball Training Reset · Starts The Second You're In</div>
     <h1 class="hero-title">5 Days.<br>5 Fixes.<br>Your Game <span class="gold">Back.</span></h1>
     <p class="hero-sub">The <strong>Free 5-Day Basketball Reset</strong> is the same starting point I run every time my body feels dead after pickup. Hips open. Ankles rebuilt. Game speed back. No fluff.</p>
     <ul class="bullets">
@@ -337,7 +361,7 @@ nav {
 
   <div class="form-card reveal" id="reset-form">
     <div class="form-h">Get The Free 5-Day Reset</div>
-    <p class="form-sub">Drop your email. The first day lands in your inbox <strong>within 5 minutes</strong>.</p>
+    <p class="form-sub">Drop your email. <strong>Day 1 opens on the next page</strong> — and lands in your inbox as a backup.</p>
     <form class="bth-mail-form" action="https://bth-mail-os.tyrell-38b.workers.dev/api/subscribe" method="post" novalidate data-bth-redirect="/thank-you.html">
       <div class="bth-field">
         <input type="text" name="name" placeholder="First name" autocomplete="given-name">
@@ -346,6 +370,13 @@ nav {
         <input type="email" name="email" placeholder="Email address" required autocomplete="email" id="bth-email-reset-html">
         <p class="bth-field-error-msg"></p>
       </div>
+      <fieldset class="bth-seg">
+        <legend class="bth-seg-label">Where's your body at right now?</legend>
+        <label class="bth-seg-opt"><input type="radio" name="segment" value="hurts-today"><span>Hurts today</span></label>
+        <label class="bth-seg-opt"><input type="radio" name="segment" value="tight-after-playing"><span>Tight after playing</span></label>
+        <label class="bth-seg-opt"><input type="radio" name="segment" value="coming-back-after-time-off"><span>Coming back after time off</span></label>
+        <label class="bth-seg-opt"><input type="radio" name="segment" value="staying-ahead-of-it"><span>Staying ahead of it</span></label>
+      </fieldset>
       <input type="hidden" name="source" value="free_reset">
       <input type="hidden" name="sequence" value="free-reset-to-rise">
       <input type="hidden" name="consent_version" value="bth-email-consent-v1">
@@ -434,7 +465,7 @@ nav {
   <div class="faq-wrap">
     <div class="faq-item">
       <div class="faq-q">Is this really free?</div>
-      <div class="faq-a">Yes. Five days of emails. No trial, no hidden charge. At the end I'll tell you about <a href="tier-3.html" style="color:var(--gold);">BTH Stay Ready</a> — the $27/mo membership that runs you through Foundation Month, the Performance Track, and includes all 5 add-on tracks. But only if you want it.</div>
+      <div class="faq-a">Yes. Five days of emails. No trial, no hidden charge. At the end I'll tell you about <a href="tier-3.html" style="color:var(--gold);">BTH Stay Ready</a> — the $27/mo membership with the full month-by-month training system and all 5 add-on tracks. But only if you want it.</div>
     </div>
     <div class="faq-item">
       <div class="faq-q">How long do the workouts take?</div>
@@ -450,14 +481,14 @@ nav {
     </div>
     <div class="faq-item">
       <div class="faq-q">What happens after Day 5?</div>
-      <div class="faq-a">You'll know if this approach works for your body. From there — <a href="tier-3.html" style="color:var(--gold);">BTH Stay Ready</a> ($27/mo) is the next step. That's Foundation Month + Performance Track + all 5 add-on tracks in one membership. Or just stay on the weekly list and keep using what you got. No pressure.</div>
+      <div class="faq-a">You'll know if this approach works for your body. From there — <a href="tier-3.html" style="color:var(--gold);">BTH Stay Ready</a> ($27/mo) is the next step. That's the full month-by-month training system + all 5 add-on tracks in one membership. Or just stay on the weekly list and keep using what you got. No pressure.</div>
     </div>
   </div>
 </section>
 
 <section class="cta-band">
   <h2>The Court Isn't Done With You.<br>Start With The <span style="color:rgba(17,19,24,0.5);">Reset.</span></h2>
-  <p>Drop your email, get Day 1 in your inbox in 5 minutes. Free forever.</p>
+  <p>Drop your email, start Day 1 on the next page. Free forever.</p>
   <a href="#reset-form" class="btn">Start The 5-Day Reset</a>
 </section>
 
@@ -504,6 +535,20 @@ nav {
   document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 </script>
 
+<script>
+// Capture the segmentation answer at submit — thank-you.html renders its Day-1 line on it.
+// Same transport as the existing lead flag: sessionStorage, same-tab redirect.
+(function(){
+  var form = document.querySelector('form.bth-mail-form');
+  if (!form) return;
+  form.addEventListener('submit', function(){
+    try {
+      var picked = form.querySelector('input[name="segment"]:checked');
+      if (picked && picked.value) window.sessionStorage.setItem("bth_seg", picked.value);
+    } catch (e) {}
+  }, true);
+})();
+</script>
 <script>
 (function(){
   var t=document.querySelector('.nav-toggle');
