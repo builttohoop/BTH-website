@@ -252,6 +252,21 @@ function buildHTML(day) {
     ? `<div class="foot-day">Tomorrow — ${day.tomorrow}</div>`
     : `<div class="foot-day">Five days done. Go unleash your game.</div>`;
 
+  // Stay Ready CTA (BTH-GOAL-0052 D3): Days 1–4 get a compact footer line; Day 5 gets the
+  // dedicated full close band instead — distinct and larger by design, never footer-sized.
+  const isDay5 = !day.tomorrow;
+  const footCta = isDay5 ? '' : `
+  <div class="foot-cta">Keep it going after the Reset — <b>BTH Stay Ready</b> · <b>$27/mo</b> · built-to-hoop.com/join.html</div>`;
+  const closeBand = !isDay5 ? '' : `
+<!-- STAY READY — THE CLOSE -->
+<div class="close-band">
+  <div class="close-kicker">The Reset was the start</div>
+  <div class="close-title">Stay Ready year-round</div>
+  <p class="close-body">Five days fixed the stiffness. <b>BTH Stay Ready</b> is the system that keeps it fixed — the full month-by-month training system plus all 5 add-on tracks, built for hoopers who still play for real. A new block every month. Cancel anytime.</p>
+  <div class="close-offer">BTH Stay Ready — <b>$27/mo</b></div>
+  <div class="close-url">Join at built-to-hoop.com/join.html</div>
+</div>`;
+
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -437,6 +452,46 @@ body {
 .foot-logo span { color: ${C.gold}; }
 .foot-url { font-size: 8pt; color: rgba(17,19,24,0.3); letter-spacing: 0.04em; }
 .foot-day { font-family: 'Oswald', sans-serif; font-size: 9pt; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(17,19,24,0.35); }
+.foot-cta {
+  width: 100%;
+  border-top: 1px solid ${C.border};
+  padding-top: 9px;
+  font-size: 8.5pt;
+  letter-spacing: 0.04em;
+  color: rgba(17,19,24,0.55);
+}
+.foot-cta b { color: ${C.black}; font-weight: 700; }
+
+/* ─── DAY 5 CLOSE BAND ─── */
+.close-band {
+  background: ${C.gold};
+  padding: 26px 40px 24px;
+  margin-top: 20px;
+  break-inside: avoid;
+}
+.close-kicker {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 8pt; font-weight: 700;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: rgba(17,19,24,0.55);
+  margin-bottom: 6px;
+}
+.close-title {
+  font-family: 'Oswald', sans-serif;
+  font-size: 22pt; font-weight: 700;
+  letter-spacing: 0.02em; text-transform: uppercase;
+  color: ${C.black}; line-height: 1;
+  margin-bottom: 10px;
+}
+.close-body { font-size: 9.5pt; color: rgba(17,19,24,0.78); line-height: 1.6; max-width: 6in; margin-bottom: 12px; }
+.close-body b { color: ${C.black}; }
+.close-offer {
+  font-family: 'Oswald', sans-serif;
+  font-size: 13pt; font-weight: 700;
+  letter-spacing: 0.04em; text-transform: uppercase;
+  color: ${C.black}; margin-bottom: 4px;
+}
+.close-url { font-size: 9.5pt; font-weight: 700; color: ${C.black}; letter-spacing: 0.04em; }
 </style>
 </head>
 <body>
@@ -478,15 +533,30 @@ body {
 
 </div>
 
+${closeBand}
+
 <!-- FOOTER -->
 <div class="foot">
   <div class="foot-logo">Built to <span>Hoop</span></div>
   ${tomorrow}
-  <div class="foot-url">built-to-hoop.com</div>
+  <div class="foot-url">built-to-hoop.com</div>${footCta}
 </div>
 
 </body>
 </html>`;
+}
+
+// ─── PDF DETERMINISM ───
+// Chromium stamps every PDF with run-varying metadata (/CreationDate, /ModDate, trailer /ID).
+// Pin them to constants of IDENTICAL byte length (xref offsets must not move) so `node
+// generate.mjs` is byte-for-byte reproducible — regen-vs-committed diffs then prove no hand-edits.
+function normalizePdf(buf) {
+  let s = buf.toString('latin1');
+  s = s.replace(/\/(CreationDate|ModDate)\s*\(([^)]*)\)/g, (m, key, val) =>
+    `/${key} (${val.replace(/\d/g, '0')})`);
+  s = s.replace(/\/ID\s*\[\s*<([0-9A-Fa-f]+)>\s*<([0-9A-Fa-f]+)>\s*\]/g, (m, a, b) =>
+    `/ID [<${'0'.repeat(a.length)}><${'0'.repeat(b.length)}>]`);
+  return Buffer.from(s, 'latin1');
 }
 
 // ─── GENERATE PDFs ───
@@ -505,12 +575,12 @@ for (const day of days) {
   const page = await browser.newPage();
   await page.setContent(html, { waitUntil: 'networkidle0' });
 
-  await page.pdf({
-    path: pdfPath,
+  const pdfBuf = await page.pdf({
     format: 'Letter',
     printBackground: true,
     margin: { top: '0', right: '0', bottom: '0', left: '0' },
   });
+  writeFileSync(pdfPath, normalizePdf(Buffer.from(pdfBuf)));
 
   await page.close();
   console.log(`✓  Day ${day.num} — ${day.title} → ${pdfPath}`);

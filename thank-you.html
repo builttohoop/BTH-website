@@ -22,6 +22,31 @@
   <!-- BTH unified tracker -->
   <script src="assets/bth-tracking.js" defer></script>
 
+  <!-- Segmentation personalization — reads the answer reset.html captured at submit.
+       Transport: sessionStorage key "bth_seg" (same-tab redirect; no worker change needed).
+       No value / direct visit / email revisit = the default line stays. -->
+  <script>
+  (function(){
+    var seg = null;
+    try { seg = window.sessionStorage.getItem("bth_seg"); } catch (e) {}
+    var SEG_COPY = {
+      "hurts-today": "You said it hurts today. Go slower than you think you need to — every move below has a no-pain rule. If something pinches, shrink the range and keep breathing.",
+      "tight-after-playing": "You said you're tight after playing. This is the exact 15 minutes that unwinds it — run it tonight, then again after your next game.",
+      "coming-back-after-time-off": "You said you're coming back after time off. Don't rush the ramp — Day 1 rebuilds your positions first, so everything you stack on top actually holds.",
+      "staying-ahead-of-it": "You said you're staying ahead of it. That's how careers get long — keep the hips open before they ever get a vote."
+    };
+    function apply() {
+      var line = document.getElementById("seg-line");
+      if (seg && SEG_COPY[seg] && line) line.textContent = SEG_COPY[seg];
+    }
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", apply);
+    } else {
+      apply();
+    }
+  })();
+  </script>
+
   <!-- Fire Lead event on page load — this page = confirmed email opt-in.
        GUARDED (ghost-conversion fix, 2026-07-23): only a submit that actually
        wrote a contact carries sessionStorage "bth_lead" (set by bth-form.js from
@@ -222,6 +247,65 @@
     height: 1px; background: var(--border); margin-bottom: 48px;
   }
 
+  /* ─── DAY 1 ON-SITE ─── */
+  .day1 {
+    background: var(--soft); border: 1px solid var(--border);
+    border-radius: 2px; padding: 36px 32px; margin-bottom: 28px;
+  }
+  @media (max-width: 600px) { .day1 { padding: 28px 20px; } }
+  .day1-kicker {
+    font-family: var(--H); font-size: clamp(20px, 3vw, 26px); font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.03em; color: var(--black);
+    line-height: 1.1; margin-bottom: 8px;
+  }
+  .day1-meta {
+    font-family: var(--B); font-size: 11px; font-weight: 700;
+    letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold);
+    margin-bottom: 18px;
+  }
+  .day1-intro {
+    font-size: 15px; color: var(--muted); line-height: 1.7;
+    margin-bottom: 28px; max-width: 560px;
+  }
+  .day1-block { margin-bottom: 24px; }
+  .day1-block-label {
+    font-family: var(--H); font-size: 14px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.08em; color: var(--black);
+    padding-bottom: 10px; margin-bottom: 4px;
+    border-bottom: 2px solid var(--gold);
+  }
+  .day1-block-label span {
+    font-family: var(--B); font-size: 12px; font-weight: 500;
+    text-transform: none; letter-spacing: 0.02em; color: var(--muted);
+  }
+  .exercise { padding: 14px 0; border-bottom: 1px solid var(--border); }
+  .exercise:last-child { border-bottom: none; }
+  .ex-top {
+    display: flex; justify-content: space-between; align-items: baseline;
+    gap: 12px; flex-wrap: wrap; margin-bottom: 4px;
+  }
+  .ex-name {
+    font-family: var(--H); font-size: 16px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.03em; color: var(--black);
+  }
+  .ex-sets {
+    font-family: var(--B); font-size: 12px; font-weight: 700;
+    letter-spacing: 0.06em; color: var(--gold); white-space: nowrap;
+  }
+  .ex-cue { font-size: 14px; color: var(--muted); line-height: 1.6; }
+  .day1-foot {
+    margin-top: 4px; padding-top: 18px; border-top: 1px solid var(--border);
+  }
+  .day1-foot p { font-size: 14px; color: var(--muted); line-height: 1.7; margin-bottom: 8px; }
+  .day1-foot p strong { color: var(--black); font-weight: 600; }
+
+  .email-note {
+    font-size: 14px; color: var(--muted); line-height: 1.7;
+    background: var(--cream); border: 1px solid var(--border); border-radius: 2px;
+    padding: 16px 20px; margin-bottom: 48px;
+  }
+  .email-note strong { color: var(--black); font-weight: 600; }
+
   .next-section-label {
     font-family: var(--B); font-size: 11px; font-weight: 700;
     letter-spacing: 0.2em; text-transform: uppercase;
@@ -322,11 +406,61 @@
     </div>
 
     <h1 class="hero-title">
-      Day 1 Is<br>On Its <span class="gold">Way.</span>
+      Day 1 Starts<br><span class="gold">Now.</span>
     </h1>
 
+    <p class="hero-sub" id="seg-line">
+      Your Hip Reset is below. Move slow, control every rep, and let the positions do the work.
+    </p>
+
     <p class="hero-sub">
-      Check your inbox — the first email lands within a few minutes. <strong>5 days. No workouts. No equipment.</strong> Just the exact moves that fix the stiffness and get you back to feeling like yourself on the court.
+      <strong>15–20 minutes. No equipment. No workouts.</strong> Just the exact moves that fix the stiffness — starting on this page, right now.
+    </p>
+
+    <!-- DAY 1 — DELIVERED ON-SITE -->
+    <div class="day1">
+      <div class="day1-kicker">Day 1 — Hip Reset</div>
+      <div class="day1-meta">Reset &nbsp;·&nbsp; 15–20 min &nbsp;·&nbsp; Open what pickup locks.</div>
+      <p class="day1-intro">Open your hips, reduce stiffness, and give your body a foundation worth building on. Move slow on every rep — this is not a conditioning workout. No pain. If something pinches, back off immediately. This is about control and position, not effort.</p>
+
+      <div class="day1-block">
+        <div class="day1-block-label">Reset Block <span>— breathing + hip mobility first</span></div>
+        <div class="exercise">
+          <div class="ex-top"><span class="ex-name">90/90 Hip Lift Breathing</span><span class="ex-sets">2–3 × 4 breaths / side</span></div>
+          <div class="ex-cue">Exhale fully at the bottom. Let the hip melt. No forcing range.</div>
+        </div>
+        <div class="exercise">
+          <div class="ex-top"><span class="ex-name">Adductor Rockbacks</span><span class="ex-sets">2 × 6 each side</span></div>
+          <div class="ex-cue">Slow and controlled. Stop at the first sign of pinching.</div>
+        </div>
+        <div class="exercise">
+          <div class="ex-top"><span class="ex-name">Glute Bridge ISO Hold</span><span class="ex-sets">2 × 20 sec</span></div>
+          <div class="ex-cue">Drive through both heels. Squeeze at the top. Breathe through it.</div>
+        </div>
+      </div>
+
+      <div class="day1-block">
+        <div class="day1-block-label">Control Block <span>— stability and hip loading</span></div>
+        <div class="exercise">
+          <div class="ex-top"><span class="ex-name">Assisted Split Squat</span><span class="ex-sets">2 × 5 each leg</span></div>
+          <div class="ex-cue">Use a wall or rack for support. Stay tall. Front leg working, not collapsing.</div>
+        </div>
+        <div class="exercise">
+          <div class="ex-top"><span class="ex-name">Standing Hip Shift</span><span class="ex-sets">2 × 6 each side</span></div>
+          <div class="ex-cue">Slow lateral shift. Feel the hip loading. No rushing — the glute catches the pelvis.</div>
+        </div>
+      </div>
+
+      <div class="day1-foot">
+        <p><strong>How it should feel:</strong> less stiffness in the hips, more control through range, smoother and freer movement.</p>
+        <p><strong>The one rule:</strong> move slow — every single rep. No pain. Back off if it pinches.</p>
+        <p><strong>Tomorrow:</strong> Ankle Reset — building stability from the ground up.</p>
+      </div>
+    </div>
+
+    <!-- EMAIL = BACKUP / RETURN PATH -->
+    <p class="email-note">
+      <strong>Backup copy on its way.</strong> Day 1 was also sent to your email as a PDF, and Days 2–5 land in your inbox each morning. Lose this page? Come back anytime, or run the whole thing straight from the emails.
     </p>
 
     <!-- 5-Day Reset Preview -->
@@ -356,10 +490,10 @@
     <div class="divider-line"></div>
 
     <!-- Soft upsell -->
-    <div class="next-section-label">While You Wait</div>
+    <div class="next-section-label">When You're Done</div>
     <div class="next-title">Want the Full System<br>After the Reset?</div>
     <p class="next-body">
-      The Reset fixes the stiffness. <strong>BTH Stay Ready is the system that builds on top of it.</strong> Foundation Month + Performance Track + all 5 add-on tracks. $27/month. Cancel anytime.
+      The Reset fixes the stiffness. <strong>BTH Stay Ready is the system that builds on top of it.</strong> The full month-by-month training system + all 5 add-on tracks. $27/month. Cancel anytime.
     </p>
     <div class="btn-row">
       <a href="join.html" class="btn-gold">Join BTH Stay Ready — $27/mo</a>
