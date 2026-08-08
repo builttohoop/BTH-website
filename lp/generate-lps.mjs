@@ -225,10 +225,6 @@ const head = (p) => `<!DOCTYPE html>
 <title>${p.title}</title>
 <link rel="canonical" href="https://built-to-hoop.com/lp/${p.slug}.html">
 <meta name="description" content="${p.sub.replace(/<[^>]+>/g, '')}">
-<meta property="og:image" content="https://built-to-hoop.com/assets/og/bth-og-default.jpg">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta name="twitter:image" content="https://built-to-hoop.com/assets/og/bth-og-default.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/bth-system.css">
