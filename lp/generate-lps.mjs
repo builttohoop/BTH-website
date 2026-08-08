@@ -14,75 +14,183 @@ const STRIPE_MONTHLY = 'https://buy.stripe.com/4gMaEXbvh7nu1sccHJaAw00';
 
 const A_PAGES = [
   {
-    slug: 'basketball-training-program', eyebrow: 'The System', h1: 'Basketball Training <span class="gold">Program</span>',
+    slug: 'basketball-training-program', eyebrow: 'The System', h1: 'Basketball Training <span class="gold">Program</span>', keyword: 'basketball training program',
     title: 'Basketball Training Program — Built to Hoop',
     sub: 'A structured training system for hoopers — skill, strength, mobility, jump work and recovery in <strong>one plan</strong>. Start with five free days and feel the difference before you commit to anything.',
     bullets: ['A clear plan for every training day', 'One focused protocol a day — 10 to 20 minutes', 'Built by a hooper who still plays', 'Free to start — no card, no trial'],
+    whyParas: [
+      'Most guys looking for a real basketball training program end up with a folder of scattered YouTube workouts — no order, no progression, no way to know if it is working. BTH is built as an actual program: each day has one job, and the days stack on each other instead of repeating the same generic circuit.',
+      'The free 5-Day Reset is the first week of that program, not a watered-down teaser. You get skill work, strength work, mobility and a jump-focused day — the same categories the full training system runs on, just compressed into five sessions you can finish before your next pickup run.',
+    ],
+    faq: [
+      { q: 'Is this a real basketball training program or just a workout PDF?', a: 'It is a program — five connected days that build on each other, delivered one at a time so you actually do the work instead of skimming a PDF once and forgetting it.' },
+      { q: 'Do I need a gym for this?', a: 'No. The first three days use bodyweight and minimal space. If you have basic equipment for the later days, great — if not, the program still works.' },
+      { q: 'How is this different from a generic training program?', a: 'It is built specifically around what hooping demands — first-step quickness, ankle and knee durability, landing mechanics — not a bodybuilding split with a basketball label on it.' },
+    ],
   },
   {
-    slug: 'adult-basketball-training', eyebrow: 'For The Grown Game', h1: 'Adult Basketball <span class="gold">Training</span>',
+    slug: 'adult-basketball-training', eyebrow: 'For The Grown Game', h1: 'Adult Basketball <span class="gold">Training</span>', keyword: 'adult basketball training',
     title: 'Adult Basketball Training — Built to Hoop',
     sub: 'You still hoop. Your training should respect that — and respect that you are not 19 anymore. Five free days to get your <strong>legs, ankles and game speed</strong> back.',
     bullets: ['Made for hoopers past 25 who still play', 'Short sessions that fit work and family life', 'Zero gym needed for the first three days', 'Free to start — no card, no trial'],
+    whyParas: [
+      'Adult basketball training is a different problem than training a teenager. You are not chasing a roster spot — you are trying to survive a two-hour run, hold up the next morning, and keep playing for years, not seasons. BTH is built around that reality, not a college-strength-and-conditioning template.',
+      'The free 5-Day Reset gives you a real dose of that adult basketball training approach: short sessions that respect a full-time job and a family, focused on the exact things that break down first for grown hoopers — ankles, knees, hips, and the burst that quietly disappears in your 30s.',
+    ],
+    faq: [
+      { q: 'What makes this adult basketball training instead of just basketball training?', a: 'The sessions are built for recovery capacity and time you actually have — 10 to 20 minutes, not two-hour college practices — and they target the joints and movement patterns that wear down first once you are past 25.' },
+      { q: 'I have not trained seriously in years — can I still start here?', a: 'Yes. The first three days need zero equipment and no training background. It is built as an on-ramp, not a tryout.' },
+      { q: 'Will this help me play without feeling beat up the next day?', a: 'That is the exact target — the mobility and recovery pieces exist specifically to cut down the next-day soreness that keeps guys off the court.' },
+    ],
   },
   {
-    slug: 'basketball-training-for-adults', eyebrow: 'Past 25 And Still Playing', h1: 'Basketball Training <span class="gold">For Adults</span>',
+    slug: 'basketball-training-for-adults', eyebrow: 'Past 25 And Still Playing', h1: 'Basketball Training <span class="gold">For Adults</span>', keyword: 'basketball training for adults',
     title: 'Basketball Training For Adults — Built to Hoop',
     sub: 'Training built for adults who still play — not youth drills, not influencer workouts. Start with the free 5-Day Reset and rebuild your base in <strong>under 20 minutes a day</strong>.',
     bullets: ['No youth drills, no fluff — adult training', 'One focused protocol a day', 'Runs alongside your pickup schedule', 'Free to start — no card, no trial'],
+    whyParas: [
+      'Search "basketball training" and you get youth AAU circuits and shooting-form influencers. Basketball training for adults needs a different starting point — you already know the game, what you are missing is the physical base that lets your body keep up with it.',
+      'That is what the free 5-Day Reset rebuilds first: the legs, ankles and core control that let everything else — your handle, your first step, your jumper — actually show up on the court. It runs alongside your normal pickup schedule instead of replacing it.',
+    ],
+    faq: [
+      { q: 'Is this basketball training for adults or is it just youth drills relabeled?', a: 'It is built from the ground up for grown players — no cone drills or youth-camp filler, just the strength, mobility and jump work an adult body actually needs.' },
+      { q: 'How much time does it take?', a: 'Under 20 minutes a day. It is designed to fit before or after work, not replace your evening.' },
+      { q: 'Do I need to stop playing pickup while I do this?', a: 'No — it is built to run alongside your regular games, not instead of them.' },
+    ],
   },
   {
-    slug: 'online-basketball-training', eyebrow: 'Train Anywhere', h1: 'Online Basketball <span class="gold">Training</span>',
+    slug: 'online-basketball-training', eyebrow: 'Train Anywhere', h1: 'Online Basketball <span class="gold">Training</span>', keyword: 'online basketball training',
     title: 'Online Basketball Training — Built to Hoop',
     sub: 'Every session delivered online — follow it at home, at the gym, or on the road. It starts with <strong>five free days</strong> straight to your inbox.',
     bullets: ['Everything delivered online, on your time', 'Train at home, at the gym, or traveling', 'Built by a hooper who still plays', 'Free to start — no card, no trial'],
+    whyParas: [
+      'Online basketball training only works if it actually gets followed — which is why BTH delivers one session a day instead of dumping a 40-video library on you at once. Each day lands in your inbox when you need it, not before, so it fits a real schedule instead of sitting unopened in a course you paid for.',
+      'The free 5-Day Reset is the same delivery model the full system uses: short, focused, mobile-friendly sessions you can run from a living room, a hotel gym, or a park bench between sets. No app to download, no login to remember.',
+    ],
+    faq: [
+      { q: 'Is this online basketball training actually followable, or another course I will abandon?', a: 'It is delivered one day at a time by email — you cannot binge it and forget it, because the next session only shows up once you have had a day to work with the last one.' },
+      { q: 'Do I need any equipment to train online with BTH?', a: 'The first three days need none. Later sessions use minimal gear you likely already have.' },
+      { q: 'Can I do this while traveling?', a: 'Yes — every session is built to run in a small space with no gym access required.' },
+    ],
   },
   {
-    slug: 'basketball-workout-plan', eyebrow: 'Stop Guessing', h1: 'Basketball Workout <span class="gold">Plan</span>',
+    slug: 'basketball-workout-plan', eyebrow: 'Stop Guessing', h1: 'Basketball Workout <span class="gold">Plan</span>', keyword: 'basketball workout plan',
     title: 'Basketball Workout Plan — Built to Hoop',
     sub: 'A plan that tells you exactly what to do each day — and <strong>why</strong>. Grab the free 5-day version first and see how it fits your week.',
     bullets: ['Know exactly what to do each day', 'Plans that build on each other', 'Made for hoopers, not gym rats', 'Free to start — no card, no trial'],
+    whyParas: [
+      'A basketball workout plan should tell you what to do today, why it matters, and what tomorrow builds off of — not hand you a spreadsheet of exercises with no sequence. BTH sessions are ordered on purpose: skill, then strength, then mobility, then a jump-focused day, each one setting up the next.',
+      'The free 5-Day Reset is that plan in miniature. No guessing which day to do or whether you are "doing it right" — one clear session lands each day, built for a hooper\'s schedule, not a gym rat\'s.',
+    ],
+    faq: [
+      { q: 'What is actually in this basketball workout plan?', a: 'Five days: skill work, strength, ankle/knee mobility, a jump-focused Power day, and a recovery-anchored close — each one a single focused session, not a mixed-bag circuit.' },
+      { q: 'Do the days need to be done in order?', a: 'Yes — the plan is sequenced on purpose, with each day building on the one before it.' },
+      { q: 'What happens after the 5 days?', a: 'You will know whether the approach fits your body. From there, BTH Stay Ready is the full month-by-month version of the same plan — no pressure either way.' },
+    ],
   },
   {
-    slug: 'basketball-workouts-at-home', eyebrow: 'No Gym Needed', h1: 'Basketball Workouts <span class="gold">At Home</span>',
+    slug: 'basketball-workouts-at-home', eyebrow: 'No Gym Needed', h1: 'Basketball Workouts <span class="gold">At Home</span>', keyword: 'basketball workouts at home',
     title: 'Basketball Workouts At Home — Built to Hoop',
     sub: 'Living-room-sized workouts that keep you game-ready. The first three days of the free Reset need <strong>zero equipment</strong>.',
     bullets: ['Zero gym for the first three days', 'Minimal space, real work', '10 to 20 minutes a day', 'Free to start — no card, no trial'],
+    whyParas: [
+      'Basketball workouts at home have to solve for two things most gym programs ignore: space and equipment. BTH\'s sessions are built to run in a living room, a garage, or a hotel room — nothing that needs a squat rack or a full weight stack.',
+      'The free 5-Day Reset opens with three straight days that need zero equipment at all — just floor space and 10 to 20 minutes. That is intentional: the goal is to remove every excuse between you and actually training, not add another barrier.',
+    ],
+    faq: [
+      { q: 'Can I really do basketball workouts at home with no equipment?', a: 'Yes — the first three days of the Reset use bodyweight only. Days 4 and 5 use minimal gear, and you can substitute if you do not have it.' },
+      { q: 'How much space do I need?', a: 'Roughly a yoga mat\'s worth. It is built for small rooms, not home gyms.' },
+      { q: 'Is this enough on its own, or do I need a gym eventually?', a: 'The Reset stands on its own — that is the whole point of starting free.' },
+    ],
   },
   {
-    slug: 'workouts-for-basketball-players', eyebrow: 'Player-First', h1: 'Workouts For <span class="gold">Basketball Players</span>',
+    slug: 'workouts-for-basketball-players', eyebrow: 'Player-First', h1: 'Workouts For <span class="gold">Basketball Players</span>', keyword: 'workouts for basketball players',
     title: 'Workouts For Basketball Players — Built to Hoop',
-    sub: 'Not bodybuilder splits. Workouts built around what a hooper actually needs — <strong>legs that last, ankles that hold, a first step that shows up</strong>. Five free days to start.',
+    sub: 'Not bodybuilder splits. Workouts built around what a hooper actually needs — <strong>legs built to last, ankles built to hold, a first step built to still be there</strong>. Five free days to start.',
     bullets: ['Built around the demands of hooping', 'Skill, strength, mobility and recovery', 'Made by a hooper who still plays', 'Free to start — no card, no trial'],
+    whyParas: [
+      'Most workouts for basketball players are just bodybuilding splits with a ball graphic slapped on the cover — bench day, leg day, arm day, none of it built around what actually happens on a court. BTH starts from the sport instead: cutting, landing, guarding, sprinting in short bursts for two hours straight.',
+      'That is what the free 5-Day Reset trains — legs built to hold up through a full run, ankles built to handle a bad landing, a first step built to still be there in the fourth quarter. It is player-first, not gym-first.',
+    ],
+    faq: [
+      { q: 'How are these workouts for basketball players different from normal gym programs?', a: 'They are built around basketball movement patterns — lateral cuts, landings, first-step acceleration — instead of generic strength-training splits.' },
+      { q: 'Will this help my ankles and knees hold up during games?', a: 'Durability is one of the main things the program trains for — the mobility and landing-mechanics work exists specifically to reduce the wear pickup ball puts on your joints over a season.' },
+      { q: 'Is this for serious players only?', a: 'No — it is for anyone who plays regularly and wants their body to keep up with the game, whether that is once a week or five times.' },
+    ],
   },
   {
-    slug: 'vertical-jump-training-program', eyebrow: 'Bounce, Built Properly', h1: 'Vertical Jump <span class="gold">Training Program</span>',
+    slug: 'vertical-jump-training-program', eyebrow: 'Bounce, Built Properly', h1: 'Vertical Jump <span class="gold">Training Program</span>', keyword: 'vertical jump training program',
     title: 'Vertical Jump Training Program — Built to Hoop',
     sub: 'Jump work that lives inside a <strong>complete training system</strong> — legs, core, landing mechanics and lift-off. No gimmicks, no instant-inches promises. Day 5 of the free Reset is the Power Reset.',
     bullets: ['Jump work as one piece of a full system', 'Legs, core, landing mechanics, lift-off', 'Honest training — no overnight promises', 'Free to start — no card, no trial'],
+    whyParas: [
+      'Every vertical jump training program on the internet promises inches in weeks. BTH does not — jump ability comes from the same base as everything else in the system: leg strength, hip drive, core control and landing mechanics that let you actually use the power you build.',
+      'Day 5 of the free Reset is the Power Reset — a jump-focused session that puts that base to work. It is not a standalone "how to dunk" trick; it is one piece of a complete training system, which is why it holds up instead of fading after a couple sessions.',
+    ],
+    faq: [
+      { q: 'Will this vertical jump training program actually add inches to my jump?', a: 'It builds the strength and mechanics that jump ability is made of — legs, hips, core, landing control. There is no overnight-inches promise here, honest training only.' },
+      { q: 'Is jump training the whole program?', a: 'No — it is one day inside a five-day system that also covers skill, strength, mobility and recovery. Jump work built in isolation rarely holds up.' },
+      { q: 'Do I need a box or special equipment to start?', a: 'No — Day 5 is built to run with bodyweight and floor space, same as the rest of the Reset.' },
+    ],
   },
 ];
 
 const B_PAGES = [
   {
-    slug: 'basketball-training-membership', eyebrow: 'One Membership', h1: 'Basketball Training <span class="gold">Membership</span>',
+    slug: 'basketball-training-membership', eyebrow: 'One Membership', h1: 'Basketball Training <span class="gold">Membership</span>', keyword: 'basketball training membership',
     title: 'Basketball Training Membership — BTH Stay Ready',
     sub: 'One membership, the whole BTH system — <strong>Foundation Month, the Performance Track and every add-on track</strong>, for $27 a month.',
+    whyParas: [
+      'A basketball training membership only earns a monthly payment if it keeps delivering after the first week. BTH Stay Ready is built as one system, not a bundle of one-off products — Foundation Month gets your base built, the Performance Track keeps the training moving, and every add-on track (jump, mobility, recovery, and more) is already included, not sold separately later.',
+      'You do not need to guess whether you are "ready" for a membership. If you have run the free 5-Day Reset and it fit your body and your schedule, Stay Ready is the same approach continued — same voice, same structure, month after month.',
+    ],
+    faq: [
+      { q: 'What is actually included in this basketball training membership?', a: 'Foundation Month, the ongoing Performance Track, and every add-on track BTH makes — jump, mobility, recovery and more — all inside one $27/month membership. Nothing held back for a future upsell.' },
+      { q: 'Can I cancel anytime?', a: 'Yes — it is a self-serve monthly membership with no lock-in. Cancel whenever it stops earning its spot in your month.' },
+      { q: 'What if I am not sure yet?', a: 'Start with the free 5-Day Reset first — no card required. If it fits, Stay Ready is the same training continued.' },
+    ],
   },
   {
-    slug: 'basketball-membership', eyebrow: 'Join The System', h1: 'Basketball <span class="gold">Membership</span>',
+    slug: 'basketball-membership', eyebrow: 'Join The System', h1: 'Basketball <span class="gold">Membership</span>', keyword: 'basketball membership',
     title: 'Basketball Membership — BTH Stay Ready',
     sub: 'Everything Built to Hoop makes, behind one door. Train the whole year — skill, strength, mobility, jump work and recovery — for <strong>$27 a month</strong>.',
+    whyParas: [
+      'Most basketball membership products are one narrow thing — a shooting course, a jump program — sold behind their own separate paywall. BTH Stay Ready is a single membership that holds everything: skill, strength, mobility, jump work and recovery, all built to work together instead of competing for your time.',
+      'That matters because a hooper\'s body needs all of it across a real year of playing — not just the parts that make a good sales page. One membership, one price, the whole system, updated as the training does.',
+    ],
+    faq: [
+      { q: 'Is this basketball membership just one program or the whole system?', a: 'The whole system — skill, strength, mobility, jump work and recovery are all included, not sold as separate add-ons.' },
+      { q: 'How much does it cost?', a: '$27 a month, cancel anytime. No other tiers required to get the full system.' },
+      { q: 'Not ready to commit yet?', a: 'Start with the free 5-Day Reset — it is the same training philosophy, no card needed.' },
+    ],
   },
   {
-    slug: 'best-basketball-training-program', eyebrow: 'Comparing Programs?', h1: 'Best Basketball Training Program<span class="gold">?</span>',
+    slug: 'best-basketball-training-program', eyebrow: 'Comparing Programs?', h1: 'Best Basketball Training Program<span class="gold">?</span>', keyword: 'best basketball training program',
     title: 'Comparing Basketball Training Programs — BTH Stay Ready',
     sub: 'You are comparing. Good. Here is exactly what is inside BTH Stay Ready — <strong>judge it against anything else</strong> you are looking at.',
+    whyParas: [
+      'If you are trying to find the best basketball training program, the honest answer is: judge it on what is actually inside, not the sales page. BTH Stay Ready gives you Foundation Month, an ongoing Performance Track, and every add-on track — jump, mobility, recovery — for one price, built by someone who still plays, not a content studio.',
+      'Compare that directly against whatever else you have open in another tab: what is included, what is upsold later, and who built it. Stay Ready is deliberately structured so there is nothing hidden behind a second paywall once you join.',
+    ],
+    faq: [
+      { q: 'What makes this the best basketball training program for someone comparing options?', a: 'Everything is included at one price — Foundation Month, the Performance Track, and every add-on track — with nothing held back for a future upsell.' },
+      { q: 'Who actually built this?', a: 'A hooper who still plays, not a content agency — the training reflects what the game actually demands from an adult body.' },
+      { q: 'How do I know it will work for me before I pay?', a: 'Start with the free 5-Day Reset first. It is built from the same system, so you will know how it fits before committing to Stay Ready.' },
+    ],
   },
   {
-    slug: 'online-basketball-training-program', eyebrow: 'All Online', h1: 'Online Basketball <span class="gold">Training Program</span>',
+    slug: 'online-basketball-training-program', eyebrow: 'All Online', h1: 'Online Basketball <span class="gold">Training Program</span>', keyword: 'online basketball training program',
     title: 'Online Basketball Training Program — BTH Stay Ready',
     sub: 'The full BTH system, delivered online — train at home, at the gym, or on the road. <strong>$27 a month, cancel anytime.</strong>',
+    whyParas: [
+      'An online basketball training program has to earn trust without a gym, a coach in the room, or a contract locking you in. Stay Ready is built for exactly that — every session delivered digitally, no app install, no equipment requirement beyond what each day actually calls for.',
+      'It runs wherever you are: home, a hotel gym on the road, or your regular gym floor. The training does not change based on your location — Foundation Month, the Performance Track and every add-on track travel with you.',
+    ],
+    faq: [
+      { q: 'Is this online basketball training program actually complete, or a stripped-down version?', a: 'It is the full system — Foundation Month, the Performance Track and every add-on track — delivered digitally with nothing held back for an in-person version.' },
+      { q: 'Do I need any special equipment to train online?', a: 'No — sessions are built to run with minimal or no equipment, so they work at home, in a hotel room, or in a gym.' },
+      { q: 'Is there a contract?', a: 'No — it is $27 a month, cancel anytime, self-serve.' },
+    ],
   },
 ];
 
@@ -99,14 +207,14 @@ const head = (p) => `<!DOCTYPE html>
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({"gtm.start":new Date().getTime(),event:"gtm.js"});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!="dataLayer"?"&l="+l:"";j.async=true;j.src="https://www.googletagmanager.com/gtm.js?id="+i+dl;f.parentNode.insertBefore(j,f);})(window,document,"script","dataLayer","GTM-T9SFFTB7");</script>
 <!-- GA4 -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-YBE7PRPCLK"></script>
-<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-YBE7PRPCLK");</script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-YBE7PRPCLK");gtag("config","AW-18166013082");</script>
 <!-- Meta Pixel -->
 <script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version="2.0";n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,"script","https://connect.facebook.net/en_US/fbevents.js");fbq("init","1320146003572375");fbq("track","PageView");</script>
 <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1320146003572375&ev=PageView&noscript=1"/></noscript>
 <!-- TikTok Pixel -->
 <script>!function(w,d,t){w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e};ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js",o=n&&n.partner;ttq._i=ttq._i||{};ttq._i[e]=[];ttq._i[e]._u=r;ttq._t=ttq._t||{};ttq._t[e]=+new Date;ttq._o=ttq._o||{};ttq._o[e]=n||{};n=document.createElement("script");n.type="text/javascript";n.async=!0;n.src=r+"?sdkid="+e+"&lib="+t;e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(n,e)};ttq.load("D7RNU1RC77U2TFGF3SO0");ttq.page();}(window,document,"ttq");</script>
 <!-- ─── /BTH TRACKING ─── -->
-<script src="../assets/bth-click-id.js"></script>
+<script src="../assets/bth-click-id.js" defer></script>
 <script src="../assets/bth-tracking.js" defer></script>
 <script src="../assets/bth-form.js" defer></script>
 
@@ -117,6 +225,10 @@ const head = (p) => `<!DOCTYPE html>
 <title>${p.title}</title>
 <link rel="canonical" href="https://built-to-hoop.com/lp/${p.slug}.html">
 <meta name="description" content="${p.sub.replace(/<[^>]+>/g, '')}">
+<meta property="og:image" content="https://built-to-hoop.com/assets/og/bth-og-default.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:image" content="https://built-to-hoop.com/assets/og/bth-og-default.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/bth-system.css">
@@ -137,7 +249,7 @@ nav { position:fixed; top:0; left:0; right:0; z-index:100; height:62px; display:
 .hero-eyebrow { font-family:var(--B); font-size:11px; font-weight:600; letter-spacing:0.22em; text-transform:uppercase; color:var(--gold); margin-bottom:20px; display:flex; align-items:center; gap:12px; }
 .hero-eyebrow::before { content:''; width:24px; height:2px; background:var(--gold); flex-shrink:0; }
 .hero-title { font-family:var(--H); font-size:clamp(40px,6vw,76px); font-weight:700; line-height:0.95; letter-spacing:0.02em; text-transform:uppercase; color:var(--black); margin-bottom:24px; }
-.hero-title .gold { color:var(--gold); }
+.gold { color:var(--gold); }
 .hero-sub { font-size:17px; color:var(--muted); line-height:1.75; margin-bottom:28px; max-width:520px; }
 .hero-sub strong { color:var(--black); font-weight:600; }
 .bullets { list-style:none; padding:0; margin:0 0 12px; }
@@ -163,11 +275,25 @@ nav { position:fixed; top:0; left:0; right:0; z-index:100; height:62px; display:
 .join-btn { display:block; width:100%; text-align:center; font-family:var(--H); font-size:15px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--black); background:var(--gold); border:none; padding:16px; border-radius:2px; cursor:pointer; text-decoration:none; transition:all 0.18s; }
 .join-btn:hover { background:var(--black); color:var(--white); }
 .value-strip { background:var(--cream); border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
-.value-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; max-width:1200px; margin:0 auto; padding:56px 52px; }
-@media (max-width:800px) { .value-grid { grid-template-columns:1fr; padding:48px 24px; } }
-.value-card h4 { font-family:var(--H); font-size:17px; font-weight:700; letter-spacing:0.04em; text-transform:uppercase; color:var(--black); margin-bottom:8px; }
-.value-card h4 span { color:var(--gold); margin-right:8px; }
+.value-strip-title { max-width:1200px; margin:0 auto; padding:44px 52px 0; font-family:var(--H); font-size:clamp(26px,3.6vw,36px); font-weight:700; letter-spacing:0.02em; text-transform:uppercase; color:var(--black); }
+@media (max-width:800px) { .value-strip-title { padding:36px 24px 0; } }
+.value-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; max-width:1200px; margin:0 auto; padding:28px 52px 56px; }
+@media (max-width:800px) { .value-grid { grid-template-columns:1fr; padding:24px 24px 48px; } }
+.value-card h3 { font-family:var(--H); font-size:17px; font-weight:700; letter-spacing:0.04em; text-transform:uppercase; color:var(--black); margin-bottom:8px; }
+.value-card h3 span { color:var(--gold); margin-right:8px; }
 .value-card p { font-size:14px; color:var(--muted); line-height:1.65; }
+.lp-section { max-width:900px; margin:0 auto; padding:64px 52px; }
+@media (max-width:800px) { .lp-section { padding:48px 24px; } }
+.lp-eyebrow { font-family:var(--B); font-size:11px; font-weight:600; letter-spacing:0.22em; text-transform:uppercase; color:var(--gold); margin-bottom:16px; display:flex; align-items:center; gap:12px; }
+.lp-eyebrow::before { content:''; width:24px; height:2px; background:var(--gold); flex-shrink:0; }
+.lp-h2 { font-family:var(--H); font-size:clamp(28px,4vw,44px); font-weight:700; line-height:1.05; letter-spacing:0.02em; text-transform:uppercase; color:var(--black); margin-bottom:20px; }
+.lp-body { font-size:16px; color:var(--muted); line-height:1.8; margin-bottom:16px; }
+.lp-body:last-child { margin-bottom:0; }
+.faq-wrap { display:flex; flex-direction:column; gap:0; margin-top:8px; }
+.faq-item { padding:20px 0; border-bottom:1px solid var(--border); }
+.faq-item:first-child { border-top:1px solid var(--border); }
+.faq-q { font-family:var(--H); font-size:16px; font-weight:700; letter-spacing:0.01em; color:var(--black); margin-bottom:8px; }
+.faq-a { font-size:14px; color:var(--muted); line-height:1.7; }
 footer { padding:44px 52px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px; }
 @media (max-width:768px) { footer { padding:36px 24px; } }
 .foot-logo { font-family:var(--H); font-size:18px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:var(--black); text-decoration:none; }
@@ -215,9 +341,23 @@ const offerCardB = () => `<div class="form-card member" id="join">
     <p class="form-trust">Secure Stripe checkout. Cancel anytime.<br>Not sure yet? <a href="../reset.html" style="color:var(--gold);">Start with the free 5-Day Reset &rarr;</a></p>
   </div>`;
 
-const valueStrip = (cards) => `<section class="value-strip"><div class="value-grid">
-${cards.map(([h, b]) => `  <div class="value-card"><h4><span>—</span>${h}</h4><p>${b}</p></div>`).join('\n')}
+const valueStrip = (cards, title) => `<section class="value-strip"><h2 class="value-strip-title">${title}</h2><div class="value-grid">
+${cards.map(([h, b]) => `  <div class="value-card"><h3><span>—</span>${h}</h3><p>${b}</p></div>`).join('\n')}
 </div></section>`;
+
+const whySection = (p) => `<section class="lp-section">
+  <div class="lp-eyebrow">Why It Works</div>
+  <h2 class="lp-h2">${p.h1}<br>Built As <span class="gold">One System.</span></h2>
+${p.whyParas.map(t => `  <p class="lp-body">${t}</p>`).join('\n')}
+</section>`;
+
+const faqSection = (p) => `<section class="lp-section">
+  <div class="lp-eyebrow">FAQ</div>
+  <h2 class="lp-h2">Common <span class="gold">Questions.</span></h2>
+  <div class="faq-wrap">
+${p.faq.map(({ q, a }) => `    <div class="faq-item">\n      <h3 class="faq-q">${q}</h3>\n      <p class="faq-a">${a}</p>\n    </div>`).join('\n')}
+  </div>
+</section>`;
 
 const A_VALUES = [
   ['Five Free Days', 'The 5-Day Reset is a real piece of the system, free. One focused protocol a day, 10–20 minutes.'],
@@ -246,7 +386,9 @@ const page = (p, kind) => `${head(p)}
   </div>
   ${kind === 'A' ? formCardA(p) : offerCardB()}
 </section>
-${valueStrip(kind === 'A' ? A_VALUES : B_VALUES)}
+${whySection(p)}
+${valueStrip(kind === 'A' ? A_VALUES : B_VALUES, kind === 'A' ? "What's Inside The System" : "What's Inside The Membership")}
+${faqSection(p)}
 <footer>
   <a class="foot-logo" href="../index.html">Built<span>to</span>Hoop</a>
   <div class="foot-links">

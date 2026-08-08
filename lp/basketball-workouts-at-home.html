@@ -11,14 +11,14 @@
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({"gtm.start":new Date().getTime(),event:"gtm.js"});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!="dataLayer"?"&l="+l:"";j.async=true;j.src="https://www.googletagmanager.com/gtm.js?id="+i+dl;f.parentNode.insertBefore(j,f);})(window,document,"script","dataLayer","GTM-T9SFFTB7");</script>
 <!-- GA4 -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-YBE7PRPCLK"></script>
-<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-YBE7PRPCLK");</script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-YBE7PRPCLK");gtag("config","AW-18166013082");</script>
 <!-- Meta Pixel -->
 <script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version="2.0";n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,"script","https://connect.facebook.net/en_US/fbevents.js");fbq("init","1320146003572375");fbq("track","PageView");</script>
 <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1320146003572375&ev=PageView&noscript=1"/></noscript>
 <!-- TikTok Pixel -->
 <script>!function(w,d,t){w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e};ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js",o=n&&n.partner;ttq._i=ttq._i||{};ttq._i[e]=[];ttq._i[e]._u=r;ttq._t=ttq._t||{};ttq._t[e]=+new Date;ttq._o=ttq._o||{};ttq._o[e]=n||{};n=document.createElement("script");n.type="text/javascript";n.async=!0;n.src=r+"?sdkid="+e+"&lib="+t;e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(n,e)};ttq.load("D7RNU1RC77U2TFGF3SO0");ttq.page();}(window,document,"ttq");</script>
 <!-- ─── /BTH TRACKING ─── -->
-<script src="../assets/bth-click-id.js"></script>
+<script src="../assets/bth-click-id.js" defer></script>
 <script src="../assets/bth-tracking.js" defer></script>
 <script src="../assets/bth-form.js" defer></script>
 
@@ -29,6 +29,10 @@
 <title>Basketball Workouts At Home — Built to Hoop</title>
 <link rel="canonical" href="https://built-to-hoop.com/lp/basketball-workouts-at-home.html">
 <meta name="description" content="Living-room-sized workouts that keep you game-ready. The first three days of the free Reset need zero equipment.">
+<meta property="og:image" content="https://built-to-hoop.com/assets/og/bth-og-default.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:image" content="https://built-to-hoop.com/assets/og/bth-og-default.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/bth-system.css">
@@ -49,7 +53,7 @@ nav { position:fixed; top:0; left:0; right:0; z-index:100; height:62px; display:
 .hero-eyebrow { font-family:var(--B); font-size:11px; font-weight:600; letter-spacing:0.22em; text-transform:uppercase; color:var(--gold); margin-bottom:20px; display:flex; align-items:center; gap:12px; }
 .hero-eyebrow::before { content:''; width:24px; height:2px; background:var(--gold); flex-shrink:0; }
 .hero-title { font-family:var(--H); font-size:clamp(40px,6vw,76px); font-weight:700; line-height:0.95; letter-spacing:0.02em; text-transform:uppercase; color:var(--black); margin-bottom:24px; }
-.hero-title .gold { color:var(--gold); }
+.gold { color:var(--gold); }
 .hero-sub { font-size:17px; color:var(--muted); line-height:1.75; margin-bottom:28px; max-width:520px; }
 .hero-sub strong { color:var(--black); font-weight:600; }
 .bullets { list-style:none; padding:0; margin:0 0 12px; }
@@ -75,11 +79,25 @@ nav { position:fixed; top:0; left:0; right:0; z-index:100; height:62px; display:
 .join-btn { display:block; width:100%; text-align:center; font-family:var(--H); font-size:15px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--black); background:var(--gold); border:none; padding:16px; border-radius:2px; cursor:pointer; text-decoration:none; transition:all 0.18s; }
 .join-btn:hover { background:var(--black); color:var(--white); }
 .value-strip { background:var(--cream); border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
-.value-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; max-width:1200px; margin:0 auto; padding:56px 52px; }
-@media (max-width:800px) { .value-grid { grid-template-columns:1fr; padding:48px 24px; } }
-.value-card h4 { font-family:var(--H); font-size:17px; font-weight:700; letter-spacing:0.04em; text-transform:uppercase; color:var(--black); margin-bottom:8px; }
-.value-card h4 span { color:var(--gold); margin-right:8px; }
+.value-strip-title { max-width:1200px; margin:0 auto; padding:44px 52px 0; font-family:var(--H); font-size:clamp(26px,3.6vw,36px); font-weight:700; letter-spacing:0.02em; text-transform:uppercase; color:var(--black); }
+@media (max-width:800px) { .value-strip-title { padding:36px 24px 0; } }
+.value-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; max-width:1200px; margin:0 auto; padding:28px 52px 56px; }
+@media (max-width:800px) { .value-grid { grid-template-columns:1fr; padding:24px 24px 48px; } }
+.value-card h3 { font-family:var(--H); font-size:17px; font-weight:700; letter-spacing:0.04em; text-transform:uppercase; color:var(--black); margin-bottom:8px; }
+.value-card h3 span { color:var(--gold); margin-right:8px; }
 .value-card p { font-size:14px; color:var(--muted); line-height:1.65; }
+.lp-section { max-width:900px; margin:0 auto; padding:64px 52px; }
+@media (max-width:800px) { .lp-section { padding:48px 24px; } }
+.lp-eyebrow { font-family:var(--B); font-size:11px; font-weight:600; letter-spacing:0.22em; text-transform:uppercase; color:var(--gold); margin-bottom:16px; display:flex; align-items:center; gap:12px; }
+.lp-eyebrow::before { content:''; width:24px; height:2px; background:var(--gold); flex-shrink:0; }
+.lp-h2 { font-family:var(--H); font-size:clamp(28px,4vw,44px); font-weight:700; line-height:1.05; letter-spacing:0.02em; text-transform:uppercase; color:var(--black); margin-bottom:20px; }
+.lp-body { font-size:16px; color:var(--muted); line-height:1.8; margin-bottom:16px; }
+.lp-body:last-child { margin-bottom:0; }
+.faq-wrap { display:flex; flex-direction:column; gap:0; margin-top:8px; }
+.faq-item { padding:20px 0; border-bottom:1px solid var(--border); }
+.faq-item:first-child { border-top:1px solid var(--border); }
+.faq-q { font-family:var(--H); font-size:16px; font-weight:700; letter-spacing:0.01em; color:var(--black); margin-bottom:8px; }
+.faq-a { font-size:14px; color:var(--muted); line-height:1.7; }
 footer { padding:44px 52px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px; }
 @media (max-width:768px) { footer { padding:36px 24px; } }
 .foot-logo { font-family:var(--H); font-size:18px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:var(--black); text-decoration:none; }
@@ -130,11 +148,35 @@ footer { padding:44px 52px; display:flex; align-items:center; justify-content:sp
     <p class="form-trust">No spam. No junk funnel. One email a day for 5 days, then a short weekly note. Unsubscribe anytime.</p>
   </div>
 </section>
-<section class="value-strip"><div class="value-grid">
-  <div class="value-card"><h4><span>—</span>Five Free Days</h4><p>The 5-Day Reset is a real piece of the system, free. One focused protocol a day, 10–20 minutes.</p></div>
-  <div class="value-card"><h4><span>—</span>Built By A Hooper</h4><p>Made by a player who still hoops — not a content farm. Every session exists because the game asks for it.</p></div>
-  <div class="value-card"><h4><span>—</span>No Gym Required</h4><p>The first three days need zero equipment. Train in your living room, hotel room, or the gym.</p></div>
+<section class="lp-section">
+  <div class="lp-eyebrow">Why It Works</div>
+  <h2 class="lp-h2">Basketball Workouts <span class="gold">At Home</span><br>Built As <span class="gold">One System.</span></h2>
+  <p class="lp-body">Basketball workouts at home have to solve for two things most gym programs ignore: space and equipment. BTH's sessions are built to run in a living room, a garage, or a hotel room — nothing that needs a squat rack or a full weight stack.</p>
+  <p class="lp-body">The free 5-Day Reset opens with three straight days that need zero equipment at all — just floor space and 10 to 20 minutes. That is intentional: the goal is to remove every excuse between you and actually training, not add another barrier.</p>
+</section>
+<section class="value-strip"><h2 class="value-strip-title">What's Inside The System</h2><div class="value-grid">
+  <div class="value-card"><h3><span>—</span>Five Free Days</h3><p>The 5-Day Reset is a real piece of the system, free. One focused protocol a day, 10–20 minutes.</p></div>
+  <div class="value-card"><h3><span>—</span>Built By A Hooper</h3><p>Made by a player who still hoops — not a content farm. Every session exists because the game asks for it.</p></div>
+  <div class="value-card"><h3><span>—</span>No Gym Required</h3><p>The first three days need zero equipment. Train in your living room, hotel room, or the gym.</p></div>
 </div></section>
+<section class="lp-section">
+  <div class="lp-eyebrow">FAQ</div>
+  <h2 class="lp-h2">Common <span class="gold">Questions.</span></h2>
+  <div class="faq-wrap">
+    <div class="faq-item">
+      <h3 class="faq-q">Can I really do basketball workouts at home with no equipment?</h3>
+      <p class="faq-a">Yes — the first three days of the Reset use bodyweight only. Days 4 and 5 use minimal gear, and you can substitute if you do not have it.</p>
+    </div>
+    <div class="faq-item">
+      <h3 class="faq-q">How much space do I need?</h3>
+      <p class="faq-a">Roughly a yoga mat's worth. It is built for small rooms, not home gyms.</p>
+    </div>
+    <div class="faq-item">
+      <h3 class="faq-q">Is this enough on its own, or do I need a gym eventually?</h3>
+      <p class="faq-a">The Reset stands on its own — that is the whole point of starting free.</p>
+    </div>
+  </div>
+</section>
 <footer>
   <a class="foot-logo" href="../index.html">Built<span>to</span>Hoop</a>
   <div class="foot-links">
