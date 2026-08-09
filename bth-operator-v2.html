@@ -10,7 +10,7 @@
   <title>BTH Operator</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='2' fill='%23111318'/%3E%3Cpath d='M10 14h44v8H36v30h-8V22H10z' fill='%23E6A800'/%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <script>
   (function(){
     var svg='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128"><rect width="128" height="128" rx="2" fill="#111318"/><path d="M22 30h84v12H72v58H56V42H22z" fill="#E6A800"/></svg>';
@@ -22,9 +22,8 @@
   </script>
   <style>
     :root {
-      --black:#111318; --gold:#E6A800; --gold-text:#7A5700; --gold-dim:#B88A00; --gold-bg:#FFF8E1;
-      --white:#F3EFE7; --dark:#FFFFFF; --mid:#F5F1EA; --gray:#E0DAD0; --muted:#635D57;
-      --red:#C94B4B; --green:#2F9B56; --green-text:#17703D; --blue:#2A7DB5;
+      --black:#111318; --gold:#E6A800; --gold-dim:#E6A800; --gold-bg:rgba(230,168,0,.10);
+      --white:#F3EFE7; --dark:#FFFFFF; --mid:#F3EFE7; --gray:rgba(17,19,24,.16); --muted:rgba(17,19,24,.58);
       --nav-h:68px; --sb:env(safe-area-inset-bottom,0px); --st:env(safe-area-inset-top,44px);
     }
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
@@ -54,11 +53,11 @@
     .input-row:last-child{border-bottom:none;}
     .input-label{font-size:14px;font-weight:500;color:var(--black);}
     .input-sub{font-family:'DM Sans',sans-serif;font-size:11px;color:var(--muted);}
-    .num-input{font-family:'Space Mono',monospace;font-size:16px;font-weight:700;color:var(--gold-text);background:none;border:none;outline:none;width:70px;text-align:right;-webkit-appearance:none;}
+    .num-input{font-family:'DM Sans',sans-serif;font-variant-numeric:tabular-nums;font-size:16px;font-weight:700;color:var(--gold);background:none;border:none;outline:none;width:70px;text-align:right;-webkit-appearance:none;}
     .num-input::placeholder{color:var(--muted);font-size:14px;}
     .bar-wrap{height:4px;background:var(--gray);border-radius:2px;overflow:hidden;margin-top:6px;}
     .bar-fill{height:100%;border-radius:2px;transition:width .4s ease,background .3s ease;}
-    .bar-gold{background:var(--gold);}.bar-green{background:var(--green);}.bar-blue{background:var(--blue);}.bar-red{background:var(--red);}
+    .bar-gold,.bar-green,.bar-blue,.bar-red{background:var(--gold);}
     .btch-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
     .btch-item{display:flex;align-items:center;gap:8px;background:var(--mid);border:1px solid var(--gray);border-radius:2px;padding:10px 12px;cursor:pointer;transition:border-color .2s,background .2s;}
     .btch-item.done{border-color:var(--gold);background:var(--gold-bg);}
@@ -78,23 +77,23 @@
     .collapsible-header.open .collapsible-arrow{transform:rotate(180deg);}
     .sched-item{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--gray);}
     .sched-item:last-child{border-bottom:none;}
-    .sched-time{font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--gold-text);min-width:54px;cursor:pointer;border:none;background:none;outline:none;-webkit-appearance:none;}
+    .sched-time{font-family:'DM Sans',sans-serif;font-variant-numeric:tabular-nums;font-size:12px;font-weight:700;color:var(--gold);min-width:54px;cursor:pointer;border:none;background:none;outline:none;-webkit-appearance:none;}
     .sched-label{font-size:14px;font-weight:500;color:var(--black);flex:1;}
     .pip-row{display:flex;gap:6px;margin-bottom:4px;flex-wrap:wrap;}
-    .pip-dot{width:30px;height:30px;border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;font-family:'Space Mono',monospace;border:2px solid var(--gray);color:var(--muted);animation:pipPop .25s ease both;}
+    .pip-dot{width:30px;height:30px;border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;font-family:'DM Sans',sans-serif;font-variant-numeric:tabular-nums;border:2px solid var(--gray);color:var(--muted);animation:pipPop .25s ease both;}
     .pip-dot.done{background:var(--gold);border-color:var(--gold);color:var(--black);}
     .pip-dot.today{border-color:var(--gold);color:var(--gold-text);animation:goldGlow 2s ease-in-out infinite;}
     .pip-dot.rest{background:var(--gray);border-color:var(--gray);color:var(--muted);}
     .streak-stat{text-align:center;flex:1;}
-    .streak-num{font-family:'Space Mono',monospace;font-size:28px;font-weight:700;color:var(--gold-text);}
+    .streak-num{font-family:'DM Sans',sans-serif;font-variant-numeric:tabular-nums;font-size:28px;font-weight:700;color:var(--gold);}
     .streak-label{font-size:10px;color:var(--muted);margin-top:2px;letter-spacing:.5px;text-transform:uppercase;}
     .grade-card{text-align:center;padding:24px 16px;}
     .grade-letter{font-family:'Oswald',sans-serif;font-size:80px;font-weight:700;line-height:1;animation:breathe 4s ease-in-out infinite;}
-    .grade-score{font-family:'Space Mono',monospace;font-size:14px;color:var(--muted);margin-top:6px;}
+    .grade-score{font-family:'DM Sans',sans-serif;font-variant-numeric:tabular-nums;font-size:14px;color:var(--muted);margin-top:6px;}
     .grade-breakdown{display:flex;margin-top:16px;border-top:1px solid var(--gray);}
     .grade-item{flex:1;text-align:center;padding:10px 4px;border-right:1px solid var(--gray);}
     .grade-item:last-child{border-right:none;}
-    .grade-item-val{font-family:'Space Mono',monospace;font-size:16px;font-weight:700;color:var(--black);}
+    .grade-item-val{font-family:'DM Sans',sans-serif;font-variant-numeric:tabular-nums;font-size:16px;font-weight:700;color:var(--black);}
     .grade-item-lbl{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;}
     .week-day-selector{display:flex;gap:6px;margin-bottom:14px;}
     .sel-btn{flex:1;padding:8px 4px;text-align:center;border-radius:2px;border:1px solid var(--gray);background:var(--mid);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;color:var(--muted);transition:all .2s;}
@@ -102,8 +101,8 @@
     .exercise-row{padding:13px 0;border-bottom:1px solid var(--gray);animation:cardIn .2s ease both;}
     .exercise-row:last-child{border-bottom:none;}
     .ex-name{font-size:14px;font-weight:600;color:var(--black);margin-bottom:4px;}
-    .ex-week{font-family:'Space Mono',monospace;font-size:13px;color:var(--gold-text);}
-    .ex-rest{font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);margin-top:4px;}
+    .ex-week{font-family:'DM Sans',sans-serif;font-variant-numeric:tabular-nums;font-size:13px;color:var(--gold);}
+    .ex-rest{font-family:'DM Sans',sans-serif;font-variant-numeric:tabular-nums;font-size:10px;color:var(--muted);margin-top:4px;}
     .warmup-item{font-size:12px;color:var(--muted);padding:4px 0;border-bottom:1px solid var(--gray);}
     .warmup-item:last-child{border-bottom:none;}
     .intent-badge{display:inline-block;padding:4px 12px;border-radius:2px;background:var(--gold-bg);border:1px solid var(--gold);font-size:11px;color:var(--gold);font-weight:700;letter-spacing:.5px;margin-bottom:6px;}
@@ -111,16 +110,16 @@
     .goal-edit-row{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--gray);}
     .goal-edit-row:last-child{border-bottom:none;}
     .goal-label{font-size:14px;font-weight:500;color:var(--black);}
-    .goal-input{font-family:'Space Mono',monospace;font-size:14px;font-weight:700;color:var(--gold-text);background:none;border:none;outline:none;width:70px;text-align:right;-webkit-appearance:none;}
+    .goal-input{font-family:'DM Sans',sans-serif;font-variant-numeric:tabular-nums;font-size:14px;font-weight:700;color:var(--gold);background:none;border:none;outline:none;width:70px;text-align:right;-webkit-appearance:none;}
     .week-day-bar{display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid var(--gray);}
     .week-day-bar:last-child{border-bottom:none;}
-    .wdb-label{font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);width:28px;}
+    .wdb-label{font-family:'DM Sans',sans-serif;font-variant-numeric:tabular-nums;font-size:10px;color:var(--muted);width:28px;}
     .wdb-bar{flex:1;height:6px;background:var(--gray);border-radius:2px;overflow:hidden;}
     .wdb-fill{height:100%;background:var(--gold);border-radius:2px;transition:width .4s;}
-    .wdb-val{font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);width:36px;text-align:right;}
+    .wdb-val{font-family:'DM Sans',sans-serif;font-variant-numeric:tabular-nums;font-size:10px;color:var(--muted);width:36px;text-align:right;}
     .note-item{background:var(--mid);border:1px solid var(--gray);border-radius:2px;padding:12px;margin-bottom:8px;animation:cardIn .2s ease both;}
     .note-text{font-size:14px;color:var(--black);line-height:1.55;white-space:pre-wrap;}
-    .note-ts{font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);margin-top:6px;}
+    .note-ts{font-family:'DM Sans',sans-serif;font-variant-numeric:tabular-nums;font-size:10px;color:var(--muted);margin-top:6px;}
     .note-delete{float:right;font-size:12px;color:var(--muted);cursor:pointer;margin-left:8px;}
     .note-textarea{width:100%;background:var(--mid);border:1px solid var(--gray);border-radius:2px;padding:12px;color:var(--black);font-family:'DM Sans',sans-serif;font-size:14px;resize:none;outline:none;min-height:82px;transition:border-color .2s;display:block;}
     .note-textarea:focus{border-color:var(--gold);}
@@ -134,7 +133,7 @@
     .added-ex{display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--gray);}
     .added-ex:last-child{border-bottom:none;}
     .added-ex-name{font-size:13px;font-weight:500;color:var(--black);}
-    .added-ex-sets{font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);}
+    .added-ex-sets{font-family:'DM Sans',sans-serif;font-variant-numeric:tabular-nums;font-size:10px;color:var(--muted);}
     .added-ex-del{font-size:12px;color:var(--muted);cursor:pointer;padding:4px;}
     .toast-el{position:fixed;bottom:calc(var(--nav-h) + var(--sb) + 16px);left:50%;transform:translateX(-50%) translateY(20px);background:var(--black);color:var(--white);padding:10px 20px;border:2px solid var(--gold);border-radius:2px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;opacity:0;transition:opacity .25s,transform .25s;pointer-events:none;z-index:999;white-space:nowrap;}
     .toast-el.show{opacity:1;transform:translateX(-50%) translateY(0);}
@@ -427,15 +426,15 @@ function renderProgramView(){
     if(ex.cat&&ex.cat!==lastCat){lastCat=ex.cat;html+='<div style="font-family:\'Oswald\',sans-serif;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold-text);padding:12px 0 4px;">'+esc(ex.cat)+'</div>';}
     var wv=ex.weeks[trainWeek-1];
     var tagHtml=ex.tag?'<span style="font-family:\'DM Sans\',sans-serif;font-size:9px;font-weight:700;letter-spacing:.5px;color:var(--muted);border:1px solid var(--gray);border-radius:2px;padding:1px 5px;margin-left:6px;vertical-align:middle;">'+esc(ex.tag)+'</span>':'';
-    if(ex.isCircuit){html+='<div class="exercise-row" style="animation-delay:'+(i*.04)+'s"><div class="ex-name">'+esc(ex.name)+tagHtml+'</div><div class="ex-week">'+esc(wv)+'</div><div style="margin-top:6px;">';ex.circuit.forEach(function(m){html+='<div style="font-family:\'Space Mono\',monospace;font-size:11px;color:var(--muted);padding:2px 0;">→ '+esc(m)+'</div>';});html+='</div><div class="ex-rest">Rest: '+esc(ex.rest)+'</div></div>';}
+    if(ex.isCircuit){html+='<div class="exercise-row" style="animation-delay:'+(i*.04)+'s"><div class="ex-name">'+esc(ex.name)+tagHtml+'</div><div class="ex-week">'+esc(wv)+'</div><div style="margin-top:6px;">';ex.circuit.forEach(function(m){html+='<div style="font-family:\'DM Sans\',sans-serif;font-size:11px;color:var(--muted);padding:2px 0;">→ '+esc(m)+'</div>';});html+='</div><div class="ex-rest">Rest: '+esc(ex.rest)+'</div></div>';}
     else{html+='<div class="exercise-row" style="animation-delay:'+(i*.04)+'s"><div class="ex-name">'+esc(ex.name)+tagHtml+'</div><div class="ex-week">'+esc(wv)+'</div><div class="ex-rest">Rest: '+esc(ex.rest)+'</div>'+(ex.note?'<div style="font-size:11px;color:var(--muted);font-style:italic;margin-top:4px;">'+esc(ex.note)+'</div>':'')+'</div>';}
   });
   html+='</div>';
-  if(dayData.finisher){var f=dayData.finisher;html+='<div class="card" style="background:var(--black);border-color:var(--black);"><div style="font-family:\'Oswald\',sans-serif;font-size:13px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--gold);">🔥 '+esc(f.title)+'</div><div style="font-family:\'DM Sans\',sans-serif;font-size:12px;color:rgba(255,255,255,.72);margin:8px 0 10px;line-height:1.5;">'+esc(f.desc)+'</div><div style="font-family:\'Space Mono\',monospace;font-size:14px;font-weight:700;color:var(--gold);">Week '+trainWeek+' — '+esc(f.weeks[trainWeek-1])+'</div></div>';}
+  if(dayData.finisher){var f=dayData.finisher;html+='<div class="card" style="background:var(--black);border-color:var(--black);"><div style="font-family:\'Oswald\',sans-serif;font-size:13px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--gold);">🔥 '+esc(f.title)+'</div><div style="font-family:\'DM Sans\',sans-serif;font-size:12px;color:rgba(255,255,255,.72);margin:8px 0 10px;line-height:1.5;">'+esc(f.desc)+'</div><div style="font-family:\'DM Sans\',sans-serif;font-variant-numeric:tabular-nums;font-size:14px;font-weight:700;color:var(--gold);">Week '+trainWeek+' — '+esc(f.weeks[trainWeek-1])+'</div></div>';}
   html+='<div class="card"><div class="collapsible-header" onclick="toggleCollapsible(this)"><div class="card-title" style="margin:0;">🚩 HOW TO RUN IT + RED FLAGS</div><div class="collapsible-arrow">▼</div></div><div class="collapsible-body"><div style="padding-top:10px;"><div class="section-label">HOW TO RUN THIS BLOCK</div>';
   PHASE2.howTo.forEach(function(r){html+='<div style="font-size:12px;color:var(--muted);padding:5px 0;border-bottom:1px solid var(--gray);">• '+esc(r)+'</div>';});
   html+='<div class="section-label" style="margin-top:12px;">RED FLAGS — STOP OR SCALE BACK</div>';
-  PHASE2.redFlags.forEach(function(f){html+='<div style="font-size:12px;color:var(--red);padding:5px 0;border-bottom:1px solid var(--gray);">⚠️ '+esc(f)+'</div>';});
+  PHASE2.redFlags.forEach(function(f){html+='<div style="font-size:12px;font-weight:600;color:var(--black);padding:5px 0;border-bottom:1px solid var(--gray);">⚠️ '+esc(f)+'</div>';});
   html+='</div></div></div>';
   return html;
 }
@@ -472,7 +471,7 @@ function renderMyWorkoutsView(){
   var workouts=load('bth_custom_workouts')||[];
   if(!workouts.length)return'<div class="no-data"><div class="no-data-icon">🏋️</div>No custom workouts yet<br><span style="font-size:11px;">Tap CREATE to build one</span></div>';
   var html='';
-  workouts.forEach(function(w,i){html+='<div class="card"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;"><div><div style="font-family:\'Oswald\',sans-serif;font-size:18px;font-weight:600;text-transform:uppercase;color:var(--black);">'+esc(w.name)+'</div><div style="font-family:\'DM Sans\',sans-serif;font-size:11px;font-weight:600;color:var(--muted);letter-spacing:.5px;text-transform:uppercase;">'+esc((w.type||'').toUpperCase())+' · '+(w.exercises?w.exercises.length:0)+' EXERCISES</div></div><div onclick="deleteCustomWorkout('+i+')" style="font-size:13px;color:var(--muted);cursor:pointer;padding:4px;">✕</div></div>';if(w.exercises&&w.exercises.length){w.exercises.forEach(function(ex){html+='<div style="font-size:13px;padding:5px 0;border-bottom:1px solid var(--gray);"><span style="color:var(--black);font-weight:500;">'+esc(ex.name)+'</span><span style="font-family:\'Space Mono\',monospace;color:var(--gold-text);float:right;">'+esc(ex.sets)+'×'+esc(ex.reps)+'</span></div>';});}html+='</div>';});
+  workouts.forEach(function(w,i){html+='<div class="card"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;"><div><div style="font-family:\'Oswald\',sans-serif;font-size:18px;font-weight:600;text-transform:uppercase;color:var(--black);">'+esc(w.name)+'</div><div style="font-family:\'DM Sans\',sans-serif;font-size:11px;font-weight:600;color:var(--muted);letter-spacing:.5px;text-transform:uppercase;">'+esc((w.type||'').toUpperCase())+' · '+(w.exercises?w.exercises.length:0)+' EXERCISES</div></div><div onclick="deleteCustomWorkout('+i+')" style="font-size:13px;color:var(--muted);cursor:pointer;padding:4px;">✕</div></div>';if(w.exercises&&w.exercises.length){w.exercises.forEach(function(ex){html+='<div style="font-size:13px;padding:5px 0;border-bottom:1px solid var(--gray);"><span style="color:var(--black);font-weight:500;">'+esc(ex.name)+'</span><span style="font-family:\'DM Sans\',sans-serif;font-variant-numeric:tabular-nums;color:var(--gold);float:right;">'+esc(ex.sets)+'×'+esc(ex.reps)+'</span></div>';});}html+='</div>';});
   return html;
 }
 function setTrainWeek(w){trainWeek=w;save('bth_train_week',w);renderTrain();}
@@ -490,11 +489,11 @@ function renderNutrition(){
   macros.forEach(function(m){var val=parseFloat(log[m.key])||0,pct=Math.min(100,(val/m.goal)*100);html+='<div class="input-row"><div><div class="input-label">'+m.icon+' '+m.label+'</div><div class="input-sub">goal: '+m.goal+' '+m.unit+'</div></div><input class="num-input" type="number" min="0" placeholder="—" value="'+esc(log[m.key]||'')+'" oninput="dbNut(\''+m.key+'\',this.value,\''+m.key+'-bar\',\''+m.color+'\','+m.goal+')"></div><div class="bar-wrap"><div class="bar-fill '+(pct>=100?'bar-green':m.color)+'" id="'+m.key+'-bar" style="width:'+pct+'%"></div></div>';});
   html+='</div>';
   html+='<div class="card"><div class="collapsible-header" onclick="toggleCollapsible(this)"><div class="card-title" style="margin:0;">⚙️ SET GOALS</div><div class="collapsible-arrow">▼</div></div><div class="collapsible-body"><div style="padding-top:10px;">';
-  [{key:'protein',label:'Protein goal',unit:'g',step:5},{key:'carbs',label:'Carbs goal',unit:'g',step:5},{key:'fat',label:'Fat goal',unit:'g',step:1},{key:'cals',label:'Cals goal',unit:'kcal',step:50},{key:'water',label:'Water goal',unit:'glasses',step:1}].forEach(function(g){html+='<div class="goal-edit-row"><div class="goal-label">'+g.label+'</div><div style="display:flex;align-items:center;gap:6px;"><input class="goal-input" type="number" step="'+g.step+'" value="'+goals[g.key]+'" oninput="tempGoals[\''+g.key+'\']=parseFloat(this.value)||0"><span style="font-family:\'Space Mono\',monospace;font-size:10px;color:var(--muted);">'+g.unit+'</span></div></div>';});
+  [{key:'protein',label:'Protein goal',unit:'g',step:5},{key:'carbs',label:'Carbs goal',unit:'g',step:5},{key:'fat',label:'Fat goal',unit:'g',step:1},{key:'cals',label:'Cals goal',unit:'kcal',step:50},{key:'water',label:'Water goal',unit:'glasses',step:1}].forEach(function(g){html+='<div class="goal-edit-row"><div class="goal-label">'+g.label+'</div><div style="display:flex;align-items:center;gap:6px;"><input class="goal-input" type="number" step="'+g.step+'" value="'+goals[g.key]+'" oninput="tempGoals[\''+g.key+'\']=parseFloat(this.value)||0"><span style="font-family:\'DM Sans\',sans-serif;font-variant-numeric:tabular-nums;font-size:10px;color:var(--muted);">'+g.unit+'</span></div></div>';});
   html+='<button class="btn-primary" style="margin-top:12px;" onclick="saveGoals()">SAVE GOALS</button></div></div></div>';
   var keys=weekKeys();
   html+='<div class="card"><div class="card-title">THIS WEEK — PROTEIN</div>';
-  keys.forEach(function(k){var lg=getLog(k),val=parseFloat(lg.protein)||0,pct=Math.min(100,(val/goals.protein)*100),isToday=k===todayKey();html+='<div class="week-day-bar"><div class="wdb-label" style="'+(isToday?'color:var(--gold-text)':'')+'">'+formatDayLabel(k)+'</div><div class="wdb-bar"><div class="wdb-fill" style="width:'+pct+'%;'+(pct>=100?'background:var(--green)':'')+'"></div></div><div class="wdb-val">'+(val?val+'g':'—')+'</div></div>';});
+  keys.forEach(function(k){var lg=getLog(k),val=parseFloat(lg.protein)||0,pct=Math.min(100,(val/goals.protein)*100),isToday=k===todayKey();html+='<div class="week-day-bar"><div class="wdb-label" style="'+(isToday?'color:var(--gold)':'')+'">'+formatDayLabel(k)+'</div><div class="wdb-bar"><div class="wdb-fill" style="width:'+pct+'%;'+(pct>=100?'background:var(--gold)':'')+'"></div></div><div class="wdb-val">'+(val?val+'g':'—')+'</div></div>';});
   html+='</div>';
   document.getElementById('tab-nutrition').innerHTML=html;
 }
@@ -506,7 +505,7 @@ function renderWeek(){
   var html='<div class="page-head"><div class="page-title">WEEK</div><div class="page-sub">Performance + Pipeline + Streaks</div></div>';
   html+='<div class="card grade-card">';
   if(loggedDays<2){html+='<div class="no-data"><div class="no-data-icon">📊</div><div style="color:var(--black);font-family:\'Oswald\',sans-serif;font-size:16px;font-weight:600;margin-bottom:4px;">No grade yet</div>Log at least 2 days to see your weekly grade.</div>';}
-  else{var scores=logs.map(function(d){return scoreDay(d.log);}).filter(function(s){return s!==null;});var avg=Math.round(scores.reduce(function(a,b){return a+b;},0)/scores.length);var grade=scoreToGrade(avg);var col=avg>=80?'var(--green)':avg>=70?'var(--gold-text)':'var(--red)';var bthDays=logs.filter(function(d){return BTH_ITEMS.every(function(it){return d.log[it.key];});}).length;var gymDays=logs.filter(function(d){return d.log.gym;}).length;var sleepVals=logs.map(function(d){return parseFloat(d.log.sleep);}).filter(function(v){return v>0;});var avgSleep=sleepVals.length?(sleepVals.reduce(function(a,b){return a+b;},0)/sleepVals.length).toFixed(1)+'h':'—';html+='<div class="grade-letter" style="color:'+col+'">'+grade+'</div><div class="grade-score">'+avg+'/100 AVG · '+loggedDays+' days logged</div><div class="grade-breakdown">';[{label:'BTH',val:bthDays+' days'},{label:'GYM',val:gymDays+' days'},{label:'SLEEP',val:avgSleep}].forEach(function(b){html+='<div class="grade-item"><div class="grade-item-val">'+b.val+'</div><div class="grade-item-lbl">'+b.label+'</div></div>';});html+='</div>';}
+  else{var scores=logs.map(function(d){return scoreDay(d.log);}).filter(function(s){return s!==null;});var avg=Math.round(scores.reduce(function(a,b){return a+b;},0)/scores.length);var grade=scoreToGrade(avg);var col=avg>=70?'var(--gold)':'var(--black)';var bthDays=logs.filter(function(d){return BTH_ITEMS.every(function(it){return d.log[it.key];});}).length;var gymDays=logs.filter(function(d){return d.log.gym;}).length;var sleepVals=logs.map(function(d){return parseFloat(d.log.sleep);}).filter(function(v){return v>0;});var avgSleep=sleepVals.length?(sleepVals.reduce(function(a,b){return a+b;},0)/sleepVals.length).toFixed(1)+'h':'—';html+='<div class="grade-letter" style="color:'+col+'">'+grade+'</div><div class="grade-score">'+avg+'/100 AVG · '+loggedDays+' days logged</div><div class="grade-breakdown">';[{label:'BTH',val:bthDays+' days'},{label:'GYM',val:gymDays+' days'},{label:'SLEEP',val:avgSleep}].forEach(function(b){html+='<div class="grade-item"><div class="grade-item-val">'+b.val+'</div><div class="grade-item-lbl">'+b.label+'</div></div>';});html+='</div>';}
   html+='</div>';
   html+='<div class="card"><div class="card-title">THIS WEEK — BTH PIPELINE</div><div class="pip-row">';
   keys.forEach(function(k){var lg=getLog(k),isToday=k===todayKey(),hasData=Object.keys(lg).length>0;var allBTH=hasData&&BTH_ITEMS.every(function(it){return lg[it.key];});var cls=isToday&&!hasData?'today':allBTH?'done':!hasData?'rest':'';html+='<div class="pip-dot '+cls+'">'+formatDayLabel(k).charAt(0)+'</div>';});
@@ -515,10 +514,10 @@ function renderWeek(){
   var bthB=Math.max(bth,load('bth_best_bth')||0),gymB=Math.max(gym,load('bth_best_gym')||0),readB=Math.max(read,load('bth_best_read')||0);
   save('bth_best_bth',bthB);save('bth_best_gym',gymB);save('bth_best_read',readB);
   html+='<div class="card"><div class="card-title">STREAKS</div><div style="display:flex;">';
-  [{label:'BTH',val:bth,best:bthB},{label:'Gym',val:gym,best:gymB},{label:'Read',val:read,best:readB}].forEach(function(s){html+='<div class="streak-stat"><div class="streak-num">'+s.val+'</div><div class="streak-label">'+s.label+'</div><div style="font-family:\'Space Mono\',monospace;font-size:9px;color:var(--muted);">best '+s.best+'</div></div>';});
+  [{label:'BTH',val:bth,best:bthB},{label:'Gym',val:gym,best:gymB},{label:'Read',val:read,best:readB}].forEach(function(s){html+='<div class="streak-stat"><div class="streak-num">'+s.val+'</div><div class="streak-label">'+s.label+'</div><div style="font-family:\'DM Sans\',sans-serif;font-variant-numeric:tabular-nums;font-size:9px;color:var(--muted);">best '+s.best+'</div></div>';});
   html+='</div></div>';
   html+='<div class="card"><div class="card-title">DAY BREAKDOWN</div>';
-  keys.forEach(function(k){var lg=getLog(k),isToday=k===todayKey(),score=scoreDay(lg);html+='<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--gray);"><div style="font-family:\'DM Sans\',sans-serif;font-size:12px;font-weight:600;'+(isToday?'color:var(--gold-text)':'color:var(--muted)')+';width:32px;">'+formatDayLabel(k)+'</div><div style="flex:1;">';if(score!==null){var g=scoreToGrade(score),gc=score>=80?'var(--green-text)':score>=70?'var(--gold-text)':'var(--red)';html+='<div style="display:flex;align-items:center;gap:8px;"><span style="font-family:\'Oswald\',sans-serif;font-size:16px;font-weight:600;color:'+gc+';">'+g+'</span><span style="font-family:\'DM Sans\',sans-serif;font-size:12px;color:var(--muted);">'+score+'/100</span>'+(lg.gym?'<span style="font-size:13px;">💪</span>':'')+(BTH_ITEMS.every(function(it){return lg[it.key];})?'<span style="font-size:13px;">⚡</span>':'')+'</div>';}else{html+='<span style="font-family:\'DM Sans\',sans-serif;font-size:12px;color:var(--muted);">No data</span>';}html+='</div></div>';});
+  keys.forEach(function(k){var lg=getLog(k),isToday=k===todayKey(),score=scoreDay(lg);html+='<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--gray);"><div style="font-family:\'DM Sans\',sans-serif;font-size:12px;font-weight:600;'+(isToday?'color:var(--gold)':'color:var(--muted)')+';width:32px;">'+formatDayLabel(k)+'</div><div style="flex:1;">';if(score!==null){var g=scoreToGrade(score),gc=score>=70?'var(--gold)':'var(--black)';html+='<div style="display:flex;align-items:center;gap:8px;"><span style="font-family:\'Oswald\',sans-serif;font-size:16px;font-weight:600;color:'+gc+';">'+g+'</span><span style="font-family:\'DM Sans\',sans-serif;font-size:12px;color:var(--muted);">'+score+'/100</span>'+(lg.gym?'<span style="font-size:13px;">💪</span>':'')+(BTH_ITEMS.every(function(it){return lg[it.key];})?'<span style="font-size:13px;">⚡</span>':'')+'</div>';}else{html+='<span style="font-family:\'DM Sans\',sans-serif;font-size:12px;color:var(--muted);">No data</span>';}html+='</div></div>';});
   html+='</div>';
   document.getElementById('tab-week').innerHTML=html;
 }
@@ -550,7 +549,7 @@ function sendCheckIn(){
   var email=load('bth_email');if(!email){toast('Add your email first');return;}
   var log=getLog(OPERATOR_STATE.activeDayId),hasData=Object.keys(log).length>0,activeDay=findOperatorDay(OPERATOR_STATE.activeDayId);
   var subj=hasData?'BTH — Check in '+activeDay.labelDate:'BTH — No logs this operator day, you good?';
-  var body=hasData?'Quick check-in from BTH Operator.\n\nSleep: '+(log.sleep||'—')+'h  ·  Energy: '+(log.energy||'—')+'/7  ·  BTH: '+BTH_ITEMS.filter(function(it){return log[it.key];}).length+'/6\n\nGrade: '+scoreToGrade(scoreDay(log))+'\n\nKeep pushing. 🏀\n— BTH Operator':'Hey — no logs yet today in BTH Operator.\n\nYou good?\n\nOpen the app and log something. Even just sleep + energy counts.\n\n— BTH System 🏀';
+  var body=hasData?'Quick check-in from BTH Operator.\n\nSleep: '+(log.sleep||'—')+'h  ·  Energy: '+(log.energy||'—')+'/7  ·  BTH: '+BTH_ITEMS.filter(function(it){return log[it.key];}).length+'/6\n\nGrade: '+scoreToGrade(scoreDay(log))+'\n\nLog the work. Keep your body ready.\n— BTH Operator':'Hey — no logs yet today in BTH Operator.\n\nYou good?\n\nOpen the app and log something. Even just sleep + energy counts.\n\n— BTH System 🏀';
   window.location.href='mailto:'+email+'?subject='+encodeURIComponent(subj)+'&body='+encodeURIComponent(body);
 }
 function downloadFile(name,content,type){var blob=new Blob([content],{type:type}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url);},1000);}
