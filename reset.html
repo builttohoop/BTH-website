@@ -89,6 +89,8 @@ nav { position:fixed; top:0; left:0; right:0; z-index:100; height:62px; display:
 /* Segmentation question */
 .bth-seg { border:none; margin:2px 0 6px; }
 .bth-seg-label { font-family:var(--B); font-size:12px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--black); margin-bottom:8px; padding:0; }
+.bth-seg-optional { font-weight:500; letter-spacing:0.02em; text-transform:none; color:var(--muted); }
+.bth-seg-grid { display:block; }
 .bth-seg-opt { display:flex; align-items:center; gap:10px; padding:8px 10px; margin-bottom:4px; border:1px solid var(--border); border-radius:2px; background:var(--white); cursor:pointer; transition:border-color 0.15s; }
 .bth-seg-opt:hover { border-color:var(--gold); }
 .bth-seg-opt input { accent-color:var(--gold); width:16px; height:16px; flex-shrink:0; cursor:pointer; }
@@ -105,8 +107,14 @@ nav { position:fixed; top:0; left:0; right:0; z-index:100; height:62px; display:
   .form-sub { font-size:13px; margin-bottom:14px; }
   .ml-form-wrap input[type="email"], .ml-form-wrap input[type="text"] { padding:12px 14px; margin-bottom:8px; }
   .bth-mail-form input[type="email"], .bth-mail-form input[type="text"] { padding:12px 14px; }
-  .bth-seg-opt { padding:6px 8px; }
-  .bth-seg-opt span { font-size:13px; }
+  /* Segment question is optional (no `required` on the radios, server only needs email) —
+     compact it to a 2x2 grid so it stops out-sizing the two fields that actually gate submit.
+     Was 4 full-width stacked rows (~172px); this cuts it to two rows (~110px) so the
+     CTA button lands closer to the fold on the paid mobile lane. BTH-GOAL-0042, 2026-08-09. */
+  .bth-seg-label { margin-bottom:6px; }
+  .bth-seg-grid { display:grid; grid-template-columns:1fr 1fr; gap:6px; }
+  .bth-seg-opt { padding:7px 8px; margin-bottom:0; }
+  .bth-seg-opt span { font-size:12px; line-height:1.25; }
   .bth-btn-commit { padding:14px; }
 }
 
@@ -305,15 +313,6 @@ nav {
 .mobile-menu .mobile-cta:hover { filter: brightness(0.9); color: var(--black); }
 
 </style>
-<!-- MailerLite Universal -->
-<script>
-    (function(w,d,e,u,f,l,n){w[f]=w[f]||function(){(w[f].q=w[f].q||[])
-    .push(arguments);},l=d.createElement(e),l.async=1,l.src=u,
-    n=d.getElementsByTagName(e)[0],n.parentNode.insertBefore(l,n);})
-    (window,document,'script','https://assets.mailerlite.com/js/universal.js','ml');
-    ml('account', '2179959');
-</script>
-<!-- End MailerLite Universal -->
 </head>
 <body>
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T9SFFTB7" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
@@ -371,11 +370,13 @@ nav {
         <p class="bth-field-error-msg"></p>
       </div>
       <fieldset class="bth-seg">
-        <legend class="bth-seg-label">Where's your body at right now?</legend>
-        <label class="bth-seg-opt"><input type="radio" name="segment" value="hurts-today"><span>Hurts today</span></label>
-        <label class="bth-seg-opt"><input type="radio" name="segment" value="tight-after-playing"><span>Tight after playing</span></label>
-        <label class="bth-seg-opt"><input type="radio" name="segment" value="coming-back-after-time-off"><span>Coming back after time off</span></label>
-        <label class="bth-seg-opt"><input type="radio" name="segment" value="staying-ahead-of-it"><span>Staying ahead of it</span></label>
+        <legend class="bth-seg-label">Where's your body at right now? <span class="bth-seg-optional">(optional)</span></legend>
+        <div class="bth-seg-grid">
+          <label class="bth-seg-opt"><input type="radio" name="segment" value="hurts-today"><span>Hurts today</span></label>
+          <label class="bth-seg-opt"><input type="radio" name="segment" value="tight-after-playing"><span>Tight after playing</span></label>
+          <label class="bth-seg-opt"><input type="radio" name="segment" value="coming-back-after-time-off"><span>Coming back after time off</span></label>
+          <label class="bth-seg-opt"><input type="radio" name="segment" value="staying-ahead-of-it"><span>Staying ahead of it</span></label>
+        </div>
       </fieldset>
       <input type="hidden" name="source" value="free_reset">
       <input type="hidden" name="sequence" value="free-reset-to-rise">

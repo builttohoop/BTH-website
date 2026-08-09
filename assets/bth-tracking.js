@@ -138,7 +138,7 @@
   // ViewContent — fires on product/info pages
   function fireViewContent() {
     var path = (window.location.pathname || "").toLowerCase();
-    if (/\/(tier-[123]|addons|knee|mobility|bounce)(\.html|\/?$)/.test(path)) {
+    if (/\/(tier-[123]|addons|knee|mobility|bounce|coaching)(\.html|\/?$)/.test(path)) {
       var slug = (path.match(/\/([^\/]+?)(\.html)?$/) || [])[1] || "unknown";
       fire("ViewContent", {
         content_id:   slug,
