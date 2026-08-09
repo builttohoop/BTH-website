@@ -256,7 +256,7 @@ function buildHTML(day) {
   // dedicated full close band instead — distinct and larger by design, never footer-sized.
   const isDay5 = !day.tomorrow;
   const footCta = isDay5 ? '' : `
-  <div class="foot-cta">Keep it going after the Reset — <b>BTH Stay Ready</b> · <b>$27/mo</b> · built-to-hoop.com/join.html</div>`;
+  <div class="foot-cta">Keep it going after the Reset — <b>BTH Stay Ready</b> · <b>$27/mo</b> · <a href="https://built-to-hoop.com/join.html">built-to-hoop.com/join.html</a></div>`;
   const closeBand = !isDay5 ? '' : `
 <!-- STAY READY — THE CLOSE -->
 <div class="close-band">
@@ -264,7 +264,7 @@ function buildHTML(day) {
   <div class="close-title">Stay Ready year-round</div>
   <p class="close-body">Five days fixed the stiffness. <b>BTH Stay Ready</b> is the system that keeps it fixed — the full month-by-month training system plus all 5 add-on tracks, built for hoopers who still play for real. A new block every month. Cancel anytime.</p>
   <div class="close-offer">BTH Stay Ready — <b>$27/mo</b></div>
-  <div class="close-url">Join at built-to-hoop.com/join.html</div>
+  <div class="close-url"><a href="https://built-to-hoop.com/join.html">Join at built-to-hoop.com/join.html</a></div>
 </div>`;
 
   return `<!DOCTYPE html>
@@ -461,6 +461,7 @@ body {
   color: rgba(17,19,24,0.55);
 }
 .foot-cta b { color: ${C.black}; font-weight: 700; }
+.foot-cta a { color: ${C.black}; font-weight: 700; text-decoration: none; }
 
 /* ─── DAY 5 CLOSE BAND ─── */
 .close-band {
@@ -492,6 +493,7 @@ body {
   color: ${C.black}; margin-bottom: 4px;
 }
 .close-url { font-size: 9.5pt; font-weight: 700; color: ${C.black}; letter-spacing: 0.04em; }
+.close-url a { color: ${C.black}; text-decoration: none; }
 </style>
 </head>
 <body>
