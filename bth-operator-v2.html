@@ -86,7 +86,9 @@
     .grade-card{text-align:center;padding:24px 16px;}
     .grade-letter{font-family:'Oswald',sans-serif;font-size:80px;font-weight:700;line-height:1;}
 
-    .btch-item,.task-check,.collapsible-header,.yesterday-back,[role="button"]{min-height:44px;}
+    .btch-item,.task-check,.collapsible-header,.yesterday-back,[role="button"]{min-width:44px;min-height:44px;}
+    [role="button"]{display:inline-flex;align-items:center;justify-content:center;}
+    .collapsible-header,.btch-item{display:flex;}
     button.btch-item,button.task-check,button.collapsible-header{font:inherit;color:inherit;text-align:left;}
     button.btch-item{width:100%;}
     button.task-check{padding:0;text-align:center;flex:0 0 44px;}
@@ -98,7 +100,7 @@
     .grade-item-val{font-family:'DM Sans',sans-serif;font-variant-numeric:tabular-nums;font-size:16px;font-weight:700;color:var(--black);}
     .grade-item-lbl{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;}
     .week-day-selector{display:flex;gap:6px;margin-bottom:14px;}
-    .sel-btn{flex:1;padding:8px 4px;text-align:center;border-radius:2px;border:1px solid var(--gray);background:var(--mid);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;color:var(--muted);transition:all .2s;}
+    .sel-btn{flex:1;min-height:44px;padding:8px 4px;text-align:center;border-radius:2px;border:1px solid var(--gray);background:var(--mid);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;color:var(--muted);transition:all .2s;}
     .sel-btn.active{border-color:var(--gold);color:var(--gold);background:var(--gold-bg);}
     .exercise-row{padding:13px 0;border-bottom:1px solid var(--gray);animation:cardIn .2s ease both;}
     .exercise-row:last-child{border-bottom:none;}
