@@ -110,7 +110,7 @@ const STYLE = `
 // editorial body, white card on light / near-black on dark, footer split off by a
 // hairline. Carries the {{MAILING_ADDRESS}}/{{PREFERENCES_URL}}/{{UNSUBSCRIBE_URL}}
 // placeholders + the <!-- BTH-SHELL:1B --> marker the Worker resolves.
-function wrap(subject, bodyHtml, preheader) {
+export function wrap(subject, bodyHtml, preheader) {
   const pre = preheader || 'A training system built around how pickup basketball actually loads your body.';
   const body = bodyHtml.trim();
   return `<!DOCTYPE html>
@@ -188,7 +188,7 @@ ${body}
 // Tier 1 · Primary (COMMIT): solid electric-gold — the CTA system's commit button,
 // reserved for "Start the 5-Day Reset" / "Join Stay Ready". Gold reads on both light
 // and dark, so it stays gold in both modes. Bulletproof: MSO <v:roundrect> + link.
-function btnPrimary(url, label, widthPx = 236) {
+export function btnPrimary(url, label, widthPx = 236) {
   return `<!--[if mso]>
 <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="${url}" style="height:48px;v-text-anchor:middle;width:${widthPx}px;" arcsize="10%" fillcolor="${C.gold}" stroke="f">
 <w:anchorlock/>
@@ -233,7 +233,7 @@ function hero(eyebrow, headlineHtml, leadText, ctaUrl, ctaLabel) {
 <div style="height:26px;line-height:26px;font-size:1px;">&nbsp;</div>`;
 }
 
-function divider() {
+export function divider() {
   return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:28px 0;"><tr><td class="rule" style="height:1px;background:${C.border};line-height:1px;font-size:1px;">&nbsp;</td></tr></table>`;
 }
 
@@ -251,7 +251,7 @@ function resetButton(day, title, filename) {
 </table>`;
 }
 
-function membershipCta(featured) {
+export function membershipCta(featured) {
   if (featured) {
     return `
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:28px 0;">
@@ -271,7 +271,7 @@ function membershipCta(featured) {
 </table>`;
 }
 
-function p(text, opts = {}) {
+export function p(text, opts = {}) {
   const mb = opts.mb !== undefined ? opts.mb : 18;
   const muted = !!opts.muted;
   const cls = muted ? 't-muted' : 't-body';
@@ -280,7 +280,7 @@ function p(text, opts = {}) {
   return `<p class="${cls}" style="margin:0 0 ${mb}px;font-size:${size}px;line-height:1.75;color:${color};">${text}</p>`;
 }
 
-function h(text, level = 2) {
+export function h(text, level = 2) {
   const sizes = { 1: 28, 2: 20, 3: 16 };
   return `<p class="oswald t-ink" style="margin:0 0 12px;font-size:${sizes[level]}px;font-weight:700;letter-spacing:0.03em;text-transform:uppercase;color:${C.ink};">${text}</p>`;
 }
@@ -290,12 +290,12 @@ function ul(items) {
   return `<ul class="t-body" style="margin:0 0 18px;padding-left:20px;font-size:15px;line-height:2;color:${C.body};">${items.map(i => `<li>${i}</li>`).join('')}</ul>`;
 }
 
-function sig(name = 'Ty, BTH') {
+export function sig(name = 'Ty, BTH') {
   return `${divider()}<p class="t-body" style="margin:0;font-size:15px;color:${C.body};">— ${name}<br><span class="t-muted" style="font-size:13px;color:${C.muted};">Built to Hoop · <a class="link" href="https://built-to-hoop.com" style="color:${C.goldText};">built-to-hoop.com</a></span></p>`;
 }
 
 // Gold accent word for headlines (constant #E6A800 both modes).
-function g(word) {
+export function g(word) {
   return `<span class="t-gold" style="color:${C.gold};">${word}</span>`;
 }
 
@@ -504,11 +504,16 @@ ${sig()}
 
 // ─── WRITE FILES ─────────────────────────────────────────────────
 
-for (const email of emails) {
-  const html = wrap(email.subject, email.body, email.preheader);
-  const outPath = path.join(OUT_DIR, email.filename);
-  fs.writeFileSync(outPath, html, 'utf8');
-  console.log(`✓ ${email.filename}`);
-}
+// Skipped when another script imports this file purely to reuse the 1B shell
+// helpers (see bth-mail-os/scripts/build-stay-ready-offer-broadcast.mjs) — so
+// there stays exactly ONE 1B shell and importing it never rewrites the funnel.
+if (!process.env.BTH_SHELL_IMPORT_ONLY) {
+  for (const email of emails) {
+    const html = wrap(email.subject, email.body, email.preheader);
+    const outPath = path.join(OUT_DIR, email.filename);
+    fs.writeFileSync(outPath, html, 'utf8');
+    console.log(`✓ ${email.filename}`);
+  }
 
-console.log(`\nDone. ${emails.length} emails written to ${OUT_DIR}/  (1B "Baseline" shell · light-first + dark mode · CTA tiers · link-only · Stay Ready)`);
+  console.log(`\nDone. ${emails.length} emails written to ${OUT_DIR}/  (1B "Baseline" shell · light-first + dark mode · CTA tiers · link-only · Stay Ready)`);
+}
