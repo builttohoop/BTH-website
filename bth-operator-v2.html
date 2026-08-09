@@ -6,14 +6,15 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="BTH Operator">
-  <meta name="theme-color" content="#0a0a0a">
+  <meta name="theme-color" content="#111318">
   <title>BTH Operator</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='2' fill='%23111318'/%3E%3Cpath d='M10 14h44v8H36v30h-8V22H10z' fill='%23E6A800'/%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
   <script>
   (function(){
-    var svg='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128"><rect width="128" height="128" rx="24" fill="#0a0a0a"/><circle cx="64" cy="64" r="42" fill="#c9a84c"/><path d="M64 22c14 21 14 63 0 84M22 64h84M34 34c18 14 42 14 60 0M34 94c18-14 42-14 60 0" fill="none" stroke="#0a0a0a" stroke-width="8" stroke-linecap="round"/></svg>';
-    var m={name:'BTH Operator',short_name:'BTH',start_url:'.',display:'standalone',background_color:'#0a0a0a',theme_color:'#0a0a0a',icons:[{src:'data:image/svg+xml,'+encodeURIComponent(svg),sizes:'any',type:'image/svg+xml'}]};
+    var svg='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128"><rect width="128" height="128" rx="2" fill="#111318"/><path d="M22 30h84v12H72v58H56V42H22z" fill="#E6A800"/></svg>';
+    var m={name:'BTH Operator',short_name:'BTH',start_url:'./bth-operator-v2.html',scope:'./',display:'standalone',background_color:'#F3EFE7',theme_color:'#111318',icons:[{src:'data:image/svg+xml,'+encodeURIComponent(svg),sizes:'any',type:'image/svg+xml',purpose:'any maskable'}]};
     var b=new Blob([JSON.stringify(m)],{type:'application/json'});
     var l=document.createElement('link');l.rel='manifest';l.href=URL.createObjectURL(b);
     document.head.appendChild(l);
@@ -30,25 +31,25 @@
     ::placeholder{color:var(--muted);opacity:1;}
     html,body{height:100%;overflow:hidden;background:var(--white);color:var(--black);font-family:'DM Sans',sans-serif;}
     @keyframes tabIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
-    @keyframes cardIn{from{opacity:0;transform:translateY(8px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+    @keyframes cardIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
     @keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.025)}}
     @keyframes checkPop{0%{transform:scale(1)}40%{transform:scale(1.35)}70%{transform:scale(.9)}100%{transform:scale(1)}}
     @keyframes pipPop{0%{transform:scale(.8);opacity:0}60%{transform:scale(1.1)}100%{transform:scale(1);opacity:1}}
-    @keyframes goldGlow{0%,100%{box-shadow:0 0 8px rgba(230,168,0,.25)}50%{box-shadow:0 0 22px rgba(230,168,0,.55)}}
-    nav{position:fixed;bottom:0;left:0;right:0;height:calc(var(--nav-h) + var(--sb));padding-bottom:var(--sb);background:var(--dark);border-top:1px solid var(--gray);box-shadow:0 -2px 12px rgba(17,19,24,.07);display:flex;align-items:center;z-index:100;}
-    .nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:8px 4px;background:none;border:none;cursor:pointer;color:var(--muted);transition:color .2s;}
-    .nav-btn.active{color:var(--gold-text);}
+    @keyframes goldGlow{0%,100%{border-color:var(--gold)}50%{border-color:var(--black)}}
+    nav{position:fixed;bottom:0;left:0;right:0;height:calc(var(--nav-h) + var(--sb));padding-bottom:var(--sb);background:var(--black);border-top:3px solid var(--gold);box-shadow:none;display:flex;align-items:center;z-index:100;}
+    .nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:8px 4px;background:none;border:none;cursor:pointer;color:rgba(255,255,255,.52);transition:color .18s;}
+    .nav-btn.active{color:var(--gold);}
     .nav-icon{font-size:20px;transition:transform .2s;}
     .nav-btn.active .nav-icon{transform:scale(1.15);animation:breathe 3.5s ease-in-out infinite;}
     .nav-label{font-family:'DM Sans',sans-serif;font-size:9px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;}
-    .tab{position:fixed;top:0;left:0;right:0;bottom:calc(var(--nav-h) + var(--sb));overflow-y:auto;overflow-x:hidden;padding:calc(var(--st) + 16px) 16px 24px;display:none;-webkit-overflow-scrolling:touch;}
+    .tab{position:fixed;top:0;left:0;right:0;bottom:calc(var(--nav-h) + var(--sb));overflow-y:auto;overflow-x:hidden;padding:calc(var(--st) + 20px) 16px 32px;display:none;-webkit-overflow-scrolling:touch;background:linear-gradient(180deg,var(--black) 0 152px,var(--white) 152px);}
     .tab.active{display:block;animation:tabIn .3s ease;}
-    .page-title{font-family:'Oswald',sans-serif;font-size:26px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--black);}
-    .page-sub{font-family:'DM Sans',sans-serif;font-size:12px;color:var(--muted);margin-top:3px;}
-    .page-head{margin-bottom:18px;}
+    .page-title{font-family:'Oswald',sans-serif;font-size:42px;font-weight:700;line-height:.95;letter-spacing:.04em;text-transform:uppercase;color:#fff;}
+    .page-sub{font-family:'DM Sans',sans-serif;font-size:12px;color:rgba(255,255,255,.58);margin-top:8px;letter-spacing:.08em;text-transform:uppercase;}
+    .page-head{margin:-2px 0 28px;padding-bottom:20px;border-bottom:3px solid var(--gold);}
     .section-label{font-family:'DM Sans',sans-serif;font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
-    .card{background:var(--dark);border:1px solid var(--gray);border-radius:12px;padding:16px;margin-bottom:12px;animation:cardIn .3s ease both;box-shadow:0 1px 5px rgba(17,19,24,.06);}
-    .card-title{font-family:'Oswald',sans-serif;font-size:15px;font-weight:600;color:var(--gold-text);margin-bottom:10px;letter-spacing:.6px;text-transform:uppercase;}
+    .card{background:var(--dark);border:1px solid var(--gray);border-left:3px solid var(--black);border-radius:2px;padding:18px 16px;margin-bottom:12px;animation:cardIn .3s ease both;box-shadow:none;}
+    .card-title{font-family:'Oswald',sans-serif;font-size:18px;font-weight:700;color:var(--black);margin-bottom:10px;letter-spacing:.08em;text-transform:uppercase;}
     .input-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--gray);}
     .input-row:last-child{border-bottom:none;}
     .input-label{font-size:14px;font-weight:500;color:var(--black);}
@@ -59,15 +60,15 @@
     .bar-fill{height:100%;border-radius:2px;transition:width .4s ease,background .3s ease;}
     .bar-gold{background:var(--gold);}.bar-green{background:var(--green);}.bar-blue{background:var(--blue);}.bar-red{background:var(--red);}
     .btch-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
-    .btch-item{display:flex;align-items:center;gap:8px;background:var(--mid);border:1px solid var(--gray);border-radius:8px;padding:10px 12px;cursor:pointer;transition:border-color .2s,background .2s;}
+    .btch-item{display:flex;align-items:center;gap:8px;background:var(--mid);border:1px solid var(--gray);border-radius:2px;padding:10px 12px;cursor:pointer;transition:border-color .2s,background .2s;}
     .btch-item.done{border-color:var(--gold);background:var(--gold-bg);}
     .btch-icon{font-size:16px;flex-shrink:0;}.btch-label{font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;letter-spacing:.2px;color:var(--black);}
     .btch-check{margin-left:auto;font-size:14px;color:var(--muted);}
-    .btch-item.done .btch-check{color:var(--gold-text);animation:checkPop .3s ease;}
-    .btch-all-done{background:var(--gold-bg);border:1px solid var(--gold);border-radius:10px;padding:12px 16px;margin-bottom:10px;text-align:center;font-weight:900;font-size:14px;letter-spacing:1px;color:var(--gold-text);animation:goldGlow 2s ease-in-out infinite;display:none;}
+    .btch-item.done .btch-check{color:var(--gold);animation:checkPop .3s ease;}
+    .btch-all-done{background:var(--gold);border:2px solid var(--gold);border-radius:2px;padding:12px 16px;margin-bottom:10px;text-align:center;font-weight:900;font-size:14px;letter-spacing:1px;color:var(--black);animation:goldGlow 2s ease-in-out infinite;display:none;}
     .task-item{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--gray);}
     .task-item:last-child{border-bottom:none;}
-    .task-check{width:22px;height:22px;border-radius:50%;border:2px solid var(--muted);background:none;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:border-color .2s,background .2s;font-size:13px;color:transparent;}
+    .task-check{width:22px;height:22px;border-radius:2px;border:2px solid var(--muted);background:none;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:border-color .2s,background .2s;font-size:13px;color:transparent;}
     .task-check.done{border-color:var(--gold);background:var(--gold);color:var(--black);animation:checkPop .3s ease;}
     .task-text{font-size:13px;flex:1;}.task-text.done{text-decoration:line-through;color:var(--muted);}
     .collapsible-header{display:flex;align-items:center;justify-content:space-between;cursor:pointer;padding:4px 0;user-select:none;}
@@ -80,7 +81,7 @@
     .sched-time{font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--gold-text);min-width:54px;cursor:pointer;border:none;background:none;outline:none;-webkit-appearance:none;}
     .sched-label{font-size:14px;font-weight:500;color:var(--black);flex:1;}
     .pip-row{display:flex;gap:6px;margin-bottom:4px;flex-wrap:wrap;}
-    .pip-dot{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;font-family:'Space Mono',monospace;border:2px solid var(--gray);color:var(--muted);animation:pipPop .25s ease both;}
+    .pip-dot{width:30px;height:30px;border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;font-family:'Space Mono',monospace;border:2px solid var(--gray);color:var(--muted);animation:pipPop .25s ease both;}
     .pip-dot.done{background:var(--gold);border-color:var(--gold);color:var(--black);}
     .pip-dot.today{border-color:var(--gold);color:var(--gold-text);animation:goldGlow 2s ease-in-out infinite;}
     .pip-dot.rest{background:var(--gray);border-color:var(--gray);color:var(--muted);}
@@ -96,8 +97,8 @@
     .grade-item-val{font-family:'Space Mono',monospace;font-size:16px;font-weight:700;color:var(--black);}
     .grade-item-lbl{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;}
     .week-day-selector{display:flex;gap:6px;margin-bottom:14px;}
-    .sel-btn{flex:1;padding:8px 4px;text-align:center;border-radius:8px;border:1px solid var(--gray);background:var(--mid);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;color:var(--muted);transition:all .2s;}
-    .sel-btn.active{border-color:var(--gold);color:var(--black);background:var(--gold);}
+    .sel-btn{flex:1;padding:8px 4px;text-align:center;border-radius:2px;border:1px solid var(--gray);background:var(--mid);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;color:var(--muted);transition:all .2s;}
+    .sel-btn.active{border-color:var(--gold);color:var(--gold);background:var(--gold-bg);}
     .exercise-row{padding:13px 0;border-bottom:1px solid var(--gray);animation:cardIn .2s ease both;}
     .exercise-row:last-child{border-bottom:none;}
     .ex-name{font-size:14px;font-weight:600;color:var(--black);margin-bottom:4px;}
@@ -105,7 +106,7 @@
     .ex-rest{font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);margin-top:4px;}
     .warmup-item{font-size:12px;color:var(--muted);padding:4px 0;border-bottom:1px solid var(--gray);}
     .warmup-item:last-child{border-bottom:none;}
-    .intent-badge{display:inline-block;padding:4px 12px;border-radius:20px;background:var(--gold-bg);border:1px solid var(--gold);font-size:11px;color:var(--gold-text);font-weight:700;letter-spacing:.5px;margin-bottom:6px;}
+    .intent-badge{display:inline-block;padding:4px 12px;border-radius:2px;background:var(--gold-bg);border:1px solid var(--gold);font-size:11px;color:var(--gold);font-weight:700;letter-spacing:.5px;margin-bottom:6px;}
     .intent-feel{font-size:12px;color:var(--muted);font-style:italic;}
     .goal-edit-row{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--gray);}
     .goal-edit-row:last-child{border-bottom:none;}
@@ -114,20 +115,20 @@
     .week-day-bar{display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid var(--gray);}
     .week-day-bar:last-child{border-bottom:none;}
     .wdb-label{font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);width:28px;}
-    .wdb-bar{flex:1;height:6px;background:var(--gray);border-radius:3px;overflow:hidden;}
-    .wdb-fill{height:100%;background:var(--gold);border-radius:3px;transition:width .4s;}
+    .wdb-bar{flex:1;height:6px;background:var(--gray);border-radius:2px;overflow:hidden;}
+    .wdb-fill{height:100%;background:var(--gold);border-radius:2px;transition:width .4s;}
     .wdb-val{font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);width:36px;text-align:right;}
-    .note-item{background:var(--mid);border:1px solid var(--gray);border-radius:8px;padding:12px;margin-bottom:8px;animation:cardIn .2s ease both;}
+    .note-item{background:var(--mid);border:1px solid var(--gray);border-radius:2px;padding:12px;margin-bottom:8px;animation:cardIn .2s ease both;}
     .note-text{font-size:14px;color:var(--black);line-height:1.55;white-space:pre-wrap;}
     .note-ts{font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);margin-top:6px;}
     .note-delete{float:right;font-size:12px;color:var(--muted);cursor:pointer;margin-left:8px;}
-    .note-textarea{width:100%;background:var(--mid);border:1px solid var(--gray);border-radius:10px;padding:12px;color:var(--black);font-family:'DM Sans',sans-serif;font-size:14px;resize:none;outline:none;min-height:82px;transition:border-color .2s;display:block;}
+    .note-textarea{width:100%;background:var(--mid);border:1px solid var(--gray);border-radius:2px;padding:12px;color:var(--black);font-family:'DM Sans',sans-serif;font-size:14px;resize:none;outline:none;min-height:82px;transition:border-color .2s;display:block;}
     .note-textarea:focus{border-color:var(--gold);}
-    .btn-primary{width:100%;padding:14px;background:var(--gold);border:none;border-radius:10px;font-family:'Oswald',sans-serif;font-weight:600;font-size:15px;letter-spacing:.8px;text-transform:uppercase;color:var(--black);cursor:pointer;transition:transform .1s,opacity .1s;}
+    .btn-primary{width:100%;padding:15px;background:var(--gold);border:2px solid var(--gold);border-radius:2px;font-family:'Oswald',sans-serif;font-weight:700;font-size:15px;letter-spacing:.1em;text-transform:uppercase;color:var(--black);cursor:pointer;transition:transform .1s,opacity .1s;}
     .btn-primary:active{transform:scale(.97);}
-    .btn-secondary{width:100%;padding:12px;background:none;border:1px solid var(--gray);border-radius:10px;font-family:'DM Sans',sans-serif;font-weight:600;font-size:13px;letter-spacing:.3px;color:var(--muted);cursor:pointer;transition:border-color .2s,color .2s;margin-top:8px;}
-    .btn-secondary:active{border-color:var(--gold);color:var(--gold-text);}
-    .ex-input{flex:1;background:var(--mid);border:1px solid var(--gray);border-radius:6px;padding:8px 10px;color:var(--black);font-size:13px;outline:none;font-family:'DM Sans',sans-serif;}
+    .btn-secondary{width:100%;padding:12px;background:none;border:2px solid var(--black);border-radius:2px;font-family:'Oswald',sans-serif;font-weight:700;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--black);cursor:pointer;transition:border-color .2s,color .2s;margin-top:8px;}
+    .btn-secondary:active{border-color:var(--gold);color:var(--gold);}
+    .ex-input{flex:1;background:var(--mid);border:1px solid var(--gray);border-radius:2px;padding:8px 10px;color:var(--black);font-size:13px;outline:none;font-family:'DM Sans',sans-serif;}
     .ex-input:focus{border-color:var(--gold);}.ex-input-sm{width:76px;flex:none;}
     .ex-input-row{display:flex;gap:8px;margin-bottom:6px;}
     .added-ex{display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--gray);}
@@ -135,15 +136,18 @@
     .added-ex-name{font-size:13px;font-weight:500;color:var(--black);}
     .added-ex-sets{font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);}
     .added-ex-del{font-size:12px;color:var(--muted);cursor:pointer;padding:4px;}
-    .toast-el{position:fixed;bottom:calc(var(--nav-h) + var(--sb) + 16px);left:50%;transform:translateX(-50%) translateY(20px);background:var(--black);color:var(--white);padding:10px 20px;border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;opacity:0;transition:opacity .25s,transform .25s;pointer-events:none;z-index:999;white-space:nowrap;}
+    .toast-el{position:fixed;bottom:calc(var(--nav-h) + var(--sb) + 16px);left:50%;transform:translateX(-50%) translateY(20px);background:var(--black);color:var(--white);padding:10px 20px;border:2px solid var(--gold);border-radius:2px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;opacity:0;transition:opacity .25s,transform .25s;pointer-events:none;z-index:999;white-space:nowrap;}
     .toast-el.show{opacity:1;transform:translateX(-50%) translateY(0);}
-    .yesterday-banner{background:var(--gold-bg);border:1px solid var(--gold);border-radius:8px;padding:10px 14px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;}
-    .yesterday-text{font-size:12px;color:var(--gold-text);font-weight:700;}
+    .yesterday-banner{background:var(--gold-bg);border:1px solid var(--gold);border-radius:2px;padding:10px 14px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;}
+    .yesterday-text{font-size:12px;color:var(--gold);font-weight:700;}
     .yesterday-back{font-size:11px;color:var(--muted);cursor:pointer;}
     #today-micro{font-family:'DM Sans',sans-serif;font-size:12px;color:var(--muted);margin-top:3px;line-height:1.4;font-weight:500;}
     .divider{height:1px;background:var(--gray);margin:14px 0;}
     .no-data{text-align:center;padding:32px 16px;color:var(--muted);font-size:13px;}
     .no-data-icon{font-size:32px;margin-bottom:8px;}
+    .btch-item,.sel-btn,.ex-input,.note-item,.yesterday-banner,.intent-badge{border-radius:2px;box-shadow:none;}
+    button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid rgba(230,168,0,.38);outline-offset:2px;}
+    @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;}}
     ::-webkit-scrollbar{display:none;}
   </style>
 </head>
@@ -259,8 +263,8 @@ var PHASE2={
 // Workouts are gated for paying BTH members. Right now the gate is OPEN
 // (ENFORCE=false) so Ty has full access while the app is private.
 // AT PUBLIC LAUNCH: set ACCESS.ENFORCE=true. A verified purchase
-// (payment webhook, or the redeem-code screen) just needs to call
-//   ACCESS.setStatus({active:true,tier:'rise',since:new Date().toISOString()})
+// (Gumroad/MailerLite webhook, or the redeem-code screen) just needs to call
+//   ACCESS.setStatus({active:true,tier:'stay-ready',since:new Date().toISOString()})
 // once — nothing else in the app has to change. canViewWorkouts() does the rest.
 var ACCESS={
   ENFORCE:false,                  // master switch — flip to true at public launch
@@ -282,10 +286,33 @@ function weekKeys(){var d=tyNow(),day=d.getDay(),keys=[];for(var i=1;i<=7;i++){v
 function formatDayLabel(key){var p=key.split('-').map(Number),dt=new Date(p[0],p[1]-1,p[2]);return['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][dt.getDay()];}
 function formatDate(d){var days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];var months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];return days[d.getDay()]+', '+months[d.getMonth()]+' '+d.getDate();}
 function formatNoteTs(ts){try{var d=new Date(ts);return d.toLocaleDateString()+' '+d.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});}catch(e){return ts;}}
-function getLog(key){return load('bth_d_'+key)||{};}
-function setLog(key,data){save('bth_d_'+key,data);}
-function getTasks(key){return load('bth_t_'+key)||null;}
-function setTasks(key,data){save('bth_t_'+key,data);}
+var OPERATOR_STATE_KEY='bth_operator_state_v3';
+function operatorDayId(){return'op-'+Date.now()+'-'+Math.random().toString(36).slice(2,7);}
+function initOperatorState(){
+  var state=load(OPERATOR_STATE_KEY);
+  if(state&&state.version===3&&state.activeDayId&&state.days&&state.days[state.activeDayId])return state;
+  var id=operatorDayId(),label=todayKey();
+  state={version:3,activeDayId:id,order:[id],days:{},reminders:{fired:{}}};
+  state.days[id]={id:id,labelDate:label,createdAt:new Date().toISOString(),submitted:false,submittedAt:null,log:load('bth_d_'+label)||{},tasks:load('bth_t_'+label)||null};
+  save(OPERATOR_STATE_KEY,state);return state;
+}
+var OPERATOR_STATE=initOperatorState();
+function persistOperator(){save(OPERATOR_STATE_KEY,OPERATOR_STATE);}
+function findOperatorDay(ref){
+  if(OPERATOR_STATE.days[ref])return OPERATOR_STATE.days[ref];
+  for(var i=OPERATOR_STATE.order.length-1;i>=0;i--){var d=OPERATOR_STATE.days[OPERATOR_STATE.order[i]];if(d&&d.labelDate===ref)return d;}
+  return null;
+}
+function ensureOperatorDay(label){
+  var existing=findOperatorDay(label);if(existing)return existing;
+  var id=operatorDayId(),day={id:id,labelDate:label,createdAt:new Date().toISOString(),submitted:false,submittedAt:null,log:load('bth_d_'+label)||{},tasks:load('bth_t_'+label)||null};
+  OPERATOR_STATE.days[id]=day;OPERATOR_STATE.order.push(id);persistOperator();return day;
+}
+function operatorDate(ref){var day=findOperatorDay(ref),key=day?day.labelDate:ref,p=String(key).split('-').map(Number);return new Date(p[0],p[1]-1,p[2]);}
+function getLog(key){var day=findOperatorDay(key);return day?day.log:(load('bth_d_'+key)||{});}
+function setLog(key,data){var day=findOperatorDay(key);if(day){day.log=data;persistOperator();}else save('bth_d_'+key,data);}
+function getTasks(key){var day=findOperatorDay(key);return day?day.tasks:(load('bth_t_'+key)||null);}
+function setTasks(key,data){var day=findOperatorDay(key);if(day){day.tasks=data;persistOperator();}else save('bth_t_'+key,data);}
 function getGoals(){return Object.assign({},DEFAULT_GOALS,load('bth_goals')||{});}
 function getSchedule(){return load('bth_schedule')||DEFAULT_SCHEDULE.map(function(s){return Object.assign({},s);});}
 function scoreDay(d){
@@ -303,19 +330,18 @@ function calcStreak(fn){var streak=0,d=tyNow();for(var i=0;i<90;i++){var k=dateK
 function bthStreak(){return calcStreak(function(l){return BTH_ITEMS.every(function(it){return l[it.key];});});}
 function gymStreak(){return calcStreak(function(l){return!!l.gym;});}
 function readStreak(){return calcStreak(function(l){return!!l.reading;});}
-var activeLogKey=todayKey(),saveTimer=null,trainWeek=parseInt(load('bth_train_week'))||1,trainDay=parseInt(load('bth_train_day'))||1,trainView='program',tempGoals={};
+var activeLogKey=OPERATOR_STATE.activeDayId,saveTimer=null,trainWeek=parseInt(load('bth_train_week'))||1,trainDay=parseInt(load('bth_train_day'))||1,trainView='program',tempGoals={};
 var toastTimer;
 function toast(msg,dur){dur=dur||2400;var el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(function(){el.classList.remove('show');},dur);}
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 function switchTab(name,btn){document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active');});document.querySelectorAll('.nav-btn').forEach(function(b){b.classList.remove('active');});document.getElementById('tab-'+name).classList.add('active');btn.classList.add('active');var map={today:renderToday,train:renderTrain,nutrition:renderNutrition,week:renderWeek,claude:renderClaude};if(map[name])map[name]();}
 function toggleCollapsible(header){var body=header.nextElementSibling,open=body.classList.contains('open');body.classList.toggle('open',!open);header.classList.toggle('open',!open);}
 function renderToday(){
-  var isYest=activeLogKey!==todayKey(),log=getLog(activeLogKey),goals=getGoals(),tyD=tyNow();
-  var dateD=isYest?(function(){var d=tyNow();d.setDate(d.getDate()-1);return d;})():tyD;
-  var isGymDay=GYM_DAYS.indexOf(tyD.getDay())!==-1;
+  var isYest=activeLogKey!==OPERATOR_STATE.activeDayId,log=getLog(activeLogKey),goals=getGoals(),dateD=operatorDate(activeLogKey);
+  var isGymDay=GYM_DAYS.indexOf(dateD.getDay())!==-1;
   var waterPct=Math.min(100,((parseFloat(log.water)||0)/goals.water)*100);
   var html='<div class="page-head"><div class="page-title">BTH OPERATOR</div><div class="page-sub">'+formatDate(dateD)+'</div><div id="today-micro"></div></div>';
-  if(isYest){html+='<div class="yesterday-banner"><div class="yesterday-text">📅 Logging Yesterday</div><div class="yesterday-back" onclick="returnToToday()">← Back to Today</div></div>';}
+  if(isYest){html+='<div class="yesterday-banner"><div class="yesterday-text">📅 Viewing another operator day</div><div class="yesterday-back" onclick="returnToToday()">← Active Day</div></div>';}
   html+='<div class="card"><div class="card-title">SLEEP + ENERGY</div>'
     +'<div class="input-row"><div><div class="input-label">Sleep</div><div class="input-sub">hours</div></div><input class="num-input" type="number" step="0.5" min="0" max="12" placeholder="—" value="'+esc(log.sleep||'')+'" oninput="db(\'sleep\',this.value)"></div>'
     +'<div class="input-row"><div><div class="input-label">Energy</div><div class="input-sub">1 – 7</div></div><input class="num-input" type="number" min="1" max="7" placeholder="—" value="'+esc(log.energy||'')+'" oninput="db(\'energy\',this.value)"></div>'
@@ -332,7 +358,7 @@ function renderToday(){
   html+='</div></div>';
   html+=renderTasksHtml();
   html+=renderScheduleHtml();
-  if(!isYest){html+='<div style="text-align:center;padding:16px 0 4px;"><span onclick="switchToYesterday()" style="font-family:\'DM Sans\',sans-serif;font-size:12px;font-weight:600;color:var(--muted);cursor:pointer;text-transform:uppercase;letter-spacing:.8px;text-decoration:underline;">Log Yesterday</span></div>';}
+  if(!isYest){html+='<div class="card" style="border-left-color:var(--gold);"><div class="card-title">CLOSE THE OPERATOR DAY</div><div class="input-sub" style="line-height:1.6;margin-bottom:12px;">This day stays open across midnight. Submit only when you are ready to lock it and start the next operator day.</div><button class="btn-primary" onclick="submitOperatorDay()">SUBMIT THE DAY</button></div><div style="text-align:center;padding:8px 0 4px;"><span onclick="switchToYesterday()" style="font-family:\'DM Sans\',sans-serif;font-size:12px;font-weight:600;color:var(--muted);cursor:pointer;text-transform:uppercase;letter-spacing:.8px;text-decoration:underline;">View Yesterday</span></div>';}
   document.getElementById('tab-today').innerHTML=html;
   renderMicroSummary();
 }
@@ -363,8 +389,16 @@ function toggleBTH(key){var log=getLog(activeLogKey);log[key]=!log[key];setLog(a
 function toggleTask(idx){var td=getTasks(activeLogKey)||{tasks:[],completed:[]};if(!td.completed)td.completed=[];td.completed[idx]=!td.completed[idx];setTasks(activeLogKey,td);renderToday();}
 function checkBackup(idx){var backups=["Review weekly goal","30-min walk","Message one person you've been meaning to reach"];var ex=getTasks(activeLogKey);if(!ex||!ex.tasks||!ex.tasks.length){var c=[false,false,false];c[idx]=true;setTasks(activeLogKey,{tasks:backups,completed:c,setAt:new Date().toISOString()});}else{if(!ex.completed)ex.completed=[];ex.completed[idx]=!ex.completed[idx];setTasks(activeLogKey,ex);}renderToday();}
 function updateSchedTime(idx,val){var sched=getSchedule();sched[idx].time=val;save('bth_schedule',sched);toast('Schedule updated ✓');}
-function switchToYesterday(){activeLogKey=yesterdayKey();renderToday();toast('Logging yesterday');}
-function returnToToday(){activeLogKey=todayKey();renderToday();}
+function switchToYesterday(){activeLogKey=ensureOperatorDay(yesterdayKey()).id;renderToday();toast('Viewing yesterday');}
+function returnToToday(){activeLogKey=OPERATOR_STATE.activeDayId;renderToday();}
+function submitOperatorDay(){
+  if(activeLogKey!==OPERATOR_STATE.activeDayId){toast('Return to the active day first');return;}
+  var current=findOperatorDay(OPERATOR_STATE.activeDayId),oldTasks=current.tasks||{tasks:[],completed:[]};
+  current.submitted=true;current.submittedAt=new Date().toISOString();
+  var id=operatorDayId(),carry=(oldTasks.tasks||[]).filter(function(t,i){return t&&!oldTasks.completed[i];});
+  OPERATOR_STATE.days[id]={id:id,labelDate:todayKey(),createdAt:new Date().toISOString(),submitted:false,submittedAt:null,log:{},tasks:carry.length?{tasks:carry,completed:carry.map(function(){return false;}),setAt:new Date().toISOString()}:null};
+  OPERATOR_STATE.order.push(id);OPERATOR_STATE.activeDayId=id;activeLogKey=id;persistOperator();renderToday();toast('Operator day submitted — fresh day open');
+}
 function renderTrain(){
   var html='<div class="page-head"><div class="page-title">TRAIN</div><div class="page-sub">'+esc(PHASE2.name)+'</div></div>';
   html+='<div style="display:flex;gap:6px;margin-bottom:16px;"><button class="sel-btn '+(trainView==='program'?'active':'')+'" onclick="setTrainView(\'program\')">PROGRAM</button><button class="sel-btn '+(trainView==='create'?'active':'')+'" onclick="setTrainView(\'create\')">+ CREATE</button><button class="sel-btn '+(trainView==='my'?'active':'')+'" onclick="setTrainView(\'my\')">MY WORKOUTS</button></div>';
@@ -377,7 +411,7 @@ function renderProgramView(){
   if(!ACCESS.canViewWorkouts())return renderLockedWorkouts();
   var dayData=PHASE2.days[trainDay-1],intent=PHASE2.weekIntent[trainWeek-1],warmup=dayData.type==='lower'?PHASE2.warmups.lower:PHASE2.warmups.upper;
   var html='';
-  if(PHASE2.goalPills){html+='<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;">';PHASE2.goalPills.forEach(function(p){html+='<span style="font-family:\'Oswald\',sans-serif;font-size:10px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--gold-text);border:1px solid var(--gold);border-radius:20px;padding:4px 10px;">'+esc(p)+'</span>';});html+='</div>';}
+  if(PHASE2.goalPills){html+='<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;">';PHASE2.goalPills.forEach(function(p){html+='<span style="font-family:\'Oswald\',sans-serif;font-size:10px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--gold);border:1px solid var(--gold);border-radius:2px;padding:4px 10px;">'+esc(p)+'</span>';});html+='</div>';}
   html+='<div class="section-label">WEEK</div><div class="week-day-selector">';
   [1,2,3,4].forEach(function(w){html+='<button class="sel-btn '+(trainWeek===w?'active':'')+'" onclick="setTrainWeek('+w+')">W'+w+'</button>';});
   html+='</div><div class="intent-badge">'+esc(intent.goal.toUpperCase())+'</div><div class="intent-feel">'+esc(intent.feel)+'</div><div class="divider"></div>';
@@ -392,7 +426,7 @@ function renderProgramView(){
   dayData.exercises.forEach(function(ex,i){
     if(ex.cat&&ex.cat!==lastCat){lastCat=ex.cat;html+='<div style="font-family:\'Oswald\',sans-serif;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold-text);padding:12px 0 4px;">'+esc(ex.cat)+'</div>';}
     var wv=ex.weeks[trainWeek-1];
-    var tagHtml=ex.tag?'<span style="font-family:\'DM Sans\',sans-serif;font-size:9px;font-weight:700;letter-spacing:.5px;color:var(--muted);border:1px solid var(--gray);border-radius:4px;padding:1px 5px;margin-left:6px;vertical-align:middle;">'+esc(ex.tag)+'</span>':'';
+    var tagHtml=ex.tag?'<span style="font-family:\'DM Sans\',sans-serif;font-size:9px;font-weight:700;letter-spacing:.5px;color:var(--muted);border:1px solid var(--gray);border-radius:2px;padding:1px 5px;margin-left:6px;vertical-align:middle;">'+esc(ex.tag)+'</span>':'';
     if(ex.isCircuit){html+='<div class="exercise-row" style="animation-delay:'+(i*.04)+'s"><div class="ex-name">'+esc(ex.name)+tagHtml+'</div><div class="ex-week">'+esc(wv)+'</div><div style="margin-top:6px;">';ex.circuit.forEach(function(m){html+='<div style="font-family:\'Space Mono\',monospace;font-size:11px;color:var(--muted);padding:2px 0;">→ '+esc(m)+'</div>';});html+='</div><div class="ex-rest">Rest: '+esc(ex.rest)+'</div></div>';}
     else{html+='<div class="exercise-row" style="animation-delay:'+(i*.04)+'s"><div class="ex-name">'+esc(ex.name)+tagHtml+'</div><div class="ex-week">'+esc(wv)+'</div><div class="ex-rest">Rest: '+esc(ex.rest)+'</div>'+(ex.note?'<div style="font-size:11px;color:var(--muted);font-style:italic;margin-top:4px;">'+esc(ex.note)+'</div>':'')+'</div>';}
   });
@@ -409,7 +443,7 @@ function renderLockedWorkouts(){
   return '<div class="card" style="text-align:center;padding:34px 20px;">'
     +'<div style="font-size:34px;margin-bottom:10px;">🔒</div>'
     +'<div style="font-family:\'Oswald\',sans-serif;font-size:22px;font-weight:700;text-transform:uppercase;color:var(--black);letter-spacing:.5px;">Members Only</div>'
-    +'<div style="font-family:\'DM Sans\',sans-serif;font-size:13px;color:var(--muted);margin:10px auto 20px;line-height:1.6;max-width:280px;">The full Built to Hoop training block — jump work, sprints, the tendon protocol, and finishers — unlocks with a BTH membership.</div>'
+    +'<div style="font-family:\'DM Sans\',sans-serif;font-size:13px;color:var(--muted);margin:10px auto 20px;line-height:1.6;max-width:280px;">The full Built to Hoop training block unlocks with BTH Stay Ready — $27/mo.</div>'
     +'<button class="btn-primary" onclick="startSubscribe()">UNLOCK WORKOUTS</button>'
     +'<button class="btn-secondary" onclick="redeemCode()">I have a member code</button>'
     +'</div>';
@@ -421,7 +455,7 @@ function startSubscribe(){
 function redeemCode(){
   var c=prompt('Enter your BTH member code:');if(!c)return;
   if(ACCESS.redeemCodes.indexOf(c.trim().toUpperCase())!==-1){
-    ACCESS.setStatus({active:true,tier:'rise',since:new Date().toISOString()});
+    ACCESS.setStatus({active:true,tier:'stay-ready',since:new Date().toISOString()});
     toast('Membership unlocked ⚡');renderTrain();
   } else {toast('Invalid code');}
 }
@@ -494,30 +528,53 @@ function renderClaude(){
   html+='<div class="card"><div class="card-title">PUSH TO CLAUDE</div><textarea class="note-textarea" id="claude-note-input" placeholder="Drop a thought, question, or update for Claude..."></textarea><button class="btn-primary" style="margin-top:10px;" onclick="saveClaudeNote()">SEND TO CLAUDE ⚡</button></div>';
   if(notes.length){html+='<div class="section-label">SAVED NOTES ('+notes.length+')</div>';[].concat(notes).reverse().forEach(function(n,i){var realIdx=notes.length-1-i;html+='<div class="note-item"><span class="note-delete" onclick="deleteClaudeNote('+realIdx+')">✕</span><div class="note-text">'+esc(n.text)+'</div><div class="note-ts">'+formatNoteTs(n.ts)+'</div></div>';});html+='<button class="btn-secondary" onclick="clearAllNotes()">Clear all notes</button>';}
   html+='<div class="divider"></div>';
-  html+='<div class="card"><div class="card-title">📧 EMAIL UPDATES</div><div class="input-row"><div class="input-label">Your email</div><input type="email" id="bth-email-input" style="background:none;border:none;outline:none;font-family:\'DM Sans\',sans-serif;font-size:13px;font-weight:500;color:var(--gold-text);text-align:right;width:170px;" placeholder="your email" value="'+esc(email)+'" oninput="save(\'bth_email\',this.value)"></div><div style="margin-top:12px;display:flex;flex-direction:column;gap:8px;"><button class="btn-primary" onclick="sendDailyReport()">SEND TODAY\'S REPORT</button><button class="btn-secondary" onclick="sendCheckIn()">SEND CHECK-IN REMINDER</button></div><div style="margin-top:10px;font-family:\'DM Sans\',sans-serif;font-size:11px;color:var(--muted);line-height:1.7;">Opens your mail app pre-filled.<br>Hit send from there.</div></div>';
+  html+='<div class="card"><div class="card-title">📧 EMAIL UPDATES</div><div class="input-row"><div class="input-label">Your email</div><input type="email" id="bth-email-input" style="background:none;border:none;outline:none;font-family:\'DM Sans\',sans-serif;font-size:13px;font-weight:500;color:var(--gold);text-align:right;width:170px;" placeholder="you@email.com" value="'+esc(email)+'" oninput="save(\'bth_email\',this.value)"></div><div style="margin-top:12px;display:flex;flex-direction:column;gap:8px;"><button class="btn-primary" onclick="sendDailyReport()">SEND TODAY\'S REPORT</button><button class="btn-secondary" onclick="sendCheckIn()">SEND CHECK-IN REMINDER</button></div><div style="margin-top:10px;font-family:\'DM Sans\',sans-serif;font-size:11px;color:var(--muted);line-height:1.7;">Opens your mail app pre-filled.<br>Hit send from there.</div></div>';
+  html+='<div class="card"><div class="card-title">OPERATOR TOOLS</div><div class="input-sub" id="pwa-status" style="line-height:1.6;margin-bottom:12px;">Installable PWA · active-day storage · offline shell</div><button class="btn-primary" onclick="enableNotifications()">ENABLE REMINDERS</button><button class="btn-secondary" onclick="downloadICS()">CALENDAR (.ICS)</button><button class="btn-secondary" onclick="exportCSV()">EXPORT ALL DATA (CSV)</button><button class="btn-secondary" onclick="downloadClaudeHandoff()">CLAUDE HANDOFF (JSON)</button></div>';
   document.getElementById('tab-claude').innerHTML=html;
+  renderPwaStatus();
 }
 function saveClaudeNote(){var input=document.getElementById('claude-note-input'),text=(input&&input.value||'').trim();if(!text){toast('Write something first');return;}var notes=load('bth_claude_notes')||[];notes.push({text:text,ts:new Date().toISOString()});save('bth_claude_notes',notes);input.value='';toast('Saved ✓');renderClaude();}
 function deleteClaudeNote(i){var n=load('bth_claude_notes')||[];n.splice(i,1);save('bth_claude_notes',n);renderClaude();}
 function clearAllNotes(){save('bth_claude_notes',[]);renderClaude();}
 function sendDailyReport(){
   var email=load('bth_email');if(!email){toast('Add your email first');return;}
-  var log=getLog(todayKey()),goals=getGoals();
+  var log=getLog(OPERATOR_STATE.activeDayId),goals=getGoals(),activeDay=findOperatorDay(OPERATOR_STATE.activeDayId);
   var bthDone=BTH_ITEMS.filter(function(it){return log[it.key];}).map(function(it){return it.label;}).join(', ')||'None';
   var sc=scoreDay(log),grade=sc!==null?(scoreToGrade(sc)+' ('+sc+'/100)'):'No data yet';
   var notesList=(load('bth_claude_notes')||[]).map(function(n){return n.text;}).join('\n\n---\n\n')||'None';
-  var subj='BTH Operator — Daily Report '+todayKey();
-  var body='BTH OPERATOR — DAILY REPORT\nDate: '+todayKey()+'\nGrade: '+grade+'\n\nSLEEP + ENERGY\nSleep: '+(log.sleep||'—')+'h\nEnergy: '+(log.energy||'—')+'/7\nWater: '+(log.water||'—')+' glasses\n\nNUTRITION\nProtein: '+(log.protein||'—')+'g / '+goals.protein+'g\nCarbs: '+(log.carbs||'—')+'g / '+goals.carbs+'g\nFat: '+(log.fat||'—')+'g / '+goals.fat+'g\nCals: '+(log.cals||'—')+' / '+goals.cals+'\n\nBTH CHECKLIST\n'+bthDone+'\n\nGYM: '+(log.gym?'Done':'Not logged')+'\nREADING: '+(log.reading?'Done':'Not logged')+'\n\nNOTES FOR CLAUDE:\n'+notesList+'\n\n— Sent from BTH Operator';
+  var subj='BTH Operator — Daily Report '+activeDay.labelDate;
+  var body='BTH OPERATOR — DAILY REPORT\nOperator day: '+activeDay.labelDate+'\nGrade: '+grade+'\n\nSLEEP + ENERGY\nSleep: '+(log.sleep||'—')+'h\nEnergy: '+(log.energy||'—')+'/7\nWater: '+(log.water||'—')+' glasses\n\nNUTRITION\nProtein: '+(log.protein||'—')+'g / '+goals.protein+'g\nCarbs: '+(log.carbs||'—')+'g / '+goals.carbs+'g\nFat: '+(log.fat||'—')+'g / '+goals.fat+'g\nCals: '+(log.cals||'—')+' / '+goals.cals+'\n\nBTH CHECKLIST\n'+bthDone+'\n\nGYM: '+(log.gym?'Done':'Not logged')+'\nREADING: '+(log.reading?'Done':'Not logged')+'\n\nNOTES FOR CLAUDE:\n'+notesList+'\n\n— Sent from BTH Operator';
   window.location.href='mailto:'+email+'?subject='+encodeURIComponent(subj)+'&body='+encodeURIComponent(body);
 }
 function sendCheckIn(){
   var email=load('bth_email');if(!email){toast('Add your email first');return;}
-  var log=getLog(todayKey()),hasData=Object.keys(log).length>0;
-  var subj=hasData?'BTH — Check in '+todayKey():'BTH — No logs today, you good?';
+  var log=getLog(OPERATOR_STATE.activeDayId),hasData=Object.keys(log).length>0,activeDay=findOperatorDay(OPERATOR_STATE.activeDayId);
+  var subj=hasData?'BTH — Check in '+activeDay.labelDate:'BTH — No logs this operator day, you good?';
   var body=hasData?'Quick check-in from BTH Operator.\n\nSleep: '+(log.sleep||'—')+'h  ·  Energy: '+(log.energy||'—')+'/7  ·  BTH: '+BTH_ITEMS.filter(function(it){return log[it.key];}).length+'/6\n\nGrade: '+scoreToGrade(scoreDay(log))+'\n\nKeep pushing. 🏀\n— BTH Operator':'Hey — no logs yet today in BTH Operator.\n\nYou good?\n\nOpen the app and log something. Even just sleep + energy counts.\n\n— BTH System 🏀';
   window.location.href='mailto:'+email+'?subject='+encodeURIComponent(subj)+'&body='+encodeURIComponent(body);
 }
-renderToday();
+function downloadFile(name,content,type){var blob=new Blob([content],{type:type}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url);},1000);}
+function csvCell(v){v=String(v==null?'':v);return /[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v;}
+function exportCSV(){
+  var cols=['operator_day_id','label_date','created_at','submitted_at','sleep','energy','water','protein','carbs','fat','calories','gym','reading','working','posted','filmed','edited','engaged','planned','recovery'];
+  var rows=[cols.join(',')];OPERATOR_STATE.order.forEach(function(id){var d=OPERATOR_STATE.days[id];if(!d)return;var l=d.log||{};rows.push([id,d.labelDate,d.createdAt,d.submittedAt||'',l.sleep,l.energy,l.water,l.protein,l.carbs,l.fat,l.cals,l.gym,l.reading,l.working,l.posted,l.filmed,l.edited,l.engaged,l.planned,l.recovery].map(csvCell).join(','));});
+  downloadFile('bth-operator-export.csv',rows.join('\n'),'text/csv;charset=utf-8');toast('CSV ready');
+}
+function pad(n){return String(n).padStart(2,'0');}
+function icsDate(d){return d.getFullYear()+pad(d.getMonth()+1)+pad(d.getDate())+'T'+pad(d.getHours())+pad(d.getMinutes())+'00';}
+function icsSafe(v){return String(v).replace(/\\/g,'\\\\').replace(/\n/g,'\\n').replace(/,/g,'\\,').replace(/;/g,'\\;');}
+function downloadICS(){
+  var base=operatorDate(OPERATOR_STATE.activeDayId),sched=getSchedule(),body=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Built to Hoop//BTH Operator//EN','CALSCALE:GREGORIAN'];
+  sched.forEach(function(item){var p=item.time.split(':').map(Number),start=new Date(base);start.setHours(p[0],p[1],0,0);var end=new Date(start.getTime()+30*60000);body.push('BEGIN:VEVENT','UID:'+OPERATOR_STATE.activeDayId+'-'+item.id+'@built-to-hoop.com','DTSTAMP:'+icsDate(new Date()),'DTSTART:'+icsDate(start),'DTEND:'+icsDate(end),'SUMMARY:'+icsSafe(item.label),'DESCRIPTION:BTH Operator schedule','END:VEVENT');});
+  body.push('END:VCALENDAR');downloadFile('bth-operator-schedule.ics',body.join('\r\n'),'text/calendar;charset=utf-8');toast('Calendar ready');
+}
+function downloadClaudeHandoff(){var day=findOperatorDay(OPERATOR_STATE.activeDayId),packet={source:'BTH Operator',exportedAt:new Date().toISOString(),activeDayId:day.id,labelDate:day.labelDate,log:day.log,tasks:day.tasks,notes:load('bth_claude_notes')||[]};downloadFile('bth-operator-claude-handoff.json',JSON.stringify(packet,null,2),'application/json');toast('Claude handoff ready');}
+function enableNotifications(){if(!('Notification'in window)){toast('Notifications not supported here');return;}Notification.requestPermission().then(function(p){save('bth_notifications_enabled',p==='granted');renderPwaStatus();toast(p==='granted'?'Reminders on':'Permission: '+p);});}
+function notify(title,body){try{if(load('bth_notifications_enabled')&&Notification.permission==='granted')new Notification(title,{body:body,tag:'bth-'+OPERATOR_STATE.activeDayId});}catch(e){}}
+function reminderTick(){var now=new Date(),hhmm=pad(now.getHours())+':'+pad(now.getMinutes()),fired=OPERATOR_STATE.reminders.fired||{};getSchedule().forEach(function(item){var key=OPERATOR_STATE.activeDayId+':'+item.id+':'+hhmm;if(item.time===hhmm&&!fired[key]){fired[key]=true;OPERATOR_STATE.reminders.fired=fired;persistOperator();notify('BTH Operator',item.label+' — time to move.');}});}
+function renderPwaStatus(){var el=document.getElementById('pwa-status');if(!el)return;var installed=window.matchMedia('(display-mode: standalone)').matches||window.navigator.standalone,perm=('Notification'in window)?Notification.permission:'unsupported';el.textContent=(installed?'Installed':'Browser mode')+' · reminders '+perm+' · active day '+OPERATOR_STATE.activeDayId;}
+function setupPWA(){if('serviceWorker'in navigator&&location.protocol.indexOf('http')===0)navigator.serviceWorker.register('./bth-operator-sw.js').catch(function(err){console.warn('Operator service worker unavailable',err);});}
+setupPWA();reminderTick();setInterval(reminderTick,60000);renderToday();
 </script>
 </body>
 </html>
