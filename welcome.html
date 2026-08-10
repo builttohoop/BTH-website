@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en" style="color-scheme: light;">
+<head>
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+  <link rel="shortcut icon" href="assets/favicon.ico">
+
+  <meta name="facebook-domain-verification" content="8j7jq4cgnwak31awpllczhuyqbxpq8" />
+  <!-- ─── BTH TRACKING ─── -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({"gtm.start":new Date().getTime(),event:"gtm.js"});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!="dataLayer"?"&l="+l:"";j.async=true;j.src="https://www.googletagmanager.com/gtm.js?id="+i+dl;f.parentNode.insertBefore(j,f);})(window,document,"script","dataLayer","GTM-T9SFFTB7");</script>
+  <!-- GA4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-YBE7PRPCLK"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-YBE7PRPCLK");gtag("config","AW-18166013082");</script>
+  <!-- Meta Pixel -->
+  <script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version="2.0";n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,"script","https://connect.facebook.net/en_US/fbevents.js");fbq("init","1320146003572375");fbq("track","PageView");</script>
+  <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1320146003572375&ev=PageView&noscript=1"/></noscript>
+  <!-- TikTok Pixel -->
+  <script>!function(w,d,t){w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e};ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js",o=n&&n.partner;ttq._i=ttq._i||{};ttq._i[e]=[];ttq._i[e]._u=r;ttq._t=ttq._t||{};ttq._t[e]=+new Date;ttq._o=ttq._o||{};ttq._o[e]=n||{};n=document.createElement("script");n.type="text/javascript";n.async=!0;n.src=r+"?sdkid="+e+"&lib="+t;e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(n,e)};ttq.load("D7RNU1RC77U2TFGF3SO0");ttq.page();}(window,document,"ttq");</script>
+  <!-- ─── /BTH TRACKING ─── -->
+  <script src="assets/bth-click-id.js" defer></script>
+  <!-- BTH unified tracker -->
+  <script src="assets/bth-tracking.js" defer></script>
+
+  <!-- ─────────────────────────────────────────────────────────────────────────
+       PURCHASE EVENT — client-side half. Ty's decision, 2026-08-10.
+
+       THIS PAGE NEVER FIRES A LEAD EVENT. It is the BUYER page. thank-you.html
+       is the lead page; pointing a $27 sale at it would label a purchase as a
+       lead. Do not copy thank-you.html's fireLead block in here. Ever.
+
+       THE DEDUPE CONTRACT (read before touching a line of this):
+       The Mail OS Worker already emits the authoritative purchase server-side —
+       GA4 Measurement Protocol with transaction_id = purchases.sale_id, and Meta
+       CAPI with event_id = the same sale_id (src/index.js emitGa4Purchase /
+       emitMetaPurchase). A browser event carrying ANY OTHER id is not a second
+       view of one sale, it is a SECOND SALE in the reports. So:
+
+         transaction_id here === sale_id there, or nothing fires at all.
+
+       Stripe redirects with ?session_id={CHECKOUT_SESSION_ID} — a "cs_…" id.
+       The Worker's sale_id for that same purchase is the SUBSCRIPTION id
+       ("sub_…", from obj.subscription in stripeWebhook). They are different
+       strings for the same sale, and the browser has no way to derive one from
+       the other. So the id is not guessed here — it is RESOLVED from the Worker
+       by the checkout session that produced it, and the whole block is
+       FAIL-CLOSED: no resolved id, no event. Under-counting is recoverable;
+       double-counted revenue silently corrupts every CAC/ROAS decision on top
+       of it.
+
+       Requires Mail OS: GET /api/purchase/by-session?session_id=cs_…
+       Until that endpoint is deployed this block resolves nothing and stays
+       silent by design — the page is still correct and safe to ship.
+       ───────────────────────────────────────────────────────────────────────── -->
+  <script>
+  (function purchaseEvent() {
+    "use strict";
+    var MAIL_OS = "https://bth-mail-os.tyrell-38b.workers.dev";
+    // The webhook can land after the buyer does. Poll briefly, then give up quietly.
+    var ATTEMPTS = 6, DELAYS = [0, 1200, 2000, 3000, 4000, 6000];
+
+    var sessionId = "";
+    try {
+      sessionId = new URLSearchParams(window.location.search).get("session_id") || "";
+    } catch (e) {}
+    // Stripe session ids only. Anything else is a hand-typed URL, not a checkout.
+    if (!/^cs_[A-Za-z0-9_]{10,}$/.test(sessionId)) return;
+
+    // One event per sale, per browser — a refresh or a back-button return must not refire.
+    function alreadyFired(txn) {
+      try { return window.localStorage.getItem("bth_purchase_fired:" + txn) === "1"; }
+      catch (e) { return false; }
+    }
+    function markFired(txn) {
+      try { window.localStorage.setItem("bth_purchase_fired:" + txn, "1"); } catch (e) {}
+    }
+
+    function fire(p) {
+      var txn = String(p.transaction_id || "");
+      if (!txn || alreadyFired(txn)) return;
+      markFired(txn);
+
+      var value = Number(p.value);
+      if (!isFinite(value) || value < 0) value = 0;
+      var currency = String(p.currency || "USD").toUpperCase();
+      var itemId = String(p.item_id || "stay-ready");
+      var itemName = String(p.item_name || "BTH Stay Ready");
+
+      // GA4 — same transaction_id as the Measurement Protocol event.
+      try {
+        if (window.gtag) window.gtag("event", "purchase", {
+          transaction_id: txn,
+          value: value,
+          currency: currency,
+          items: [{ item_id: itemId, item_name: itemName, price: value, quantity: 1 }]
+        });
+      } catch (e) {}
+
+      // Meta — eventID must equal the CAPI event_id (= the same sale_id) or the
+      // browser and server events count twice.
+      try {
+        if (window.fbq) window.fbq("track", "Purchase", {
+          value: value,
+          currency: currency,
+          content_ids: [itemId],
+          content_name: itemName,
+          content_type: "product",
+          contents: [{ id: itemId, quantity: 1, item_price: value }]
+        }, { eventID: txn });
+      } catch (e) {}
+
+      // TikTok — no server-side twin exists, so there is nothing to dedupe against.
+      try {
+        if (window.ttq) window.ttq.track("CompletePayment", {
+          value: value,
+          currency: currency,
+          content_id: itemId,
+          content_name: itemName,
+          content_type: "product"
+        });
+      } catch (e) {}
+
+      try {
+        (window.dataLayer = window.dataLayer || []).push({
+          event: "bth_purchase",
+          bth_event_name: "Purchase",
+          bth_transaction_id: txn,
+          bth_content_id: itemId,
+          bth_content_name: itemName,
+          bth_content_type: "product",
+          bth_value: value,
+          bth_currency: currency
+        });
+      } catch (e) {}
+    }
+
+    function attempt(i) {
+      if (i >= ATTEMPTS) return;
+      var url = MAIL_OS + "/api/purchase/by-session?session_id=" + encodeURIComponent(sessionId);
+      fetch(url, { method: "GET", credentials: "omit", cache: "no-store" })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (data) {
+          if (data && data.found && data.transaction_id) { fire(data); return; }
+          schedule(i + 1);
+        })
+        .catch(function () { schedule(i + 1); });
+    }
+    function schedule(i) {
+      if (i >= ATTEMPTS) return;
+      window.setTimeout(function () { attempt(i); }, DELAYS[i] || 6000);
+    }
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", function () { attempt(0); });
+    } else {
+      attempt(0);
+    }
+  })();
+  </script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light">
+  <title>You're In — BTH Stay Ready | Built to Hoop</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/bth-system.css">
+  <style>
+  :root { color-scheme: light only; }
+  *,*::before,*::after { margin:0; padding:0; box-sizing:border-box; -webkit-text-size-adjust:100%; }
+  html { scroll-behavior:smooth; background:var(--white); }
+  body { background:var(--white); color:var(--black); font-family:var(--B); font-size:16px; line-height:1.6; overflow-x:hidden; -webkit-font-smoothing:antialiased; color-scheme:light; }
+
+  /* ─── NAV (OVERRIDE) ─── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    height: 64px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 52px;
+    background: var(--black);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    backdrop-filter: none; -webkit-backdrop-filter: none;
+  }
+  @media (max-width: 768px) { nav { padding: 0 20px; } }
+  .nav-logo {
+    font-family: var(--H); font-size: 20px; font-weight: 700;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--white); text-decoration: none; flex-shrink: 0;
+  }
+  .nav-logo span { color: var(--gold); }
+  .nav-links { display: flex; gap: 28px; align-items: center; }
+  .nav-links a {
+    font-family: var(--B); font-size: 11px; font-weight: 700;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: rgba(255,255,255,0.48);
+    text-decoration: none; transition: color 0.18s;
+    position: relative; padding-bottom: 3px;
+  }
+  .nav-links a::after {
+    content: ''; position: absolute; bottom: -1px; left: 0; right: 0;
+    height: 1px; background: var(--gold);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 0.22s ease;
+  }
+  .nav-links a:hover { color: var(--white); }
+  .nav-links a:hover::after { transform: scaleX(1); }
+  @media (max-width: 900px) { .nav-links { display: none; } }
+  .nav-cta {
+    font-family: var(--H); font-size: 11px; font-weight: 700;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--black); background: var(--gold);
+    padding: 10px 20px; border-radius: 2px;
+    text-decoration: none; transition: filter 0.18s; flex-shrink: 0;
+  }
+  .nav-cta:hover { filter: brightness(0.88); }
+  .nav-toggle {
+    display: none; background: none; border: none; cursor: pointer;
+    padding: 8px 4px; flex-direction: column; justify-content: center;
+    gap: 5px; z-index: 101; flex-shrink: 0;
+  }
+  .nav-toggle span {
+    display: block; width: 24px; height: 2px; background: var(--white);
+    transition: transform 0.22s, opacity 0.22s; border-radius: 1px;
+  }
+  .nav-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+  .nav-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  @media (max-width: 900px) { .nav-toggle { display: flex; } }
+  .mobile-menu {
+    display: none; position: fixed; top: 64px; left: 0; right: 0; bottom: 0;
+    background: var(--black); z-index: 98; padding: 32px 24px 48px;
+    flex-direction: column; overflow-y: auto;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a {
+    font-family: var(--H); font-size: 28px; font-weight: 700;
+    letter-spacing: 0.04em; text-transform: uppercase;
+    color: rgba(255,255,255,0.65);
+    text-decoration: none; padding: 18px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    transition: color 0.18s;
+  }
+  .mobile-menu a:hover { color: var(--gold); }
+  .mobile-menu .mobile-cta {
+    margin-top: 28px; text-align: center;
+    background: var(--gold); color: var(--black);
+    border-radius: 2px; padding: 20px 24px;
+    font-size: 15px; letter-spacing: 0.12em;
+    border-bottom: none; font-weight: 700;
+  }
+  .mobile-menu .mobile-cta:hover { filter: brightness(0.9); color: var(--black); }
+
+  /* ─── PAGE ─── */
+  .hero {
+    min-height: 100vh; display: flex; align-items: center;
+    padding: 100px 52px 80px; background: var(--white);
+    position: relative; overflow: hidden;
+  }
+  @media (max-width: 768px) { .hero { padding: 100px 24px 64px; } }
+  .hero::before {
+    content: '✓'; position: absolute; right: -20px; top: 50%;
+    transform: translateY(-50%);
+    font-family: var(--H); font-size: clamp(280px, 42vw, 600px);
+    font-weight: 700; color: rgba(230,168,0,0.05); line-height: 1;
+    pointer-events: none; z-index: 0; letter-spacing: -0.02em;
+  }
+  .hero-inner { max-width: 760px; margin: 0 auto; position: relative; z-index: 1; }
+
+  .confirm-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(230,168,0,0.12); border: 1px solid rgba(230,168,0,0.3);
+    border-radius: 2px; padding: 8px 16px; margin-bottom: 32px;
+  }
+  .confirm-badge-dot {
+    width: 8px; height: 8px; border-radius: 50%; background: var(--gold);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.85); }
+  }
+  .confirm-badge-text {
+    font-family: var(--B); font-size: 11px; font-weight: 700;
+    letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold);
+  }
+
+  .hero-title {
+    font-family: var(--H); font-size: clamp(48px, 8vw, 96px);
+    font-weight: 700; line-height: 0.92; letter-spacing: 0.02em;
+    text-transform: uppercase; color: var(--black); margin-bottom: 24px;
+  }
+  .hero-title .gold { color: var(--gold); }
+
+  .hero-sub {
+    font-size: 18px; color: var(--muted);
+    max-width: 580px; line-height: 1.7; margin-bottom: 40px;
+  }
+  .hero-sub strong { color: var(--black); font-weight: 600; }
+
+  /* ─── RECEIPT STRIP ─── */
+  .receipt {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px;
+    margin-bottom: 48px;
+  }
+  @media (max-width: 600px) { .receipt { grid-template-columns: 1fr; } }
+  .receipt-cell {
+    background: var(--soft); border: 1px solid var(--border);
+    border-radius: 2px; padding: 18px 20px;
+  }
+  .receipt-label {
+    font-family: var(--B); font-size: 10px; font-weight: 700;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 6px;
+  }
+  .receipt-value {
+    font-family: var(--H); font-size: 17px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.03em;
+    color: var(--black); line-height: 1.2;
+  }
+
+  .divider-line { height: 1px; background: var(--border); margin-bottom: 48px; }
+
+  /* ─── NEXT STEPS ─── */
+  .steps {
+    background: var(--soft); border: 1px solid var(--border);
+    border-radius: 2px; padding: 36px 32px; margin-bottom: 28px;
+  }
+  @media (max-width: 600px) { .steps { padding: 28px 20px; } }
+  .steps-kicker {
+    font-family: var(--H); font-size: clamp(20px, 3vw, 26px); font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.03em; color: var(--black);
+    line-height: 1.1; margin-bottom: 8px;
+  }
+  .steps-meta {
+    font-family: var(--B); font-size: 11px; font-weight: 700;
+    letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold);
+    margin-bottom: 24px;
+  }
+  .step { padding: 18px 0; border-bottom: 1px solid var(--border); }
+  .step:last-child { border-bottom: none; padding-bottom: 0; }
+  .step-top {
+    display: flex; justify-content: space-between; align-items: baseline;
+    gap: 12px; flex-wrap: wrap; margin-bottom: 6px;
+  }
+  .step-name {
+    font-family: var(--H); font-size: 16px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.03em; color: var(--black);
+  }
+  .step-num {
+    font-family: var(--B); font-size: 12px; font-weight: 700;
+    letter-spacing: 0.06em; color: var(--gold); white-space: nowrap;
+  }
+  .step-body { font-size: 14px; color: var(--muted); line-height: 1.7; }
+  .step-body strong { color: var(--black); font-weight: 600; }
+  .step-body a { color: var(--black); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+
+  .email-note {
+    font-size: 14px; color: var(--muted); line-height: 1.7;
+    background: var(--cream); border: 1px solid var(--border); border-radius: 2px;
+    padding: 16px 20px; margin-bottom: 48px;
+  }
+  .email-note strong { color: var(--black); font-weight: 600; }
+  .email-note a { color: var(--black); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+
+  .next-section-label {
+    font-family: var(--B); font-size: 11px; font-weight: 700;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 20px;
+  }
+  .next-title {
+    font-family: var(--H); font-size: clamp(22px, 3.5vw, 32px); font-weight: 700;
+    text-transform: uppercase; color: var(--black); margin-bottom: 12px;
+    letter-spacing: 0.02em; line-height: 1.1;
+  }
+  .next-body {
+    font-size: 15px; color: var(--muted); line-height: 1.7;
+    max-width: 520px; margin-bottom: 28px;
+  }
+  .next-body strong { color: var(--black); font-weight: 600; }
+
+  .btn-gold {
+    font-family: var(--H); font-size: 15px; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--black); background: var(--gold);
+    padding: 16px 36px; border-radius: 2px;
+    text-decoration: none; display: inline-block;
+    transition: filter 0.18s;
+  }
+  .btn-gold:hover { filter: brightness(0.9); }
+  .btn-ghost {
+    font-family: var(--B); font-size: 14px; font-weight: 500;
+    color: var(--muted);
+    padding: 14px 28px; border-radius: 2px;
+    border: 1.5px solid var(--border);
+    text-decoration: none; display: inline-block;
+    transition: all 0.18s; white-space: nowrap;
+  }
+  .btn-ghost:hover { color: var(--black); border-color: var(--gold); }
+  .btn-row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+
+  /* Footer */
+  footer {
+    background: var(--cream); border-top: 1px solid var(--border);
+    padding: 48px 52px; display: flex; justify-content: space-between;
+    align-items: center; flex-wrap: wrap; gap: 28px;
+  }
+  @media (max-width: 768px) { footer { padding: 40px 24px; } }
+  .foot-logo { font-family: var(--H); font-size: 20px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--black); }
+  .foot-logo span { color: var(--gold); }
+  .foot-tagline { font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-top: 5px; }
+  .foot-links { display: flex; gap: 28px; flex-wrap: wrap; }
+  .foot-links a { font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.18s; }
+  .foot-links a:hover { color: var(--gold); }
+  .foot-copy { width: 100%; text-align: center; font-size: 11px; color: var(--muted); padding-top: 24px; border-top: 1px solid rgba(17,19,24,0.06); opacity: 0.6; }
+  </style>
+</head>
+<body>
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T9SFFTB7" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">Built to <span>Hoop</span></a>
+  <div class="nav-links">
+    <a href="tier-1.html">Foundation</a>
+    <a href="tier-2.html">Rise</a>
+    <a href="join.html">Stay Ready</a>
+    <a href="addons.html">Tracks</a>
+    <a href="updates.html">Updates</a>
+    <a href="about.html">About</a>
+  </div>
+  <a href="manage.html" class="nav-cta">Manage</a>
+  <button class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div id="mobile-menu" class="mobile-menu" role="navigation" aria-label="Mobile navigation">
+  <a href="tier-1.html">Foundation</a>
+  <a href="tier-2.html">Rise</a>
+  <a href="join.html">Stay Ready</a>
+  <a href="addons.html">Tracks</a>
+  <a href="updates.html">Updates</a>
+  <a href="about.html">About</a>
+  <a href="manage.html" class="mobile-cta">Manage Membership</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+
+    <div class="confirm-badge">
+      <div class="confirm-badge-dot"></div>
+      <span class="confirm-badge-text">Payment confirmed</span>
+    </div>
+
+    <h1 class="hero-title">
+      You're In.<br><span class="gold">Let's Work.</span>
+    </h1>
+
+    <p class="hero-sub">
+      <strong>BTH Stay Ready is active.</strong> You just bought the system that keeps you on the
+      court — not a 30-day challenge, not a dunk program. The training starts in your inbox today.
+    </p>
+
+    <!-- RECEIPT — facts only, no promises the backend doesn't keep -->
+    <div class="receipt">
+      <div class="receipt-cell">
+        <div class="receipt-label">Membership</div>
+        <div class="receipt-value">BTH Stay Ready</div>
+      </div>
+      <div class="receipt-cell">
+        <div class="receipt-label">Billing</div>
+        <div class="receipt-value">$27 / month</div>
+      </div>
+      <div class="receipt-cell">
+        <div class="receipt-label">Commitment</div>
+        <div class="receipt-value">Cancel anytime</div>
+      </div>
+    </div>
+
+    <!-- WHAT HAPPENS NOW -->
+    <div class="steps">
+      <div class="steps-kicker">What Happens Now</div>
+      <div class="steps-meta">Three steps &nbsp;·&nbsp; the first one takes a minute</div>
+
+      <div class="step">
+        <div class="step-top">
+          <span class="step-name">Check your email</span>
+          <span class="step-num">Step 1 — now</span>
+        </div>
+        <p class="step-body">
+          Your welcome email is on its way to the address you paid with. It carries your
+          <strong>day-one bundle</strong> — every live BTH training PDF, as direct download links.
+          That's your training, today. Nothing to unlock, nothing to wait on.
+        </p>
+      </div>
+
+      <div class="step">
+        <div class="step-top">
+          <span class="step-name">Run day one</span>
+          <span class="step-num">Step 2 — tonight</span>
+        </div>
+        <p class="step-body">
+          Start with the reset work before you add anything on top. Slow reps, real positions,
+          no pain. Then your member emails pick it up from there and keep the progression moving.
+        </p>
+      </div>
+
+      <div class="step">
+        <div class="step-top">
+          <span class="step-name">The app — straight talk</span>
+          <span class="step-num">Step 3 — later</span>
+        </div>
+        <p class="step-body">
+          <strong>The BTH app isn't open yet.</strong> We're not going to hand you a login to
+          something that doesn't exist. Everything you're paying for is delivered by email right
+          now, and the day the app opens your access comes to you automatically — same email,
+          no extra step, no extra charge.
+        </p>
+      </div>
+    </div>
+
+    <p class="email-note">
+      <strong>Didn't get the email?</strong> Give it a few minutes, then check spam and promotions.
+      Still nothing — email <a href="mailto:tyrell@built-to-hoop.com">tyrell@built-to-hoop.com</a>
+      from the address you paid with and it gets sorted.
+      Billing, payment method, or cancelling lives on
+      <a href="manage.html">Manage Membership</a>.
+    </p>
+
+    <div class="divider-line"></div>
+
+    <!-- WHAT'S INSIDE -->
+    <div class="next-section-label">What You Just Unlocked</div>
+    <div class="next-title">The Whole System —<br>Not a Program</div>
+    <p class="next-body">
+      Stay Ready is the month-by-month training system <strong>plus all 5 add-on tracks</strong>.
+      Hips, knees, ankles, skill, recovery. You don't buy them one at a time anymore — they're
+      yours while you're a member.
+    </p>
+    <div class="btn-row">
+      <a href="addons.html" class="btn-gold">See What's Included</a>
+      <a href="index.html" class="btn-ghost">Explore the site →</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="foot-logo">Built to <span>Hoop</span>.</div>
+    <div class="foot-tagline">The Court Isn't Done With You.</div>
+  </div>
+  <div class="foot-links">
+    <a href="index.html">Home</a>
+    <a href="tier-1.html">Foundation</a>
+    <a href="join.html">Stay Ready</a>
+    <a href="about.html">About</a>
+    <a href="manage.html">Manage Membership</a>
+  </div>
+  <div class="foot-copy">© 2026 Built to Hoop. All rights reserved. &nbsp;·&nbsp; tyrell@built-to-hoop.com</div>
+</footer>
+
+<script>
+(function(){
+  var t = document.querySelector('.nav-toggle');
+  var m = document.getElementById('mobile-menu');
+  if (!t || !m) return;
+  t.addEventListener('click', function(){
+    var open = m.classList.toggle('open');
+    t.setAttribute('aria-expanded', open ? 'true' : 'false');
+    document.body.style.overflow = open ? 'hidden' : '';
+  });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape' && m.classList.contains('open')) {
+      m.classList.remove('open');
+      t.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+      t.focus();
+    }
+  });
+})();
+</script>
+</body>
+</html>
