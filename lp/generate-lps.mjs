@@ -194,6 +194,92 @@ const B_PAGES = [
   },
 ];
 
+// BTH-GOAL-0042 — reset-VARIANT pages (kind 'A' form card, pain/comeback-matched copy).
+// These fix the message-match failure that killed the 2026 Knee Pain campaign (59 clicks, $194.52,
+// 0 conversions): its ads promised knee-specific help and landed on the generic reset page.
+// COMPLIANCE LINE (convergence ruling 2026-08-12): target the felt state, never the clinician's
+// desk. Copy sells training and confidence — no diagnosis, no cure promise, no anti-PT positioning.
+// Every pain page carries the "training, not treatment" line verbatim.
+const TRAINING_NOT_TREATMENT = 'This is training, not treatment. If you are dealing with an injury, get it looked at by a professional — then come build the base that keeps you playing.';
+
+const R_PAGES = [
+  {
+    slug: 'basketball-comeback-reset', eyebrow: 'The Comeback', h1: 'Coming Back To <span class="gold">Basketball?</span>', keyword: 'getting back into basketball',
+    title: 'Getting Back Into Basketball — Built to Hoop',
+    sub: 'Years off, first run back, legs gone by game two. The free 5-Day Reset starts rebuilding the base — <strong>legs, wind, ankles, first step</strong> — working toward the game feeling like yours again.',
+    bullets: ['Built for the hooper coming back, not the one who never left', 'Five days, 10–20 minutes each — an on-ramp, not a tryout', 'Zero equipment for the first three days', 'Free to start — no card, no trial'],
+    whyParas: [
+      'Getting back into basketball as an adult is its own problem. You still know how to play — what quit on you is the body underneath it: the wind, the legs, the ankles that used to take a bad landing without a second thought. Jumping straight back into full runs is how comebacks end in week two.',
+      'The free 5-Day Reset is the on-ramp: five short sessions that rebuild the base in order — movement first, then strength, then the spring. You can run it the same week you start playing again. It meets you where the layoff left you, and it is free because the first week back should not cost anything.',
+    ],
+    faq: [
+      { q: 'I have not played in years. Is this too advanced?', a: 'No — the Reset is built as an on-ramp. The first three days are bodyweight only, and every session scales to where you actually are.' },
+      { q: 'Can I do this while starting to play pickup again?', a: 'Yes. It is designed to run alongside your first weeks back, not instead of them.' },
+      { q: 'What happens after the five days?', a: 'You will know whether the approach fits. BTH Stay Ready is the full month-by-month system if you want to keep building — no pressure either way.' },
+    ],
+  },
+  {
+    slug: 'basketball-knee-reset', eyebrow: 'For Cranky Knees', h1: 'Knees Complaining After <span class="gold">Basketball?</span>', keyword: 'knee pain playing basketball',
+    title: 'Knee-Friendly Basketball Training — Built to Hoop',
+    sub: 'Stairs the morning after. Sitting out the third game. Training built for hoopers whose knees are loud — <strong>strength and movement work that respects them</strong>. Start with five free days.',
+    bullets: ['Training built around cranky knees, not through them', 'Strength and landing work hoopers actually need', 'Short sessions — 10 to 20 minutes a day', 'Free to start — no card, no trial'],
+    whyParas: [
+      'Most hoopers with loud knees get two options: stop playing, or keep playing and ice it after. BTH takes the third road — build the legs, hips and landing mechanics so the load your knees take every run has somewhere else to go. That is a training problem, and training is what BTH does.',
+      `The free 5-Day Reset starts that work: movement quality first, then strength the joints can trust. ${TRAINING_NOT_TREATMENT}`,
+    ],
+    faq: [
+      { q: 'Is this a medical program for knee pain?', a: 'No. BTH is basketball training, not treatment or rehab. It builds strength and movement quality for hoopers — if something is injured, see a professional first.' },
+      { q: 'Can I train while my knees are cranky?', a: 'The Reset is built from low-impact days up, and every session scales. You choose the level your body can work with — nothing in it demands you push through anything.' },
+      { q: 'What is the Knee Protection Track?', a: 'A focused add-on track inside BTH for hoopers who want dedicated knee-strength work after the Reset. The Reset comes first — it is free and it will tell you if the approach fits.' },
+    ],
+  },
+  {
+    slug: 'basketball-ankle-reset', eyebrow: 'Trust It Again', h1: 'Ankle Still On Your <span class="gold">Mind?</span>', keyword: 'scared to play basketball after ankle injury',
+    title: 'Ankle-Confidence Basketball Training — Built to Hoop',
+    sub: 'Walking is fine, jogging is fine — but the first hard cut is a question. Training that rebuilds <strong>the strength and the trust</strong>, five free days at a time.',
+    bullets: ['Stability and strength work for hoopers, step by step', 'Built to rebuild confidence, not test it', 'First three days need zero equipment', 'Free to start — no card, no trial'],
+    whyParas: [
+      'Every hooper who has rolled an ankle knows the second recovery nobody talks about: the one in your head. The body says go and something else says careful. The way through is not waiting longer — it is giving that ankle work it can win: controlled strength and balance work that earns back trust one level at a time.',
+      `The free 5-Day Reset is where that starts — foundational movement and strength you control the intensity of. ${TRAINING_NOT_TREATMENT}`,
+    ],
+    faq: [
+      { q: 'Is this ankle rehab?', a: 'No. BTH is basketball training — strength, stability and movement work for hoopers. Rehab for an injury belongs with a professional; BTH is for building the base once you are cleared to train.' },
+      { q: 'I am scared to cut hard again. Will this help?', a: 'Confidence tends to come back through stacked small wins — sessions where the ankle does its job and you notice. That is what the Reset and the Ankle Rebuild Track are built to do.' },
+      { q: 'How do I know if I am ready to start?', a: 'If you are cleared for normal activity and training, the first days are low-intensity and scale to you. If you are not sure, ask the professional who saw the injury — then start.' },
+    ],
+  },
+  {
+    slug: 'basketball-recovery-reset', eyebrow: 'Sore Everywhere?', h1: 'Everything Hurts After <span class="gold">Pickup?</span>', keyword: 'everything hurts after playing basketball',
+    title: 'Recover Like A Hooper — Built to Hoop',
+    sub: 'Two days sore after every run is not a law of nature past 30 — it is a sign the base needs work. Five free days of <strong>training and recovery, built together</strong>.',
+    bullets: ['For the hooper who is always a little banged up', 'Recovery built into the training, not bolted on', 'Mobility, strength and easy days in the right order', 'Free to start — no card, no trial'],
+    whyParas: [
+      'When everything hurts after basketball — knees, back, calves, all of it a little — the answer is almost never one magic stretch. It is the base: a body that has not trained between runs has no buffer, so every game spends more than it has. The fix is boring and it is built to work over time — build the buffer.',
+      `The free 5-Day Reset is five days of exactly that: mobility, strength and recovery work sequenced so your next run costs less. ${TRAINING_NOT_TREATMENT}`,
+    ],
+    faq: [
+      { q: 'Why am I sore for days after playing?', a: 'Usually because the only training your body gets IS the games. The Reset adds the between-run work that gives your body something to recover with, not just from.' },
+      { q: 'Is this a recovery program or a training program?', a: 'Both, on purpose — recovery that ignores training does not hold, and training that ignores recovery is how you got here. The Reset sequences them together.' },
+      { q: 'What if one specific joint is the real problem?', a: 'BTH has focused add-on tracks (knee, ankle, hip, recovery) for exactly that. Start with the free Reset — it will show you the approach before you spend anything.' },
+    ],
+  },
+  {
+    slug: 'basketball-explosiveness-reset', eyebrow: 'First Step, Second Wind', h1: 'Where Did The <span class="gold">Bounce</span> Go?', keyword: 'how to get my explosiveness back for basketball',
+    title: 'Get Your First Step Back — Built to Hoop',
+    sub: 'Nothing hurts — you are just slower off the floor than you used to be. Desk hips, untrained legs. <strong>Athleticism is not gone at 31. It is untrained.</strong> Five free days to start it back.',
+    bullets: ['Hip mobility and leg drive, trained together', 'For the hooper losing his lift, not chasing a dunk', 'Runs alongside your normal pickup schedule', 'Free to start — no card, no trial'],
+    whyParas: [
+      'The first step does not vanish at 30 — it gets buried. Nine hours a day in a chair locks the hips that drive it, and legs that only get game minutes stop producing force. That is not age being undefeated; that is a body running on zero training input. Both of those are trainable.',
+      'The free 5-Day Reset starts both: hip mobility work that unlocks what sitting took, and leg work that reminds your legs what producing force feels like. No overnight-inches promises — honest training that compounds. Day 5 is the Power Reset, where it comes together.',
+    ],
+    faq: [
+      { q: 'Is this a vertical jump program?', a: 'No — BTH is a complete training system and jump work is one piece of it. If you want a dunk-in-30-days promise, that is a different corner of the internet. This is the base that real explosiveness is built on.' },
+      { q: 'I sit at a desk all day. Is that really why I am slower?', a: 'It is a big part. Hip position and mobility drive the first step, and long sitting works directly against both. The Reset trains it directly.' },
+      { q: 'How fast will I feel a difference?', a: 'Most guys feel the difference in how they move within the five days. The lift itself compounds over weeks of consistent work — honest answer, no shortcuts.' },
+    ],
+  },
+];
+
 const head = (p) => `<!DOCTYPE html>
 <html lang="en" style="color-scheme: light;">
 <head>
@@ -403,4 +489,5 @@ mkdirSync(here, { recursive: true });
 let n = 0;
 for (const p of A_PAGES) { writeFileSync(join(here, `${p.slug}.html`), page(p, 'A')); n++; }
 for (const p of B_PAGES) { writeFileSync(join(here, `${p.slug}.html`), page(p, 'B')); n++; }
-console.log(`${n} LPs written to lp/ (${A_PAGES.length} reset-funnel + ${B_PAGES.length} join-path).`);
+for (const p of R_PAGES) { writeFileSync(join(here, `${p.slug}.html`), page(p, 'A')); n++; }
+console.log(`${n} LPs written to lp/ (${A_PAGES.length} reset-funnel + ${B_PAGES.length} join-path + ${R_PAGES.length} reset-variant).`);
