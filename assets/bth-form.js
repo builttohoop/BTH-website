@@ -86,6 +86,13 @@
               if (realLead) {
                 try { window.sessionStorage.setItem("bth_lead", "1"); } catch (e) {}
               }
+              // BTH-GOAL-0054: the worker's signed, non-PII lead token — the identity
+              // assets/bth-events.js attaches to first-party funnel beacons (Day-1
+              // view, offer view, checkout start). localStorage on purpose: the
+              // funnel spans days, sessionStorage dies with the tab.
+              if (data.lead_token) {
+                try { window.localStorage.setItem("bth_lead_token", String(data.lead_token)); } catch (e) {}
+              }
               if (btn) {
                 btn.classList.remove("is-working");
                 btn.classList.add("is-success");
