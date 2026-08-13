@@ -6,7 +6,7 @@
  * instead of depending on GA4/GTM.
  *
  * Identity: the signed lead token subscribe() returned (localStorage
- * "bth_lead_token", non-PII — an id + HMAC, never an email), with a random
+ * "bth_lead_ref", non-PII — an id + HMAC, never an email), with a random
  * anonymous id as fallback. Delivery: sendBeacon with a text/plain JSON blob
  * (a CORS "simple request" — no preflight, survives page unload), falling back
  * to fetch(keepalive). The worker dedupes repeat views per identity per day, so
@@ -22,8 +22,8 @@
 
   var ENDPOINT = "https://bth-mail-os.tyrell-38b.workers.dev/api/events";
 
-  function leadToken() {
-    try { return window.localStorage.getItem("bth_lead_token") || ""; } catch (e) { return ""; }
+  function leadRef() {
+    try { return window.localStorage.getItem("bth_lead_ref") || ""; } catch (e) { return ""; }
   }
 
   function anonId() {
@@ -72,7 +72,7 @@
     var payload = {
       type: String(type || ""),
       event_id: eventId(),
-      lead_token: leadToken(),
+      lead_ref: leadRef(),
       anon_id: anonId(),
       ga_client_id: gaClientId(),
       url: String(window.location.href || "").split("#")[0],

@@ -90,8 +90,8 @@
               // assets/bth-events.js attaches to first-party funnel beacons (Day-1
               // view, offer view, checkout start). localStorage on purpose: the
               // funnel spans days, sessionStorage dies with the tab.
-              if (data.lead_token) {
-                try { window.localStorage.setItem("bth_lead_token", String(data.lead_token)); } catch (e) {}
+              if (data.lead_ref) {
+                try { window.localStorage.setItem("bth_lead_ref", String(data.lead_ref)); } catch (e) {}
               }
               if (btn) {
                 btn.classList.remove("is-working");
