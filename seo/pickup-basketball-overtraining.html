@@ -314,12 +314,22 @@ nav {
     var open = t.getAttribute('aria-expanded') === 'true';
     t.setAttribute('aria-expanded', String(!open));
     m.classList.toggle('open', !open);
+    document.body.style.overflow = open ? '' : 'hidden';
   });
   m.querySelectorAll('a').forEach(function(a){
     a.addEventListener('click', function(){
       t.setAttribute('aria-expanded', 'false');
       m.classList.remove('open');
+      document.body.style.overflow = '';
     });
+  });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape' && m.classList.contains('open')) {
+      t.setAttribute('aria-expanded', 'false');
+      m.classList.remove('open');
+      document.body.style.overflow = '';
+      t.focus();
+    }
   });
 })();
 </script>
