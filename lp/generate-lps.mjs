@@ -278,6 +278,29 @@ const R_PAGES = [
       { q: 'How fast will I feel a difference?', a: 'Most guys feel the difference in how they move within the five days. The lift itself compounds over weeks of consistent work — honest answer, no shortcuts.' },
     ],
   },
+  // BTH-GOAL-0042 KW-14 (a) — Ty's ruling 2026-08-14: the injury-intent terms
+  // ("basketball after injury", "basketball conditioning after injury") get their OWN ad group and
+  // their OWN page. They previously landed on basketball-comeback-reset, whose promise is
+  // "gets you pickup-ready" — served to an injured searcher that reads as an implied
+  // return-to-play claim, and compliance ruled the defect lives in the keyword-to-copy MATCH,
+  // so no rewrite of the comeback page fixes it. This page is the match: it is explicitly for
+  // hoopers ALREADY CLEARED to train, puts the medical decision with a professional, and carries
+  // TRAINING_NOT_TREATMENT verbatim (which the comeback page does not).
+  {
+    slug: 'basketball-after-injury-reset', eyebrow: 'After Time Out', h1: 'Cleared To Train <span class="gold">Again?</span>', keyword: 'basketball conditioning after injury',
+    title: 'Basketball Conditioning After Time Off — Built to Hoop',
+    sub: 'Time out takes the base before it takes the skill — wind, legs, ankles. Once you have been cleared to train, the free 5-Day Reset rebuilds conditioning in order. <strong>This is training, not treatment.</strong>',
+    bullets: ['For hoopers already cleared to train — not a rehab program', 'Rebuilds conditioning in order: movement, then strength, then spring', 'Five days, 10–20 minutes each — starts at the bottom on purpose', 'Free to start — no card, no trial'],
+    whyParas: [
+      'Time off the court takes the base before it takes the skill. The handle comes back inside a week; the wind, the legs and the ankles take a lot longer, and walking straight back into full runs is how one layoff turns into the next one. That gap is a conditioning problem — and conditioning is a training problem.',
+      `The free 5-Day Reset is the on-ramp for exactly that: five short sessions that rebuild in order — movement quality first, then strength, then the spring. ${TRAINING_NOT_TREATMENT}`,
+    ],
+    faq: [
+      { q: 'Is this a rehab or return-to-play program?', a: 'No. BTH is basketball training — not treatment, not rehab, not medical advice. It is built for hoopers who have already been cleared to train. If you are still working through an injury, see a professional first.' },
+      { q: 'I have been cleared, but I am nowhere near game shape. Where do I start?', a: 'Here. The first three days are bodyweight only and every session scales — the Reset is built to start at the bottom, on purpose.' },
+      { q: 'What happens after the five days?', a: 'You will know whether the approach fits. BTH Stay Ready is the full month-by-month system if you want to keep building — no pressure either way.' },
+    ],
+  },
 ];
 
 const head = (p) => `<!DOCTYPE html>
