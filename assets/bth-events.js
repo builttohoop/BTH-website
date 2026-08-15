@@ -16,11 +16,24 @@
  *   BTHEvents.track("reset_day_viewed", { day: 1 });
  *   BTHEvents.track("offer_viewed");
  *   <a href="https://buy.stripe.com/..."> clicks auto-fire "checkout_started".
+ *
+ * Every page including this script also auto-fires "page_viewed" on load, which
+ * is what makes site traffic BTH's own data — the weekly funnel audit reads
+ * page-level volume straight out of D1 instead of waiting on a GA4 export.
+ * Opt a page out with <script src="assets/bth-events.js" data-bth-no-pageview>.
  */
 (function () {
   "use strict";
 
   var ENDPOINT = "https://bth-mail-os.tyrell-38b.workers.dev/api/events";
+
+  // Captured here, at top-level execution, where document.currentScript is still
+  // valid — inside a DOMContentLoaded callback it is always null.
+  var SELF = document.currentScript
+    || (function () {
+      var tags = document.querySelectorAll('script[src*="bth-events.js"]');
+      return tags.length ? tags[tags.length - 1] : null;
+    })();
 
   function leadRef() {
     try { return window.localStorage.getItem("bth_lead_ref") || ""; } catch (e) { return ""; }
@@ -97,10 +110,24 @@
     }, true);
   }
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", wireCheckoutClicks);
-  } else {
+  // Page views: the owned replacement for a GA4 traffic export. The worker
+  // already accepts "page_viewed" and dedupes to first-per-identity-per-day, so
+  // a refresh never inflates the number. Fired once per load, after the checkout
+  // wiring, so a click during a slow load still registers.
+  function firePageView() {
+    if (SELF && SELF.hasAttribute("data-bth-no-pageview")) return;
+    track("page_viewed", { title: String(document.title || "").slice(0, 200) });
+  }
+
+  function start() {
     wireCheckoutClicks();
+    firePageView();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", start);
+  } else {
+    start();
   }
 
   window.BTHEvents = { track: track };
