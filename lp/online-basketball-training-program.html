@@ -128,7 +128,31 @@ footer { padding:44px 52px; display:flex; align-items:center; justify-content:sp
       <li>Cancel anytime — no lock-in</li>
     </ul>
     <a class="join-btn" href="https://buy.stripe.com/4gMaEXbvh7nu1sccHJaAw00">Join Stay Ready &rarr;</a>
-    <p class="form-trust">Secure Stripe checkout. Cancel anytime.<br>Not sure yet? <a href="../reset.html" style="color:var(--gold);">Start with the free 5-Day Reset &rarr;</a></p>
+    <p class="form-trust">Secure Stripe checkout. Cancel anytime.<br>Not sure yet? <a href="#free-start" style="color:var(--gold);">Start with the free 5-Day Reset &rarr;</a></p>
+  </div>
+</section>
+<section class="lp-section" id="free-start">
+  <div class="form-card free" id="optin">
+    <div class="form-h">See How It Runs First</div>
+    <p class="form-sub">One session lands in your inbox each day for five days. No app to learn, no card. See how the training actually runs before you join.</p>
+    <form class="bth-mail-form" action="https://bth-mail-os.tyrell-38b.workers.dev/api/subscribe" method="post" novalidate data-bth-redirect="/thank-you.html">
+      <div class="bth-field">
+        <input type="text" name="name" placeholder="First name" autocomplete="given-name">
+      </div>
+      <div class="bth-field">
+        <input type="email" name="email" placeholder="Email address" required autocomplete="email" id="bth-email-lp-online-basketball-training-program">
+        <p class="bth-field-error-msg"></p>
+      </div>
+      <input type="hidden" name="source" value="free_reset">
+      <input type="hidden" name="sequence" value="free-reset-to-rise">
+      <input type="hidden" name="consent_version" value="bth-email-consent-v1">
+      <input type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true" class="bth-hp">
+      <button type="submit" class="bth-btn-commit">
+        <span class="bth-spinner"></span><span class="bth-btn-label" data-working-label="Sending&hellip;">Start The 5-Day Reset &rarr;</span>
+      </button>
+      <p class="bth-form-success" role="status">You're in &#9889;</p>
+    </form>
+    <p class="form-trust">No spam. No junk funnel. One email a day for 5 days, then a short weekly note. Unsubscribe anytime.</p>
   </div>
 </section>
 <section class="lp-section">
