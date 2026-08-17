@@ -25,7 +25,9 @@
 //  • Membership = "Stay Ready" $27/mo (locked taxonomy). No "BTH Rise", no discount, no hype.
 //  • ONE named offer per sequence: Stay Ready $27/mo. (BTH-0041)
 //    BANNED as phase names — they are separate purchasable products with their own checkouts:
-//      "Performance Track" (= BTH Rise, $97 one-time)  → say "The Performance Layer"
+//      "Performance Track" (= BTH Rise, $97 one-time)  → say "The Strength Block"
+//        (Ty ruled 2026-08-17: name it for the workout. Was "The Performance Layer" here and
+//         "Performance Track" on the website — two substitutes for one thing. Now one name everywhere.)
 //      "Tier 1 / 2 / 3"    (= the standalone product pages) → never referenced at all
 //    ALLOWED — "Foundation" is the sanctioned name of Stay Ready's month-1 phase (Ty's ruling,
 //    2026-08-03; matches the app's own `foundation` program, access:'member'). It collides with
@@ -392,7 +394,7 @@ ${p('Here\'s what happens:')}
 ${h('Month 1 — Foundation', 3)}
 ${p('This is where the rebuild starts. 6 weeks of structured training that fixes the body before it tries to perform. Hips, ankles, knees, tendons, core movement patterns. The readiness framework so you always know when to train and when to back off. Built around pickup, not against it.')}
 ${p('<em>Foundation is your first month inside Stay Ready — not a separate purchase.</em>', { size: 14, muted: true })}
-${h('Month 2+ — The Performance Layer', 3)}
+${h('Month 2+ — The Strength Block', 3)}
 ${p('After month 1, you move into the performance layer. Strength to bounce. Game speed. Deceleration. Pickup-specific conditioning. The phase where your legs start feeling different by warmups.')}
 ${h('Also included, from day 1:', 3)}
 ${ul(['Hip Reset Track','Knee Protection Track','Ankle Rebuild Track','Skill Builder','Recovery System'])}
@@ -447,7 +449,7 @@ ${divider()}
 ${h('What you get starting today:')}
 ${h('Month 1 — Foundation', 3)}
 ${p('6-week base program. Hips, ankles, knees, core, tendon prep, readiness framework. Built around pickup. 3 days/week. Progressive.')}
-${h('Month 2+ — The Performance Layer', 3)}
+${h('Month 2+ — The Strength Block', 3)}
 ${p('Strength to bounce, game speed, pickup conditioning. This is where the legs start feeling different.')}
 ${p('<strong>All included:</strong> Hip Reset, Knee Protection, Ankle Rebuild, Skill Builder, Recovery System.')}
 ${p('Cancel anytime. Keep everything you download. <strong>$27/month.</strong>')}
