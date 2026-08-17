@@ -5,6 +5,12 @@
 // Free-Reset opt-in form (NO paid pricing — cold-traffic brand rule); Campaign B
 // pages carry the Stay Ready $27/mo offer card on the Stripe Payment Link.
 // All pages: full BTH tracking head + bth-click-id.js (gclid/utm capture) + noindex.
+//
+// FOUR script tags, and they must stay four. bth-events.js was live on all 18 LP pages but had
+// never been in this generator, so every regenerate silently stripped conversion-event tracking
+// from the whole landing-page set — pages that still build, still deploy, and look completely
+// normal, with the events quietly gone. Restored 2026-08-17 while regenerating for the Strength
+// Block rename. If a page gains a script, add it here too, or the generator will keep undoing it.
 import { writeFileSync, mkdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
@@ -139,13 +145,13 @@ const B_PAGES = [
   {
     slug: 'basketball-training-membership', eyebrow: 'One Membership', h1: 'Basketball Training <span class="gold">Membership</span>', keyword: 'basketball training membership',
     title: 'Basketball Training Membership — BTH Stay Ready',
-    sub: 'One membership, the whole BTH system — <strong>Foundation Month, the Performance Track and every add-on track</strong>, for $27 a month.',
+    sub: 'One membership, the whole BTH system — <strong>Foundation Month, the Strength Block and every add-on track</strong>, for $27 a month.',
     whyParas: [
-      'A basketball training membership only earns a monthly payment if it keeps delivering after the first week. BTH Stay Ready is built as one system, not a bundle of one-off products — Foundation Month gets your base built, the Performance Track keeps the training moving, and every add-on track (jump, mobility, recovery, and more) is already included, not sold separately later.',
+      'A basketball training membership only earns a monthly payment if it keeps delivering after the first week. BTH Stay Ready is built as one system, not a bundle of one-off products — Foundation Month gets your base built, the Strength Block keeps the training moving, and every add-on track (jump, mobility, recovery, and more) is already included, not sold separately later.',
       'You do not need to guess whether you are "ready" for a membership. If you have run the free 5-Day Reset and it fit your body and your schedule, Stay Ready is the same approach continued — same voice, same structure, month after month.',
     ],
     faq: [
-      { q: 'What is actually included in this basketball training membership?', a: 'Foundation Month, the ongoing Performance Track, and every add-on track BTH makes — jump, mobility, recovery and more — all inside one $27/month membership. Nothing held back for a future upsell.' },
+      { q: 'What is actually included in this basketball training membership?', a: 'Foundation Month, the ongoing Strength Block, and every add-on track BTH makes — jump, mobility, recovery and more — all inside one $27/month membership. Nothing held back for a future upsell.' },
       { q: 'Can I cancel anytime?', a: 'Yes — it is a self-serve monthly membership with no lock-in. Cancel whenever it stops earning its spot in your month.' },
       { q: 'What if I am not sure yet?', a: 'Start with the free 5-Day Reset first — no card required. If it fits, Stay Ready is the same training continued.' },
     ],
@@ -169,11 +175,11 @@ const B_PAGES = [
     title: 'Comparing Basketball Training Programs — BTH Stay Ready',
     sub: 'You are comparing. Good. Here is exactly what is inside BTH Stay Ready — <strong>judge it against anything else</strong> you are looking at.',
     whyParas: [
-      'If you are trying to find the best basketball training program, the honest answer is: judge it on what is actually inside, not the sales page. BTH Stay Ready gives you Foundation Month, an ongoing Performance Track, and every add-on track — jump, mobility, recovery — for one price, built by someone who still plays, not a content studio.',
+      'If you are trying to find the best basketball training program, the honest answer is: judge it on what is actually inside, not the sales page. BTH Stay Ready gives you Foundation Month, an ongoing Strength Block, and every add-on track — jump, mobility, recovery — for one price, built by someone who still plays, not a content studio.',
       'Compare that directly against whatever else you have open in another tab: what is included, what is upsold later, and who built it. Stay Ready is deliberately structured so there is nothing hidden behind a second paywall once you join.',
     ],
     faq: [
-      { q: 'What makes this the best basketball training program for someone comparing options?', a: 'Everything is included at one price — Foundation Month, the Performance Track, and every add-on track — with nothing held back for a future upsell.' },
+      { q: 'What makes this the best basketball training program for someone comparing options?', a: 'Everything is included at one price — Foundation Month, the Strength Block, and every add-on track — with nothing held back for a future upsell.' },
       { q: 'Who actually built this?', a: 'A hooper who still plays, not a content agency — the training reflects what the game actually demands from an adult body.' },
       { q: 'How do I know it will work for me before I pay?', a: 'Start with the free 5-Day Reset first. It is built from the same system, so you will know how it fits before committing to Stay Ready.' },
     ],
@@ -184,10 +190,10 @@ const B_PAGES = [
     sub: 'The full BTH system, delivered online — train at home, at the gym, or on the road. <strong>$27 a month, cancel anytime.</strong>',
     whyParas: [
       'An online basketball training program has to earn trust without a gym, a coach in the room, or a contract locking you in. Stay Ready is built for exactly that — every session delivered digitally, no app install, no equipment requirement beyond what each day actually calls for.',
-      'It runs wherever you are: home, a hotel gym on the road, or your regular gym floor. The training does not change based on your location — Foundation Month, the Performance Track and every add-on track travel with you.',
+      'It runs wherever you are: home, a hotel gym on the road, or your regular gym floor. The training does not change based on your location — Foundation Month, the Strength Block and every add-on track travel with you.',
     ],
     faq: [
-      { q: 'Is this online basketball training program actually complete, or a stripped-down version?', a: 'It is the full system — Foundation Month, the Performance Track and every add-on track — delivered digitally with nothing held back for an in-person version.' },
+      { q: 'Is this online basketball training program actually complete, or a stripped-down version?', a: 'It is the full system — Foundation Month, the Strength Block and every add-on track — delivered digitally with nothing held back for an in-person version.' },
       { q: 'Do I need any special equipment to train online?', a: 'No — sessions are built to run with minimal or no equipment, so they work at home, in a hotel room, or in a gym.' },
       { q: 'Is there a contract?', a: 'No — it is $27 a month, cancel anytime, self-serve.' },
     ],
@@ -325,6 +331,7 @@ const head = (p) => `<!DOCTYPE html>
 <!-- ─── /BTH TRACKING ─── -->
 <script src="../assets/bth-click-id.js" defer></script>
 <script src="../assets/bth-tracking.js" defer></script>
+<script src="../assets/bth-events.js" defer></script>
 <script src="../assets/bth-form.js" defer></script>
 
 <meta charset="UTF-8">
@@ -437,14 +444,65 @@ const offerCardB = () => `<div class="form-card member" id="join">
     <div class="price-row"><span class="price-num">$27</span><span class="price-per">/month</span></div>
     <ul class="inside-list">
       <li>Foundation Month — your first four weeks, structured</li>
-      <li>The Performance Track</li>
+      <li>The Strength Block</li>
       <li>All five add-on tracks included</li>
       <li>Train at home or in the gym</li>
       <li>Cancel anytime — no lock-in</li>
     </ul>
     <a class="join-btn" href="${STRIPE_MONTHLY}">Join Stay Ready &rarr;</a>
-    <p class="form-trust">Secure Stripe checkout. Cancel anytime.<br>Not sure yet? <a href="../reset.html" style="color:var(--gold);">Start with the free 5-Day Reset &rarr;</a></p>
+    <p class="form-trust">Secure Stripe checkout. Cancel anytime.<br>Not sure yet? <a href="#free-start" style="color:var(--gold);">Start with the free 5-Day Reset &rarr;</a></p>
   </div>`;
+
+// The B-page free-start capture block.
+//
+// WHY IT LIVES HERE: PR #89 (merged 2026-08-17) added this form by hand-editing the four generated
+// B pages and never touched this generator. That made every B page one `node generate-lps.mjs` away
+// from silently losing BTH's only working Campaign B email capture — and the loss would be
+// invisible, because the pages would still build, still deploy, and still look right. Caught
+// 2026-08-17 when the Strength Block rename regenerated the pages and `capture-truth` went from
+// 4 capturing B pages to 0. Generated files are not a place to keep a fix.
+//
+// A B page sells the $27/mo membership, so the honest secondary ask is the free reset, not a
+// discount. `bth-email-lp-${p.slug}` keeps the input id unique per page.
+// Per-page copy from PR #89, recovered from origin/main and moved into config here so the generator
+// reproduces it exactly instead of flattening all four pages to one shared heading. Each answers the
+// specific objection its keyword implies: "best program" -> judge it yourself; "online" -> see how
+// it runs; "training membership" -> try the training. Falls back to the neutral pair.
+const FREE_START_COPY = {
+  'basketball-membership': ['Not Ready To Pay Yet?', 'Take the free 5-Day Reset first. Five days of the actual system, no card, no trial. Decide on the membership after you have trained with it.'],
+  'basketball-training-membership': ['Try The Training First', 'The free 5-Day Reset is a real piece of the membership, not a sample. Five sessions, one a day, then you know exactly what you would be paying for.'],
+  'best-basketball-training-program': ['Judge It For Yourself', 'Every program calls itself the best. Take five days of ours free and decide with your own body instead of our sales page.'],
+  'online-basketball-training-program': ['See How It Runs First', 'One session lands in your inbox each day for five days. No app to learn, no card. See how the training actually runs before you join.'],
+};
+
+const freeStartB = (p) => {
+  const [h, sub] = FREE_START_COPY[p.slug]
+    ?? ['Not Ready To Pay Yet?', 'Take the free 5-Day Reset first. Five days of the actual system, no card, no trial. Decide on the membership after you have trained with it.'];
+  return `<section class="lp-section" id="free-start">
+  <div class="form-card free" id="optin">
+    <div class="form-h">${h}</div>
+    <p class="form-sub">${sub}</p>
+    <form class="bth-mail-form" action="https://bth-mail-os.tyrell-38b.workers.dev/api/subscribe" method="post" novalidate data-bth-redirect="/thank-you.html">
+      <div class="bth-field">
+        <input type="text" name="name" placeholder="First name" autocomplete="given-name">
+      </div>
+      <div class="bth-field">
+        <input type="email" name="email" placeholder="Email address" required autocomplete="email" id="bth-email-lp-${p.slug}">
+        <p class="bth-field-error-msg"></p>
+      </div>
+      <input type="hidden" name="source" value="free_reset">
+      <input type="hidden" name="sequence" value="free-reset-to-rise">
+      <input type="hidden" name="consent_version" value="bth-email-consent-v1">
+      <input type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true" class="bth-hp">
+      <button type="submit" class="bth-btn-commit">
+        <span class="bth-spinner"></span><span class="bth-btn-label" data-working-label="Sending&hellip;">Start The 5-Day Reset &rarr;</span>
+      </button>
+      <p class="bth-form-success" role="status">You're in &#9889;</p>
+    </form>
+    <p class="form-trust">No spam. No junk funnel. One email a day for 5 days, then a short weekly note. Unsubscribe anytime.</p>
+  </div>
+</section>`;
+};
 
 const valueStrip = (cards, title) => `<section class="value-strip"><h2 class="value-strip-title">${title}</h2><div class="value-grid">
 ${cards.map(([h, b]) => `  <div class="value-card"><h3><span>—</span>${h}</h3><p>${b}</p></div>`).join('\n')}
@@ -470,7 +528,7 @@ const A_VALUES = [
   ['No Gym Required', 'The first three days need zero equipment. Train in your living room, hotel room, or the gym.'],
 ];
 const B_VALUES = [
-  ['Everything Included', 'Foundation Month, the Performance Track and every add-on track — one membership, one price.'],
+  ['Everything Included', 'Foundation Month, the Strength Block and every add-on track — one membership, one price.'],
   ['Cancel Anytime', 'Monthly, self-serve, no lock-in. Stay because the training earns it.'],
   ['Built By A Hooper', 'Made by a player who still hoops. Direct, structured, honest training — no hype.'],
 ];
@@ -491,7 +549,7 @@ const page = (p, kind) => `${head(p)}
   </div>
   ${kind === 'A' ? formCardA(p) : offerCardB()}
 </section>
-${whySection(p)}
+${kind === 'B' ? freeStartB(p) + '\n' : ''}${whySection(p)}
 ${valueStrip(kind === 'A' ? A_VALUES : B_VALUES, kind === 'A' ? "What's Inside The System" : "What's Inside The Membership")}
 ${faqSection(p)}
 <footer>
