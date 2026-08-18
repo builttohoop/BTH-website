@@ -1,7 +1,7 @@
 /* BTH owned form handler — the Tier-1 commit flow: press -> working -> success.
  *
  * Wires every `.bth-mail-form` on the page to the live Mail OS endpoint.
- * Replaces the MailerLite `.ml-embedded` widget JS — no external script needed.
+ * Replaces the retired legacy `.ml-embedded` widget JS — no external script needed.
  * Spec: BTH/design-system/templates/bth-forms-cta-spec.md section 3.
  *
  * Behavior:
