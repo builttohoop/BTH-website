@@ -69,6 +69,13 @@
         btn.classList.add("is-working");
       }
 
+      // BTH-GOAL-0054: stash the signup answer for thank-you.html, which renders its
+      // Day-1 line on it. Shared here (was inline on reset.html only) so the answer
+      // survives the redirect from EVERY form now that every form asks the question.
+      try {
+        var picked = form.querySelector('input[name="segment"]:checked');
+        if (picked && picked.value) window.sessionStorage.setItem("bth_seg", picked.value);
+      } catch (e) {}
       var formData = new FormData(form);
 
       fetch(form.action, { method: "POST", body: formData })
