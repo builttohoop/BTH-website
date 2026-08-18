@@ -6,7 +6,7 @@
    One skeleton for every BTH form (signup / contact / waitlist):
    eyebrow -> headline -> copy -> field(s) -> Tier-1 button -> fine print.
    This file is the shared, page-independent version of the legacy
-   per-page .form-card / .ml-form-wrap / .form-input rules — every
+   per-page .form-card / .form-input form rules — every
    page that includes this file gets the identical production form,
    regardless of what local styles it also carries.
    ============================================================= */

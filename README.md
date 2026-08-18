@@ -5,7 +5,7 @@ Repo: `builttohoop/BTH-website` → GitHub Pages
 
 Static HTML/CSS/JS. No build pipeline. Edit files, push to `main`, site updates in ~60 seconds.
 
-> ⚠️ **Business facts below (tier prices, the Gumroad products table, MailerLite IDs) may be stale.**
+> ⚠️ **Business facts below (tier prices, the Gumroad products table) may be stale.**
 > Pricing/offer changes and the **GUMROAD-OFF cutover** (owned Mail OS licensing + Stripe replacing
 > Gumroad) are in flight. **Source of truth for the offer = Motherboard `data/command-center/products.json`
 > (membership = BTH Stay Ready $27/mo).** Treat the tables here as a rough map, not the live truth.
@@ -28,7 +28,7 @@ Static HTML/CSS/JS. No build pipeline. Edit files, push to `main`, site updates 
 ├── tier-3.html         BTH Stay Ready — $27/mo membership
 ├── addons.html         5 targeted add-on tracks
 ├── about.html          Founder story + methodology
-├── reset.html          Free 5-Day Reset opt-in (MailerLite lead magnet)
+├── reset.html          Free 5-Day Reset opt-in (owned Mail OS signup form)
 ├── bounce.html         Lost Your Bounce landing page
 ├── knee.html           Knee pain landing page
 ├── mobility.html       Hip mobility landing page
@@ -75,11 +75,13 @@ Every page loads:
 
 ---
 
-## MailerLite
+## Email — owned Mail OS
 
-- Account ID: `1918834`
-- Form ID: `175289018826588406`
-- Groups: Built To Hoop · Free Reset Subscribers · Buyers (`186510231292871802`)
+All email runs on the owned Mail OS (Cloudflare Worker + D1 + Resend) at
+`BTH/00-operator/automations/bth-mail-os/` — live at `bth-mail-os.tyrell-38b.workers.dev`.
+Site forms POST to its `/api/subscribe` (see `assets/bth-form.js`); the free-reset funnel
+and the full contact list are delivered from there. MailerLite was retired in
+BTH-GOAL-0032 (list exported + imported to D1 2026-07-08).
 
 ---
 
