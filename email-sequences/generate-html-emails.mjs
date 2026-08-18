@@ -304,6 +304,27 @@ function g(word) {
 // ─── EMAILS ──────────────────────────────────────────────────────
 // Each email = { filename, subject, preheader, hero{...}, body }.
 // Reset-day emails (0,2,3,4,5) carry exactly ONE resetButton and ZERO inline exercises.
+//
+// REWRITE 2026-08-18 — warmth-before-price pass (live D1 data, sequence_id=1, 277 delivered /
+// 66 opens (24%) / 10 clicks (3.6%), 7 weeks, $0 revenue). Diagnosis: price appeared in E0 before
+// a single rep was done, got re-pitched in E1/E2, then E3 ran a full product teardown (54% open —
+// the funnel's best-read email — and 0 clicks: the highest-attention slot produced zero motion).
+// Fix: price now first appears (soft, unnamed) in E4 and fully (name + $27/mo + breakdown) in E5 —
+// the first email that actually carries a buy CTA. E1/E3 each add a reply-based micro-commitment
+// (no product ask) so warmth is earned before the ask, and E4/E5/E6 read back whatever the
+// reader told Ty on Day 3 so the eventual ask feels answered, not cold. E3's old teardown content
+// (Month 1 — Foundation / Month 2 — Strength Block / included tracks) moved into E5 rather than
+// being duplicated, closing the exact gap the data pointed at. Sequence length (8 emails / 9 days)
+// deliberately UNCHANGED — with 25 lifetime signups there's no volume to A/B a longer version yet;
+// revisit once signups clear ~100.
+//
+// CTA-placement note: E0-E4 render with ZERO join/checkout links (verified by grep on
+// email-sequences/html/*.html) -- only E5/E6/E7 carry one. That matches the BRAND_RULES
+// sequence rule ("Days 0-4: soft seed, Day 5: hard offer") and is NOT changed wholesale here --
+// restoring a hard CTA to every early email would re-introduce the exact over-pitching this
+// rewrite removes. The one gap worth closing: a reader already sold by Day 4 previously had no
+// path to buy before Day 5. E4 now carries a single low-key text link (not a Tier-1 button) as
+// an escape hatch for that reader; E0-E3 intentionally still carry none.
 
 const emails = [
 
@@ -322,13 +343,12 @@ ${hero(
 )}
 ${p('Your 5-Day BTH Reset is live. Day 1 — the Hip Reset — is ready and takes about 15 minutes. You\'ll feel it working before you finish.')}
 ${p('Move slow on every rep. No pain — if something pinches, back off. This is about control and position, not effort.')}
-${p('Do this today. Tomorrow I\'m sending Day 2.')}
+${p('Do this today. Tomorrow I\'ll show you why it works &mdash; then Day 2 lands the day after.')}
 ${divider()}
 ${p('One more thing.')}
-${p('The reset gives you 5 days of relief. But relief isn\'t the same as rebuilding.')}
-${p('After Day 5, I\'m going to show you what comes next — the full system that keeps the reset working and adds performance on top of it.')}
-${p('It\'s called <strong>Stay Ready</strong>. It\'s $27/month. And your first month is the rebuild that makes everything else possible.')}
-${p('More on that Day 5.', { muted: true })}
+${p('This isn\'t a random stretch routine. It\'s the same method I use to keep grown men playing pickup three nights a week without their bodies falling apart.')}
+${p('Five days won\'t undo years of neglect. But it\'ll show you what changes when the training actually matches the sport.')}
+${p('There\'s more after Day 5 — I\'ll show you then.', { muted: true })}
 ${sig('Ty<br>Built to Hoop')}
 `},
 
@@ -346,9 +366,11 @@ ${p('Every lateral cut. Every hard stop. Every time you planted on the wrong ang
 ${p('So your back tightens. Your knees start compensating. Your first step gets slower without you realizing why.')}
 ${p('That\'s the cycle.')}
 ${divider()}
-${p('The reset you\'re doing this week interrupts it. But only for a few days.')}
-${p('What actually fixes it is a progressive system that teaches your hips to load properly and keep loading. That\'s Phase 1 of the BTH method — <strong>the rebuild month.</strong>')}
-${p('You\'ll hear more about that on Day 5.')}
+${p('The reset you\'re doing this week interrupts it. That\'s real — for a few days your hips get permission to move again.')}
+${p('Interrupting a pattern and rebuilding it are two different jobs, though. More on that later this week.')}
+${divider()}
+${p('Quick favor —')}
+${p('Reply to this email with one word: <strong>RIGHT</strong> if your right hip\'s worse, <strong>LEFT</strong> if it\'s your left, <strong>EVEN</strong> if they\'re about the same. I read every reply myself — it tells me what to send you next.')}
 ${divider()}
 ${p('For now — did you do the Day 1 hip reset? If not, do it before Day 2 hits tomorrow.')}
 ${p('<strong>15 minutes. Today.</strong>')}
@@ -371,35 +393,36 @@ ${p('It\'s not because you\'re getting old. It\'s not bad luck. It\'s not that p
 ${p('It\'s because you\'ve never had a training system built around pickup.')}
 ${p('Everything you\'ve tried — YouTube workouts, gym programs, "just rest more" — was built for someone else. Not for a guy who plays 3 nights a week, goes to the gym in between, and wonders why his body never cooperates.')}
 ${p('<strong>BTH exists to break that cycle.</strong>')}
-${p('The reset is 5 days. The real system is month by month. And the first month — the rebuild — is where Stay Ready starts.')}
-${p('It rebuilds the base: hips, ankles, knees, core, tendon prep. In the right order. Around pickup, not against it.')}
-${p('More on Day 5.', { muted: true })}
+${p('The reset is 5 days. What actually breaks the cycle for good takes longer than that — and in a couple days I\'ll show you exactly what it looks like.')}
 ${resetButton(2, 'Ankle Reset', 'BTH-Reset-Day-02-Ankle-Reset.pdf')}
 ${p('Your ankles are probably the real reason your knees hurt. Today trains the real system — not just taping over it.', { size: 14, muted: true })}
 ${sig()}
 `},
 
-  // EMAIL 3 — DAY 3 / MEMBERSHIP REVEAL
+  // EMAIL 3 — DAY 3 / CHECK-IN
+  // Was "membership reveal" — the funnel's highest-open (54%) / zero-click slot.
+  // Diagnosis (live D1, 2026-08-18): this email pitched the SAME offer E5 pitches, two
+  // days early, with no CTA button to act on (only the reset-day PDF link). Readers
+  // absorbed the full pitch here with nothing to do about it, then saw it again on Day 5
+  // when the real button existed — by then the pitch had already been "spent." Its job is
+  // now connection, not conversion: no price, no product breakdown (that content moved to
+  // E5, the first real ask), just a reply-based check-in that earns a felt result the
+  // reader attributes to Ty before any money is asked for.
   {
-    filename: 'email-3-day3-membership-reveal.html',
-    subject: 'what month 1 actually looks like',
-    preheader: 'You\'re halfway through the reset. Here\'s what comes after it.',
+    filename: 'email-3-day3-checkpoint.html',
+    subject: 'day 3: what\'s actually different?',
+    preheader: 'Halfway through the reset. This is the one where I actually want to hear from you.',
     body: `
-${hero('Day 3 · The System', `What month 1 ${g('actually')} looks like.`)}
-${p('Day 3. You\'re halfway through the reset.')}
-${p('Today I want to show you what comes after it.')}
+${hero('Day 3 · Check-In', `What's actually ${g('different?')}`)}
+${p('Day 3. Halfway through.')}
+${p('No pitch today — I want to know what\'s actually happening in your body.')}
+${p('Some guys feel looser by day 3. Some don\'t notice anything until day 5. Both are normal — the reset works on its own clock, not a marketing calendar.')}
 ${divider()}
-${h('Stay Ready — $27/month. Cancel anytime.')}
-${p('Here\'s what happens:')}
-${h('Month 1 — Foundation', 3)}
-${p('This is where the rebuild starts. 6 weeks of structured training that fixes the body before it tries to perform. Hips, ankles, knees, tendons, core movement patterns. The readiness framework so you always know when to train and when to back off. Built around pickup, not against it.')}
-${p('<em>Foundation is your first month inside Stay Ready — not a separate purchase.</em>', { size: 14, muted: true })}
-${h('Month 2+ — The Strength Block', 3)}
-${p('After month 1, you move into the performance layer. Strength to bounce. Game speed. Deceleration. Pickup-specific conditioning. The phase where your legs start feeling different by warmups.')}
-${h('Also included, from day 1:', 3)}
-${ul(['Hip Reset Track','Knee Protection Track','Ankle Rebuild Track','Skill Builder','Recovery System'])}
-${p('All of it. $27/month. Cancel anytime, keep everything you download.')}
-${p('The full link goes live on Day 5.', { muted: true })}
+${p('Quick check-in —')}
+${p('Reply to this email with one line: what\'s different since Day 1? Hips, ankles, sleep — or nothing yet. Tell me that too.')}
+${p('I read every reply. It\'s how I know what\'s actually working.', { muted: true })}
+${divider()}
+${p('Tomorrow I want to tell you about a guy who almost quit playing at 27. Might sound familiar.', { muted: true })}
 ${resetButton(3, 'Movement Control', 'BTH-Reset-Day-03-Movement-Control.pdf')}
 ${p('Today the hip and ankle work start talking to each other.', { size: 14, muted: true })}
 ${sig()}
@@ -424,8 +447,10 @@ ${p('No one had ever given him a system that accounted for pickup recovery, late
 ${p('He found the BTH method. Did the rebuild month. Eight weeks later he was playing full speed without dreading the next day.')}
 ${p('Not because it was magic. Because for the first time, the training matched the sport.')}
 ${p('<strong>That\'s what Stay Ready is.</strong>')}
+${p('If you replied on Day 3 and told me something already felt different — that\'s not nothing. That\'s the same shift that got him back on the court.', { size: 14, muted: true })}
+${p(`Already know you're in? You don't have to wait for Day 5 — <a href="${CHECKOUT_URL}" class="link" style="color:${C.goldText};text-decoration:underline;">join Stay Ready here</a>. I'll still send the rest of the reset either way.`, { size: 14, muted: true })}
 ${divider()}
-${p('Tomorrow is Day 5 — your final reset day, and the day I send you the link to join.', { muted: true })}
+${p('Tomorrow is Day 5 — your final reset day, and the day I send you the full link to join.', { muted: true })}
 ${resetButton(4, 'Strength That Moves', 'BTH-Reset-Day-04-Strength-That-Moves.pdf')}
 ${p('Strength that supports movement — not strength that stays in the gym. This is the foundation that makes Day 5 possible.', { size: 14, muted: true })}
 ${sig()}
@@ -443,12 +468,14 @@ ${p('You made it through the reset. If you did all 5 days, your hips are looser,
 ${p('That\'s real. That\'s the BTH method working.')}
 ${p('Here\'s the truth: <strong>the reset is maintenance, not building.</strong> It gets your body back to baseline. It doesn\'t keep building once you stop opening the emails.')}
 ${p('The reset ends today. The work doesn\'t have to.')}
+${p('Whatever you told me on Day 3 — or even if you didn\'t reply — this is the part where it either keeps building or slides back.')}
 ${p('Stay Ready is the system that keeps going where the reset stops — same method, same coaching voice, now in the BTH app so it fits into the weeks you actually play.')}
 ${membershipCta(true)}
 ${divider()}
 ${h('What you get starting today:')}
 ${h('Month 1 — Foundation', 3)}
 ${p('6-week base program. Hips, ankles, knees, core, tendon prep, readiness framework. Built around pickup. 3 days/week. Progressive.')}
+${p('Foundation is your first month inside Stay Ready — not a separate purchase.', { size: 14, muted: true })}
 ${h('Month 2+ — The Strength Block', 3)}
 ${p('Strength to bounce, game speed, pickup conditioning. This is where the legs start feeling different.')}
 ${p('<strong>All included:</strong> Hip Reset, Knee Protection, Ankle Rebuild, Skill Builder, Recovery System.')}
@@ -467,6 +494,7 @@ ${sig()}
 ${hero('The Close', `Keep the body you ${g('earned.')}`)}
 ${p('Straight talk.')}
 ${p('You finished the reset. Five days in, your hips are looser, your ankles move better, your knees feel less stacked. You earned that — and you did the work to get it.')}
+${p('A few of you replied on Day 3 telling me your hips already felt different by then. If that was you — this is the fork: keep building on that, or let it slide back.', { size: 14, muted: true })}
 ${p('Here\'s the part most guys miss: a reset is maintenance, not building. Stop now and it slips back in a few weeks. Keep going and you build on top of it instead.')}
 ${p('That\'s the whole difference between Stay Ready and everything else you\'ve tried.')}
 ${h('What you\'re actually getting:')}
