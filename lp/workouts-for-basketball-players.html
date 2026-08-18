@@ -133,6 +133,15 @@ footer { padding:44px 52px; display:flex; align-items:center; justify-content:sp
         <input type="email" name="email" placeholder="Email address" required autocomplete="email" id="bth-email-lp-workouts-for-basketball-players">
         <p class="bth-field-error-msg"></p>
       </div>
+      <fieldset class="bth-seg">
+        <legend class="bth-seg-label">Where's your body at right now? <span class="bth-seg-optional">(optional)</span></legend>
+        <div class="bth-seg-grid">
+          <label class="bth-seg-opt"><input type="radio" name="segment" value="hurts-today"><span>Hurts today</span></label>
+          <label class="bth-seg-opt"><input type="radio" name="segment" value="tight-after-playing"><span>Tight after playing</span></label>
+          <label class="bth-seg-opt"><input type="radio" name="segment" value="coming-back-after-time-off"><span>Coming back after time off</span></label>
+          <label class="bth-seg-opt"><input type="radio" name="segment" value="staying-ahead-of-it"><span>Staying ahead of it</span></label>
+        </div>
+      </fieldset>
       <input type="hidden" name="source" value="free_reset">
       <input type="hidden" name="sequence" value="free-reset-to-rise">
       <input type="hidden" name="consent_version" value="bth-email-consent-v1">
