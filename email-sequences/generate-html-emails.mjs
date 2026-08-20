@@ -339,12 +339,45 @@ function g(word) {
 // the weakest link in an open chain. And E5/E6's "now in the BTH app" claim is corrected to match
 // live delivery (join.html: "Everything delivered by email — BTH app coming soon"; production
 // APP_LIVE="false"; join.html's own comment bans app-access promises until the app ships).
-// QA round 2026-08-19 (this pass): bth-mission-qa REVISE→fixed (E7 "another discount" implied a
+// QA round 2026-08-19 (re-aim pass): bth-mission-qa REVISE→fixed (E7 "another discount" implied a
 // discount this funnel never offered); compliance-reviewer REVISE→fixed (E0 durability claim
 // hedged, E1 diagnosis-as-fact generalized to "for a lot of guys", E4 fixed-8-week outcome
 // de-welded from the product, E5 "never have to come back again" softened); adversarial
 // verifier 7/7 CONFIRMED (defect fixes retained, re-aim complete, FO-66 stitch named both
 // ways on all six pairs, structure + template integrity clean).
+//
+// CLICK PASS 2026-08-20 — the click drought (live D1, all 3 click instruments reconciled: Day-02
+// and Day-03 PDFs had ZERO human clicks lifetime; 3 clicks/183 sends post-08-09; opens healthy at
+// 21-50%, so this is body/CTA structure, not subjects). E2/E3/E4 restructured deliverable-first
+// (short lead → day's resetButton + one payoff line → essay/connection → FO-66 close); E1 eyebrow
+// 'Day 1 · Hips' → 'The Truth · Hips' (it's the hour-24 between-days email, not a reset day) + one
+// low-key Day-1 PDF re-link; E5 CTA-adjacent lines tightened. Subjects and preheaders UNCHANGED.
+// QA round 2026-08-20: compliance REVISE→fixed (E2 payoff hedged to "For a lot of guys", E3
+// "you'll feel it" → "some guys feel it as early as", E6 app line hedged to launch-readiness — no
+// priority-access promise); bth-mission-qa REVISE→fixed (E2 lead now pays off its own promise
+// before the button: "...: stopping, then starting over from further back every time"); adversarial
+// verifier 11/12 CONFIRMED (byte-reproducible regen, seeder delays untouched; the 12th was the
+// E6→E7 stitch, which FO-66 never specified — six pairs E0→E6 only, informational).
+//
+// CLICK-DROUGHT FIX 2026-08-20 — deliverable-first restructure (live D1, all three click
+// instruments reconciled, zero bot noise, read 2026-08-20). Day-02/03 PDFs: ZERO human clicks
+// ever (41/40 sends). Day-04/05: 1 human click ever each. Day-01: 7. Post-08-09: 3 clicks across
+// ~183 sends, even though opens are healthy (21-50%). Diagnosis: E2/E3/E4 all opened with "the
+// link's below — but first…" and buried the day's resetButton() under a full essay — readers got
+// the essay, never reached (or never felt a reason to reach) today's PDF. Fix: E2/E3/E4 now open
+// with a short (2-3 line) lead that pays off the prior email's FO-66 promise, run resetButton()
+// immediately, add ONE concrete payoff line at the button, THEN the essay/connection content, THEN
+// the FO-66 close — unchanged in substance, just no longer buried under it. E3's reply check-in ask
+// stays intact and prominent (its job is still connection, not conversion). E5 got a light touch
+// only (membershipCta(true) stays the primary CTA in its place; tightened the one line immediately
+// before it and the payoff line after resetButton(5) into one-line reasons-to-act). E1's hero
+// eyebrow changed 'Day 1 · Hips' → 'The Truth · Hips' (E1 arrives hour 24 as between-days
+// education, not a reset day — the old eyebrow read as a Day-1 repeat to a reader expecting Day 2)
+// and gained one low-key Day-1 PDF re-link line (42/49 recipients never fetched Day 1; a reset-PDF
+// link, not a join link, so it doesn't touch the soft-seed join-link ban). E0/E6/E7 untouched. All
+// prior QA hedges kept verbatim (E0 durability, E1 "for a lot of guys", E4 "Weeks later — not
+// overnight…", E5 "don't have to start the comeback over again" / "knees feel less loaded"). No
+// subject lines changed — opens are healthy, only clicks are the problem.
 
 const emails = [
 
@@ -378,7 +411,7 @@ ${sig('Ty<br>Built to Hoop')}
     subject: 'your hips are lying to you',
     preheader: 'It\'s not that your hips are tight. It\'s that they shut down.',
     body: `
-${hero('Day 1 · Hips', `Your hips are ${g('lying')} to you.`)}
+${hero('The Truth · Hips', `Your hips are ${g('lying')} to you.`)}
 ${p('Yesterday I promised you the truth about why your hips feel locked up. Here it is &mdash; the part nobody tells you:')}
 ${p('It\'s usually not that your hips are tight.')}
 ${p('For a lot of guys, it\'s that the hips <strong>shut down</strong> — and the lower back takes over to protect them.')}
@@ -395,6 +428,7 @@ ${p('Reply to this email with one word: <strong>RIGHT</strong> if your right hip
 ${divider()}
 ${p('For now — did you do the Day 1 hip reset? If not, do it before tomorrow.')}
 ${p('<strong>15 minutes. Today.</strong>')}
+${p(`Missed Day 1? <a href="${RESET_BASE}/BTH-Reset-Day-01-Hip-Reset.pdf" class="link" style="color:${C.goldText};text-decoration:underline;">It's still here</a> — do it before Day 2 lands tomorrow.`, { size: 14, muted: true })}
 ${p('Tomorrow: Day 2 — the Ankle Reset. And I\'m naming the thing that kills more comebacks than any injury ever has.', { muted: true })}
 ${sig()}
 `},
@@ -406,7 +440,10 @@ ${sig()}
     preheader: 'You come back. Something flares. You back off. You start over — from further back.',
     body: `
 ${hero('Day 2 · Ankles', `The cycle that kills ${g('comebacks.')}`)}
-${p('Day 2 is ready: the Ankle Reset. The link\'s below — but first, the thing I said I\'d name.')}
+${p('Day 2 — the Ankle Reset — is ready. And here\'s the thing that kills more comebacks than any injury ever has: stopping, then starting over from further back every time.')}
+${resetButton(2, 'Ankle Reset', 'BTH-Reset-Day-02-Ankle-Reset.pdf')}
+${p('For a lot of guys, unstable ankles are the real reason the knees take the hit. Today trains the system underneath them — not just taping over it.', { size: 14, muted: true })}
+${divider()}
 ${p('I know why you\'re on this list.')}
 ${p('You\'ve been stuck in the cycle.')}
 ${p('You take time off — an injury, a job, a kid, life. You finally come back. The first few runs feel almost normal. Then something flares — a hip, a knee, that ankle that never fully healed. You back off. You wait. You come back again — from further back than last time.')}
@@ -416,9 +453,8 @@ ${p('It\'s because nothing you\'ve tried was built for a comeback.')}
 ${p('Everything out there — YouTube workouts, gym programs, "just rest more" — was built for someone who never left. Not for a hooper coming back to a body that kept score while he was gone.')}
 ${p('<strong>BTH exists to break that cycle.</strong>')}
 ${p('The reset is 5 days. What actually breaks the cycle for good takes longer than that — and in a couple days I\'ll show you exactly what it looks like.')}
+${divider()}
 ${p('Tomorrow is Day 3 — the one email this week where I ask you a question and actually want the answer.', { muted: true })}
-${resetButton(2, 'Ankle Reset', 'BTH-Reset-Day-02-Ankle-Reset.pdf')}
-${p('Your ankles are probably the real reason your knees hurt. Today trains the real system — not just taping over it.', { size: 14, muted: true })}
 ${sig()}
 `},
 
@@ -437,8 +473,10 @@ ${sig()}
     preheader: 'Halfway through the reset. This is the one where I actually want to hear from you.',
     body: `
 ${hero('Day 3 · Check-In', `What's actually ${g('different?')}`)}
-${p('Day 3. Halfway through.')}
-${p('This is the email I told you about yesterday. No pitch — I want to know what\'s actually happening in your body.')}
+${p('Day 3. Halfway through — this is the email I told you about: no pitch, I actually want to hear from you.')}
+${resetButton(3, 'Movement Control', 'BTH-Reset-Day-03-Movement-Control.pdf')}
+${p('This is the day the hip work and the ankle work stop moving separately and start working as one system — some guys feel it as early as their first step.', { size: 14, muted: true })}
+${divider()}
 ${p('Some guys feel looser by day 3. Some don\'t notice anything until day 5. Both are normal — the reset works on its own clock, not a marketing calendar.')}
 ${p('And if you\'ve been away a while: day 3 is usually when the doubt shows up. <em>Is this going to hold when I actually play?</em> That\'s not a red flag. That\'s every comeback ever made.')}
 ${divider()}
@@ -447,8 +485,6 @@ ${p('Reply to this email with one line: what\'s different since Day 1? Hips, ank
 ${p('I read every reply. It\'s how I know what\'s actually working.', { muted: true })}
 ${divider()}
 ${p('Tomorrow I want to tell you about a guy who almost quit playing at 27. Might sound familiar.', { muted: true })}
-${resetButton(3, 'Movement Control', 'BTH-Reset-Day-03-Movement-Control.pdf')}
-${p('Today the hip and ankle work start talking to each other.', { size: 14, muted: true })}
 ${sig()}
 `},
 
@@ -459,8 +495,10 @@ ${sig()}
     preheader: 'Could be you. Could be me. Could be someone you run with.',
     body: `
 ${hero('Day 4 · The Story', `The guy who almost ${g('quit')} at 27.`)}
-${p('Day 4. Almost there.')}
-${p('The guy I mentioned yesterday — could be you, could be me, could be someone you run with.')}
+${p('Day 4. Almost there — this is the guy I told you about yesterday. Could be you, could be me, could be someone you run with.')}
+${resetButton(4, 'Strength That Moves', 'BTH-Reset-Day-04-Strength-That-Moves.pdf')}
+${p('Strength that supports movement — not strength that stays in the gym. This is the foundation that makes Day 5 possible.', { size: 14, muted: true })}
+${divider()}
 ${p('27 years old. Played pickup three nights a week all through college. Then life happened — desk job, less playing time, came back at 25 and nothing worked the same.')}
 ${p('Hips tight every time he got to the gym. Knees barking after hard sessions. First step gone. Not slower — just not there.')}
 ${p('He tried everything. Stretched more. Bought a program. Rested for two weeks. Came back and it was the same.')}
@@ -476,8 +514,6 @@ ${p('If you replied on Day 3 and told me something already felt different — th
 ${p(`Already know you're in? You don't have to wait for Day 5 — <a href="${CHECKOUT_URL}" class="link" style="color:${C.goldText};text-decoration:underline;">join Stay Ready here</a>. I'll still send the rest of the reset either way.`, { size: 14, muted: true })}
 ${divider()}
 ${p('Tomorrow is Day 5 — your final reset day, and the day I send you the full link to join.', { muted: true })}
-${resetButton(4, 'Strength That Moves', 'BTH-Reset-Day-04-Strength-That-Moves.pdf')}
-${p('Strength that supports movement — not strength that stays in the gym. This is the foundation that makes Day 5 possible.', { size: 14, muted: true })}
 ${sig()}
 `},
 
@@ -495,7 +531,7 @@ ${p('Here\'s the truth: <strong>the reset is maintenance, not building.</strong>
 ${p('The reset ends today. The work doesn\'t have to.')}
 ${p('Whatever you told me on Day 3 — or even if you didn\'t reply — this is the part where it either keeps building or slides back.')}
 ${p('You already did the hard part once: you came back. <strong>Stay Ready exists so you don\'t have to start the comeback over again.</strong> You just stay ready.')}
-${p('It\'s the system that keeps going where the reset stops — same method, same coaching voice, delivered the same way the reset was: straight to you, starting the day you join.')}
+${p('It\'s the system that keeps going where the reset stops — join today, it starts today.')}
 ${membershipCta(true)}
 ${divider()}
 ${h('What you get starting today:')}
@@ -507,7 +543,7 @@ ${p('Strength to bounce, game speed, pickup conditioning. This is where the legs
 ${p('<strong>All included:</strong> Hip Reset, Knee Protection, Ankle Rebuild, Skill Builder, Recovery System.')}
 ${p('Cancel anytime. Keep everything you download. <strong>$27/month.</strong>')}
 ${resetButton(5, 'Power Reset', 'BTH-Reset-Day-05-Power-Reset.pdf')}
-${p('Your last reset day — convert five days of work into game-ready power. Then ask yourself: am I looser than I was on Day 1?', { size: 14, muted: true })}
+${p('Your last reset day — convert five days of work into game-ready power.', { size: 14, muted: true })}
 ${p('Tomorrow: one straight answer about what happens to the body you just rebuilt if you stop here.', { size: 14, muted: true })}
 ${sig()}
 `},
@@ -528,7 +564,7 @@ ${h('What you\'re actually getting:')}
 ${ul([
   'The full BTH method — Foundation (your first month inside), then The Strength Block, run for you month to month',
   'Hip Reset, Knee Protection, Ankle Rebuild, Skill Builder, and Recovery System — all included',
-  'Everything delivered straight to you the day you join — the BTH app is coming, and members get it first',
+  'Everything delivered straight to you the day you join — and the BTH app is on the way. When it launches, you\'ll be set up for it.',
 ])}
 ${p('$27/month. Cancel anytime. Keep everything you download.')}
 ${membershipCta(true)}
