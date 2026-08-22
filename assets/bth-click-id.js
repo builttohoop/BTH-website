@@ -108,6 +108,11 @@
     var cid = gaClientId();
     for (var i = 0; i < forms.length; i++) {
       setHidden(forms[i], "ga_client_id", cid);
+      // The page the signup actually happened on. Stamped BEFORE the !rec guard
+      // so it lands for EVERY visitor — organic and direct included, not just the
+      // ad clicks that leave a stored click record. Mail OS has read
+      // body.signup_url since 2026-07-05; the column shipped with migration 0001.
+      setHidden(forms[i], "signup_url", window.location.pathname);
       if (!rec) continue;
       setHidden(forms[i], "gclid", rec.gclid);
       if (utmFresh) {
