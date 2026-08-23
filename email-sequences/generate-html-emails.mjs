@@ -21,7 +21,11 @@
 //
 // Design rules (locked):
 //  • LINK-ONLY reset delivery — emails NEVER list exercises. Each reset-day email
-//    carries ONE Tier-2 CTA that links to that day's real reset PDF.
+//    carries ONE Tier-2 CTA. As of BTH-GOAL-0055 that CTA opens the day's page on the
+//    website (reset-day-N.html) rather than downloading the PDF directly, and the PDF
+//    sits under it as a secondary link. Days 2-5 had never been clicked once while a raw
+//    PDF was the only destination; the page is where the proof layer lives. Day 1 is
+//    unchanged - it is delivered on thank-you.html and is a running experiment.
 //  • Membership = "Stay Ready" $27/mo (locked taxonomy). No "BTH Rise", no discount, no hype.
 //  • ONE named offer per sequence: Stay Ready $27/mo. (BTH-0041)
 //    BANNED as phase names — they are separate purchasable products with their own checkouts:
@@ -48,6 +52,11 @@ fs.mkdirSync(OUT_DIR, { recursive: true });
 const CHECKOUT_URL = 'https://built-to-hoop.com/join';
 // Base path for the real reset PDFs (restored from Ty's canonical Drive set — see reset-pdfs/generate.mjs).
 const RESET_BASE = 'https://built-to-hoop.com/reset-pdfs/output';
+// BTH-GOAL-0055: days 2-5 now open an on-site day page instead of a raw PDF download.
+// Measured 2026-08-22: days 2/3/4 had never been clicked, not once, across 73 sends, while
+// Day 3 was the most-opened email in the funnel at 46%. Every click destination this funnel
+// had ever offered was a PDF file. The PDF is preserved as a secondary link below the button.
+const SITE_BASE = 'https://built-to-hoop.com';
 
 // ─── 1B PALETTE ──────────────────────────────────────────────────
 // Inline styles carry the LIGHT default; the classes below flip to dark via
@@ -246,8 +255,8 @@ function resetButton(day, title, filename) {
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:24px 0;">
   <tr>
     <td>
-      ${btnSecondary(`${RESET_BASE}/${filename}`, `Open Day ${day} — ${title}`, 300)}
-      <p class="t-muted" style="margin:12px 0 0;font-size:13px;color:${C.muted};">The full workout, step by step. Pull it up on your phone or print it before you start.</p>
+      ${btnSecondary(`${SITE_BASE}/reset-day-${day}.html`, `Open Day ${day} — ${title}`, 300)}
+      <p class="t-muted" style="margin:12px 0 0;font-size:13px;color:${C.muted};">The full session, step by step. <a href="${RESET_BASE}/${filename}" class="link" style="color:${C.goldText};text-decoration:underline;">Prefer the PDF?</a></p>
     </td>
   </tr>
 </table>`;
