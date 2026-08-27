@@ -18,6 +18,9 @@
 <script src="assets/bth-tracking.js" defer></script>
 <!-- BTH-GOAL-0054: first-party offer view + checkout-start beacons (owned funnel store) -->
 <script src="assets/bth-events.js" defer></script>
+<!-- Approval #70a: shared form module — used here only for window.BTHTypo (the domain
+     typo guard) on the checkout email capture. No .bth-mail-form exists on this page. -->
+<script src="assets/bth-form.js" defer></script>
 <script>
 window.addEventListener("DOMContentLoaded", function () {
   try { if (window.BTHEvents) window.BTHEvents.track("offer_viewed"); } catch (e) {}
@@ -75,6 +78,16 @@ nav { position:fixed; top:0; left:0; right:0; z-index:100; height:62px; display:
 .buy-price .amt { font-family:var(--H); font-size:54px; font-weight:700; color:var(--gold); line-height:1; }
 .buy-price .per { font-size:14px; color:var(--muted); letter-spacing:0.04em; }
 .buy-note { font-size:13px; color:var(--muted); margin-bottom:22px; letter-spacing:0.02em; }
+/* Approval #70a: pre-Stripe email capture — deliberately quiet so it never reads as a
+   second CTA. Optional field; the checkout button works untouched when it's empty. */
+.buy-email { margin-bottom:16px; }
+.buy-email-label { display:block; font-size:11px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:var(--muted); margin-bottom:7px; }
+.buy-email-label span { text-transform:none; letter-spacing:0.02em; font-weight:500; }
+.buy-email input { width:100%; padding:13px 14px; font-family:var(--B); font-size:15px; border:1px solid var(--border); border-radius:2px; background:var(--white); color:var(--black); box-sizing:border-box; -webkit-appearance:none; }
+.buy-email input:focus { outline:none; border-color:var(--gold); box-shadow:0 0 0 3px rgba(230,168,0,.28); }
+.buy-email-note { display:none; font-size:12px; color:var(--muted); margin:6px 0 0; line-height:1.5; }
+.buy-email-note.is-visible { display:block; }
+.buy-email-note .buy-email-fix { display:inline-block; margin-left:6px; padding:4px 10px; font-family:var(--B); font-size:12px; font-weight:600; color:var(--black); background:var(--gold); border:1px solid var(--gold); border-radius:2px; cursor:pointer; }
 .buy-btn { display:block; width:100%; text-align:center; font-family:var(--H); font-size:16px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--white); background:var(--black); border:none; padding:17px; border-radius:2px; cursor:pointer; transition:all 0.18s; text-decoration:none; }
 .buy-btn:hover { background:var(--gold); color:var(--black); }
 .buy-trust { font-size:12px; color:var(--muted); margin-top:14px; text-align:center; line-height:1.55; }
@@ -132,6 +145,22 @@ footer { padding:48px 52px; max-width:1180px; margin:0 auto; display:flex; justi
     <div class="buy-price"><span class="amt">$27</span><span class="per">/ month</span></div>
     <div class="buy-note">Cancel anytime — one email, no calls. No refunds on the current month.</div>
     <!--
+      PRE-STRIPE EMAIL CAPTURE (approval #70a, approved 2026-08-23). Every checkout
+      abandoner to date (7 of 7) was anonymous — Stripe never carried their email, so
+      the shipped recovery sequence has never been able to send one message. This
+      OPTIONAL field names the person at intent time: a debounced POST to the Mail OS
+      subscribe endpoint with source=checkout_intent (no Free Reset enrollment, no
+      Lead pixel, no redirect — the Worker branch ships in bth-mail-os PR #52), and
+      the Stripe href gets ?prefilled_email= so the session itself carries the email.
+      HARD RULE from the approval: this must NEVER gate the CTA — an empty field
+      still reaches Stripe in exactly one click.
+    -->
+    <div class="buy-email">
+      <label class="buy-email-label" for="checkout-email">Email for your access <span>(optional — sets up your welcome email)</span></label>
+      <input type="email" id="checkout-email" name="email" placeholder="you@gmail.com" autocomplete="email" inputmode="email">
+      <p class="buy-email-note" id="checkout-email-note" aria-live="polite"></p>
+    </div>
+    <!--
       CHECKOUT LINK — live Stripe Payment Link for BTH Stay Ready ($27/mo).
       Cutover 2026-07-06 (BTH-GOAL-0026 Phase 3): was builttohoop.gumroad.com/l/stay-ready.
       InitiateCheckout fires on click via assets/bth-tracking.js (STRIPE_LINK_MAP).
@@ -180,6 +209,144 @@ footer { padding:48px 52px; max-width:1180px; margin:0 auto; display:flex; justi
     <a href="mailto:tyrell@built-to-hoop.com">Contact</a>
   </div>
 </footer>
+
+<!-- Approval #70a: checkout email capture. Best-effort by design — every failure mode
+     (network, worker down, typo'd domain left unfixed) leaves the Stripe button exactly
+     as it was. Never sets sessionStorage bth_lead (intent is not a Lead — see #73's
+     ghost-conversion guard), never redirects, never disables the CTA. -->
+<script>
+(function () {
+  "use strict";
+  var input = document.getElementById("checkout-email");
+  var note = document.getElementById("checkout-email-note");
+  var link = document.getElementById("checkout");
+  if (!input || !link) return;
+  var ENDPOINT = "https://bth-mail-os.tyrell-38b.workers.dev/api/subscribe";
+  var lastPosted = "";
+  var lastHintFor = "";
+  var timer = null;
+
+  function validEmail(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v || ""); }
+
+  // Same stored-click + _ga reads bth-click-id.js uses for forms, so an intent
+  // contact carries the identical ad attribution a Free Reset signup would.
+  function clickRec() {
+    try {
+      var r = JSON.parse(window.localStorage.getItem("bth_click") || "null");
+      if (r && r.ts && Date.now() - r.ts <= 90 * 864e5) return r;
+    } catch (e) {}
+    return null;
+  }
+  function gaCid() {
+    try {
+      var m = document.cookie.match(/(?:^|;\s*)_ga=([^;]+)/);
+      if (!m) return "";
+      var p = decodeURIComponent(m[1]).split(".");
+      if (p.length < 4) return "";
+      var a = p[p.length - 2], b = p[p.length - 1];
+      return (/^\d{1,20}$/.test(a) && /^\d{1,20}$/.test(b)) ? a + "." + b : "";
+    } catch (e) { return ""; }
+  }
+
+  function setPrefill(email) {
+    try {
+      var u = new URL(link.href);
+      if (email) u.searchParams.set("prefilled_email", email);
+      else u.searchParams.delete("prefilled_email");
+      link.href = u.toString();
+    } catch (e) {}
+  }
+
+  function showNote(text) { note.textContent = text; note.classList.add("is-visible"); }
+  function clearNote() { note.textContent = ""; note.classList.remove("is-visible"); }
+
+  // Domain typo hint (#74a), reusing the shared guard when bth-form.js carries it.
+  // Hint-only here: the CTA is never gated, so an ignored hint just means no capture.
+  function typoHint(v) {
+    if (!(window.BTHTypo && window.BTHTypo.suggest)) return false;
+    var sug = window.BTHTypo.suggest(v);
+    if (!sug) return false;
+    note.textContent = "";
+    var q = document.createElement("span");
+    q.textContent = "Did you mean ";
+    var b = document.createElement("strong");
+    b.textContent = sug.fixed;
+    q.appendChild(b);
+    q.appendChild(document.createTextNode("? "));
+    var fix = document.createElement("button");
+    fix.type = "button";
+    fix.className = "buy-email-fix";
+    fix.textContent = "Yes — fix it";
+    fix.addEventListener("click", function () {
+      input.value = sug.fixed;
+      clearNote();
+      capture();
+    });
+    note.appendChild(q);
+    note.appendChild(fix);
+    note.classList.add("is-visible");
+    var key = String(v).trim().toLowerCase();
+    if (lastHintFor !== key) {
+      lastHintFor = key;
+      try {
+        if (window.BTHEvents && window.BTHEvents.track) {
+          window.BTHEvents.track("email_typo_suggested", {
+            action: "shown", bad_domain: sug.domain, suggested_domain: sug.suggestion
+          });
+        }
+      } catch (e) {}
+    }
+    return true;
+  }
+
+  function capture() {
+    var v = String(input.value || "").trim();
+    if (!validEmail(v)) { setPrefill(""); return; }
+    if (typoHint(v)) { setPrefill(""); return; }
+    setPrefill(v);
+    var key = v.toLowerCase();
+    if (key === lastPosted) return;
+    lastPosted = key;
+    var fd = new FormData();
+    fd.append("email", v);
+    fd.append("source", "checkout_intent");
+    fd.append("consent_version", "bth-checkout-intent-v1");
+    fd.append("signup_url", String(window.location.href || "").split("#")[0]);
+    var cid = gaCid();
+    if (cid) fd.append("ga_client_id", cid);
+    var rec = clickRec();
+    if (rec) {
+      if (rec.gclid) fd.append("gclid", rec.gclid);
+      if (Date.now() - rec.ts <= 30 * 864e5) {
+        ["utm_term", "utm_campaign", "utm_source", "utm_medium"].forEach(function (k) {
+          if (rec[k]) fd.append(k, rec[k]);
+        });
+      }
+    }
+    fetch(ENDPOINT, { method: "POST", body: fd, keepalive: true })
+      .then(function (res) { return res.ok ? res.json().catch(function () { return {}; }) : {}; })
+      .then(function (data) {
+        // lead_ref identifies the checkout_started beacon from here on — the whole
+        // point of #70a. bth_lead is NEVER set: intent is not a Lead conversion.
+        if (data && data.lead_ref) {
+          try { window.localStorage.setItem("bth_lead_ref", String(data.lead_ref)); } catch (e) {}
+        }
+        showNote("✓ Set — checkout will be prefilled with " + v);
+      })
+      .catch(function () { /* best-effort: the CTA never depends on this */ });
+  }
+
+  input.addEventListener("input", function () {
+    clearNote();
+    if (timer) window.clearTimeout(timer);
+    timer = window.setTimeout(capture, 700);
+  });
+  input.addEventListener("blur", function () {
+    if (timer) window.clearTimeout(timer);
+    capture();
+  });
+})();
+</script>
 
 </body>
 </html>
