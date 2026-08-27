@@ -84,6 +84,26 @@
 }
 .bth-field-error-msg.is-visible { display: block; }
 
+/* ---- Domain typo guard (#74a): "Did you mean @gmail.com?" prompt ---- */
+.bth-field-error-msg .bth-typo-fix,
+.bth-field-error-msg .bth-typo-keep {
+  display: inline-block; margin: 6px 8px 0 0; padding: 6px 12px;
+  font-family: var(--font-body, var(--B), 'DM Sans', sans-serif);
+  font-size: 12px; font-weight: 600; letter-spacing: 0.02em;
+  border-radius: 2px; cursor: pointer; line-height: 1.2;
+}
+.bth-field-error-msg .bth-typo-fix {
+  color: var(--bth-black, var(--black, #111318));
+  background: var(--bth-gold, var(--gold, #E6A800));
+  border: 1px solid var(--bth-gold, var(--gold, #E6A800));
+}
+.bth-field-error-msg .bth-typo-keep {
+  color: inherit;
+  background: transparent;
+  border: 1px solid currentColor;
+  opacity: 0.75;
+}
+
 /* Honeypot — off-screen, never shown to real users */
 .bth-hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
 
