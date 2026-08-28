@@ -1,7 +1,20 @@
 {
   "_README": "Canonical BTH announcement registry — the single source of truth for the Updates page (web), the app's What's New (mirrored into bth-app-native/src/content/announcements.ts), and the email broadcast. To post a new update: add an entry at the TOP of `items` and re-render each surface. Voice: veteran hooper — direct, athletic, premium, real. No hype. `audience`: \"public\" shows everywhere; \"member\" gets a 'Member Update' badge on the site (label-only — the site has no auth) and is gated to members in the app. NOTE: the app mirror (bth-app-native/src/content/announcements.ts) curates per surface and uses different field names — its 'tone' maps to this file's 'status_tone', and its audience 'free' maps to this file's 'public' (same meaning). When adding an entry, add it to BOTH and keep them in sync.",
-  "updated_at": "2026-06-25",
+  "updated_at": "2026-08-28",
   "items": [
+    {
+      "id": "return-to-hoop-coaching-2026-08",
+      "area": "Coaching",
+      "title": "Return-to-Hoop Coaching Is Open",
+      "status": "Applications Open",
+      "status_tone": "live",
+      "audience": "public",
+      "eyebrow": "1-on-1 Coaching",
+      "summary": "12 weeks built around your body, your schedule, and your game. Five active spots.",
+      "body": "Coaching is open. BTH Return-to-Hoop Coaching is 12 weeks, two ways to run it: Hybrid Premium — I coach you in the gym, from $2,600 for the full block — or Online 1:1, the same system run anywhere, from $400/mo for three months. Custom program, weekly adjustments, video review of your movement and your game, and Stay Ready included through the block plus three months after you finish. Five active spots total. One application, then a real conversation before anything is paid.",
+      "cta": { "label": "Apply for coaching", "href": "coaching.html" },
+      "date": "2026-08-28"
+    },
     {
       "id": "bth-add-on-tracks-2026-06",
       "area": "Program",
