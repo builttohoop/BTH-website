@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<!-- ═══════════════════════════════════════════════════════════════════════════
+  BTH-GOAL-0025 · coaching-apply.html — STAGED (playground). Nothing here is live.
+
+  WORKING BEHAVIOR CONTRACT (pinned by the goal — deliverable 7's wiring spec
+  implements the server side; Codex must match this, not reinvent it):
+
+  ▸ SUBMIT   POST https://bth-mail-os.tyrell-38b.workers.dev/api/coaching/apply
+             Body: JSON, Content-Type "application/json" (the Worker route must
+             answer the CORS OPTIONS preflight for built-to-hoop.com + POST).
+             Payload keys:
+               source        "coaching_application"   (constant)
+               name          string
+               email         string
+               zip           string  (5 or 9-digit US ZIP — used ONLY for the
+                                      travel-band placement below)
+               path_preference  "hybrid" | "online" | "either"
+               age_range     "18-24" | "25-34" | "35-44" | "45-54" | "55plus"
+                                     (ADULTS 18+ ONLY — no minor bracket on the
+                                      form, and the Worker rejects any other
+                                      value. A guardian-consent path for minors
+                                      is an attorney-gated future item — folded
+                                      into D9 / gate G3; until it exists, the
+                                      page points parents to email Ty instead.)
+               goals_text    free text (the athlete may volunteer anything;
+                                        the form never prompts for symptoms,
+                                        conditions, or medical anything)
+               availability  "2-3" | "4-6" | "7-9" | "10plus" | "unsure"  (hrs/wk)
+               company       honeypot — server silently drops non-empty submits
+               lead_ref      signed lead token from localStorage (may be "")
+               anon_id       anonymous id from localStorage (may be "")
+               url, referrer page context strings
+               gclid         Google click id from the bth-click-id.js
+                             localStorage record ("bth_click", 90-day window);
+                             null when absent
+               fbclid        Meta click id read from the page URL — the site
+                             stores no fbclid; null when absent
+               ga_client_id  GA4 client id from the first-party _ga cookie
+                             (the same read bth-events.js uses); null when absent
+             Responses the page handles: 2xx = accepted — JSON
+             {ok, application_id} → the page shows its INLINE confirmation
+             panel (NO redirect, no separate confirmation page);
+             429 = rate-limited → inline retry message; anything else /
+             network error → inline fallback with the support email.
+
+  ▸ EVENTS   Owned first-party events via window.BTHEvents.track()
+             (assets/bth-events.js → sendBeacon text/plain → /api/events —
+             the exact transport idiom every site page already uses):
+               coaching_application_started    fired ONCE, on the first field
+                                               interaction (focus or input on
+                                               any form control)
+               coaching_application_submitted  SERVER-RECORDED ONLY — the apply
+                                               endpoint records it canonically;
+                                               the page fires NO submitted
+                                               beacon (a browser-fired copy
+                                               would be spoofable and
+                                               double-counted)
+             The standard auto "page_viewed" also fires (default idiom).
+             LOCKED: the apply flow NEVER fires InitiateCheckout or any ad-pixel
+             conversion — no data-bth-checkout attribute exists on this page.
+             No body-status data in any event name, URL, or param — ever.
+
+  ▸ SUCCESS  Form hides, confirmation shows (focus moved for a11y). This
+             inline panel IS the confirmation — no redirect, no separate
+             confirmation page:
+             expectation set = Ty replies within 2 business days to set up the
+             consult call; roster honesty = 5 active clients max, straight
+             answer + waitlist if full; "Book your consult →" link is a
+             PLACEHOLDER (href="#") — the real scheduler URL lands at the
+             synchronized press (GATES.md item), not before.
+
+  ▸ AREA     ≤30 mi of the BTH Atlanta-area home base = travel included ·
+             31–40 mi = +$35/visit · 41–50 mi = +$65/visit (far-hybrid variant
+             available in this band; shared trips split one fee) ·
+             beyond 50 mi = Online 1:1. ZIP places the band, nothing else.
+             (D6 figures locked 2026-08-27; named base + route standard are
+             contract items before launch.)
+
+  ▸ FIELDS   Exactly: name, email, ZIP, preferred path, age range (18+ only),
+             free-text goals, weekly availability. NO symptom-, body-status-, or
+             injury-related fields, and nothing prompts for them.
+═══════════════════════════════════════════════════════════════════════════ -->
+<html lang="en" style="color-scheme: light;">
+<head>
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+    <link rel="shortcut icon" href="assets/favicon.ico">
+
+<meta name="facebook-domain-verification" content="8j7jq4cgnwak31awpllczhuyqbxpq8" />
+<!-- ─── BTH TRACKING (standard site block, unchanged — the apply action itself is never signaled to ad pixels) ─── -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({"gtm.start":new Date().getTime(),event:"gtm.js"});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!="dataLayer"?"&l="+l:"";j.async=true;j.src="https://www.googletagmanager.com/gtm.js?id="+i+dl;f.parentNode.insertBefore(j,f);})(window,document,"script","dataLayer","GTM-T9SFFTB7");</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YBE7PRPCLK"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-YBE7PRPCLK");gtag("config","AW-18166013082");</script>
+<script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version="2.0";n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,"script","https://connect.facebook.net/en_US/fbevents.js");fbq("init","1320146003572375");fbq("track","PageView");</script>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1320146003572375&ev=PageView&noscript=1"/></noscript>
+<!-- TikTok Pixel -->
+<script>!function(w,d,t){w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e};ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js",o=n&&n.partner;ttq._i=ttq._i||{};ttq._i[e]=[];ttq._i[e]._u=r;ttq._t=ttq._t||{};ttq._t[e]=+new Date;ttq._o=ttq._o||{};ttq._o[e]=n||{};n=document.createElement("script");n.type="text/javascript";n.async=!0;n.src=r+"?sdkid="+e+"&lib="+t;e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(n,e)};ttq.load("D7RNU1RC77U2TFGF3SO0");ttq.page();}(window,document,"ttq");</script>
+<script src="assets/bth-click-id.js" defer></script>
+<script src="assets/bth-tracking.js" defer></script>
+<script src="assets/bth-events.js" defer></script>
+<!-- ─── /BTH TRACKING ─── -->
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<meta name="robots" content="noindex">
+<title>Apply — BTH Return-to-Hoop Coaching | Built to Hoop</title>
+<link rel="canonical" href="https://built-to-hoop.com/coaching-apply.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Built to Hoop">
+<meta property="og:title" content="Apply — BTH Return-to-Hoop Coaching">
+<meta property="og:description" content="One application, two paths — Hybrid Premium or Online 1:1. Five active clients max. Ty reads every application himself.">
+<meta property="og:url" content="https://built-to-hoop.com/coaching-apply.html">
+<meta name="description" content="Apply for BTH Return-to-Hoop Coaching. One application covers both paths — Hybrid Premium and Online 1:1. Five active clients max.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/bth-system.css">
+<style>
+:root { color-scheme: light only; }
+*,*::before,*::after { margin:0; padding:0; box-sizing:border-box; -webkit-text-size-adjust:100%; }
+html { scroll-behavior:smooth; background:var(--white); }
+body { background:var(--white); color:var(--black); font-family:var(--B); font-size:16px; line-height:1.6; overflow-x:hidden; -webkit-font-smoothing:antialiased; }
+
+.skip-link { position:absolute; left:-9999px; top:0; background:var(--black); color:#fff; padding:12px 20px; z-index:200; font-family:var(--B); font-size:14px; text-decoration:none; }
+.skip-link:focus { left:0; }
+
+nav { position:fixed; top:0; left:0; right:0; z-index:100; height:62px; display:flex; align-items:center; justify-content:space-between; padding:0 52px; background:rgba(255,255,255,0.96); backdrop-filter:blur(12px); border-bottom:1px solid var(--border); }
+@media (max-width:768px) { nav { padding:0 24px; } }
+.nav-logo { font-family:var(--H); font-size:22px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:var(--black); text-decoration:none; }
+.nav-logo span { color:var(--gold); }
+.nav-links { display:flex; gap:32px; align-items:center; }
+.nav-links a { font-family:var(--B); font-size:13px; font-weight:500; letter-spacing:0.04em; color:var(--muted); text-decoration:none; transition:color 0.18s; }
+.nav-links a:hover { color:var(--black); }
+@media (max-width:900px) { .nav-links { display:none; } }
+
+.wrap { max-width:1080px; margin:0 auto; }
+
+/* HERO */
+.hero { padding:120px 52px 40px; max-width:1080px; margin:0 auto; }
+@media (max-width:768px) { .hero { padding:100px 24px 32px; } }
+.eyebrow { font-family:var(--B); font-size:11px; font-weight:600; letter-spacing:0.22em; text-transform:uppercase; color:var(--gold); margin-bottom:20px; display:flex; align-items:center; gap:12px; }
+.eyebrow::before { content:''; width:24px; height:2px; background:var(--gold); flex-shrink:0; }
+.title { font-family:var(--H); font-size:clamp(36px,5.5vw,64px); font-weight:700; line-height:0.96; letter-spacing:0.02em; text-transform:uppercase; color:var(--black); margin-bottom:20px; }
+.title .gold { color:var(--gold); }
+.sub { font-size:17px; color:var(--muted); line-height:1.75; max-width:640px; }
+.sub strong { color:var(--black); font-weight:600; }
+.back-link { display:inline-block; margin-top:14px; font-size:13px; color:var(--muted); text-decoration:none; }
+.back-link:hover { color:var(--black); }
+.back-link .gold { color:var(--gold); }
+
+/* MAIN GRID */
+.apply-grid { display:grid; grid-template-columns:1.15fr 0.85fr; gap:40px; padding:24px 52px 72px; max-width:1080px; margin:0 auto; align-items:start; }
+@media (max-width:880px) { .apply-grid { grid-template-columns:1fr; padding:16px 24px 56px; gap:28px; } }
+
+/* FORM */
+.form-card { background:var(--cream); border:1px solid var(--border); border-top:3px solid var(--gold); border-radius:3px; padding:36px 32px; }
+@media (max-width:560px) { .form-card { padding:28px 20px; } }
+.form-card h2 { font-family:var(--H); font-size:24px; font-weight:700; letter-spacing:0.02em; text-transform:uppercase; color:var(--black); margin-bottom:6px; }
+.form-card .form-lead { font-size:14px; color:var(--muted); line-height:1.65; margin-bottom:26px; }
+
+.field { margin-bottom:20px; }
+.field label, fieldset legend { display:block; font-family:var(--B); font-size:13px; font-weight:600; letter-spacing:0.04em; color:var(--black); margin-bottom:8px; }
+.field .hint { font-size:12px; color:var(--muted); margin-top:6px; line-height:1.5; }
+.field .hint a { color:var(--black); font-weight:600; }
+input[type="text"], input[type="email"], select, textarea {
+  width:100%; font-family:var(--B); font-size:15px; color:var(--black);
+  background:var(--white); border:1px solid var(--border); border-radius:2px;
+  padding:13px 14px; transition:border-color 0.15s, box-shadow 0.15s;
+}
+textarea { resize:vertical; min-height:120px; line-height:1.6; }
+input:focus, select:focus, textarea:focus { outline:none; border-color:var(--gold); box-shadow:0 0 0 3px rgba(230,168,0,0.18); }
+/* Invalid state stays on the BTH palette: near-black border + a gold "!" marker
+   on the message — no new hue enters the system. Focus glow (gold) still wins
+   when the field is active because the invalid rule never touches box-shadow. */
+input.field-invalid, select.field-invalid, textarea.field-invalid { border-color:var(--black); }
+.err-msg { display:none; font-size:12.5px; font-weight:600; color:var(--black); margin-top:6px; line-height:1.5; }
+.err-msg::before { content:'!'; display:inline-block; margin-right:6px; color:var(--gold); font-weight:700; }
+.err-msg.is-visible { display:block; }
+
+fieldset { border:none; margin-bottom:20px; }
+.path-opt { display:flex; gap:12px; align-items:flex-start; background:var(--white); border:1px solid var(--border); border-radius:2px; padding:14px 16px; margin-bottom:8px; cursor:pointer; transition:border-color 0.15s; }
+.path-opt:hover { border-color:var(--gold); }
+.path-opt input { margin-top:3px; accent-color:var(--gold); width:16px; height:16px; flex-shrink:0; }
+.path-opt .opt-name { font-family:var(--H); font-size:15px; font-weight:700; letter-spacing:0.03em; text-transform:uppercase; color:var(--black); }
+.path-opt .opt-desc { font-size:13px; color:var(--muted); line-height:1.55; margin-top:2px; }
+
+/* Honeypot — mirrors the site-wide .bth-hp idiom */
+.bth-hp { position:absolute !important; left:-9999px !important; height:1px; width:1px; overflow:hidden; }
+
+.submit-btn { display:block; width:100%; text-align:center; font-family:var(--H); font-size:15px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:#fff; background:var(--black); border:none; padding:16px; border-radius:2px; cursor:pointer; transition:all 0.18s; margin-top:6px; }
+.submit-btn:hover { background:var(--gold); color:var(--black); }
+.submit-btn:disabled { opacity:0.6; cursor:default; }
+.submit-btn.is-working .btn-label::after { content:'…'; }
+/* Form-level error: on-palette callout — white panel, gold left rail, near-black
+   text — sits visibly on the cream form card without introducing a red. */
+.form-err { display:none; font-size:13.5px; color:var(--black); background:var(--white); border:1px solid var(--border); border-left:3px solid var(--gold); padding:10px 14px; margin-top:12px; line-height:1.6; }
+.form-err.is-visible { display:block; }
+.form-err a { color:var(--black); font-weight:600; }
+.micro { font-size:12px; color:var(--muted); margin-top:14px; line-height:1.6; }
+
+/* SIDE column */
+.side-card { background:var(--white); border:1px solid var(--border); border-radius:3px; padding:28px 26px; margin-bottom:20px; }
+.side-card .k { font-family:var(--B); font-size:11px; font-weight:600; letter-spacing:0.2em; text-transform:uppercase; color:var(--gold); margin-bottom:14px; }
+.side-card h3 { font-family:var(--H); font-size:19px; font-weight:700; letter-spacing:0.02em; text-transform:uppercase; color:var(--black); line-height:1.1; margin-bottom:12px; }
+.side-steps { list-style:none; padding:0; margin:0; counter-reset: step; }
+.side-steps li { font-size:14px; color:var(--black); padding:10px 0 10px 34px; position:relative; line-height:1.55; border-bottom:1px solid var(--soft); counter-increment: step; }
+.side-steps li:last-child { border-bottom:none; }
+.side-steps li::before { content: counter(step); position:absolute; left:0; top:10px; width:22px; height:22px; border-radius:50%; background:var(--gold); color:var(--black); font-family:var(--H); font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center; }
+.side-steps li strong { font-weight:600; }
+.side-card p { font-size:13.5px; color:var(--muted); line-height:1.65; }
+.side-card p strong { color:var(--black); font-weight:600; }
+
+.area-card { border-top:3px solid var(--gold); }
+.area-list { list-style:none; padding:0; margin:0 0 12px; }
+.area-list li { font-size:13.5px; color:var(--black); padding:9px 0 9px 24px; position:relative; line-height:1.55; border-bottom:1px solid var(--soft); }
+.area-list li:last-child { border-bottom:none; }
+.area-list li::before { content:'→'; position:absolute; left:0; top:9px; color:var(--gold); font-weight:700; }
+.area-list li strong { font-weight:600; }
+
+/* SUCCESS */
+.success-panel { display:none; background:var(--black); border-radius:3px; padding:44px 38px; }
+.success-panel.is-visible { display:block; }
+@media (max-width:560px) { .success-panel { padding:32px 22px; } }
+.success-panel .k { font-family:var(--B); font-size:11px; font-weight:600; letter-spacing:0.2em; text-transform:uppercase; color:var(--gold); margin-bottom:12px; }
+.success-panel h2 { font-family:var(--H); font-size:clamp(28px,4vw,40px); font-weight:700; letter-spacing:0.02em; text-transform:uppercase; color:#fff; line-height:1; margin-bottom:16px; outline:none; }
+.success-panel p { font-size:15px; color:rgba(255,255,255,0.78); line-height:1.75; max-width:560px; margin-bottom:14px; }
+.success-panel p strong { color:#fff; font-weight:600; }
+.consult-btn { display:inline-block; font-family:var(--H); font-size:14px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--black); background:var(--gold); padding:14px 26px; border-radius:2px; text-decoration:none; margin:8px 0 18px; transition:opacity 0.18s; }
+.consult-btn:hover { opacity:0.88; }
+
+footer { padding:48px 52px; max-width:1180px; margin:0 auto; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; border-top:1px solid var(--border); }
+@media (max-width:768px) { footer { padding:40px 24px; } }
+.foot-logo { font-family:var(--H); font-size:18px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:var(--black); }
+.foot-logo span { color:var(--gold); }
+.foot-links { display:flex; gap:24px; flex-wrap:wrap; }
+.foot-links a { font-size:13px; color:var(--muted); text-decoration:none; }
+.foot-links a:hover { color:var(--black); }
+</style>
+</head>
+<body>
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T9SFFTB7" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+<a class="skip-link" href="#apply-form">Skip to the application</a>
+
+<nav>
+  <a href="/index.html" class="nav-logo">BUILT TO <span>HOOP</span></a>
+  <div class="nav-links">
+    <a href="/coaching.html">Coaching</a>
+    <a href="/reset.html">Free Reset</a>
+    <a href="/about.html">About</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="eyebrow">Return-to-Hoop Coaching — Application</div>
+  <h1 class="title">Put your <span class="gold">name in.</span></h1>
+  <p class="sub">One application covers both paths — <strong>Hybrid Premium</strong> and <strong>Online 1:1</strong>. Takes about three minutes, books nothing, charges nothing. Ty reads every application himself, and the roster holds <strong>five active clients</strong> — so what comes back is a real conversation, not an autoresponder.</p>
+  <a class="back-link" href="/coaching.html"><span class="gold">←</span> Back to the coaching details</a>
+</header>
+
+<main>
+<div class="apply-grid">
+
+  <!-- ═══ FORM COLUMN ═══ -->
+  <div>
+    <form id="apply-form" class="form-card" novalidate aria-describedby="form-lead">
+      <h2>The Application</h2>
+      <p class="form-lead" id="form-lead">Straight questions, straight answers. Everything here goes directly to Ty over BTH's own system — never sold, never shared with advertisers.</p>
+
+      <div class="field">
+        <label for="f-name">Name</label>
+        <input type="text" id="f-name" name="name" autocomplete="name" required>
+        <p class="err-msg" id="err-name">Add your name.</p>
+      </div>
+
+      <div class="field">
+        <label for="f-email">Email</label>
+        <input type="email" id="f-email" name="email" autocomplete="email" required>
+        <p class="err-msg" id="err-email">Add the rest of the email (e.g. .com).</p>
+      </div>
+
+      <div class="field">
+        <label for="f-zip">ZIP code</label>
+        <input type="text" id="f-zip" name="zip" inputmode="numeric" autocomplete="postal-code" maxlength="10" required>
+        <p class="err-msg" id="err-zip">Add a 5-digit ZIP.</p>
+        <p class="hint">Only used to place you in a travel band for in-person work — see “Where you are decides the path.”</p>
+      </div>
+
+      <fieldset>
+        <legend>Preferred path</legend>
+        <label class="path-opt">
+          <input type="radio" name="path_preference" value="hybrid" id="f-path-hybrid">
+          <span>
+            <span class="opt-name">Hybrid Premium</span>
+            <span class="opt-desc" style="display:block;">Weekly in-person sessions + the full online backbone · from $2,600 · 12-week block</span>
+          </span>
+        </label>
+        <label class="path-opt">
+          <input type="radio" name="path_preference" value="online" id="f-path-online">
+          <span>
+            <span class="opt-name">Online 1:1</span>
+            <span class="opt-desc" style="display:block;">The full backbone, coached remote · from $400/mo · 3 months</span>
+          </span>
+        </label>
+        <label class="path-opt">
+          <input type="radio" name="path_preference" value="either" id="f-path-either">
+          <span>
+            <span class="opt-name">Either — talk it through</span>
+            <span class="opt-desc" style="display:block;">Not sure which fits your week? We sort it on the consult call.</span>
+          </span>
+        </label>
+        <p class="err-msg" id="err-path">Pick a path — “either” counts.</p>
+      </fieldset>
+
+      <div class="field">
+        <label for="f-age">Age range</label>
+        <select id="f-age" name="age_range" required>
+          <option value="" selected disabled>Select your age range</option>
+          <option value="18-24">18–24</option>
+          <option value="25-34">25–34</option>
+          <option value="35-44">35–44</option>
+          <option value="45-54">45–54</option>
+          <option value="55plus">55+</option>
+        </select>
+        <p class="err-msg" id="err-age">Pick an age range.</p>
+        <p class="hint">This coaching is for adults 18 and up. Got a younger hooper in mind? Email <a href="mailto:tyrell@built-to-hoop.com">tyrell@built-to-hoop.com</a> and you&rsquo;ll get a straight answer on where to start.</p>
+      </div>
+
+      <div class="field">
+        <label for="f-goals">Your game, your schedule, what you’re chasing</label>
+        <textarea id="f-goals" name="goals_text" rows="5" maxlength="2000" required
+          placeholder="Where your game’s at, what your week actually looks like, and what you want back on the court."></textarea>
+        <p class="err-msg" id="err-goals">Give Ty something to work with — a few honest lines.</p>
+      </div>
+
+      <div class="field">
+        <label for="f-avail">Weekly availability</label>
+        <select id="f-avail" name="availability" required>
+          <option value="" selected disabled>Hours a week you can put in</option>
+          <option value="2-3">2–3 hours a week</option>
+          <option value="4-6">4–6 hours a week</option>
+          <option value="7-9">7–9 hours a week</option>
+          <option value="10plus">10+ hours a week</option>
+          <option value="unsure">Not sure yet — build around me</option>
+        </select>
+        <p class="err-msg" id="err-avail">Pick the closest fit — it can change.</p>
+      </div>
+
+      <!-- Honeypot (site-wide idiom): real people never see or fill this. -->
+      <div class="bth-hp" aria-hidden="true">
+        <label for="f-company">Leave this field blank</label>
+        <input type="text" id="f-company" name="company" tabindex="-1" autocomplete="off">
+      </div>
+
+      <button type="submit" class="submit-btn" id="submit-btn"><span class="btn-label">Send the application →</span></button>
+      <p class="form-err" id="form-err" role="alert" aria-live="polite"></p>
+      <p class="micro">No card, no charge — applying books nothing. Price, payment options, and the full terms land in plain language before you ever pay a dollar. Five active clients max; if the roster’s full, you get a straight answer and first call on the next opening.</p>
+    </form>
+
+    <!-- ═══ SUCCESS STATE (hidden until a 2xx submit) ═══ -->
+    <section class="success-panel" id="success-panel" aria-live="polite">
+      <div class="k">Application received</div>
+      <h2 id="success-heading" tabindex="-1">Application in.</h2>
+      <p>Ty reads every application himself. Expect to hear back within <strong>2 business days</strong> to set up your consult call — a straight conversation about your game, your week, and which path makes sense. If coaching isn’t the right move for you right now, you’ll hear that too, along with a better place to start.</p>
+      <!-- PLACEHOLDER: the real consult-scheduler URL is wired at the synchronized
+           press (GATES.md). Until then this link goes nowhere on purpose. -->
+      <a class="consult-btn" href="#" data-consult-placeholder>Book your consult →</a>
+      <p><strong>Straight up:</strong> the roster holds five active clients at a time. If it’s full when your application lands, you’ll get a real answer and first call on the next opening — not silence.</p>
+      <p>Keep an eye on your inbox — confirmation and next steps land there.</p>
+    </section>
+  </div>
+
+  <!-- ═══ SIDE COLUMN ═══ -->
+  <aside>
+    <div class="side-card">
+      <div class="k">How it moves</div>
+      <h3>Four steps. No games.</h3>
+      <ol class="side-steps">
+        <li><strong>Apply.</strong> Three minutes. No card, no commitment.</li>
+        <li><strong>Consult call.</strong> You hear back within 2 business days to set it up.</li>
+        <li><strong>Straight answer.</strong> The right path and the real numbers — or an honest “not yet” and where to start instead.</li>
+        <li><strong>The build.</strong> Your 12 weeks get built around your body, your week, and your game. Then the work starts.</li>
+      </ol>
+    </div>
+
+    <div class="side-card area-card">
+      <div class="k">Where you are decides the path</div>
+      <h3>The area logic.</h3>
+      <ul class="area-list">
+        <li><strong>Within 30 miles</strong> of the BTH Atlanta-area home base — travel’s included. No add-on.</li>
+        <li><strong>31–40 miles</strong> — Hybrid works, plus <strong>$35 per in-person visit</strong>.</li>
+        <li><strong>41–50 miles</strong> — Hybrid works, plus <strong>$65 per in-person visit</strong>; a far-hybrid setup (one in-person + one live video session a week) is on the menu in this band.</li>
+        <li><strong>Past 50 miles</strong> — <strong>Online 1:1</strong> is the path: the same full backbone, coached remote.</li>
+      </ul>
+      <p>Shared-session trips split one travel fee across the group — nobody pays it twice. Your ZIP places the band; that’s all it’s used for.</p>
+    </div>
+
+    <div class="side-card">
+      <div class="k">Why an application</div>
+      <h3>Five spots is five spots.</h3>
+      <p>Real coaching takes real hours, so the roster is capped at <strong>five active clients</strong> — on purpose. The application isn’t a hoop to jump through; it’s how Ty makes sure every spot goes to someone the work will actually move.</p>
+    </div>
+  </aside>
+
+</div>
+</main>
+
+<footer>
+  <div class="foot-logo">BUILT TO <span>HOOP</span></div>
+  <div class="foot-links">
+    <a href="/coaching.html">Coaching</a>
+    <a href="/reset.html">Free Reset</a>
+    <a href="/about.html">About</a>
+    <a href="/privacy/index.html">Privacy</a>
+    <a href="mailto:tyrell@built-to-hoop.com">Contact</a>
+  </div>
+</footer>
+
+<script>
+/* BTH Return-to-Hoop application — owned submit + owned events.
+ * Contract: see the pinned comment at the top of this file. No external form
+ * tool; events ride the site's own BTHEvents transport (assets/bth-events.js). */
+(function () {
+  "use strict";
+
+  var ENDPOINT = "https://bth-mail-os.tyrell-38b.workers.dev/api/coaching/apply";
+
+  var form = document.getElementById("apply-form");
+  var btn = document.getElementById("submit-btn");
+  var formErr = document.getElementById("form-err");
+  var successPanel = document.getElementById("success-panel");
+  if (!form) return;
+
+  function trackEvent(type) {
+    try { if (window.BTHEvents && window.BTHEvents.track) window.BTHEvents.track(type); } catch (e) {}
+  }
+
+  /* Same identity reads bth-events.js uses — kept inline so the payload can
+   * carry them even if the events script is blocked. */
+  function leadRef() {
+    try { return window.localStorage.getItem("bth_lead_ref") || ""; } catch (e) { return ""; }
+  }
+  function anonId() {
+    try { return window.localStorage.getItem("bth_anon_id") || ""; } catch (e) { return ""; }
+  }
+
+  /* Click-id / browser-id capture — mirrors the live site's own idioms:
+   * gclid from the bth-click-id.js localStorage record ("bth_click", 90-day
+   * window), ga_client_id from the first-party _ga cookie exactly as
+   * bth-events.js reads it, fbclid from the page URL (the site stores no
+   * fbclid). Absent values are sent as null. */
+  function clickGclid() {
+    try {
+      var raw = window.localStorage.getItem("bth_click");
+      if (!raw) return null;
+      var rec = JSON.parse(raw);
+      if (!rec || !rec.ts || Date.now() - rec.ts > 90 * 864e5) return null;
+      return rec.gclid || null;
+    } catch (e) { return null; }
+  }
+  function urlFbclid() {
+    try {
+      return new URLSearchParams(window.location.search).get("fbclid") || null;
+    } catch (e) { return null; }
+  }
+  function gaClientId() {
+    try {
+      var m = document.cookie.match(/(?:^|;\s*)_ga=GA\d+\.\d+\.(\d+\.\d+)/);
+      return m ? m[1] : null;
+    } catch (e) { return null; }
+  }
+
+  /* ── coaching_application_started: once, on the first field interaction ── */
+  var started = false;
+  function fireStarted(event) {
+    if (started) return;
+    var t = event.target;
+    if (!t || !/^(INPUT|SELECT|TEXTAREA)$/.test(t.tagName)) return;
+    if (t.name === "company") return; /* honeypot never counts */
+    started = true;
+    trackEvent("coaching_application_started");
+  }
+  form.addEventListener("focusin", fireStarted);
+  form.addEventListener("input", fireStarted);
+
+  /* ── validation ── */
+  function setErr(input, msgEl, on) {
+    if (input) input.classList[on ? "add" : "remove"]("field-invalid");
+    if (msgEl) msgEl.classList[on ? "add" : "remove"]("is-visible");
+  }
+  function isValidEmail(v) {
+    /* Deliberately simple — the Worker is the real validator. */
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v || "");
+  }
+  function isValidZip(v) {
+    return /^\d{5}(-\d{4})?$/.test((v || "").trim());
+  }
+
+  var fields = {
+    name:  { el: document.getElementById("f-name"),  err: document.getElementById("err-name"),
+             ok: function (v) { return (v || "").trim().length > 0; } },
+    email: { el: document.getElementById("f-email"), err: document.getElementById("err-email"), ok: isValidEmail },
+    zip:   { el: document.getElementById("f-zip"),   err: document.getElementById("err-zip"),   ok: isValidZip },
+    age:   { el: document.getElementById("f-age"),   err: document.getElementById("err-age"),
+             ok: function (v) { return !!v; } },
+    goals: { el: document.getElementById("f-goals"), err: document.getElementById("err-goals"),
+             ok: function (v) { return (v || "").trim().length > 0; } },
+    avail: { el: document.getElementById("f-avail"), err: document.getElementById("err-avail"),
+             ok: function (v) { return !!v; } }
+  };
+  var pathErr = document.getElementById("err-path");
+
+  Object.keys(fields).forEach(function (k) {
+    var f = fields[k];
+    if (!f.el) return;
+    f.el.addEventListener("input", function () { setErr(f.el, f.err, false); });
+    f.el.addEventListener("change", function () { setErr(f.el, f.err, false); });
+  });
+  form.addEventListener("change", function (e) {
+    if (e.target && e.target.name === "path_preference" && pathErr) pathErr.classList.remove("is-visible");
+  });
+
+  function validate() {
+    var firstBad = null;
+    Object.keys(fields).forEach(function (k) {
+      var f = fields[k];
+      if (!f.el) return;
+      var good = f.ok(f.el.value);
+      setErr(f.el, f.err, !good);
+      if (!good && !firstBad) firstBad = f.el;
+    });
+    var picked = form.querySelector('input[name="path_preference"]:checked');
+    if (!picked) {
+      if (pathErr) pathErr.classList.add("is-visible");
+      if (!firstBad) firstBad = document.getElementById("f-path-hybrid");
+    }
+    if (firstBad) { firstBad.focus(); return false; }
+    return true;
+  }
+
+  function showFormErr(html) {
+    formErr.innerHTML = html;
+    formErr.classList.add("is-visible");
+  }
+  function clearFormErr() {
+    formErr.innerHTML = "";
+    formErr.classList.remove("is-visible");
+  }
+  function setWorking(on) {
+    btn.disabled = on;
+    btn.classList[on ? "add" : "remove"]("is-working");
+  }
+
+  /* ── submit ── */
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+    clearFormErr();
+    if (!validate()) return;
+
+    var picked = form.querySelector('input[name="path_preference"]:checked');
+    var payload = {
+      source: "coaching_application",
+      name: fields.name.el.value.trim(),
+      email: fields.email.el.value.trim(),
+      zip: fields.zip.el.value.trim(),
+      path_preference: picked ? picked.value : "",
+      age_range: fields.age.el.value,
+      goals_text: fields.goals.el.value.trim(),
+      availability: fields.avail.el.value,
+      company: (document.getElementById("f-company") || {}).value || "",
+      lead_ref: leadRef(),
+      anon_id: anonId(),
+      url: String(window.location.href || "").split("#")[0],
+      referrer: String(document.referrer || ""),
+      gclid: clickGclid(),
+      fbclid: urlFbclid(),
+      ga_client_id: gaClientId()
+    };
+
+    setWorking(true);
+
+    fetch(ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    })
+      .then(function (res) {
+        if (res.ok) {
+          /* coaching_application_submitted is recorded SERVER-SIDE inside the
+           * apply endpoint (canonical) — no browser beacon for it, ever. */
+          form.style.display = "none";
+          successPanel.classList.add("is-visible");
+          var h = document.getElementById("success-heading");
+          if (h) h.focus();
+          try { window.scrollTo({ top: successPanel.offsetTop - 90, behavior: "smooth" }); } catch (e) {}
+          return;
+        }
+        setWorking(false);
+        if (res.status === 429) {
+          showFormErr("Too many attempts &mdash; wait a minute and try again.");
+        } else {
+          showFormErr('Something broke on our end. Email <a href="mailto:tyrell@built-to-hoop.com">tyrell@built-to-hoop.com</a> and your application still counts.');
+        }
+      })
+      .catch(function () {
+        setWorking(false);
+        showFormErr('Network hiccup &mdash; try again, or email <a href="mailto:tyrell@built-to-hoop.com">tyrell@built-to-hoop.com</a> directly.');
+      });
+  });
+})();
+</script>
+
+</body>
+</html>
