@@ -15,6 +15,14 @@
  *   - 429 -> inline "too many attempts" message, button re-enabled
  *   - other non-ok / network error -> inline fallback message with the support email
  *   - honeypot ("company") is left untouched here; validation/limiting is server-side
+ *
+ * Domain typo guard (approval #74a, 2026-08-27): a submit whose domain is a near-miss
+ * of a major consumer domain (Levenshtein <= 2, e.g. "gmali.com") is HELD with a
+ * one-tap "Did you mean @gmail.com?" fix. Real domains are allowlisted and an
+ * explicit "No, keep what I typed" lets any address through — a wrong block would
+ * lose a real lead the same way the typo loses one. Evidence: contacts 89 + 91,
+ * the first 2 hard bounces in BTH's lifetime, both paid Google clicks (2026-08-23/24).
+ * Exposed as window.BTHTypo so join.html's checkout capture can reuse the check.
  */
 (function () {
   "use strict";
@@ -38,6 +46,114 @@
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value || "");
   }
 
+  // ---- Domain typo guard (approval #74a) -------------------------------------
+  // The ~15 major consumer domains a typo gets corrected TOWARD.
+  var MAJOR_DOMAINS = [
+    "gmail.com", "yahoo.com", "hotmail.com", "outlook.com", "icloud.com",
+    "aol.com", "live.com", "msn.com", "comcast.net", "att.net",
+    "verizon.net", "ymail.com", "googlemail.com", "protonmail.com", "me.com"
+  ];
+  // Real domains that sit within edit distance 2 of a major one (mail.com is one
+  // keystroke from gmail.com) — never flag these. Includes every major domain.
+  var KNOWN_OK_DOMAINS = MAJOR_DOMAINS.concat([
+    "mail.com", "aim.com", "mac.com", "gmx.com", "gmx.net", "proton.me", "pm.me",
+    "zoho.com", "hey.com", "duck.com", "yandex.com", "hive.com", "mail.ru",
+    "sbcglobal.net", "bellsouth.net", "cox.net", "charter.net", "earthlink.net",
+    "yahoo.co.uk", "hotmail.co.uk", "outlook.co.uk", "live.co.uk",
+    "hotmail.fr", "yahoo.fr", "yahoo.ca", "rocketmail.com", "web.de"
+  ]);
+
+  // Plain two-row Levenshtein — domains are short, so this is microseconds.
+  function editDistance(a, b) {
+    if (a === b) return 0;
+    var prev = [], cur = [], i, j;
+    for (j = 0; j <= b.length; j++) prev[j] = j;
+    for (i = 1; i <= a.length; i++) {
+      cur[0] = i;
+      for (j = 1; j <= b.length; j++) {
+        cur[j] = Math.min(
+          prev[j] + 1,
+          cur[j - 1] + 1,
+          prev[j - 1] + (a.charAt(i - 1) === b.charAt(j - 1) ? 0 : 1)
+        );
+      }
+      var swap = prev; prev = cur; cur = swap;
+    }
+    return prev[b.length];
+  }
+
+  // Returns {domain, suggestion, fixed} when the typed domain looks like a typo of
+  // a major consumer domain, else null. `fixed` is the full corrected address.
+  function suggestTypoFix(value) {
+    var email = String(value || "").trim().toLowerCase();
+    var at = email.lastIndexOf("@");
+    if (at < 1) return null;
+    var local = email.slice(0, at);
+    var domain = email.slice(at + 1);
+    if (!domain || domain.indexOf(".") === -1) return null;
+    if (KNOWN_OK_DOMAINS.indexOf(domain) !== -1) return null;
+    var best = null, bestDist = 3;
+    for (var i = 0; i < MAJOR_DOMAINS.length; i++) {
+      var d = editDistance(domain, MAJOR_DOMAINS[i]);
+      if (d < bestDist) { bestDist = d; best = MAJOR_DOMAINS[i]; }
+    }
+    if (!best || bestDist > 2) return null;
+    return { domain: domain, suggestion: best, fixed: local + "@" + best };
+  }
+
+  // No-PII beacon (#74a): domains only, never the local part. Counts how often the
+  // guard fires so the fix's own hit rate is measurable. Silently skipped on pages
+  // without bth-events.js, and the worker ignores it until the allowlist deploys.
+  function trackTypoEvent(action, sug) {
+    try {
+      if (window.BTHEvents && window.BTHEvents.track) {
+        window.BTHEvents.track("email_typo_suggested", {
+          action: action, bad_domain: sug.domain, suggested_domain: sug.suggestion
+        });
+      }
+    } catch (e) {}
+  }
+
+  // Renders the hold prompt into the form's error slot: one-tap fix, explicit
+  // keep-what-I-typed escape. Built with DOM nodes, not innerHTML — the typed
+  // address goes into textContent so nothing a user types can inject markup.
+  function showTypoPrompt(form, emailInput, msgEl, sug, onKeep) {
+    if (!msgEl) return;
+    if (emailInput) emailInput.classList.add("bth-field-error");
+    msgEl.textContent = "";
+    var q = document.createElement("span");
+    q.textContent = "Did you mean ";
+    var b = document.createElement("strong");
+    b.textContent = sug.fixed;
+    q.appendChild(b);
+    q.appendChild(document.createTextNode("?"));
+    var fixBtn = document.createElement("button");
+    fixBtn.type = "button";
+    fixBtn.className = "bth-typo-fix";
+    fixBtn.textContent = "Yes — fix it";
+    var keepBtn = document.createElement("button");
+    keepBtn.type = "button";
+    keepBtn.className = "bth-typo-keep";
+    keepBtn.textContent = "No, keep what I typed";
+    fixBtn.addEventListener("click", function () {
+      if (emailInput) emailInput.value = sug.fixed;
+      trackTypoEvent("accepted", sug);
+      clearFieldError(emailInput, msgEl);
+      if (onKeep) onKeep(true);
+    });
+    keepBtn.addEventListener("click", function () {
+      form.dataset.bthTypoAck = String(emailInput ? emailInput.value : "").trim().toLowerCase();
+      trackTypoEvent("overridden", sug);
+      clearFieldError(emailInput, msgEl);
+      if (onKeep) onKeep(false);
+    });
+    msgEl.appendChild(q);
+    msgEl.appendChild(fixBtn);
+    msgEl.appendChild(keepBtn);
+    msgEl.classList.add("is-visible");
+  }
+  // ---- /Domain typo guard ----------------------------------------------------
+
   function wireForm(form) {
     if (form.dataset.bthWired === "1") return;
     form.dataset.bthWired = "1";
@@ -48,9 +164,27 @@
     var successEl = form.querySelector(".bth-form-success");
     var redirectUrl = form.dataset.bthRedirect || "/thank-you.html";
 
+    // One "shown" beacon per typed value, however many times blur/submit re-prompt.
+    function maybeTrackShown(sug) {
+      var v = String(emailInput ? emailInput.value : "").trim().toLowerCase();
+      if (form.dataset.bthTypoShownFor === v) return;
+      form.dataset.bthTypoShownFor = v;
+      trackTypoEvent("shown", sug);
+    }
+
     if (emailInput) {
       emailInput.addEventListener("input", function () {
         clearFieldError(emailInput, errorMsg);
+      });
+      // Early catch (#74a): surface the typo prompt the moment they leave the
+      // field, before the CTA press. Non-blocking here — submit enforces it.
+      emailInput.addEventListener("blur", function () {
+        var v = emailInput.value;
+        if (!isValidEmail(v)) return;
+        var sug = suggestTypoFix(v);
+        if (!sug || form.dataset.bthTypoAck === String(v).trim().toLowerCase()) return;
+        maybeTrackShown(sug);
+        showTypoPrompt(form, emailInput, errorMsg, sug, null);
       });
     }
 
@@ -60,6 +194,19 @@
       if (emailInput && !isValidEmail(emailInput.value)) {
         setFieldError(emailInput, errorMsg, "Add the rest of the email (e.g. .com).");
         emailInput.focus();
+        return;
+      }
+
+      // Typo hold (#74a): a near-miss of a major domain (gmali.com) stops here
+      // until it's fixed with one tap or explicitly kept. Either choice resumes
+      // the submit automatically — no second CTA press needed.
+      var typoSug = emailInput ? suggestTypoFix(emailInput.value) : null;
+      if (typoSug && form.dataset.bthTypoAck !== String(emailInput.value).trim().toLowerCase()) {
+        maybeTrackShown(typoSug);
+        showTypoPrompt(form, emailInput, errorMsg, typoSug, function () {
+          if (form.requestSubmit) form.requestSubmit();
+          else form.dispatchEvent(new Event("submit", { cancelable: true }));
+        });
         return;
       }
       clearFieldError(emailInput, errorMsg);
@@ -140,4 +287,8 @@
   } else {
     wireAll();
   }
+
+  // The checkout capture on join.html (approval #70a) runs the same typo check on
+  // its own field — one guard, every email entry point.
+  window.BTHTypo = { suggest: suggestTypoFix };
 })();
