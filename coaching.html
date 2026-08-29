@@ -5,6 +5,9 @@
     <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
     <link rel="shortcut icon" href="assets/favicon.ico">
 
+<!-- BTH-GOAL-0025 STAGED REPLACEMENT for coaching.html — publishes only at the synchronized press (D12).
+     Apply CTA is an application, NOT InitiateCheckout; owned event wiring per playground/spec/mail-os-wiring-spec.md -->
+
 <meta name="facebook-domain-verification" content="8j7jq4cgnwak31awpllczhuyqbxpq8" />
 <!-- ─── BTH TRACKING ─── -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({"gtm.start":new Date().getTime(),event:"gtm.js"});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!="dataLayer"?"&l="+l:"";j.async=true;j.src="https://www.googletagmanager.com/gtm.js?id="+i+dl;f.parentNode.insertBefore(j,f);})(window,document,"script","dataLayer","GTM-T9SFFTB7");</script>
@@ -22,14 +25,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="color-scheme" content="light">
-<title>Basketball Coaching — Work Directly With Ty | Built to Hoop</title>
+<title>Return-to-Hoop Coaching — 12 Weeks, Two Ways In | Built to Hoop</title>
 <link rel="canonical" href="https://built-to-hoop.com/coaching.html">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Built to Hoop">
-<meta property="og:title" content="BTH Coaching — Direct, Built-For-You Basketball Training">
-<meta property="og:description" content="Work directly with Built to Hoop. Custom programming, film breakdowns, and direct access — 1:1 or small group. Membership included. Limited spots.">
+<meta property="og:title" content="BTH Return-to-Hoop Coaching — 12 Weeks, Built Around You">
+<meta property="og:description" content="12 weeks of individualized performance coaching for adult hoopers. Hybrid Premium from $2,600 or Online 1:1 from $400/mo. One application. 5 active spots.">
 <meta property="og:url" content="https://built-to-hoop.com/coaching.html">
-<meta name="description" content="Work directly with Built to Hoop. Custom programming, film breakdowns, and direct access — 1:1 or small group. Membership included. Limited spots.">
+<meta name="description" content="12 weeks of individualized performance coaching for adult hoopers. Rebuild, Reload, Return. Hybrid Premium from $2,600 or Online 1:1 from $400/mo. One application. 5 active spots.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/bth-system.css">
@@ -55,19 +58,24 @@ nav { position:fixed; top:0; left:0; right:0; z-index:100; height:62px; display:
 @media (max-width:900px) { .hero { grid-template-columns:1fr; padding:100px 24px 44px; gap:32px; } }
 .eyebrow { font-family:var(--B); font-size:11px; font-weight:600; letter-spacing:0.22em; text-transform:uppercase; color:var(--gold); margin-bottom:20px; display:flex; align-items:center; gap:12px; }
 .eyebrow::before { content:''; width:24px; height:2px; background:var(--gold); flex-shrink:0; }
-.title { font-family:var(--H); font-size:clamp(40px,6vw,76px); font-weight:700; line-height:0.96; letter-spacing:0.02em; text-transform:uppercase; color:var(--black); margin-bottom:22px; }
+.title { font-family:var(--H); font-size:clamp(40px,6vw,76px); font-weight:700; line-height:0.96; letter-spacing:0.02em; text-transform:uppercase; color:var(--black); margin-bottom:14px; }
 .title .gold { color:var(--gold); }
-.sub { font-size:17px; color:var(--muted); line-height:1.75; margin-bottom:28px; max-width:520px; }
+.tagline { font-family:var(--H); font-size:clamp(17px,2vw,22px); font-weight:600; letter-spacing:0.03em; text-transform:uppercase; color:var(--black); margin-bottom:18px; line-height:1.25; }
+.tagline .gold { color:var(--gold); }
+.sub { font-size:17px; color:var(--muted); line-height:1.75; margin-bottom:24px; max-width:540px; }
 .sub strong { color:var(--black); font-weight:600; }
-.bullets { list-style:none; padding:0; margin:0; }
+.bullets { list-style:none; padding:0; margin:0 0 26px; }
 .bullets li { font-size:15px; color:var(--black); padding:11px 0 11px 30px; position:relative; line-height:1.55; border-bottom:1px solid var(--soft); }
 .bullets li:last-child { border-bottom:none; }
 .bullets li::before { content:'✓'; position:absolute; left:0; top:12px; color:var(--gold); font-weight:700; font-size:16px; }
-.hero-note { font-size:13px; color:var(--muted); margin-top:18px; line-height:1.6; font-style:italic; }
+.cta-main { display:inline-block; font-family:var(--H); font-size:15px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--black); background:var(--gold); padding:16px 32px; border-radius:2px; text-decoration:none; transition:opacity 0.18s; }
+.cta-main:hover { opacity:0.88; }
+.hero-note { font-size:13px; color:var(--muted); margin-top:16px; line-height:1.6; font-style:italic; }
 
 .hero-side { background:var(--cream); border:1px solid var(--border); border-radius:3px; padding:34px 30px; }
 .hero-side .k { font-family:var(--B); font-size:11px; font-weight:600; letter-spacing:0.2em; text-transform:uppercase; color:var(--gold); margin-bottom:16px; }
-.hero-side h3 { font-family:var(--H); font-size:24px; font-weight:700; letter-spacing:0.02em; text-transform:uppercase; color:var(--black); line-height:1.05; margin-bottom:12px; }
+.hero-side h3 { font-family:var(--H); font-size:24px; font-weight:700; letter-spacing:0.02em; text-transform:uppercase; color:var(--black); line-height:1.05; margin-bottom:14px; }
+.hero-side blockquote { font-size:17px; color:var(--black); font-weight:500; line-height:1.6; border-left:3px solid var(--gold); padding-left:16px; margin:0 0 14px; }
 .hero-side p { font-size:14px; color:var(--muted); line-height:1.7; }
 .hero-side p strong { color:var(--black); font-weight:600; }
 
@@ -81,36 +89,58 @@ nav { position:fixed; top:0; left:0; right:0; z-index:100; height:62px; display:
 .newhere-cta { display:inline-block; white-space:nowrap; font-family:var(--H); font-size:14px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--black); background:var(--gold); padding:14px 24px; border-radius:2px; text-decoration:none; transition:opacity 0.18s; }
 .newhere-cta:hover { opacity:0.88; }
 
-/* LADDER band */
+/* CREAM BAND (ladder / travel / terms) */
 .ladder { background:var(--cream); border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
 .ladder-inner { padding:64px 52px; max-width:1080px; margin:0 auto; }
 @media (max-width:768px) { .ladder-inner { padding:52px 24px; } }
 .sec-eyebrow { font-family:var(--B); font-size:11px; font-weight:600; letter-spacing:0.24em; text-transform:uppercase; color:var(--gold); margin-bottom:12px; }
 .sec-title { font-family:var(--H); font-size:clamp(28px,4vw,44px); font-weight:700; line-height:1; letter-spacing:0.02em; text-transform:uppercase; color:var(--black); margin-bottom:16px; }
-.sec-lead { font-size:16px; color:var(--muted); line-height:1.7; max-width:640px; margin-bottom:32px; }
+.sec-lead { font-size:16px; color:var(--muted); line-height:1.7; max-width:660px; margin-bottom:32px; }
+.sec-lead strong { color:var(--black); font-weight:600; }
 .ladder-steps { display:grid; gap:10px; }
 .ladder-row { display:grid; grid-template-columns:minmax(180px,1fr) 2fr; gap:20px; background:var(--white); border:1px solid var(--border); border-left:3px solid var(--gold); border-radius:2px; padding:18px 22px; align-items:baseline; }
 @media (max-width:640px) { .ladder-row { grid-template-columns:1fr; gap:4px; } }
 .ladder-row .step { font-family:var(--H); font-size:16px; font-weight:700; letter-spacing:0.02em; text-transform:uppercase; color:var(--black); }
 .ladder-row.top { border-left-color:var(--black); background:var(--cream-hover,#EDE8DF); }
 .ladder-row .desc { font-size:14px; color:var(--muted); line-height:1.6; }
+.ladder-row .desc strong { color:var(--black); font-weight:600; }
 .ladder-kicker { margin-top:24px; font-size:15px; color:var(--black); font-weight:500; }
 .ladder-kicker .gold { color:var(--gold); font-weight:600; }
 
-/* LANES */
-.lanes { padding:72px 52px; max-width:1080px; margin:0 auto; }
-@media (max-width:768px) { .lanes { padding:56px 24px; } }
+/* METHOD (Rebuild / Reload / Return) */
+.method { padding:72px 52px; max-width:1080px; margin:0 auto; }
+@media (max-width:768px) { .method { padding:56px 24px; } }
+.phases-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:32px; }
+@media (max-width:800px) { .phases-grid { grid-template-columns:1fr; } }
+.phase { background:var(--cream); border:1px solid var(--border); border-top:3px solid var(--gold); border-radius:2px; padding:26px 22px; }
+.phase .n { font-family:var(--H); font-size:12px; font-weight:600; letter-spacing:0.18em; text-transform:uppercase; color:var(--gold); margin-bottom:10px; }
+.phase h4 { font-family:var(--H); font-size:22px; font-weight:700; letter-spacing:0.03em; text-transform:uppercase; color:var(--black); margin-bottom:8px; line-height:1.1; }
+.phase p { font-size:14px; color:var(--muted); line-height:1.65; }
+.backbone { margin-top:40px; border:1px solid var(--border); border-left:3px solid var(--black); border-radius:2px; padding:28px 26px; background:var(--white); }
+.backbone h3 { font-family:var(--H); font-size:18px; font-weight:700; letter-spacing:0.03em; text-transform:uppercase; color:var(--black); margin-bottom:6px; }
+.backbone .bk-note { font-size:14px; color:var(--muted); margin-bottom:16px; line-height:1.6; }
+.backbone ul { list-style:none; padding:0; margin:0; display:grid; grid-template-columns:1fr 1fr; gap:0 32px; }
+@media (max-width:700px) { .backbone ul { grid-template-columns:1fr; } }
+.backbone li { font-size:14px; color:var(--black); padding:8px 0 8px 26px; position:relative; line-height:1.5; border-bottom:1px solid var(--soft); }
+.backbone li::before { content:'✓'; position:absolute; left:0; top:9px; color:var(--gold); font-weight:700; }
+.backbone li strong { color:var(--black); font-weight:600; }
+
+/* TRACKS */
+.tracks { background:var(--cream); border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
+.tracks-inner { padding:72px 52px; max-width:1080px; margin:0 auto; }
+@media (max-width:768px) { .tracks-inner { padding:56px 24px; } }
 .lanes-grid { display:grid; grid-template-columns:1fr 1fr; gap:22px; margin-top:36px; }
 @media (max-width:820px) { .lanes-grid { grid-template-columns:1fr; } }
-.lane { background:var(--cream); border:1px solid var(--border); border-radius:3px; padding:36px 32px; position:relative; display:flex; flex-direction:column; }
+.lane { background:var(--white); border:1px solid var(--border); border-radius:3px; padding:36px 32px; position:relative; display:flex; flex-direction:column; }
 @media (max-width:560px) { .lane { padding:28px 22px; } }
 .lane .badge { position:absolute; top:-12px; left:26px; background:var(--gold); color:var(--black); font-family:var(--H); font-size:11px; font-weight:700; letter-spacing:0.14em; padding:5px 14px; border-radius:2px; }
-.lane.oneone .badge { background:var(--black); color:#fff; }
+.lane.hybrid .badge { background:var(--black); color:#fff; }
 .lane .name { font-family:var(--H); font-size:26px; font-weight:700; letter-spacing:0.02em; text-transform:uppercase; color:var(--black); line-height:1.05; margin-bottom:4px; }
-.lane .price { display:flex; align-items:baseline; gap:8px; margin:12px 0 4px; }
-.lane .price .amt { font-family:var(--H); font-size:46px; font-weight:700; color:var(--gold); line-height:1; }
+.lane .price { display:flex; align-items:baseline; gap:8px; margin:12px 0 4px; flex-wrap:wrap; }
+.lane .price .amt { font-family:var(--H); font-size:42px; font-weight:700; color:var(--gold); line-height:1; }
 .lane .price .per { font-size:13px; color:var(--muted); letter-spacing:0.03em; }
 .lane .note { font-size:13px; color:var(--muted); margin-bottom:20px; line-height:1.55; }
+.lane .note strong { color:var(--black); font-weight:600; }
 .lane .inc { list-style:none; padding:0; margin:0 0 26px; flex:1; }
 .lane .inc li { font-size:14px; color:var(--black); padding:9px 0 9px 26px; position:relative; line-height:1.5; border-bottom:1px solid var(--soft); }
 .lane .inc li:last-child { border-bottom:none; }
@@ -119,6 +149,15 @@ nav { position:fixed; top:0; left:0; right:0; z-index:100; height:62px; display:
 .lane-btn { display:block; width:100%; text-align:center; font-family:var(--H); font-size:15px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:#fff; background:var(--black); border:none; padding:16px; border-radius:2px; cursor:pointer; transition:all 0.18s; text-decoration:none; }
 .lane-btn:hover { background:var(--gold); color:var(--black); }
 .lane .trust { font-size:12px; color:var(--muted); margin-top:12px; text-align:center; line-height:1.55; }
+.roster-line { margin-top:30px; text-align:center; font-size:15px; color:var(--black); line-height:1.7; }
+.roster-line strong { font-weight:600; }
+.roster-line .gold { color:var(--gold); font-weight:600; }
+
+/* TRAVEL */
+.travel { padding:72px 52px; max-width:1080px; margin:0 auto; }
+@media (max-width:768px) { .travel { padding:56px 24px; } }
+.travel .ladder-row { background:var(--cream); }
+.travel-note { margin-top:20px; font-size:13.5px; color:var(--muted); line-height:1.7; max-width:720px; }
 
 /* PERK band */
 .perk { background:var(--black); }
@@ -146,9 +185,15 @@ nav { position:fixed; top:0; left:0; right:0; z-index:100; height:62px; display:
 .step h4 { font-family:var(--H); font-size:17px; font-weight:700; letter-spacing:0.03em; text-transform:uppercase; color:var(--black); margin-bottom:8px; line-height:1.1; }
 .step p { font-size:13.5px; color:var(--muted); line-height:1.6; }
 
+/* TERMS */
+.terms { padding:72px 52px; max-width:1080px; margin:0 auto; }
+@media (max-width:768px) { .terms { padding:56px 24px; } }
+.terms .ladder-row { background:var(--cream); }
+.terms-kicker { margin-top:22px; font-size:14px; color:var(--muted); line-height:1.7; }
+
 /* FIT (who for / who not) */
-.fit { padding:72px 52px; max-width:1080px; margin:0 auto; }
-@media (max-width:768px) { .fit { padding:56px 24px; } }
+.fit { padding:0 52px 72px; max-width:1080px; margin:0 auto; }
+@media (max-width:768px) { .fit { padding:0 24px 56px; } }
 .fit-grid { display:grid; grid-template-columns:1fr 1fr; gap:22px; margin-top:16px; }
 @media (max-width:700px) { .fit-grid { grid-template-columns:1fr; } }
 .fit-col { border:1px solid var(--border); border-radius:3px; padding:28px 26px; }
@@ -171,8 +216,19 @@ nav { position:fixed; top:0; left:0; right:0; z-index:100; height:62px; display:
 .faq-item h4 { font-family:var(--H); font-size:18px; font-weight:600; letter-spacing:0.02em; color:var(--black); margin-bottom:8px; }
 .faq-item p { font-size:14.5px; color:var(--muted); line-height:1.7; }
 
-footer { padding:48px 52px; max-width:1180px; margin:0 auto; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; border-top:1px solid var(--border); }
-@media (max-width:768px) { footer { padding:40px 24px; } }
+/* FINAL CTA */
+.final { padding:72px 52px; max-width:1080px; margin:0 auto; text-align:center; }
+@media (max-width:768px) { .final { padding:56px 24px; } }
+.final .sec-lead { margin-left:auto; margin-right:auto; }
+
+/* LEGAL */
+.legal { border-top:1px solid var(--border); }
+.legal-inner { max-width:1080px; margin:0 auto; padding:28px 52px 0; }
+@media (max-width:768px) { .legal-inner { padding:24px 24px 0; } }
+.legal p { font-size:12.5px; color:var(--muted); line-height:1.7; margin-bottom:8px; }
+
+footer { padding:32px 52px 48px; max-width:1180px; margin:0 auto; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; }
+@media (max-width:768px) { footer { padding:28px 24px 40px; } }
 .foot-logo { font-family:var(--H); font-size:18px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:var(--black); }
 .foot-logo span { color:var(--gold); }
 .foot-links { display:flex; gap:24px; flex-wrap:wrap; }
@@ -192,26 +248,35 @@ footer { padding:48px 52px; max-width:1180px; margin:0 auto; display:flex; justi
   </div>
 </nav>
 
-<!-- HERO -->
+<!-- HERO — merged promise block -->
 <section class="hero">
   <div>
     <div class="eyebrow">Built To Hoop — Coaching</div>
-    <h1 class="title">Train Direct.<br><span class="gold">Built For You.</span></h1>
-    <p class="sub">Every BTH program is built for hoopers like you. Coaching is built for <strong>you</strong> — your body, your schedule, your film, your game. You work directly with Ty: custom programming, breakdowns of your actual footage, and a straight line to ask when something's not clicking. Two ways in — <strong>1:1 or small group.</strong> Both include your Stay Ready membership.</p>
+    <h1 class="title">Return to <span class="gold">Hoop.</span></h1>
+    <p class="tagline">12 weeks. A body built for the game — <span class="gold">and for everything after it.</span></p>
+    <p class="sub">This is for the hooper whose body pushed him off the court. Return-to-Hoop is <strong>twelve weeks of individualized performance coaching</strong>: we rebuild how you move, load, and recover — strength, conditioning, and more durable movement capacity for a real basketball workload. The aim is plain — <strong>get back to the court, or keep playing more consistently</strong>, with a body that better supports everyday life. Movement and durability built to last.</p>
     <ul class="bullets">
-      <li>Programming built around your body and your season — not a template</li>
-      <li>Your film and performance broken down, not guessed at</li>
-      <li>Direct async access — ask, adjust, keep moving</li>
-      <li>One live call a month, one-on-one or with your group</li>
+      <li>Built around your body, your schedule, your equipment, and your season — never a template</li>
+      <li>Rebuild → Reload → Return: a 12-week arc with a job for every week</li>
+      <li>Your film and your numbers reviewed — not guessed at</li>
+      <li>A direct line to Ty during business hours, one-business-day response</li>
       <li>Stay Ready membership included the whole way through</li>
     </ul>
-    <p class="hero-note">Spots are capped on purpose. Real coaching takes real time, so the room stays small.</p>
+    <a class="cta-main" href="/coaching-apply.html">Apply for Coaching →</a>
+    <p class="hero-note">5 active spots across both paths — that's the whole roster. Real coaching takes real time.</p>
   </div>
 
   <aside class="hero-side">
-    <div class="k">Where coaching fits</div>
-    <h3>The last step on the ladder.</h3>
-    <p>Most hoopers don't need coaching to start — they need to start. The free reset and the membership are for that. <strong>Coaching is for when you want it built around you</strong>, with Ty in your corner directly. It's the highest level of BTH.</p>
+    <!-- SHIP-GATE FLAG (D9 / Gate 5): Founder story below is policy-compliant as written (verbatim
+         first-person, "not a typical result and not a promise" inline + legal footer). Before the
+         D12 press, the already-engaged GA attorney (DECISIONS.md D9, gate G3) must explicitly
+         confirm 16 CFR 255.2 sufficiency of a bare "not typical" disclaimer for this
+         limping-to-no-hurting narrative arc (post-2009 FTC Endorsement Guides). Counsel call only —
+         do NOT rewrite the quote; it is locked verbatim. -->
+    <div class="k">Ty's own story</div>
+    <h3>Built on my own legs.</h3>
+    <blockquote>"Before I couldn't leave the court without limping. Now I get home without hurting for hours."</blockquote>
+    <p>That's Ty — his own legs, his own experience. <strong>Not a typical result and not a promise</strong> — it's the standard the work builds toward. Your twelve weeks get built around you.</p>
   </aside>
 </section>
 
@@ -241,76 +306,140 @@ footer { padding:48px 52px; max-width:1180px; margin:0 auto; display:flex; justi
         <div class="step">Stay Ready — $27/mo</div>
         <div class="desc">The full system + the app. Train on your own.</div>
       </div>
-      <div class="ladder-row">
-        <div class="step">Group Coaching — $129/mo</div>
-        <div class="desc">Small room. Direct access. Built-for-you programming, lighter touch.</div>
-      </div>
       <div class="ladder-row top">
-        <div class="step">1:1 Coaching — $497 / 12 wks</div>
-        <div class="desc">The whole thing, one-on-one. The highest level of BTH.</div>
+        <div class="step">Return-to-Hoop Coaching</div>
+        <div class="desc"><strong>Online 1:1 from $400/mo · Hybrid Premium from $2,600.</strong> Twelve weeks built around you, with Ty in your corner. The highest level of BTH.</div>
       </div>
     </div>
     <p class="ladder-kicker">Coaching <span class="gold">delivers</span> the membership — you don't buy it separately. More on that below.</p>
   </div>
 </section>
 
-<!-- LANES -->
-<section class="lanes wrap">
-  <div class="sec-eyebrow">Two ways in</div>
-  <h2 class="sec-title">Pick your room.</h2>
-  <div class="lanes-grid">
-
-    <!-- 1:1 -->
-    <div class="lane oneone">
-      <div class="badge">1:1 · 5 spots</div>
-      <div class="name">1:1 Coaching</div>
-      <div class="price"><span class="amt">$497</span><span class="per">/ 12-week block</span></div>
-      <div class="note">One block, one-on-one with Ty. Capped at 5 athletes at a time.</div>
-      <ul class="inc">
-        <li>Custom programming built for your body and your season</li>
-        <li>A custom schedule built around your week and your games</li>
-        <li>Film + performance breakdown on your actual footage</li>
-        <li><strong>Direct async access to Ty</strong> — chat/DM, all 12 weeks</li>
-        <li>One live call every month</li>
-        <li><strong>Stay Ready membership included free</strong> — and it keeps going after</li>
-      </ul>
-      <a class="lane-btn" href="mailto:tyrell@built-to-hoop.com?subject=BTH%201%3A1%20Coaching%20Application&body=Tell%20me%20about%20your%20game%2C%20your%20body%2C%20and%20what%20you're%20chasing%3A%0A%0A-%20Where%20you're%20at%20now%3A%0A-%20Your%20schedule%2Fseason%3A%0A-%20What%20you%20want%20out%20of%2012%20weeks%3A"
-         data-bth-checkout data-bth-id="coaching-1on1" data-bth-name="BTH 1:1 Coaching" data-bth-value="497" rel="noopener">Apply for 1:1 →</a>
-      <p class="trust">Application, not instant checkout — 5 spots means it has to be the right fit.</p>
+<!-- METHOD -->
+<section class="method">
+  <div class="sec-eyebrow">The method</div>
+  <h2 class="sec-title">Rebuild. Reload. Return.</h2>
+  <p class="sec-lead">Twelve weeks, three phases, one build — the same arc on either path. Every phase has a job, and every week reports to it.</p>
+  <div class="phases-grid">
+    <div class="phase">
+      <div class="n">Weeks 1–4</div>
+      <h4>Rebuild</h4>
+      <p>Set the base. Movement quality, mobility, strength and conditioning your body can actually tolerate right now, recovery habits, and a daily-life foundation the rest of the block stands on.</p>
     </div>
-
-    <!-- Group -->
-    <div class="lane">
-      <div class="badge">Group · 12 spots</div>
-      <div class="name">Group Coaching</div>
-      <div class="price"><span class="amt">$129</span><span class="per">/ month</span></div>
-      <div class="note">A small room of hoopers coached together. Capped at 12.</div>
-      <ul class="inc">
-        <li>Group-tailored programming you actually follow</li>
-        <li>A custom schedule build to fit your week</li>
-        <li>Film + performance breakdown in the group</li>
-        <li><strong>Direct async access</strong> — group chat, not a ticket queue</li>
-        <li>One live group call every month</li>
-        <li><strong>Stay Ready membership included free</strong> while you're in</li>
-      </ul>
-      <a class="lane-btn" href="mailto:tyrell@built-to-hoop.com?subject=BTH%20Group%20Coaching%20%E2%80%94%20Grab%20a%20Spot&body=I%20want%20in%20on%20the%20group.%20A%20bit%20about%20me%3A%0A%0A-%20Where%20you're%20at%20now%3A%0A-%20Your%20schedule%3A%0A-%20What%20you%20want%20to%20get%20better%20at%3A"
-         data-bth-checkout data-bth-id="coaching-group" data-bth-name="BTH Group Coaching" data-bth-value="129" rel="noopener">Join the Group →</a>
-      <p class="trust">Small room on purpose. When the 12 spots are full, the room closes until one opens.</p>
+    <div class="phase">
+      <div class="n">Weeks 5–8</div>
+      <h4>Reload</h4>
+      <p>Load the base. Usable single-leg strength, acceleration and deceleration, landing, change of direction, power, and basketball conditioning — capacity you can spend on the court.</p>
     </div>
+    <div class="phase">
+      <div class="n">Weeks 9–12</div>
+      <h4>Return</h4>
+      <p>Take it back to the court. Progressive basketball workload, higher-speed movement, fatigue tolerance, real court exposure — and your continuation plan, so week 13 isn't a cliff.</p>
+    </div>
+  </div>
 
+  <div class="backbone">
+    <h3>The backbone — every client, both paths</h3>
+    <p class="bk-note">The paths differ in how much happens in the room with Ty. The system underneath is the same:</p>
+    <ul>
+      <li><strong>Custom programming</strong> built on your schedule, equipment, ability, and basketball demands</li>
+      <li><strong>Mobility work</strong> built into the plan, not bolted on</li>
+      <li><strong>General nutrition guidance</strong> — non-medical, practical, food you'll actually eat</li>
+      <li><strong>Weekly structured check-in</strong>: training, basketball, daily-life, and readiness logs</li>
+      <li><strong>Clip &amp; film review</strong> — your movement and your game footage, eyes-on</li>
+      <li><strong>Measurements at Weeks 0, 4, 8, and 12</strong> — progress you can point at</li>
+      <li><strong>Program review at least every two weeks</strong>, adjusted from your real response</li>
+      <li><strong>Direct messaging</strong> during business hours — one-business-day response</li>
+      <li><strong>Onboarding call</strong> to start, a continuation call to close — plus a monthly 30-minute progress call on the Online path</li>
+    </ul>
   </div>
 </section>
 
-<!-- PERK (flywheel) -->
+<!-- TRACKS -->
+<section class="tracks">
+  <div class="tracks-inner">
+    <div class="sec-eyebrow">Two ways in</div>
+    <h2 class="sec-title">Pick your path.</h2>
+    <p class="sec-lead">Same system, same standard. The difference is how much of it happens in the room.</p>
+    <div class="lanes-grid">
+
+      <!-- HYBRID PREMIUM -->
+      <div class="lane hybrid">
+        <div class="badge">In Person + Online · 12 Weeks</div>
+        <div class="name">Hybrid Premium</div>
+        <div class="price"><span class="amt">From $2,600</span><span class="per">· 12-week block</span></div>
+        <div class="note"><strong>$2,600 paid in full</strong>, or 3 payments of $900 ($2,700 total) — three payments that stop on their own, never a subscription. A <strong>$500 deposit books your build</strong>.</div>
+        <ul class="inc">
+          <li><strong>A weekly in-person session</strong> on your area's route day — 12 across the block</li>
+          <li><strong>At least 6 of your 12 sessions are private</strong> — Weeks 1 and 12 always are</li>
+          <li>Other sessions may run as a <strong>small shared room of 2–4 compatible hoopers</strong> (usually 3) — never a class</li>
+          <li>Every shared session adds a <strong>private 30-minute remote review within 72 hours</strong></li>
+          <li><strong>Gym access handled</strong> — included within 30 miles (travel bands below)</li>
+          <li>The full online backbone, all 12 weeks</li>
+        </ul>
+        <a class="lane-btn" href="/coaching-apply.html?path=hybrid">Apply — Hybrid →</a>
+        <p class="trust">Application first, then a call. Price and terms stated plainly before any payment.</p>
+      </div>
+
+      <!-- ONLINE 1:1 -->
+      <div class="lane">
+        <div class="badge">Remote · 3 Months</div>
+        <div class="name">Online 1:1</div>
+        <div class="price"><span class="amt">From $400/mo</span><span class="per">· 3 months</span></div>
+        <div class="note"><strong>$400/month for 3 months</strong> ($1,200 total) or <strong>$1,100 paid in full</strong>. Three payments that stop on their own — never a subscription.</div>
+        <ul class="inc">
+          <li>The same <strong>Rebuild → Reload → Return</strong> build, delivered remote</li>
+          <li><strong>60-minute remote onboarding</strong> + performance-history review</li>
+          <li>Up to <strong>2 consolidated video/clip submissions a week</strong>, reviewed by Ty</li>
+          <li><strong>Monthly 30-minute progress call</strong></li>
+          <li>Readiness logs, measurements, and check-ins run the system — <strong>you send it, Ty adjusts it</strong></li>
+          <li>Available anywhere — this is the path beyond 50 miles</li>
+        </ul>
+        <a class="lane-btn" href="/coaching-apply.html?path=online">Apply — Online →</a>
+        <p class="trust">Application first, then a call. Price and terms stated plainly before any payment.</p>
+      </div>
+
+    </div>
+    <p class="roster-line">One application for both paths — the call decides fit. <strong class="gold">5 active spots total. That's the whole roster.</strong> <strong>10 consult slots a week.</strong></p>
+  </div>
+</section>
+
+<!-- TRAVEL / LOCATION -->
+<section class="travel">
+  <div class="sec-eyebrow">Location logic</div>
+  <h2 class="sec-title">Where you are sets the path.</h2>
+  <p class="sec-lead">Hybrid runs on route days out of the BTH operating base. The bands are simple and public:</p>
+  <div class="ladder-steps">
+    <div class="ladder-row">
+      <div class="step">0–30 miles</div>
+      <div class="desc"><strong>Included.</strong> Travel and gym access are handled in the price.</div>
+    </div>
+    <div class="ladder-row">
+      <div class="step">31–40 miles</div>
+      <div class="desc">+$35 per in-person visit.</div>
+    </div>
+    <div class="ladder-row">
+      <div class="step">41–50 miles</div>
+      <div class="desc">+$65 per in-person visit. A split week — one in-person session, one live video session — is on the table in this band; the call settles it.</div>
+    </div>
+    <div class="ladder-row">
+      <div class="step">Beyond 50 miles</div>
+      <div class="desc"><strong>Online 1:1</strong> — the same system, delivered remote.</div>
+    </div>
+  </div>
+  <p class="travel-note">Distances are one-way road miles from the BTH operating base. On a shared trip, one travel charge covers the trip and is split among the hoopers in the room — you never stack surcharges.</p>
+</section>
+
+<!-- MEMBERSHIP PERK -->
 <section class="perk">
   <div class="perk-inner">
     <div class="sec-eyebrow">Coaching delivers the membership</div>
     <h2 class="sec-title">You leave with the system, not just a season.</h2>
-    <p class="perk-lead">Coaching doesn't end with an empty inbox. Your <strong>Stay Ready membership is included the entire time</strong> you're coached — the full app, the full library, everything. And it keeps going after you're done:</p>
+    <p class="perk-lead">Coaching doesn't end with an empty inbox. Your <strong>Stay Ready membership is included the entire time you're coached</strong> — the full app, the full library, everything. And when you finish:</p>
     <ul class="perk-list">
-      <li><strong>1:1 athletes:</strong> 12 months of Stay Ready free after your block.</li>
-      <li><strong>Group athletes:</strong> 3 months of Stay Ready free after you finish.</li>
-      <li>After the free window, membership continues at <strong>$19/mo</strong> — locked below the standard $27, for as long as you keep it.</li>
+      <li><strong>3 months of Stay Ready free</strong> after you complete your 12 weeks — a set gift window with a start and an end.</li>
+      <li>After the gift window, membership continues <strong>only if you choose it</strong> — an explicit opt-in at <strong>$19/mo</strong>, locked below the standard $27.</li>
+      <li><strong>Nothing renews on its own.</strong> No card quietly kept on file, no surprise charge. You pick, or it simply ends.</li>
     </ul>
     <p class="perk-lead" style="margin-top:24px;margin-bottom:0;">So when the coaching's done, you're not starting over. You've got the plan <strong>and</strong> the system to keep running it.</p>
   </div>
@@ -319,31 +448,69 @@ footer { padding:48px 52px; max-width:1180px; margin:0 auto; display:flex; justi
 <!-- STEPS -->
 <section class="steps">
   <div class="steps-inner">
-    <div class="sec-eyebrow">How coaching runs</div>
-    <h2 class="sec-title">Apply. Get built. Get to work.</h2>
+    <div class="sec-eyebrow">How it runs</div>
+    <h2 class="sec-title">Apply. Talk. Get built. Get to work.</h2>
     <div class="steps-grid">
       <div class="step">
         <div class="n">Step 1</div>
-        <h4>Reach out</h4>
-        <p>Apply for 1:1 or grab a group spot. We talk through your game, your body, and what you're chasing.</p>
+        <h4>Apply</h4>
+        <p>One application for both paths — who you are, where you are, what you're chasing. Five minutes, no payment.</p>
       </div>
       <div class="step">
         <div class="n">Step 2</div>
-        <h4>Get your build</h4>
-        <p>Ty builds your programming and schedule around your real week and your real film. No template.</p>
+        <h4>The call</h4>
+        <p>A straight 30-minute consult — fit, path, and location band. Price and terms stated plainly. 10 slots a week.</p>
       </div>
       <div class="step">
         <div class="n">Step 3</div>
-        <h4>Train with access</h4>
-        <p>Send film, ask questions, adjust. One live call a month keeps it dialed in.</p>
+        <h4>Get built</h4>
+        <p>Onboarding, baseline measurements, and your custom program delivered before the clock starts. On Hybrid, a $500 deposit books your build.</p>
       </div>
       <div class="step">
         <div class="n">Step 4</div>
-        <h4>Keep the system</h4>
-        <p>Your Stay Ready membership carries you past the block so the work sticks.</p>
+        <h4>Run it — then keep it</h4>
+        <p>Rebuild → Reload → Return, adjusted from what your body actually does. Finish with your playbook and your membership.</p>
       </div>
     </div>
   </div>
+</section>
+
+<!-- TERMS -->
+<!-- SHIP-GATE FLAG (D12 / Gate 4): The refund ladder below matches DECISIONS.md locked D2/D3/D6/D9
+     (7-business-day full refund no reason; full refund until the build is delivered; weeks 1-4 = 50%;
+     week 5+ = pause/transfer; Online = 3 fixed payments, never a subscription). products.json
+     coaching_offer still records the OLD $497 1:1 / $129/mo group terms as of 2026-08-27. This page
+     must NOT go live before products.json AND the live checkout/terms are updated to match, in the
+     ONE synchronized D12 press (page + products.json + terms + tracking together). Confirm executed
+     at bth-goal-ship Move 2 before any gate is pressed — otherwise Gate 4 flips to BLOCK on a live
+     mismatch. -->
+<section class="terms">
+  <div class="sec-eyebrow">Terms, plainly</div>
+  <h2 class="sec-title">Know the exit before you enter.</h2>
+  <p class="sec-lead">No asterisks and no gotchas — this is the actual policy, and it's all in the written agreement before any payment.</p>
+  <div class="ladder-steps">
+    <div class="ladder-row">
+      <div class="step">First 7 business days</div>
+      <div class="desc"><strong>Full refund, no reason needed</strong> — both paths.</div>
+    </div>
+    <div class="ladder-row">
+      <div class="step">Until your build is delivered</div>
+      <div class="desc"><strong>Full refund.</strong> If your custom program hasn't been delivered, you're not locked in.</div>
+    </div>
+    <div class="ladder-row">
+      <div class="step">Weeks 1–4</div>
+      <div class="desc">Exit here and your total <strong>settles at 50% of the program price</strong> — anything paid above that is refunded, remaining payments cancelled.</div>
+    </div>
+    <div class="ladder-row">
+      <div class="step">Week 5 and on</div>
+      <div class="desc"><strong>Pause or transfer instead of a refund.</strong> Life happens — the clock can freeze, or the remaining value can move with you to the other path.</div>
+    </div>
+    <div class="ladder-row">
+      <div class="step">Online payments</div>
+      <div class="desc"><strong>3 fixed payments that hard-stop.</strong> A month that isn't delivered simply isn't charged. Never a subscription, nothing to remember to cancel.</div>
+    </div>
+  </div>
+  <p class="terms-kicker">The full client agreement covers scheduling, pauses, and every line above — in writing, before any money moves.</p>
 </section>
 
 <!-- FIT -->
@@ -354,16 +521,17 @@ footer { padding:48px 52px; max-width:1180px; margin:0 auto; display:flex; justi
     <div class="fit-col yes">
       <h3>It's for you if</h3>
       <ul>
-        <li>You're already putting in the work and want it built around <em>you</em>.</li>
-        <li>You want eyes on your actual film, not generic advice.</li>
-        <li>You want a direct line to ask, not a forum.</li>
+        <li>You played — really played — and you want to get back to real runs, not just workouts.</li>
+        <li>You want the work built around your actual body, schedule, and film.</li>
+        <li>You're ready to put in twelve honest weeks and let the measurements tell the story.</li>
       </ul>
     </div>
     <div class="fit-col no">
       <h3>It's not for you if</h3>
       <ul>
-        <li>You haven't started yet — <a href="/reset.html">start with the Free Reset</a> or <a href="/join.html">Stay Ready</a> first.</li>
-        <li>You want a magic fix. Coaching is real work, coached well — not a shortcut.</li>
+        <li>You haven't started training at all — <a href="/reset.html">start with the Free Reset</a> or <a href="/join.html">Stay Ready</a> first.</li>
+        <li>You want a shortcut. This is real work, coached well.</li>
+        <li>There's something a clinician hasn't cleared you on — handle that first. BTH builds performance alongside what your clinician clears.</li>
       </ul>
     </div>
   </div>
@@ -375,35 +543,56 @@ footer { padding:48px 52px; max-width:1180px; margin:0 auto; display:flex; justi
     <div class="sec-eyebrow">Questions</div>
     <h2 class="sec-title">Straight answers.</h2>
     <div class="faq-item">
-      <h4>How is coaching different from the membership?</h4>
-      <p>The membership is the full system, built for hoopers like you, that you run on your own. Coaching is built for <em>you</em> specifically — your programming, your film, your schedule — with direct access to Ty.</p>
+      <h4>What happened to the old 1:1 and Group Coaching?</h4>
+      <p>This replaced them. One flagship — Return-to-Hoop Coaching — with two ways in. Shared sessions still exist, but inside Hybrid Premium as part of your block: a small room of 2–4 compatible hoopers, never a separate cheaper tier, and everyone in it still runs their own individual program.</p>
     </div>
     <div class="faq-item">
-      <h4>What does "async access" mean?</h4>
-      <p>You reach Ty by chat/DM through your block — send film, ask questions, get adjustments — instead of waiting on a weekly slot. Plus one scheduled live call each month.</p>
+      <h4>Which path is mine?</h4>
+      <p>The application asks where you are and which path you'd prefer; the call confirms both. Within 30 miles, Hybrid is fully included. 31–50 miles adds a per-visit travel charge ($35 or $65 by band). Past 50 miles, it's Online 1:1 — same system, delivered remote.</p>
     </div>
     <div class="faq-item">
-      <h4>Why are spots capped?</h4>
-      <p>Because real coaching takes real time. 5 for 1:1, 12 for the group. When it's full, it's full.</p>
+      <h4>Why an application instead of a checkout button?</h4>
+      <p>Because there are 5 active spots total and the fit has to be real — both ways. On the call you hear the price, the terms, and the plan stated plainly, and nothing is charged until you decide. If it's not a fit, we'll point you to the right BTH step instead.</p>
     </div>
     <div class="faq-item">
-      <h4>What happens to my membership after coaching?</h4>
-      <p>It stays. 12 months free after 1:1, 3 months free after group — then it continues at a discounted $19/mo for as long as you keep it.</p>
+      <h4>What do shared Hybrid sessions actually mean for me?</h4>
+      <p>At least 6 of your 12 sessions are private — Weeks 1 and 12 always are. When a session runs shared, it's 2–4 hoopers whose training genuinely lines up, and you get a private 30-minute remote review within 72 hours on top. Your programming never becomes a group template.</p>
     </div>
     <div class="faq-item">
-      <h4>Do I need the app?</h4>
-      <p>No. Coaching is run directly — chat, shared docs, film, and your live call. Your membership unlocks the app on top of that.</p>
+      <h4>What happens to my membership after the 12 weeks?</h4>
+      <p>Stay Ready is included the whole time you're coached, then runs 3 more months free after you finish. After that it continues only if you opt in — $19/mo, locked below the standard $27. Nothing renews on its own.</p>
     </div>
     <div class="faq-item">
-      <h4>Can I cancel group coaching?</h4>
-      <p>Yes — group is month-to-month. You keep everything you've already downloaded.</p>
+      <h4>What if I need to stop mid-block?</h4>
+      <p>The exit ladder above is the policy: 7 business days full refund, full refund until your build is delivered, weeks 1–4 exit at 50%, week 5+ pause or transfer. On Online, a month that isn't delivered isn't charged. All of it is in the written agreement before any payment.</p>
     </div>
     <div class="faq-item">
-      <h4>What if I need to stop the 1:1 block?</h4>
-      <p>Before your build is delivered, you get a full refund — no questions. Once your custom programming and schedule are built and coaching starts, the block is non-refundable, because the work is already done and it's yours to keep.</p>
+      <h4>Is this medical care?</h4>
+      <p>No. BTH Return-to-Hoop Coaching is performance coaching. It is not physical therapy, medical care, or treatment for any condition. For injuries or persistent pain, see a physician — BTH builds performance alongside what your clinician clears.</p>
+    </div>
+    <div class="faq-item">
+      <h4>Do I need a gym?</h4>
+      <p>On Hybrid, gym access is handled — it's included within 30 miles. On Online, your program is built around the equipment and space you actually have.</p>
     </div>
   </div>
 </section>
+
+<!-- FINAL CTA -->
+<section class="final">
+  <div class="sec-eyebrow">Five spots. One application.</div>
+  <h2 class="sec-title">Get back to your game.</h2>
+  <p class="sec-lead">Twelve weeks, built around you. Tell us where you are and what you're chasing — the call takes it from there.</p>
+  <a class="cta-main" href="/coaching-apply.html">Apply for Coaching →</a>
+</section>
+
+<!-- LEGAL -->
+<div class="legal">
+  <div class="legal-inner">
+    <p>BTH Return-to-Hoop Coaching is performance coaching. It is not physical therapy, medical care, or treatment for any condition.</p>
+    <p>Not medical advice. For injuries or persistent pain, see a physician. BTH builds performance alongside what your clinician clears.</p>
+    <p>Ty's story is his own experience — not a typical or promised result.</p>
+  </div>
+</div>
 
 <footer>
   <div class="foot-logo">BUILT TO <span>HOOP</span></div>
@@ -412,9 +601,34 @@ footer { padding:48px 52px; max-width:1180px; margin:0 auto; display:flex; justi
     <a href="/programs.html">Programs</a>
     <a href="/about.html">About</a>
     <a href="/privacy/index.html">Privacy</a>
+    <a href="/privacy/consumer-health-data.html">Consumer Health Data</a>
     <a href="mailto:tyrell@built-to-hoop.com">Contact</a>
   </div>
 </footer>
+
+<script>
+/* Owned funnel step 1 (mail-os-wiring-spec §2), fired once on page load over
+ * the site's own BTHEvents transport (assets/bth-events.js → sendBeacon
+ * text/plain → /api/events) — the same idiom the apply page uses for its
+ * started event. No extra params, ever. */
+(function () {
+  "use strict";
+  function trackEvent(type) {
+    try { if (window.BTHEvents && window.BTHEvents.track) window.BTHEvents.track(type); } catch (e) {}
+  }
+  var fired = false;
+  function fireView() {
+    if (fired) return;
+    fired = true;
+    trackEvent("coaching_page_viewed");
+  }
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", fireView);
+  } else {
+    fireView();
+  }
+})();
+</script>
 
 </body>
 </html>
