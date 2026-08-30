@@ -60,21 +60,21 @@ nav { position:fixed; top:0; left:0; right:0; z-index:100; height:62px; display:
 @media (max-width:768px) { .hero { padding:110px 24px 56px; } }
 .hero::before { content:'KNEE'; position:absolute; right:-40px; top:50%; transform:translateY(-50%); font-family:var(--H); font-size:clamp(220px,32vw,460px); font-weight:700; color:rgba(230,168,0,0.05); line-height:1; pointer-events:none; z-index:0; letter-spacing:-0.02em; }
 .hero-inner { max-width:900px; margin:0 auto; position:relative; z-index:1; }
-.hero-eyebrow { font-family:var(--B); font-size:11px; font-weight:600; letter-spacing:0.22em; text-transform:uppercase; color:var(--gold); margin-bottom:20px; display:flex; align-items:center; gap:12px; }
+.hero-eyebrow { font-family:var(--B); font-size:11px; font-weight:600; letter-spacing:0.22em; text-transform:uppercase; color:var(--gold-text); margin-bottom:20px; display:flex; align-items:center; gap:12px; }
 .hero-eyebrow::before { content:''; width:24px; height:2px; background:var(--gold); flex-shrink:0; }
 .hero-title { font-family:var(--H); font-size:clamp(48px,8vw,108px); font-weight:700; line-height:0.92; letter-spacing:0.02em; text-transform:uppercase; color:var(--black); margin-bottom:24px; }
-.hero-title .gold { color:var(--gold); }
+.hero-title .gold { color:var(--gold-text); }
 .hero-sub { font-size:18px; color:var(--muted); max-width:620px; line-height:1.7; margin-bottom:36px; }
 .hero-sub strong { color:var(--black); font-weight:600; }
 .btn-gold { font-family:var(--H); font-size:16px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--black); background:var(--gold); padding:18px 44px; border-radius:2px; text-decoration:none; display:inline-block; transition:opacity 0.18s; white-space:nowrap; }
 .btn-gold:hover { opacity:0.88; }
 .btn-secondary { font-family:var(--B); font-size:14px; font-weight:500; color:var(--muted); padding:14px 32px; border-radius:2px; border:1.5px solid var(--border); text-decoration:none; display:inline-block; transition:all 0.18s; white-space:nowrap; }
-.btn-secondary:hover { border-color:var(--gold); color:var(--gold); }
+.btn-secondary:hover { border-color:var(--gold); color:var(--gold-text); }
 .btn-row { display:flex; gap:12px; flex-wrap:wrap; }
 .btn-primary { font-family:var(--H); font-size:15px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--white); background:var(--black); padding:16px 38px; border-radius:2px; text-decoration:none; display:inline-block; transition:background 0.18s; white-space:nowrap; }
 .btn-primary:hover { background:var(--gold); color:var(--black); }
 
-.section-eyebrow { font-family:var(--B); font-size:11px; font-weight:600; letter-spacing:0.24em; text-transform:uppercase; color:var(--gold); margin-bottom:12px; }
+.section-eyebrow { font-family:var(--B); font-size:11px; font-weight:600; letter-spacing:0.24em; text-transform:uppercase; color:var(--gold-text); margin-bottom:12px; }
 .section-title { font-family:var(--H); font-size:clamp(36px,5vw,56px); font-weight:700; line-height:0.95; letter-spacing:0.02em; text-transform:uppercase; color:var(--black); margin-bottom:20px; }
 .section-body { font-size:16px; color:var(--muted); max-width:640px; line-height:1.75; }
 .pad-narrow { padding:88px 52px; max-width:900px; margin:0 auto; }
@@ -87,19 +87,19 @@ nav { position:fixed; top:0; left:0; right:0; z-index:100; height:62px; display:
 .symptom-list { margin-top:32px; }
 .symptom-item { display:flex; gap:16px; align-items:flex-start; padding:18px 0; border-bottom:1px solid var(--soft); }
 .symptom-item:first-child { border-top:1px solid var(--soft); }
-.symptom-check { font-family:var(--H); font-size:18px; font-weight:700; color:var(--gold); width:28px; flex-shrink:0; }
+.symptom-check { font-family:var(--H); font-size:18px; font-weight:700; color:var(--gold-text); width:28px; flex-shrink:0; }
 .symptom-text { font-size:16px; color:var(--black); line-height:1.6; }
-.symptom-text strong { color:var(--gold); font-weight:600; }
+.symptom-text strong { color:var(--gold-text); font-weight:600; }
 
 .callout { background:var(--cream); border:1px solid var(--border); border-left:4px solid var(--gold); padding:28px 32px; margin:32px 0; }
-.callout-title { font-family:var(--H); font-size:14px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:var(--gold); margin-bottom:10px; }
+.callout-title { font-family:var(--H); font-size:14px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:var(--gold-text); margin-bottom:10px; }
 .callout-body { font-family:var(--H); font-size:22px; font-weight:700; line-height:1.35; color:var(--black); text-transform:uppercase; letter-spacing:0.01em; }
 
 .inside-bg { background:var(--cream); border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
 .fix-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:18px; margin-top:44px; }
 @media (max-width:768px) { .fix-grid { grid-template-columns:1fr; } }
 .fix-card { background:var(--white); border:1px solid var(--border); padding:28px; }
-.fix-num { font-family:var(--H); font-size:36px; font-weight:700; color:var(--gold); line-height:1; margin-bottom:12px; }
+.fix-num { font-family:var(--H); font-size:36px; font-weight:700; color:var(--gold-text); line-height:1; margin-bottom:12px; }
 .fix-name { font-family:var(--H); font-size:20px; font-weight:700; text-transform:uppercase; letter-spacing:0.02em; color:var(--black); margin-bottom:8px; }
 .fix-desc { font-size:14px; color:var(--muted); line-height:1.65; }
 
@@ -109,9 +109,9 @@ nav { position:fixed; top:0; left:0; right:0; z-index:100; height:62px; display:
 .offer-block .section-eyebrow { color:var(--gold); }
 .offer-block .section-title { color:var(--white); }
 .offer-card { background:var(--white); color:var(--black); padding:36px; margin-top:32px; }
-.offer-card-eyebrow { font-family:var(--B); font-size:11px; font-weight:600; letter-spacing:0.22em; text-transform:uppercase; color:var(--gold); margin-bottom:8px; }
+.offer-card-eyebrow { font-family:var(--B); font-size:11px; font-weight:600; letter-spacing:0.22em; text-transform:uppercase; color:var(--gold-text); margin-bottom:8px; }
 .offer-card-title { font-family:var(--H); font-size:32px; font-weight:700; text-transform:uppercase; letter-spacing:0.02em; color:var(--black); margin-bottom:8px; }
-.offer-card-price { font-family:var(--H); font-size:24px; font-weight:700; color:var(--gold); margin-bottom:16px; }
+.offer-card-price { font-family:var(--H); font-size:24px; font-weight:700; color:var(--gold-text); margin-bottom:16px; }
 .offer-card-desc { font-size:15px; color:var(--muted); line-height:1.65; margin-bottom:20px; }
 
 .email-block { background:var(--cream); padding:72px 52px; }
@@ -130,16 +130,16 @@ nav { position:fixed; top:0; left:0; right:0; z-index:100; height:62px; display:
 .faq-q { font-family:var(--H); font-size:18px; font-weight:700; text-transform:uppercase; letter-spacing:0.02em; color:var(--black); margin-bottom:10px; }
 .faq-a { font-size:15px; color:var(--muted); line-height:1.75; }
 .faq-a strong { color:var(--black); font-weight:600; }
-.faq-a a { color:var(--gold); }
+.faq-a a { color:var(--gold-text); }
 
 footer { background:var(--cream); border-top:1px solid var(--border); padding:48px 52px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:28px; }
 @media (max-width:768px) { footer { padding:40px 24px; } }
 .foot-logo { font-family:var(--H); font-size:20px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--black); }
-.foot-logo span { color:var(--gold); }
+.foot-logo span { color:var(--gold-text); }
 .foot-tagline { font-size:11px; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); margin-top:5px; }
 .foot-links { display:flex; gap:28px; flex-wrap:wrap; }
 .foot-links a { font-size:12px; font-weight:500; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); text-decoration:none; transition:color 0.18s; }
-.foot-links a:hover { color:var(--gold); }
+.foot-links a:hover { color:var(--gold-text); }
 .foot-copy { width:100%; text-align:center; font-size:11px; color:var(--muted); padding-top:24px; border-top:1px solid var(--soft); opacity:0.6; }
 
 /* --- MOBILE NAV --- */
@@ -270,28 +270,8 @@ nav {
 <!-- NAV -->
 <nav>
   <a href="index.html" class="nav-logo">Built to <span>Hoop</span></a>
-  <div class="nav-links">
-    <a href="tier-1.html">Foundation</a>
-    <a href="tier-2.html">Rise</a>
-    <a href="tier-3.html">Stay Ready</a>
-    <a href="addons.html">Tracks</a>
-    <a href="updates.html">Updates</a>
-    <a href="about.html">About</a>
-  </div>
   <a href="reset.html" class="nav-cta">Free Reset</a>
-  <button class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
-    <span></span><span></span><span></span>
-  </button>
 </nav>
-<div id="mobile-menu" class="mobile-menu" role="navigation" aria-label="Mobile navigation">
-  <a href="tier-1.html">Foundation</a>
-  <a href="tier-2.html">Rise</a>
-  <a href="tier-3.html">Stay Ready</a>
-  <a href="addons.html">Tracks</a>
-  <a href="updates.html">Updates</a>
-  <a href="about.html">About</a>
-  <a href="reset.html" class="mobile-cta">Free Reset</a>
-</div>
 
 <!-- HERO -->
 <section class="hero">
@@ -501,7 +481,7 @@ nav {
 <div id="bth-popup" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9999;padding:0 16px 16px;">
   <div style="max-width:480px;margin:0 auto;background:#111318;border:1px solid #E6A800;border-radius:2px;padding:20px 24px;">
     <button onclick="bthDismissPopup()" style="position:absolute;top:12px;right:16px;background:none;border:none;color:#F3EFE7;font-size:20px;cursor:pointer;opacity:0.7;">✕</button>
-    <div style="font-family:Oswald,sans-serif;color:#E6A800;font-size:13px;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:6px;">Limited Offer</div>
+    <div style="font-family:Oswald,sans-serif;color:#E6A800;font-size:13px;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:6px;">First-Month Offer</div>
     <div style="font-family:Oswald,sans-serif;color:#F3EFE7;font-size:20px;font-weight:700;line-height:1.2;margin-bottom:8px;">10% off your first month of BTH Stay Ready</div>
     <div style="font-family:DM Sans,sans-serif;color:rgba(243,239,231,0.75);font-size:14px;margin-bottom:16px;">Use code <strong style="color:#E6A800;">STAY10</strong> at checkout. $27/mo becomes $24.30 your first month.</div>
     <a href="https://buy.stripe.com/4gMaEXbvh7nu1sccHJaAw00" target="_blank" rel="noopener noreferrer"
