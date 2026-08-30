@@ -754,6 +754,20 @@ nav {
 }
 .mobile-menu .mobile-cta:hover { filter: brightness(0.9); color: var(--black); }
 
+
+/* BTH-MOBILE-WATERMARK — the hero watermark's clamp() floor is larger than its vw
+   term can produce below ~700px, so on a phone it renders wider than the text
+   column and washes the hero copy. Suppressed where it cannot fit; above 700px
+   the authored vw sizing is unchanged. Decorative only (pointer-events:none). */
+@media (max-width:700px) { .hero::before { display:none; } }
+
+/* BTH-MOBILE-OVERFLOW - keep the page inside the viewport at phone widths. */
+@media (max-width:700px) {
+  /* long purchase CTAs could not wrap and ran off-screen */
+  .btn-cta { white-space:normal; padding-left:24px; padding-right:24px; max-width:100%; flex-shrink:1; }
+  /* column flex item was fit-content sized and free to exceed the container */
+  .cta-band > * { max-width:100%; min-width:0; }
+}
 </style>
 </head>
 <body>
