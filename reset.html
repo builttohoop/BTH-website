@@ -291,6 +291,12 @@ nav {
 }
 .mobile-menu .mobile-cta:hover { filter: brightness(0.9); color: var(--black); }
 
+
+/* BTH-MOBILE-OVERFLOW - keep the page inside the viewport at phone widths. */
+@media (max-width:700px) {
+  /* column flex item was fit-content sized and free to exceed the container */
+  .cta-band > * { max-width:100%; min-width:0; }
+}
 </style>
 </head>
 <body>

@@ -268,6 +268,12 @@ nav {
    column and washes the hero copy. Suppressed where it cannot fit; above 700px
    the authored vw sizing is unchanged. Decorative only (pointer-events:none). */
 @media (max-width:700px) { .hero::before { display:none; } }
+
+/* BTH-MOBILE-OVERFLOW - keep the page inside the viewport at phone widths. */
+@media (max-width:700px) {
+  /* long purchase CTAs could not wrap and ran off-screen */
+  .btn-gold, .btn-primary { white-space:normal; padding-left:24px; padding-right:24px; max-width:100%; flex-shrink:1; }
+}
 </style>
 </head>
 <body>
