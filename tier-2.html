@@ -69,16 +69,16 @@ nav { position:fixed; top:0; left:0; right:0; z-index:100; height:62px; display:
 @media (max-width:768px) { .hero { padding:110px 24px 56px; } }
 .hero::before { content:'RISE'; position:absolute; right:-40px; top:50%; transform:translateY(-50%); font-family:var(--H); font-size:clamp(200px,32vw,460px); font-weight:700; color:rgba(230,168,0,0.05); line-height:1; pointer-events:none; z-index:0; letter-spacing:-0.02em; }
 .hero-inner { max-width:900px; margin:0 auto; position:relative; z-index:1; }
-.hero-eyebrow { font-family:var(--B); font-size:11px; font-weight:600; letter-spacing:0.22em; text-transform:uppercase; color:var(--gold); margin-bottom:20px; display:flex; align-items:center; gap:12px; }
+.hero-eyebrow { font-family:var(--B); font-size:11px; font-weight:600; letter-spacing:0.22em; text-transform:uppercase; color:var(--gold-text); margin-bottom:20px; display:flex; align-items:center; gap:12px; }
 .hero-eyebrow::before { content:''; width:24px; height:2px; background:var(--gold); flex-shrink:0; }
 .hero-title { font-family:var(--H); font-size:clamp(56px,9vw,120px); font-weight:700; line-height:0.92; letter-spacing:0.02em; text-transform:uppercase; color:var(--black); margin-bottom:24px; }
-.hero-title .gold { color:var(--gold); }
+.hero-title .gold { color:var(--gold-text); }
 .hero-title .outline { -webkit-text-stroke:2px rgba(17,19,24,0.2); color:transparent; }
 .hero-sub { font-size:18px; color:var(--muted); max-width:620px; line-height:1.7; margin-bottom:36px; }
 .hero-sub strong { color:var(--black); font-weight:600; }
 
 .price-strip { display:flex; gap:32px; flex-wrap:wrap; align-items:center; padding:24px 0; border-top:1px solid var(--soft); border-bottom:1px solid var(--soft); margin-bottom:36px; }
-.price-big { font-family:var(--H); font-size:52px; font-weight:700; color:var(--gold); line-height:1; }
+.price-big { font-family:var(--H); font-size:52px; font-weight:700; color:var(--gold-text); line-height:1; }
 .price-big .strike { font-family:var(--H); font-size:24px; color:var(--muted); text-decoration:line-through; margin-right:10px; font-weight:500; }
 .price-big .small { font-family:var(--B); font-size:13px; color:var(--muted); margin-left:8px; font-weight:400; }
 .price-meta { font-size:13px; color:var(--muted); line-height:1.55; }
@@ -90,10 +90,10 @@ nav { position:fixed; top:0; left:0; right:0; z-index:100; height:62px; display:
 .btn-gold { font-family:var(--H); font-size:16px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--black); background:var(--gold); padding:18px 44px; border-radius:2px; text-decoration:none; display:inline-block; transition:opacity 0.18s; white-space:nowrap; }
 .btn-gold:hover { opacity:0.88; }
 .btn-secondary { font-family:var(--B); font-size:14px; font-weight:500; color:var(--muted); padding:14px 32px; border-radius:2px; border:1.5px solid var(--border); text-decoration:none; display:inline-block; transition:all 0.18s; white-space:nowrap; }
-.btn-secondary:hover { border-color:var(--gold); color:var(--gold); }
+.btn-secondary:hover { border-color:var(--gold); color:var(--gold-text); }
 .btn-row { display:flex; gap:12px; flex-wrap:wrap; }
 
-.section-eyebrow { font-family:var(--B); font-size:11px; font-weight:600; letter-spacing:0.24em; text-transform:uppercase; color:var(--gold); margin-bottom:12px; }
+.section-eyebrow { font-family:var(--B); font-size:11px; font-weight:600; letter-spacing:0.24em; text-transform:uppercase; color:var(--gold-text); margin-bottom:12px; }
 .section-title { font-family:var(--H); font-size:clamp(36px,5vw,56px); font-weight:700; line-height:0.95; letter-spacing:0.02em; text-transform:uppercase; color:var(--black); margin-bottom:20px; }
 .section-body { font-size:16px; color:var(--muted); max-width:640px; line-height:1.75; }
 .pad { padding:88px 52px; max-width:1200px; margin:0 auto; }
@@ -108,7 +108,7 @@ nav { position:fixed; top:0; left:0; right:0; z-index:100; height:62px; display:
 .phase-block { background:var(--white); border:1px solid var(--border); border-radius:2px; padding:44px 40px; position:relative; overflow:hidden; }
 .phase-block + .phase-block { margin-top:16px; }
 .phase-block::before { content:''; position:absolute; top:0; left:0; bottom:0; width:4px; background:var(--gold); }
-.phase-tag { font-family:var(--B); font-size:11px; font-weight:600; letter-spacing:0.22em; text-transform:uppercase; color:var(--gold); margin-bottom:10px; }
+.phase-tag { font-family:var(--B); font-size:11px; font-weight:600; letter-spacing:0.22em; text-transform:uppercase; color:var(--gold-text); margin-bottom:10px; }
 .phase-name { font-family:var(--H); font-size:clamp(32px,4.2vw,48px); font-weight:700; text-transform:uppercase; letter-spacing:0.02em; color:var(--black); margin-bottom:14px; line-height:1; }
 .phase-desc { font-size:16px; color:var(--muted); line-height:1.75; margin-bottom:20px; max-width:620px; }
 .phase-desc strong { color:var(--black); font-weight:600; }
@@ -121,7 +121,7 @@ nav { position:fixed; top:0; left:0; right:0; z-index:100; height:62px; display:
 .week-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:32px; }
 @media (max-width:768px) { .week-grid { grid-template-columns:1fr; } }
 .week-card { background:var(--cream); border:1px solid var(--border); border-radius:2px; padding:24px; }
-.week-card .wk { font-family:var(--H); font-size:13px; font-weight:700; color:var(--gold); letter-spacing:0.18em; text-transform:uppercase; margin-bottom:8px; }
+.week-card .wk { font-family:var(--H); font-size:13px; font-weight:700; color:var(--gold-text); letter-spacing:0.18em; text-transform:uppercase; margin-bottom:8px; }
 .week-card h4 { font-family:var(--H); font-size:18px; font-weight:700; text-transform:uppercase; color:var(--black); margin-bottom:10px; }
 .week-card p { font-size:13px; color:var(--muted); line-height:1.65; }
 
@@ -137,7 +137,7 @@ nav { position:fixed; top:0; left:0; right:0; z-index:100; height:62px; display:
 @media (max-width:700px) { .compare-row { grid-template-columns:1fr; } .compare-cell { border-right:none; border-bottom:1px solid var(--border); } .compare-cell:last-child { border-bottom:none; } }
 
 .callout { background:var(--cream); border:1px solid var(--border); border-left:4px solid var(--gold); padding:28px 32px; border-radius:0 2px 2px 0; margin:32px 0; }
-.callout-title { font-family:var(--H); font-size:14px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:var(--gold); margin-bottom:10px; }
+.callout-title { font-family:var(--H); font-size:14px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:var(--gold-text); margin-bottom:10px; }
 .callout-body { font-family:var(--H); font-size:22px; font-weight:700; line-height:1.35; color:var(--black); text-transform:uppercase; letter-spacing:0.01em; }
 
 /* FAQ */
@@ -146,7 +146,7 @@ nav { position:fixed; top:0; left:0; right:0; z-index:100; height:62px; display:
 .faq-q { font-family:var(--H); font-size:18px; font-weight:700; text-transform:uppercase; letter-spacing:0.02em; color:var(--black); margin-bottom:10px; }
 .faq-a { font-size:15px; color:var(--muted); line-height:1.75; }
 .faq-a strong { color:var(--black); font-weight:600; }
-.faq-a a { color:var(--gold); text-decoration:none; }
+.faq-a a { color:var(--gold-text); text-decoration:none; }
 
 /* CTA Band */
 .cta-band { background:var(--gold); padding:72px 52px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:32px; }
@@ -159,11 +159,11 @@ nav { position:fixed; top:0; left:0; right:0; z-index:100; height:62px; display:
 footer { background:var(--cream); border-top:1px solid var(--border); padding:48px 52px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:28px; }
 @media (max-width:768px) { footer { padding:40px 24px; } }
 .foot-logo { font-family:var(--H); font-size:20px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--black); }
-.foot-logo span { color:var(--gold); }
+.foot-logo span { color:var(--gold-text); }
 .foot-tagline { font-size:11px; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); margin-top:5px; }
 .foot-links { display:flex; gap:28px; flex-wrap:wrap; }
-.foot-links a { font-size:12px; font-weight:500; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); text-decoration:none; transition:color 0.18s; }
-.foot-links a:hover { color:var(--gold); }
+.foot-links a { font-size:12px; font-weight:500; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); text-decoration:none; transition:color 0.18s; display:inline-flex; align-items:center; min-height:44px; }
+.foot-links a:hover { color:var(--gold-text); }
 .foot-copy { width:100%; text-align:center; font-size:11px; color:var(--muted); padding-top:24px; border-top:1px solid var(--soft); opacity:0.6; }
 
 /* --- MOBILE NAV --- */
@@ -216,7 +216,7 @@ nav {
 .nav-logo {
   font-family: var(--H); font-size: 20px; font-weight: 700;
   letter-spacing: 0.08em; text-transform: uppercase;
-  color: var(--white); text-decoration: none; flex-shrink: 0;
+  color: var(--white); text-decoration: none; flex-shrink: 0; display: inline-flex; align-items: center; min-height: 44px;
 }
 .nav-logo span { color: var(--gold); }
 .nav-links { display: flex; gap: 28px; align-items: center; }
@@ -242,7 +242,7 @@ nav {
   letter-spacing: 0.14em; text-transform: uppercase;
   color: var(--black); background: var(--gold);
   padding: 10px 20px; border-radius: 2px;
-  text-decoration: none; transition: filter 0.18s; flex-shrink: 0;
+  text-decoration: none; transition: filter 0.18s; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; min-height: 44px; box-sizing: border-box;
 }
 .nav-cta:hover { filter: brightness(0.88); }
 @media (max-width: 900px) { .nav-links { display: none; } }
@@ -294,34 +294,14 @@ nav {
 <!-- NAV -->
 <nav>
   <a href="index.html" class="nav-logo">Built to <span>Hoop</span></a>
-  <div class="nav-links">
-    <a href="tier-1.html">Foundation</a>
-    <a href="tier-2.html" class="current">Rise</a>
-    <a href="tier-3.html">Stay Ready</a>
-    <a href="addons.html">Tracks</a>
-    <a href="updates.html">Updates</a>
-    <a href="about.html">About</a>
-  </div>
   <a href="reset.html" class="nav-cta">Free Reset</a>
-  <button class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
-    <span></span><span></span><span></span>
-  </button>
 </nav>
-<div id="mobile-menu" class="mobile-menu" role="navigation" aria-label="Mobile navigation">
-  <a href="tier-1.html">Foundation</a>
-  <a href="tier-2.html">Rise</a>
-  <a href="tier-3.html">Stay Ready</a>
-  <a href="addons.html">Tracks</a>
-  <a href="updates.html">Updates</a>
-  <a href="about.html">About</a>
-  <a href="reset.html" class="mobile-cta">Free Reset</a>
-</div>
 
 <!-- HERO -->
 <section class="hero">
   <div class="hero-inner">
     <div class="hero-eyebrow">Tier 2 · BTH Rise · Live</div>
-    <span class="launch-tag">Launch Price — Limited</span>
+    <span class="launch-tag">Launch Price</span>
     <h1 class="hero-title">
       Built<br>
       to <span class="gold">Rise.</span>
@@ -462,7 +442,7 @@ nav {
       <div class="compare-row">
         <div class="compare-cell feat">Price</div>
         <div class="compare-cell">$31.99 one-time</div>
-        <div class="compare-cell" style="background:rgba(230,168,0,0.05);"><strong style="color:var(--gold);">$97</strong></div>
+        <div class="compare-cell" style="background:rgba(230,168,0,0.05);"><strong style="color:var(--gold-text);">$97</strong></div>
       </div>
     </div>
   </div>
@@ -505,7 +485,7 @@ nav {
   <div>
     <div class="section-eyebrow" style="color: rgba(17,19,24,0.5); margin-bottom: 8px;">Tier 2 · BTH Rise · Launch Price</div>
     <div class="cta-title">$97.<br>Lock It In.</div>
-    <div class="cta-sub">12 weeks of real progression. Rate goes up once the first 5 testimonials come in. Every hooper who waits pays more.</div>
+    <div class="cta-sub">12 weeks of real progression. $97 one-time — no subscription, no expiration, yours to keep.</div>
   </div>
   <div style="text-align:center;flex-shrink:0;">
     <a href="https://buy.stripe.com/00w3cv9n923agn64bdaAw02" class="btn-cta" target="_blank" rel="noopener noreferrer">Get Rise — $97 →</a>
@@ -563,7 +543,7 @@ nav {
 <div id="bth-popup" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9999;padding:0 16px 16px;">
   <div style="max-width:480px;margin:0 auto;background:#111318;border:1px solid #E6A800;border-radius:2px;padding:20px 24px;">
     <button onclick="bthDismissPopup()" style="position:absolute;top:12px;right:16px;background:none;border:none;color:#F3EFE7;font-size:20px;cursor:pointer;opacity:0.7;">✕</button>
-    <div style="font-family:Oswald,sans-serif;color:#E6A800;font-size:13px;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:6px;">Limited Offer</div>
+    <div style="font-family:Oswald,sans-serif;color:#E6A800;font-size:13px;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:6px;">First-Month Offer</div>
     <div style="font-family:Oswald,sans-serif;color:#F3EFE7;font-size:20px;font-weight:700;line-height:1.2;margin-bottom:8px;">10% off your first month of BTH Stay Ready</div>
     <div style="font-family:DM Sans,sans-serif;color:rgba(243,239,231,0.75);font-size:14px;margin-bottom:16px;">Use code <strong style="color:#E6A800;">STAY10</strong> at checkout. $27/mo becomes $24.30 your first month.</div>
     <a href="https://buy.stripe.com/4gMaEXbvh7nu1sccHJaAw00" target="_blank" rel="noopener noreferrer"

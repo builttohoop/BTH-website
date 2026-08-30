@@ -128,7 +128,7 @@ nav {
 .hero-eyebrow {
   font-family: var(--B); font-size: 11px; font-weight: 600;
   letter-spacing: 0.22em; text-transform: uppercase;
-  color: var(--gold); margin-bottom: 20px;
+  color: var(--gold-text); margin-bottom: 20px;
   display: flex; align-items: center; gap: 12px;
 }
 .hero-eyebrow::before { content: ''; width: 24px; height: 2px; background: var(--gold); flex-shrink: 0; }
@@ -173,7 +173,7 @@ nav {
   margin-top: 20px; padding: 18px 20px;
   background: var(--cream); border: 1px solid var(--border); border-radius: 2px;
 }
-.price-val { font-family: var(--H); font-size: 28px; font-weight: 700; color: var(--gold); line-height: 1; }
+.price-val { font-family: var(--H); font-size: 28px; font-weight: 700; color: var(--gold-text); line-height: 1; }
 .price-val span { font-family: var(--B); font-size: 13px; font-weight: 400; color: var(--muted); margin-left: 6px; }
 .price-note { font-size: 11px; color: var(--muted); margin-top: 5px; }
 
@@ -194,7 +194,7 @@ nav {
   text-decoration: none; display: inline-block;
   transition: all 0.18s; white-space: nowrap;
 }
-.btn-secondary:hover { border-color: var(--gold); color: var(--gold); }
+.btn-secondary:hover { border-color: var(--gold); color: var(--gold-text); }
 .btn-gold {
   font-family: var(--H); font-size: 15px; font-weight: 700;
   letter-spacing: 0.1em; text-transform: uppercase;
@@ -235,7 +235,7 @@ nav {
 .section-eyebrow {
   font-family: var(--B); font-size: 11px; font-weight: 600;
   letter-spacing: 0.24em; text-transform: uppercase;
-  color: var(--gold); margin-bottom: 12px;
+  color: var(--gold-text); margin-bottom: 12px;
 }
 .section-title {
   font-family: var(--H); font-size: clamp(40px, 5.5vw, 68px);
@@ -268,7 +268,7 @@ nav {
   .stat-item:nth-child(4) { border-right: none; border-top: 1px solid var(--border); }
 }
 .stat-num { font-family: var(--H); font-size: 52px; font-weight: 700; color: var(--black); line-height: 1; }
-.stat-num span { color: var(--gold); }
+.stat-num span { color: var(--gold-text); }
 .stat-label {
   font-size: 11px; font-weight: 500;
   letter-spacing: 0.1em; text-transform: uppercase;
@@ -286,7 +286,7 @@ nav {
 .pain-item:first-child { border-top: 1px solid var(--soft); }
 .pain-num {
   font-family: var(--H); font-size: 12px; font-weight: 600;
-  letter-spacing: 0.1em; color: var(--gold);
+  letter-spacing: 0.1em; color: var(--gold-text);
   flex-shrink: 0; width: 22px; padding-top: 2px;
 }
 .pain-text { font-size: 15px; color: var(--muted); line-height: 1.65; }
@@ -323,7 +323,7 @@ nav {
 .pickup-intensity {
   font-family: var(--H); font-size: 12px; font-weight: 700;
   letter-spacing: 0.1em; text-transform: uppercase;
-  color: var(--gold); flex-shrink: 0; width: 80px;
+  color: var(--gold-text); flex-shrink: 0; width: 80px;
 }
 .pickup-desc { font-size: 14px; color: var(--muted); line-height: 1.55; }
 .pickup-desc strong { color: var(--black); font-weight: 600; }
@@ -372,12 +372,12 @@ nav {
 .tier-badge {
   font-family: var(--B); font-size: 10px; font-weight: 600;
   letter-spacing: 0.18em; text-transform: uppercase;
-  color: var(--gold);
+  color: var(--gold-text);
   display: flex; align-items: center; gap: 7px; margin-bottom: 20px;
 }
 .tier-badge-dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
 .tier-num { font-family: var(--H); font-size: 52px; font-weight: 700; line-height: 1; color: var(--black); margin-bottom: 4px; }
-.tier-price { font-family: var(--H); font-size: 28px; font-weight: 700; color: var(--gold); margin-bottom: 6px; }
+.tier-price { font-family: var(--H); font-size: 28px; font-weight: 700; color: var(--gold-text); margin-bottom: 6px; }
 .tier-price .small { font-family: var(--B); font-size: 13px; color: var(--muted); margin-left: 4px; font-weight: 400; }
 .tier-name { font-size: 17px; font-weight: 600; color: var(--black); margin-bottom: 10px; }
 .tier-desc { font-size: 13px; color: var(--muted); line-height: 1.7; margin-bottom: 22px; }
@@ -411,7 +411,7 @@ nav {
 .addon-label {
   font-family: var(--B); font-size: 9px; font-weight: 600;
   letter-spacing: 0.2em; text-transform: uppercase;
-  color: var(--gold); margin-bottom: 8px;
+  color: var(--gold-text); margin-bottom: 8px;
 }
 .addon-name {
   font-family: var(--H); font-size: 20px; font-weight: 700;
@@ -419,7 +419,7 @@ nav {
 }
 .addon-price {
   font-family: var(--H); font-size: 15px; font-weight: 700;
-  color: var(--gold); margin-bottom: 10px;
+  color: var(--gold-text); margin-bottom: 10px;
 }
 .addon-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
 
@@ -441,7 +441,7 @@ nav {
 }
 .reset-day:first-of-type { border-top: 1px solid var(--soft); margin-top: 36px; }
 .reset-day:hover { padding-left: 5px; cursor: default; }
-.reset-num { font-family: var(--H); font-size: 20px; font-weight: 700; color: var(--gold); flex-shrink: 0; width: 26px; line-height: 1.2; }
+.reset-num { font-family: var(--H); font-size: 20px; font-weight: 700; color: var(--gold-text); flex-shrink: 0; width: 26px; line-height: 1.2; }
 .reset-title {
   font-family: var(--H); font-size: 16px; font-weight: 600;
   letter-spacing: 0.04em; text-transform: uppercase; color: var(--black);
@@ -490,7 +490,7 @@ nav {
   font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
   color: var(--black); line-height: 1; margin-bottom: 12px;
 }
-.about-bth span { color: var(--gold); }
+.about-bth span { color: var(--gold-text); }
 .about-tagline {
   font-family: var(--B); font-size: 10px; font-weight: 600;
   letter-spacing: 0.26em; text-transform: uppercase;
@@ -503,7 +503,7 @@ nav {
   color: var(--muted); border: 1px solid var(--border);
   padding: 6px 14px; border-radius: 100px; transition: all 0.18s;
 }
-.pill:hover { border-color: var(--gold); color: var(--gold); }
+.pill:hover { border-color: var(--gold); color: var(--gold-text); }
 .about-text p { font-size: 16px; color: var(--muted); line-height: 1.82; margin-bottom: 18px; }
 .about-text p:last-of-type { margin-bottom: 32px; }
 .about-text .hl { color: var(--black); font-weight: 500; }
@@ -696,6 +696,23 @@ nav {
   text-decoration: none; transition: filter 0.18s; flex-shrink: 0;
 }
 .nav-cta:hover { filter: brightness(0.88); }
+/* Mobile sticky CTA — guarantees a primary action in the first mobile screen (Category 1/3 fix,
+   also satisfies Category 8's "sticky CTA bar" plus). Belt-and-suspenders alongside the existing
+   nav-cta: independent of any nav flex-layout edge case. */
+.mobile-sticky-cta { display: none; }
+@media (max-width: 640px) {
+  .mobile-sticky-cta {
+    display: flex; position: fixed; left: 0; right: 0; bottom: 0; z-index: 120;
+    background: var(--black); padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
+    border-top: 1px solid rgba(255,255,255,0.12);
+  }
+  .mobile-sticky-cta a {
+    display: block; width: 100%; text-align: center; min-height: 44px;
+    font-family: var(--H); font-size: 14px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--black); background: var(--gold); padding: 14px; border-radius: 2px; text-decoration: none;
+  }
+  body { padding-bottom: 68px; }
+}
 @media (max-width: 900px) { .nav-links { display: none; } }
 
 /* ─── MOBILE NAV (OVERRIDE) ─── */
@@ -758,6 +775,7 @@ nav {
     <span></span><span></span><span></span>
   </button>
 </nav>
+<div class="mobile-sticky-cta"><a href="reset.html">Start the Free 5-Day Reset &rarr;</a></div>
 <div id="mobile-menu" class="mobile-menu" role="navigation" aria-label="Mobile navigation">
   <a href="tier-1.html">Foundation</a>
   <a href="tier-2.html">Rise</a>
@@ -806,7 +824,7 @@ nav {
       <div><div class="feature-name">Built for Adult Hoopers</div><div class="feature-desc">18–35. Working schedules. Real bodies. No fluff.</div></div>
     </div>
     <div class="price-block">
-      <div class="price-val"><span style="margin-left:0">BTH Stay Ready Membership</span></div>
+      <div class="price-val">$27<span>/mo — BTH Stay Ready</span></div>
       <div class="price-note">Includes Foundation Month, the Strength Block, all 5 add-on tracks. Start free with the 5-Day Reset — no card required.</div>
     </div>
   </div>
@@ -930,6 +948,7 @@ nav {
         <div class="tier-badge"><div class="tier-badge-dot"></div>Live · Most Popular Start</div>
         <div class="tier-num">01</div>
         <div class="tier-name">BTH Foundation</div>
+        <div class="tier-price">$31.99 <span class="small">one-time</span></div>
         <p class="tier-desc">Phases 1–2. Reset + Rebuild. Get back on the court and stay there. The entry system for every hooper.</p>
         <ul class="tier-list">
           <li>3-day weekly training structure</li>
@@ -946,6 +965,7 @@ nav {
         <div class="tier-badge"><div class="tier-badge-dot"></div>Live · Launch Price</div>
         <div class="tier-num">02</div>
         <div class="tier-name">BTH Rise</div>
+        <div class="tier-price">$97 <span class="small">one-time</span></div>
         <p class="tier-desc">12 weeks. 3 phases. Phases 3–5 of the method. For hoopers who want real performance output — strength to bounce, game speed, stay ready.</p>
         <ul class="tier-list">
           <li>Phase 3 — Strength to Bounce</li>
@@ -962,6 +982,7 @@ nav {
         <div class="tier-badge"><div class="tier-badge-dot"></div>Live · Best Value</div>
         <div class="tier-num">03</div>
         <div class="tier-name">BTH Stay Ready</div>
+        <div class="tier-price">$27 <span class="small">/ month</span></div>
         <p class="tier-desc">The membership. Unlocks every program, every add-on, monthly updates. Like a streaming service for BTH — not a new program.</p>
         <ul class="tier-list">
           <li>Full Tier 1 + Tier 2 access</li>

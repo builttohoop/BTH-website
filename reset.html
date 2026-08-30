@@ -52,7 +52,7 @@ body { background:var(--white); color:var(--black); font-family:var(--B); font-s
 nav { position:fixed; top:0; left:0; right:0; z-index:100; height:62px; display:flex; align-items:center; justify-content:space-between; padding:0 52px; background:rgba(255,255,255,0.96); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); border-bottom:1px solid var(--border); }
 @media (max-width:768px) { nav { padding:0 24px; } }
 .nav-logo { font-family:var(--H); font-size:22px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:var(--black); text-decoration:none; }
-.nav-logo span { color:var(--gold); }
+.nav-logo span { color:var(--gold-text); }
 .nav-links { display:flex; gap:32px; align-items:center; }
 .nav-links a { font-family:var(--B); font-size:13px; font-weight:500; letter-spacing:0.04em; color:var(--muted); text-decoration:none; transition:color 0.18s; }
 .nav-links a:hover, .nav-links a.current { color:var(--black); }
@@ -62,17 +62,17 @@ nav { position:fixed; top:0; left:0; right:0; z-index:100; height:62px; display:
 
 .hero-split { min-height:92vh; padding:100px 52px 60px; display:grid; grid-template-columns:1.1fr 1fr; gap:56px; align-items:center; max-width:1260px; margin:0 auto; }
 @media (max-width:900px) { .hero-split { grid-template-columns:1fr; padding:100px 24px 48px; gap:40px; min-height:auto; } }
-.hero-eyebrow { font-family:var(--B); font-size:11px; font-weight:600; letter-spacing:0.22em; text-transform:uppercase; color:var(--gold); margin-bottom:20px; display:flex; align-items:center; gap:12px; }
+.hero-eyebrow { font-family:var(--B); font-size:11px; font-weight:600; letter-spacing:0.22em; text-transform:uppercase; color:var(--gold-text); margin-bottom:20px; display:flex; align-items:center; gap:12px; }
 .hero-eyebrow::before { content:''; width:24px; height:2px; background:var(--gold); flex-shrink:0; }
 .hero-title { font-family:var(--H); font-size:clamp(44px,7vw,92px); font-weight:700; line-height:0.95; letter-spacing:0.02em; text-transform:uppercase; color:var(--black); margin-bottom:24px; }
-.hero-title .gold { color:var(--gold); }
+.hero-title .gold { color:var(--gold-text); }
 .hero-sub { font-size:17px; color:var(--muted); line-height:1.75; margin-bottom:28px; max-width:520px; }
 .hero-sub strong { color:var(--black); font-weight:600; }
 
 .bullets { list-style:none; padding:0; margin:0 0 32px; }
 .bullets li { font-size:15px; color:var(--black); padding:10px 0 10px 30px; position:relative; line-height:1.55; border-bottom:1px solid var(--soft); }
 .bullets li:last-child { border-bottom:none; }
-.bullets li::before { content:'✓'; position:absolute; left:0; top:11px; color:var(--gold); font-weight:700; font-size:16px; }
+.bullets li::before { content:'✓'; position:absolute; left:0; top:11px; color:var(--gold-text); font-weight:700; font-size:16px; }
 
 /* Form card */
 .form-card { background:var(--cream); border:1px solid var(--border); border-radius:3px; padding:44px 36px; position:relative; box-shadow:0 1px 0 rgba(17,19,24,0.04); }
@@ -94,7 +94,7 @@ nav { position:fixed; top:0; left:0; right:0; z-index:100; height:62px; display:
   .bth-btn-commit { padding:14px; }
 }
 
-.section-eyebrow { font-family:var(--B); font-size:11px; font-weight:600; letter-spacing:0.24em; text-transform:uppercase; color:var(--gold); margin-bottom:12px; }
+.section-eyebrow { font-family:var(--B); font-size:11px; font-weight:600; letter-spacing:0.24em; text-transform:uppercase; color:var(--gold-text); margin-bottom:12px; }
 .section-title { font-family:var(--H); font-size:clamp(36px,5vw,56px); font-weight:700; line-height:0.95; letter-spacing:0.02em; text-transform:uppercase; color:var(--black); margin-bottom:20px; }
 .section-body { font-size:16px; color:var(--muted); max-width:640px; line-height:1.75; }
 .pad { padding:88px 52px; max-width:1200px; margin:0 auto; }
@@ -114,7 +114,7 @@ nav { position:fixed; top:0; left:0; right:0; z-index:100; height:62px; display:
 .day-card:nth-child(3) { border-top:3px solid var(--gold); }
 .day-card:nth-child(4) { border-top:3px solid var(--gold); }
 .day-card:nth-child(5) { border-top:3px solid var(--gold); }
-.day-num { font-family:var(--H); font-size:12px; font-weight:600; letter-spacing:0.22em; text-transform:uppercase; color:var(--gold); margin-bottom:10px; }
+.day-num { font-family:var(--H); font-size:12px; font-weight:600; letter-spacing:0.22em; text-transform:uppercase; color:var(--gold-text); margin-bottom:10px; }
 .day-name { font-family:var(--H); font-size:19px; font-weight:700; letter-spacing:0.02em; text-transform:uppercase; color:var(--black); margin-bottom:10px; line-height:1.1; }
 .day-body { font-size:13px; color:var(--muted); line-height:1.65; }
 
@@ -122,7 +122,7 @@ nav { position:fixed; top:0; left:0; right:0; z-index:100; height:62px; display:
 .who-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:40px; }
 @media (max-width:800px) { .who-grid { grid-template-columns:1fr; } }
 .who-card { background:var(--white); border:1px solid var(--border); border-radius:2px; padding:28px 24px; }
-.who-card .icon { font-family:var(--H); font-size:32px; color:var(--gold); font-weight:700; line-height:1; margin-bottom:14px; }
+.who-card .icon { font-family:var(--H); font-size:32px; color:var(--gold-text); font-weight:700; line-height:1; margin-bottom:14px; }
 .who-card h4 { font-family:var(--H); font-size:17px; font-weight:700; letter-spacing:0.04em; text-transform:uppercase; color:var(--black); margin-bottom:8px; }
 .who-card p { font-size:14px; color:var(--muted); line-height:1.65; }
 
@@ -135,7 +135,7 @@ nav { position:fixed; top:0; left:0; right:0; z-index:100; height:62px; display:
 .faq-wrap { max-width:760px; margin:40px auto 0; }
 .faq-item { border-bottom:1px solid var(--border); padding:24px 0; }
 .faq-q { font-family:var(--H); font-size:17px; font-weight:600; letter-spacing:0.03em; text-transform:uppercase; color:var(--black); margin-bottom:10px; display:flex; align-items:flex-start; gap:12px; }
-.faq-q::before { content:'Q'; color:var(--gold); font-weight:700; flex-shrink:0; }
+.faq-q::before { content:'Q'; color:var(--gold-text); font-weight:700; flex-shrink:0; }
 .faq-a { font-size:15px; color:var(--muted); line-height:1.75; padding-left:24px; }
 .faq-a strong { color:var(--black); font-weight:600; }
 
@@ -157,8 +157,8 @@ footer { background:var(--black); color:var(--white); padding:72px 52px 44px; }
 .foot-tag { font-size:13px; color:rgba(255,255,255,0.55); margin-top:10px; line-height:1.7; max-width:300px; }
 .foot-h { font-family:var(--H); font-size:12px; font-weight:600; letter-spacing:0.22em; text-transform:uppercase; color:var(--gold); margin-bottom:18px; }
 .foot-list { list-style:none; }
-.foot-list li { margin-bottom:10px; }
-.foot-list a { font-size:14px; color:rgba(255,255,255,0.7); text-decoration:none; transition:color 0.18s; }
+.foot-list li { margin-bottom:2px; }
+.foot-list a { font-size:14px; color:rgba(255,255,255,0.7); text-decoration:none; transition:color 0.18s; display:inline-flex; align-items:center; min-height:44px; }
 .foot-list a:hover { color:var(--gold); }
 .foot-bottom { max-width:1200px; margin:56px auto 0; padding-top:28px; border-top:1px solid rgba(255,255,255,0.1); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; }
 .foot-copy { font-size:12px; color:rgba(255,255,255,0.4); letter-spacing:0.04em; }
@@ -171,8 +171,8 @@ footer { background:var(--black); color:var(--white); padding:72px 52px 44px; }
 /* --- MOBILE NAV --- */
 .nav-toggle {
   display: none; background: none; border: none; cursor: pointer;
-  padding: 8px 4px; flex-direction: column; justify-content: center;
-  gap: 5px; z-index: 101; flex-shrink: 0;
+  padding: 14px 10px; flex-direction: column; justify-content: center;
+  gap: 5px; z-index: 101; flex-shrink: 0; box-sizing: content-box;
 }
 .nav-toggle span {
   display: block; width: 24px; height: 2px; background: var(--black);
@@ -219,8 +219,9 @@ nav {
   font-family: var(--H); font-size: 20px; font-weight: 700;
   letter-spacing: 0.08em; text-transform: uppercase;
   color: var(--white); text-decoration: none; flex-shrink: 0;
+  display: inline-flex; align-items: center; min-height: 44px;
 }
-.nav-logo span { color: var(--gold); }
+.nav-logo span { color: var(--gold-text); }
 .nav-links { display: flex; gap: 28px; align-items: center; }
 .nav-links a {
   font-family: var(--B); font-size: 11px; font-weight: 700;
@@ -228,6 +229,7 @@ nav {
   color: rgba(255,255,255,0.48);
   text-decoration: none; transition: color 0.18s;
   position: relative; padding-bottom: 3px;
+  display: inline-flex; align-items: center; min-height: 44px;
 }
 .nav-links a::after {
   content: ''; position: absolute; bottom: -1px; left: 0; right: 0;
@@ -237,7 +239,7 @@ nav {
 }
 .nav-links a:hover { color: var(--white); }
 .nav-links a:hover::after { transform: scaleX(1); }
-.nav-links a.current { color: var(--gold); }
+.nav-links a.current { color: var(--gold-text); }
 .nav-links a.current::after { transform: scaleX(1); }
 .nav-cta {
   font-family: var(--H); font-size: 11px; font-weight: 700;
@@ -245,6 +247,7 @@ nav {
   color: var(--black); background: var(--gold);
   padding: 10px 20px; border-radius: 2px;
   text-decoration: none; transition: filter 0.18s; flex-shrink: 0;
+  display: inline-flex; align-items: center; justify-content: center; min-height: 44px; box-sizing: border-box;
 }
 .nav-cta:hover { filter: brightness(0.88); }
 @media (max-width: 900px) { .nav-links { display: none; } }
@@ -252,8 +255,8 @@ nav {
 /* ─── MOBILE NAV (OVERRIDE) ─── */
 .nav-toggle {
   display: none; background: none; border: none; cursor: pointer;
-  padding: 8px 4px; flex-direction: column; justify-content: center;
-  gap: 5px; z-index: 101; flex-shrink: 0;
+  padding: 14px 10px; flex-direction: column; justify-content: center;
+  gap: 5px; z-index: 101; flex-shrink: 0; box-sizing: content-box;
 }
 .nav-toggle span {
   display: block; width: 24px; height: 2px; background: var(--white);
@@ -373,7 +376,7 @@ nav {
 
 <section class="pad-narrow">
   <div class="section-eyebrow">What You're Getting</div>
-  <h2 class="section-title">The Actual <span style="color:var(--gold);">5 Days.</span></h2>
+  <h2 class="section-title">The Actual <span style="color:var(--gold-text);">5 Days.</span></h2>
   <p class="section-body">Each day is one focused protocol. No 40-minute videos. No "do 12 different mobility drills." Just the one thing that fixes that specific problem — the way I'd show my closest hooper.</p>
 
   <div class="day-grid">
@@ -408,7 +411,7 @@ nav {
 <div class="inside-bg">
 <section class="pad">
   <div class="section-eyebrow">Who This Is For</div>
-  <h2 class="section-title">If This Sounds Like You —<br>This Reset Was <span style="color:var(--gold);">Built For You.</span></h2>
+  <h2 class="section-title">If This Sounds Like You —<br>This Reset Was <span style="color:var(--gold-text);">Built For You.</span></h2>
 
   <div class="who-grid">
     <div class="who-card reveal">
@@ -442,7 +445,7 @@ nav {
   <div class="faq-wrap">
     <div class="faq-item">
       <div class="faq-q">Is this really free?</div>
-      <div class="faq-a">Yes. Five days of emails. No trial, no hidden charge. At the end I'll tell you about <a href="tier-3.html" style="color:var(--gold);">BTH Stay Ready</a> — the membership with the full month-by-month training system and all 5 add-on tracks. But only if you want it.</div>
+      <div class="faq-a">Yes. Five days of emails. No trial, no hidden charge. At the end I'll tell you about <a href="tier-3.html" style="color:var(--gold-text);">BTH Stay Ready</a> — the membership with the full month-by-month training system and all 5 add-on tracks. But only if you want it.</div>
     </div>
     <div class="faq-item">
       <div class="faq-q">How long do the workouts take?</div>
@@ -458,7 +461,7 @@ nav {
     </div>
     <div class="faq-item">
       <div class="faq-q">What happens after Day 5?</div>
-      <div class="faq-a">You'll know if this approach works for your body. From there — <a href="tier-3.html" style="color:var(--gold);">BTH Stay Ready</a> is the next step. That's the full month-by-month training system + all 5 add-on tracks in one membership. Or just stay on the weekly list and keep using what you got. No pressure.</div>
+      <div class="faq-a">You'll know if this approach works for your body. From there — <a href="tier-3.html" style="color:var(--gold-text);">BTH Stay Ready</a> is the next step. That's the full month-by-month training system + all 5 add-on tracks in one membership. Or just stay on the weekly list and keep using what you got. No pressure.</div>
     </div>
   </div>
 </section>

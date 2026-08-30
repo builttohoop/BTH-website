@@ -62,10 +62,10 @@ nav { position:fixed; top:0; left:0; right:0; z-index:100; height:62px; display:
 @media (max-width:768px) { .hero { padding:110px 24px 56px; } }
 .hero::before { content:'A/O'; position:absolute; right:-20px; top:50%; transform:translateY(-50%); font-family:var(--H); font-size:clamp(240px,38vw,520px); font-weight:700; color:rgba(230,168,0,0.05); line-height:1; pointer-events:none; z-index:0; letter-spacing:-0.02em; }
 .hero-inner { max-width:900px; margin:0 auto; position:relative; z-index:1; }
-.hero-eyebrow { font-family:var(--B); font-size:11px; font-weight:600; letter-spacing:0.22em; text-transform:uppercase; color:var(--gold); margin-bottom:20px; display:flex; align-items:center; gap:12px; }
+.hero-eyebrow { font-family:var(--B); font-size:11px; font-weight:600; letter-spacing:0.22em; text-transform:uppercase; color:var(--gold-text); margin-bottom:20px; display:flex; align-items:center; gap:12px; }
 .hero-eyebrow::before { content:''; width:24px; height:2px; background:var(--gold); flex-shrink:0; }
 .hero-title { font-family:var(--H); font-size:clamp(56px,9vw,120px); font-weight:700; line-height:0.92; letter-spacing:0.02em; text-transform:uppercase; color:var(--black); margin-bottom:24px; }
-.hero-title .gold { color:var(--gold); }
+.hero-title .gold { color:var(--gold-text); }
 .hero-sub { font-size:18px; color:var(--muted); max-width:620px; line-height:1.7; margin-bottom:36px; }
 .hero-sub strong { color:var(--black); font-weight:600; }
 
@@ -74,9 +74,9 @@ nav { position:fixed; top:0; left:0; right:0; z-index:100; height:62px; display:
 .btn-gold { font-family:var(--H); font-size:16px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--black); background:var(--gold); padding:18px 44px; border-radius:2px; text-decoration:none; display:inline-block; transition:opacity 0.18s; white-space:nowrap; }
 .btn-gold:hover { opacity:0.88; }
 .btn-secondary { font-family:var(--B); font-size:14px; font-weight:500; color:var(--muted); padding:14px 32px; border-radius:2px; border:1.5px solid var(--border); text-decoration:none; display:inline-block; transition:all 0.18s; white-space:nowrap; }
-.btn-secondary:hover { border-color:var(--gold); color:var(--gold); }
+.btn-secondary:hover { border-color:var(--gold); color:var(--gold-text); }
 
-.section-eyebrow { font-family:var(--B); font-size:11px; font-weight:600; letter-spacing:0.24em; text-transform:uppercase; color:var(--gold); margin-bottom:12px; }
+.section-eyebrow { font-family:var(--B); font-size:11px; font-weight:600; letter-spacing:0.24em; text-transform:uppercase; color:var(--gold-text); margin-bottom:12px; }
 .section-title { font-family:var(--H); font-size:clamp(36px,5vw,56px); font-weight:700; line-height:0.95; letter-spacing:0.02em; text-transform:uppercase; color:var(--black); margin-bottom:20px; }
 .section-body { font-size:16px; color:var(--muted); max-width:640px; line-height:1.75; }
 .pad { padding:88px 52px; max-width:1200px; margin:0 auto; }
@@ -92,13 +92,13 @@ nav { position:fixed; top:0; left:0; right:0; z-index:100; height:62px; display:
 .addon-card { background:var(--white); border:1px solid var(--border); border-radius:2px; padding:36px 32px; position:relative; transition:all 0.18s; display:flex; flex-direction:column; }
 .addon-card:hover { border-color:var(--gold); transform:translateY(-2px); }
 .addon-card::before { content:attr(data-num); position:absolute; top:24px; right:28px; font-family:var(--H); font-size:72px; font-weight:700; color:rgba(230,168,0,0.09); line-height:1; letter-spacing:-0.02em; }
-.addon-tag { font-family:var(--B); font-size:10px; font-weight:600; letter-spacing:0.2em; text-transform:uppercase; color:var(--gold); margin-bottom:14px; }
+.addon-tag { font-family:var(--B); font-size:10px; font-weight:600; letter-spacing:0.2em; text-transform:uppercase; color:var(--gold-text); margin-bottom:14px; }
 .addon-name { font-family:var(--H); font-size:30px; font-weight:700; letter-spacing:0.02em; text-transform:uppercase; color:var(--black); margin-bottom:12px; line-height:1.05; }
 .addon-blurb { font-size:14.5px; color:var(--muted); line-height:1.7; margin-bottom:20px; }
 .addon-blurb strong { color:var(--black); font-weight:600; }
 .addon-list { list-style:none; padding:0; margin:0 0 24px; flex-grow:1; }
 .addon-list li { font-size:14px; color:var(--black); padding:7px 0 7px 22px; position:relative; line-height:1.55; }
-.addon-list li::before { content:'→'; position:absolute; left:0; top:7px; color:var(--gold); font-weight:700; }
+.addon-list li::before { content:'→'; position:absolute; left:0; top:7px; color:var(--gold-text); font-weight:700; }
 .addon-foot { display:flex; align-items:center; justify-content:space-between; padding-top:20px; border-top:1px solid var(--border); gap:16px; }
 .addon-price { font-family:var(--H); font-size:28px; font-weight:700; color:var(--black); line-height:1; }
 .addon-price .range { font-family:var(--B); font-size:12px; color:var(--muted); margin-left:4px; font-weight:400; }
@@ -122,7 +122,7 @@ nav { position:fixed; top:0; left:0; right:0; z-index:100; height:62px; display:
 .who-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:40px; }
 @media (max-width:800px) { .who-grid { grid-template-columns:1fr; } }
 .who-card { background:var(--white); border:1px solid var(--border); border-radius:2px; padding:28px 24px; }
-.who-card .icon { font-family:var(--H); font-size:32px; color:var(--gold); font-weight:700; letter-spacing:-0.01em; line-height:1; margin-bottom:14px; }
+.who-card .icon { font-family:var(--H); font-size:32px; color:var(--gold-text); font-weight:700; letter-spacing:-0.01em; line-height:1; margin-bottom:14px; }
 .who-card h4 { font-family:var(--H); font-size:17px; font-weight:700; letter-spacing:0.04em; text-transform:uppercase; color:var(--black); margin-bottom:8px; }
 .who-card p { font-size:14px; color:var(--muted); line-height:1.65; }
 
@@ -139,7 +139,7 @@ nav { position:fixed; top:0; left:0; right:0; z-index:100; height:62px; display:
 .faq-wrap { max-width:760px; margin:40px auto 0; }
 .faq-item { border-bottom:1px solid var(--border); padding:24px 0; }
 .faq-q { font-family:var(--H); font-size:17px; font-weight:600; letter-spacing:0.03em; text-transform:uppercase; color:var(--black); margin-bottom:10px; display:flex; align-items:flex-start; gap:12px; }
-.faq-q::before { content:'Q'; color:var(--gold); font-weight:700; flex-shrink:0; }
+.faq-q::before { content:'Q'; color:var(--gold-text); font-weight:700; flex-shrink:0; }
 .faq-a { font-size:15px; color:var(--muted); line-height:1.75; padding-left:24px; }
 .faq-a strong { color:var(--black); font-weight:600; }
 
@@ -161,9 +161,9 @@ footer { background:var(--black); color:var(--white); padding:72px 52px 44px; }
 .foot-tag { font-size:13px; color:rgba(255,255,255,0.55); margin-top:10px; line-height:1.7; max-width:300px; }
 .foot-h { font-family:var(--H); font-size:12px; font-weight:600; letter-spacing:0.22em; text-transform:uppercase; color:var(--gold); margin-bottom:18px; }
 .foot-list { list-style:none; }
-.foot-list li { margin-bottom:10px; }
-.foot-list a { font-size:14px; color:rgba(255,255,255,0.7); text-decoration:none; transition:color 0.18s; }
-.foot-list a:hover { color:var(--gold); }
+.foot-list li { margin-bottom:2px; }
+.foot-list a { font-size:14px; color:rgba(255,255,255,0.7); text-decoration:none; transition:color 0.18s; display:inline-flex; align-items:center; min-height:44px; }
+.foot-list a:hover { color:var(--gold-text); }
 .foot-bottom { max-width:1200px; margin:56px auto 0; padding-top:28px; border-top:1px solid rgba(255,255,255,0.1); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; }
 .foot-copy { font-size:12px; color:rgba(255,255,255,0.4); letter-spacing:0.04em; }
 .foot-handles { font-size:12px; color:rgba(255,255,255,0.5); letter-spacing:0.08em; }
@@ -222,7 +222,7 @@ nav {
 .nav-logo {
   font-family: var(--H); font-size: 20px; font-weight: 700;
   letter-spacing: 0.08em; text-transform: uppercase;
-  color: var(--white); text-decoration: none; flex-shrink: 0;
+  color: var(--white); text-decoration: none; flex-shrink: 0; display: inline-flex; align-items: center; min-height: 44px;
 }
 .nav-logo span { color: var(--gold); }
 .nav-links { display: flex; gap: 28px; align-items: center; }
@@ -248,7 +248,7 @@ nav {
   letter-spacing: 0.14em; text-transform: uppercase;
   color: var(--black); background: var(--gold);
   padding: 10px 20px; border-radius: 2px;
-  text-decoration: none; transition: filter 0.18s; flex-shrink: 0;
+  text-decoration: none; transition: filter 0.18s; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; min-height: 44px; box-sizing: border-box;
 }
 .nav-cta:hover { filter: brightness(0.88); }
 @media (max-width: 900px) { .nav-links { display: none; } }
@@ -300,28 +300,8 @@ nav {
 <!-- NAV -->
 <nav>
   <a href="index.html" class="nav-logo">Built to <span>Hoop</span></a>
-  <div class="nav-links">
-    <a href="tier-1.html">Foundation</a>
-    <a href="tier-2.html">Rise</a>
-    <a href="tier-3.html">Stay Ready</a>
-    <a href="addons.html" class="current">Tracks</a>
-    <a href="updates.html">Updates</a>
-    <a href="about.html">About</a>
-  </div>
   <a href="reset.html" class="nav-cta">Free Reset</a>
-  <button class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
-    <span></span><span></span><span></span>
-  </button>
 </nav>
-<div id="mobile-menu" class="mobile-menu" role="navigation" aria-label="Mobile navigation">
-  <a href="tier-1.html">Foundation</a>
-  <a href="tier-2.html">Rise</a>
-  <a href="tier-3.html">Stay Ready</a>
-  <a href="addons.html">Tracks</a>
-  <a href="updates.html">Updates</a>
-  <a href="about.html">About</a>
-  <a href="reset.html" class="mobile-cta">Free Reset</a>
-</div>
 
 <section class="hero">
   <div class="hero-inner">
@@ -340,7 +320,7 @@ nav {
 
 <section class="pad-narrow">
   <div class="section-eyebrow">Who These Are For</div>
-  <h2 class="section-title">You Don't Need Everything.<br>You Need The <span style="color:var(--gold);">Right Thing.</span></h2>
+  <h2 class="section-title">You Don't Need Everything.<br>You Need The <span style="color:var(--gold-text);">Right Thing.</span></h2>
   <p class="section-body">The Foundation (Tier 1) and Rise (Tier 2) programs handle the full system. Add-ons exist for one reason — you have a specific weak link that's costing you games. Pick the track that matches your problem. Run it alongside your main program.</p>
 
   <div class="who-grid">
@@ -365,7 +345,7 @@ nav {
 <div class="inside-bg">
 <section class="pad" id="tracks">
   <div class="section-eyebrow">The 5 Tracks</div>
-  <h2 class="section-title">Targeted. Specific.<br>Built For <span style="color:var(--gold);">Hoopers.</span></h2>
+  <h2 class="section-title">Targeted. Specific.<br>Built For <span style="color:var(--gold-text);">Hoopers.</span></h2>
   <p class="section-body">Each track is a focused protocol — not a generic mobility routine pulled from a gen-pop program. Every exercise was tested on real pickup and league legs.</p>
 
   <div class="addon-grid">
@@ -467,7 +447,7 @@ nav {
 
 <section class="pad">
   <div class="section-eyebrow">Bundle + Save</div>
-  <h2 class="section-title">Joints First.<br>The <span style="color:var(--gold);">Injury Bundle.</span></h2>
+  <h2 class="section-title">Joints First.<br>The <span style="color:var(--gold-text);">Injury Bundle.</span></h2>
   <p class="section-body">Most guys dealing with breakdown have more than one weak link. Hip, knee, and ankle problems are usually the same story — a chain that's missing a couple reps. Run all three together, save $45 off standalone, and get the protocols in the order they actually need to be done.</p>
 
   <div class="bundle-wrap">
@@ -619,7 +599,7 @@ nav {
 <div id="bth-popup" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9999;padding:0 16px 16px;">
   <div style="max-width:480px;margin:0 auto;background:#111318;border:1px solid #E6A800;border-radius:2px;padding:20px 24px;">
     <button onclick="bthDismissPopup()" style="position:absolute;top:12px;right:16px;background:none;border:none;color:#F3EFE7;font-size:20px;cursor:pointer;opacity:0.7;">✕</button>
-    <div style="font-family:Oswald,sans-serif;color:#E6A800;font-size:13px;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:6px;">Limited Offer</div>
+    <div style="font-family:Oswald,sans-serif;color:#E6A800;font-size:13px;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:6px;">First-Month Offer</div>
     <div style="font-family:Oswald,sans-serif;color:#F3EFE7;font-size:20px;font-weight:700;line-height:1.2;margin-bottom:8px;">10% off your first month of BTH Stay Ready</div>
     <div style="font-family:DM Sans,sans-serif;color:rgba(243,239,231,0.75);font-size:14px;margin-bottom:16px;">Use code <strong style="color:#E6A800;">STAY10</strong> at checkout. $27/mo becomes $24.30 your first month.</div>
     <a href="https://buy.stripe.com/4gMaEXbvh7nu1sccHJaAw00" target="_blank" rel="noopener noreferrer"

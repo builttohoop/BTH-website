@@ -17,6 +17,7 @@
   --bth-white:   #FFFFFF;   /* Section backgrounds */
   --bth-black:   #111318;   /* Near Black — text + primary */
   --bth-gold:    #E6A800;   /* Electric Gold — CTAs, accents */
+  --bth-gold-text: #7A5700;   /* WCAG-AA-safe gold for TEXT on light (cream/white) surfaces — RULED by Ty 2026-08-30 (approval CC-#78, "go with recommended"): 6.58:1 on white, 5.74:1 on cream. Never use for backgrounds/borders/icons; --bth-gold stays those. */
 
   /* ─── DERIVED NEUTRALS (from real site usage) ──────────── */
   --bth-muted:        rgba(17, 19, 24, 0.50);  /* secondary text */
@@ -144,6 +145,7 @@
   --white:  var(--bth-white);
   --black:  var(--bth-black);
   --gold:   var(--bth-gold);
+  --gold-text: var(--bth-gold-text);
   --muted:  var(--bth-muted);
   --border: var(--bth-border);
   --soft:   var(--bth-soft);
