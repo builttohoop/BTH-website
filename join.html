@@ -47,11 +47,27 @@ window.addEventListener("DOMContentLoaded", function () {
 *,*::before,*::after { margin:0; padding:0; box-sizing:border-box; -webkit-text-size-adjust:100%; }
 html { scroll-behavior:smooth; background:var(--white); }
 body { background:var(--white); color:var(--black); font-family:var(--B); font-size:16px; line-height:1.6; overflow-x:hidden; -webkit-font-smoothing:antialiased; }
+/* Mobile sticky CTA — join.html is the checkout page and had no CTA reachable in the first mobile
+   screen at all (Category 1/3 fix; also satisfies Category 8's "sticky CTA bar" plus). */
+.mobile-sticky-cta { display: none; }
+@media (max-width: 640px) {
+  .mobile-sticky-cta {
+    display: flex; position: fixed; left: 0; right: 0; bottom: 0; z-index: 120;
+    background: var(--black); padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
+    border-top: 1px solid rgba(255,255,255,0.12);
+  }
+  .mobile-sticky-cta a {
+    display: block; width: 100%; text-align: center; min-height: 44px;
+    font-family: var(--H); font-size: 14px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--black); background: var(--gold); padding: 14px; border-radius: 2px; text-decoration: none;
+  }
+  body { padding-bottom: 68px; }
+}
 
 nav { position:fixed; top:0; left:0; right:0; z-index:100; height:62px; display:flex; align-items:center; justify-content:space-between; padding:0 52px; background:rgba(255,255,255,0.96); backdrop-filter:blur(12px); border-bottom:1px solid var(--border); }
 @media (max-width:768px) { nav { padding:0 24px; } }
 .nav-logo { font-family:var(--H); font-size:22px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:var(--black); text-decoration:none; }
-.nav-logo span { color:var(--gold); }
+.nav-logo span { color:var(--gold-text); }
 .nav-links { display:flex; gap:32px; align-items:center; }
 .nav-links a { font-family:var(--B); font-size:13px; font-weight:500; letter-spacing:0.04em; color:var(--muted); text-decoration:none; transition:color 0.18s; }
 .nav-links a:hover { color:var(--black); }
@@ -59,23 +75,23 @@ nav { position:fixed; top:0; left:0; right:0; z-index:100; height:62px; display:
 
 .hero { min-height:92vh; padding:112px 52px 60px; display:grid; grid-template-columns:1.05fr 1fr; gap:56px; align-items:center; max-width:1180px; margin:0 auto; }
 @media (max-width:900px) { .hero { grid-template-columns:1fr; padding:96px 24px 48px; gap:36px; min-height:auto; } }
-.eyebrow { font-family:var(--B); font-size:11px; font-weight:600; letter-spacing:0.22em; text-transform:uppercase; color:var(--gold); margin-bottom:20px; display:flex; align-items:center; gap:12px; }
+.eyebrow { font-family:var(--B); font-size:11px; font-weight:600; letter-spacing:0.22em; text-transform:uppercase; color:var(--gold-text); margin-bottom:20px; display:flex; align-items:center; gap:12px; }
 .eyebrow::before { content:''; width:24px; height:2px; background:var(--gold); flex-shrink:0; }
 .title { font-family:var(--H); font-size:clamp(40px,6vw,76px); font-weight:700; line-height:0.96; letter-spacing:0.02em; text-transform:uppercase; color:var(--black); margin-bottom:22px; }
-.title .gold { color:var(--gold); }
+.title .gold { color:var(--gold-text); }
 .sub { font-size:17px; color:var(--muted); line-height:1.75; margin-bottom:28px; max-width:520px; }
 .sub strong { color:var(--black); font-weight:600; }
 .bullets { list-style:none; padding:0; margin:0; }
 .bullets li { font-size:15px; color:var(--black); padding:11px 0 11px 30px; position:relative; line-height:1.55; border-bottom:1px solid var(--soft); }
 .bullets li:last-child { border-bottom:none; }
-.bullets li::before { content:'✓'; position:absolute; left:0; top:12px; color:var(--gold); font-weight:700; font-size:16px; }
+.bullets li::before { content:'✓'; position:absolute; left:0; top:12px; color:var(--gold-text); font-weight:700; font-size:16px; }
 
 .buy-card { background:var(--cream); border:1px solid var(--border); border-radius:3px; padding:40px 36px; position:relative; box-shadow:0 1px 0 rgba(17,19,24,0.04); }
 @media (max-width:560px) { .buy-card { padding:30px 24px; } }
 .buy-card::before { content:'MEMBERSHIP'; position:absolute; top:-12px; left:28px; background:var(--gold); color:var(--black); font-family:var(--H); font-size:11px; font-weight:700; letter-spacing:0.16em; padding:5px 14px; border-radius:2px; }
 .buy-name { font-family:var(--H); font-size:30px; font-weight:700; letter-spacing:0.02em; text-transform:uppercase; color:var(--black); line-height:1.05; margin-bottom:6px; }
 .buy-price { display:flex; align-items:baseline; gap:8px; margin:14px 0 6px; }
-.buy-price .amt { font-family:var(--H); font-size:54px; font-weight:700; color:var(--gold); line-height:1; }
+.buy-price .amt { font-family:var(--H); font-size:54px; font-weight:700; color:var(--gold-text); line-height:1; }
 .buy-price .per { font-size:14px; color:var(--muted); letter-spacing:0.04em; }
 .buy-note { font-size:13px; color:var(--muted); margin-bottom:22px; letter-spacing:0.02em; }
 /* Approval #70a: pre-Stripe email capture — deliberately quiet so it never reads as a
@@ -95,19 +111,19 @@ nav { position:fixed; top:0; left:0; right:0; z-index:100; height:62px; display:
 .steps { background:var(--cream); border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
 .steps-inner { padding:72px 52px; max-width:1080px; margin:0 auto; }
 @media (max-width:768px) { .steps-inner { padding:56px 24px; } }
-.steps-eyebrow { font-family:var(--B); font-size:11px; font-weight:600; letter-spacing:0.24em; text-transform:uppercase; color:var(--gold); margin-bottom:12px; }
+.steps-eyebrow { font-family:var(--B); font-size:11px; font-weight:600; letter-spacing:0.24em; text-transform:uppercase; color:var(--gold-text); margin-bottom:12px; }
 .steps-title { font-family:var(--H); font-size:clamp(30px,4vw,44px); font-weight:700; line-height:1; letter-spacing:0.02em; text-transform:uppercase; color:var(--black); margin-bottom:36px; }
 .steps-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
 @media (max-width:800px) { .steps-grid { grid-template-columns:1fr; } }
 .step { background:var(--white); border:1px solid var(--border); border-top:3px solid var(--gold); border-radius:2px; padding:26px 22px; }
-.step .n { font-family:var(--H); font-size:13px; font-weight:600; letter-spacing:0.2em; text-transform:uppercase; color:var(--gold); margin-bottom:10px; }
+.step .n { font-family:var(--H); font-size:13px; font-weight:600; letter-spacing:0.2em; text-transform:uppercase; color:var(--gold-text); margin-bottom:10px; }
 .step h4 { font-family:var(--H); font-size:18px; font-weight:700; letter-spacing:0.03em; text-transform:uppercase; color:var(--black); margin-bottom:8px; line-height:1.1; }
 .step p { font-size:14px; color:var(--muted); line-height:1.65; }
 
 footer { padding:48px 52px; max-width:1180px; margin:0 auto; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; border-top:1px solid var(--border); }
 @media (max-width:768px) { footer { padding:40px 24px; } }
 .foot-logo { font-family:var(--H); font-size:18px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:var(--black); }
-.foot-logo span { color:var(--gold); }
+.foot-logo span { color:var(--gold-text); }
 .foot-links { display:flex; gap:24px; flex-wrap:wrap; }
 .foot-links a { font-size:13px; color:var(--muted); text-decoration:none; }
 .foot-links a:hover { color:var(--black); }
@@ -124,6 +140,7 @@ footer { padding:48px 52px; max-width:1180px; margin:0 auto; display:flex; justi
     <a href="/about.html">About</a>
   </div>
 </nav>
+<div class="mobile-sticky-cta"><a href="#checkout">Join Stay Ready — $27/mo &rarr;</a></div>
 
 <section class="hero">
   <div>
@@ -137,13 +154,13 @@ footer { padding:48px 52px; max-width:1180px; margin:0 auto; display:flex; justi
       <li>New work added every month</li>
       <li>Everything delivered by email — start the day you join (BTH app coming soon)</li>
     </ul>
-    <p style="font-size:13px;color:var(--muted);margin-top:24px;line-height:1.6;">Built and tested on my own training log first — not theory. <a href="tier-3.html" style="color:var(--gold);text-decoration:none;">See everything that's inside →</a></p>
+    <p style="font-size:13px;color:var(--muted);margin-top:24px;line-height:1.6;">Built and tested on my own training log first — not theory. <a href="tier-3.html" style="color:var(--gold-text);text-decoration:none;">See everything that's inside →</a></p>
   </div>
 
   <div class="buy-card">
     <div class="buy-name">Stay Ready</div>
     <div class="buy-price"><span class="amt">$27</span><span class="per">/ month</span></div>
-    <div class="buy-note">Cancel anytime — one email, no calls. No refunds on the current month.</div>
+    <div class="buy-note">No lock-in — it's month to month. Cancel anytime with one email, no calls. (No refunds on a month already started.)</div>
     <!--
       PRE-STRIPE EMAIL CAPTURE (approval #70a, approved 2026-08-23). Every checkout
       abandoner to date (7 of 7) was anonymous — Stripe never carried their email, so
