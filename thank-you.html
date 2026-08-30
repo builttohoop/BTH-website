@@ -374,6 +374,14 @@
    column and washes the hero copy. Suppressed where it cannot fit; above 700px
    the authored vw sizing is unchanged. Decorative only (pointer-events:none). */
 @media (max-width:700px) { .hero::before { display:none; } }
+
+/* BTH-MOBILE-DAYS - the max-width:600px query restates 5 columns, so the
+   five day cards stay 61px wide at 375px and their labels shatter. Two
+   columns with the last card spanning the row. */
+@media (max-width:700px) {
+  .days-grid { grid-template-columns:repeat(2,1fr); gap:8px; }
+  .days-grid > :last-child { grid-column:1 / -1; }
+}
 </style>
 </head>
 <body>

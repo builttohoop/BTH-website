@@ -304,6 +304,11 @@ nav {
   /* column flex item was fit-content sized and free to exceed the container */
   .cta-band > * { max-width:100%; min-width:0; }
 }
+
+/* BTH-MOBILE-H1 - the 56px clamp floor wraps this page's 3 authored <br>
+   segments into 6 lines at 375px, swallowing the first screen. 39px is the
+   cliff where the 3-line structure breaks; 36px keeps it with headroom. */
+@media (max-width:700px) { .hero-title { font-size:36px; } }
 </style>
 </head>
 <body>
