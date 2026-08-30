@@ -257,6 +257,12 @@ nav {
 }
 .mobile-menu .mobile-cta:hover { filter: brightness(0.9); color: var(--black); }
 
+
+/* BTH-MOBILE-WATERMARK — the hero watermark's clamp() floor is larger than its vw
+   term can produce below ~700px, so on a phone it renders wider than the text
+   column and washes the hero copy. Suppressed where it cannot fit; above 700px
+   the authored vw sizing is unchanged. Decorative only (pointer-events:none). */
+@media (max-width:700px) { .hero::before { display:none; } }
 </style>
 </head>
 <body>

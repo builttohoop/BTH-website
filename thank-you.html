@@ -368,7 +368,13 @@
   .foot-links a { font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.18s; display:inline-flex; align-items:center; min-height:44px; }
   .foot-links a:hover { color: var(--gold-text); }
   .foot-copy { width: 100%; text-align: center; font-size: 11px; color: var(--muted); padding-top: 24px; border-top: 1px solid rgba(17,19,24,0.06); opacity: 0.6; }
-  </style>
+  
+/* BTH-MOBILE-WATERMARK — the hero watermark's clamp() floor is larger than its vw
+   term can produce below ~700px, so on a phone it renders wider than the text
+   column and washes the hero copy. Suppressed where it cannot fit; above 700px
+   the authored vw sizing is unchanged. Decorative only (pointer-events:none). */
+@media (max-width:700px) { .hero::before { display:none; } }
+</style>
 </head>
 <body>
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T9SFFTB7" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
