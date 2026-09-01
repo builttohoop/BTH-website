@@ -417,6 +417,28 @@ footer { padding:44px 52px; display:flex; align-items:center; justify-content:sp
 </style>
 </head>`;
 
+// The signup question, shared by BOTH LP form templates.
+//
+// WHY IT LIVES HERE: the question shipped on reset.html and the sitewide pages, and
+// bth-form.js was already updated to stash the answer "from EVERY form now that every
+// form asks the question" — but this generator was never touched, so all 18 /lp/ pages
+// kept posting without it. Every paid-search lead therefore arrived with no segment:
+// 2 of the 3 signups on 2026-08-31 (Google Ads) came in blind while the one TikTok lead
+// that hit /reset.html answered fine. Same four values as SIGNUP_SEGMENTS in the Mail OS
+// worker (src/index.js) — anything else normalizes to "" and stores nothing.
+//
+// Optional on purpose: an LP form's job is the email. The question is a bonus, never a
+// gate, so it must not add a required step to a cold-traffic capture.
+const SEGMENT_FIELDSET = `      <fieldset class="bth-seg">
+        <legend class="bth-seg-label">Where's your body at right now? <span class="bth-seg-optional">(optional)</span></legend>
+        <div class="bth-seg-grid">
+          <label class="bth-seg-opt"><input type="radio" name="segment" value="hurts-today"><span>Hurts today</span></label>
+          <label class="bth-seg-opt"><input type="radio" name="segment" value="tight-after-playing"><span>Tight after playing</span></label>
+          <label class="bth-seg-opt"><input type="radio" name="segment" value="coming-back-after-time-off"><span>Coming back after time off</span></label>
+          <label class="bth-seg-opt"><input type="radio" name="segment" value="staying-ahead-of-it"><span>Staying ahead of it</span></label>
+        </div>
+      </fieldset>`;
+
 const formCardA = (p) => `<div class="form-card free" id="optin">
     <div class="form-h">Get The Free 5-Day Reset</div>
     <p class="form-sub">Drop your email. The first day lands in your inbox <strong>within 5 minutes</strong>.</p>
@@ -428,6 +450,7 @@ const formCardA = (p) => `<div class="form-card free" id="optin">
         <input type="email" name="email" placeholder="Email address" required autocomplete="email" id="bth-email-lp-${p.slug}">
         <p class="bth-field-error-msg"></p>
       </div>
+${SEGMENT_FIELDSET}
       <input type="hidden" name="source" value="free_reset">
       <input type="hidden" name="sequence" value="free-reset-to-rise">
       <input type="hidden" name="consent_version" value="bth-email-consent-v1">
@@ -492,6 +515,7 @@ const freeStartB = (p) => {
         <input type="email" name="email" placeholder="Email address" required autocomplete="email" id="bth-email-lp-${p.slug}">
         <p class="bth-field-error-msg"></p>
       </div>
+${SEGMENT_FIELDSET}
       <input type="hidden" name="source" value="free_reset">
       <input type="hidden" name="sequence" value="free-reset-to-rise">
       <input type="hidden" name="consent_version" value="bth-email-consent-v1">
