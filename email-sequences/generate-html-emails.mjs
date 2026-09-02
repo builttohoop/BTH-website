@@ -525,25 +525,16 @@ ${sig()}
     body: `
 ${hero('Day 5 · The Move', `5 days done. Here's the ${g('move.')}`)}
 ${p('Day 5. Last one.')}
-${p('You made it through the reset. If you did all 5 days, your hips are looser, your ankles have more range, and your knees feel less loaded than they did on Day 1.')}
+${p('You made it through the reset. If you did all 5 days, a lot of guys feel their hips looser, ankles with more range, knees carrying less load than Day 1.')}
 ${p('That\'s real. That\'s the BTH method working.')}
-${p('Here\'s the truth: <strong>the reset is maintenance, not building.</strong> It gets your body back to baseline. It doesn\'t keep building once you stop opening the emails.')}
-${p('The reset ends today. The work doesn\'t have to.')}
-${p('Whatever you told me on Day 3 — or even if you didn\'t reply — this is the part where it either keeps building or slides back.')}
-${p('You already did the hard part once: you came back. <strong>Stay Ready exists so you don\'t have to start the comeback over again.</strong> You just stay ready.')}
-${p('It\'s the system that keeps going where the reset stops — join today, it starts today.')}
-${membershipCta(true)}
-${divider()}
-${h('What you get starting today:')}
-${h('Month 1 — Foundation', 3)}
-${p('6-week base program. Hips, ankles, knees, core, tendon prep, readiness framework. Built around pickup. 3 days/week. Progressive.')}
-${p('Foundation is your first month inside Stay Ready — not a separate purchase.', { size: 14, muted: true })}
-${h('Month 2+ — The Strength Block', 3)}
-${p('Strength to bounce, game speed, pickup conditioning. This is where the legs start feeling different.')}
-${p('<strong>All included:</strong> Hip Reset, Knee Protection, Ankle Rebuild, Skill Builder, Recovery System.')}
-${p('Cancel anytime. Keep everything you download. <strong>$27/month.</strong>')}
+${p('Here\'s the truth: <strong>the reset is maintenance, not building.</strong> It gets your body back to baseline. It doesn\'t keep building once you stop opening these emails.')}
+${p('The reset ends today. Here\'s the move — and it\'s not the ask you\'re expecting.')}
+${p('I\'m not asking you to buy anything right now. I want to ask you something more useful first.')}
+${h('What\'s still not working?')}
+${p('Maybe the reset helped, and something specific is still holding you back — an old injury that\'s still barking, a schedule that won\'t cooperate, a part of your game you don\'t trust yet. Maybe none of it moved the needle and you want to tell me why. Either way — hit reply, one sentence. I read every reply myself, and it tells me what to actually build for guys like you, not what I assume you need.')}
 ${resetButton(5, 'Power Reset', 'BTH-Reset-Day-05-Power-Reset.pdf')}
-${p('Your last reset day — convert five days of work into game-ready power.', { size: 14, muted: true })}
+${p('Your last reset day — the work you put in over the last five is real, whatever\'s next.', { size: 14, muted: true })}
+${p('Whatever you tell me shapes what I send you. If Stay Ready — the system that keeps building where this reset stops, $27 a month — turns out to be the right next step for you, I\'ll tell you exactly why, not just pitch you again. If it\'s not, I want to know that too.')}
 ${p('Tomorrow: one straight answer about what happens to the body you just rebuilt if you stop here.', { size: 14, muted: true })}
 ${sig()}
 `},
@@ -581,16 +572,18 @@ ${sig()}
     body: `
 ${hero('Still In?', `What's ${g('stopping')} you?`)}
 ${p('I\'m not going to try to talk you into this with a discount.')}
-${p('I just want to ask you something real:')}
-${p('<strong>What\'s stopping you?</strong>')}
-${p('Is it the price? ($27/month — that\'s one pickup session\'s worth of gym cost)')}
-${p('Is it timing? (Month 1 is built for guys easing back in — 3 days a week, around a regular life)')}
-${p('Is it trust? (That one I can\'t argue — you\'d have to try it)')}
-${divider()}
-${p('Whatever it is — hit reply and tell me. I\'ll give you a straight answer.')}
-${p('If you\'re in a spot where your body is the thing keeping you from playing the way you want — Stay Ready is built for exactly that.')}
-${membershipCta(false)}
-${p('If you\'re genuinely not interested, no hard feelings. The reset was free and I hope it helped.', { muted: true, size: 14 })}
+${p('I\'m also not going to ask you the same thing twice. If you replied on Day 5, I already have what you told me — and if I owe you an answer I haven\'t sent, tell me and I\'ll fix that.')}
+${p('If you didn\'t reply — this is the last email in this run, so let me ask it a different way.')}
+${h('Which one of these is actually true for you right now?')}
+${ul([
+  '<strong>Price.</strong> ($27/month is one pickup session\'s worth of gym cost — but "worth it" is still your call, not mine.)',
+  '<strong>Timing.</strong> (Month 1 is built for guys easing back in — 3 days a week, around a real schedule — but if life\'s genuinely too full right now, that\'s real too.)',
+  '<strong>Trust.</strong> (You haven\'t seen it work yet. Fair. That one only gets solved by trying it — I can\'t argue you out of it.)',
+  '<strong>Something else.</strong> Tell me what it actually is.',
+])}
+${p('Hit reply and give me a letter, or just say it in your own words. I read every one, and I\'ll give you a straight answer back — not another pitch.')}
+${p('If Stay Ready ends up being the move, it\'s still $27 a month, cancel anytime — no lock-in.')}
+${p('If it\'s genuinely not for you right now, no hard feelings — the reset was free and I hope it did what it was supposed to do.', { muted: true, size: 14 })}
 ${sig()}
 `},
 ];
