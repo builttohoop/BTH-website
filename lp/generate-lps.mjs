@@ -105,7 +105,7 @@ const A_PAGES = [
     ],
     faq: [
       { q: 'Can I really do basketball workouts at home with no equipment?', a: 'Yes — the first three days of the Reset use bodyweight only. Days 4 and 5 use minimal gear, and you can substitute if you do not have it.' },
-      { q: 'How much space do I need?', a: 'Roughly a yoga mat\'s worth. It is built for small rooms, not home gyms.' },
+      { q: 'How much space do I need?', a: 'Roughly a yoga mat\'s worth for the first three days. Day 4 adds a dumbbell, and Day 5\'s finisher needs a hoop and enough runway for a few short sprints — so you\'ll want more room for those last two days (a driveway, a court, or outside).' },
       { q: 'Is this enough on its own, or do I need a gym eventually?', a: 'The Reset stands on its own — that is the whole point of starting free.' },
     ],
   },
