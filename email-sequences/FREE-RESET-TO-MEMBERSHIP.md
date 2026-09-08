@@ -31,16 +31,32 @@ From: `Ty — Built to Hoop` · Reply-to `tyrell@built-to-hoop.com`.
 > (BRAND_RULES: "Days 0-4 soft seed, Day 5 hard offer"); E4 carries one low-key text link only, for a
 > reader who's already sold and doesn't want to wait.
 
+> **⚠️ SUPERSEDED IN PART — 2026-09-07.** The paragraph above is kept for history, but two of its claims
+> are no longer true of the live sequence and the table below has been corrected to match `origin/main`:
+>
+> 1. **"E5 — the first email with an actual join link" is false.** BTH-0059 (approval #83a, migration
+>    `0036`) rewrote **E5 and E7 into reply-asks**. Verified on `origin/main` 2026-09-07 by counting
+>    `built-to-hoop.com/join` occurrences per file: **E4 = 1, E5 = 0, E6 = 2, E7 = 0.** The sequence's
+>    only hard CTA is now **E6**, not E5. The BRAND_RULES gloss *"Days 0-4 soft seed, Day 5 hard offer"*
+>    no longer describes what ships.
+> 2. **E4's subject changed** under approval #91(a) — the narrated customer who does not exist was
+>    replaced with Ty's real story (PR #136, merged `8e0c4f2`).
+>
+> Across all 8 emails there are now exactly **three** join links, and live D1 records **two human clicks
+> on a join/checkout link in the entire history of the system** (2026-07-06, 2026-08-16). Whether that
+> is too few asks or the wrong ask is a copy decision for Ty — it is recorded here so the next person to
+> read this file plans against the sequence that actually ships.
+
 | # | Delay | Subject | Job | Reset link |
 |---|---|---|---|---|
 | 0 | 0 | your reset starts now | Deliver Day 1. No price, no membership name — credibility + a vague forward-tease only. | Day 1 — Hip Reset |
 | 1 | 24h | your hips are lying to you | Education / trust + a reply-only micro-commitment ask (no product ask). | — |
-| 2 | 48h | the cycle every hooper is stuck in | Story + deliver Day 2. Still no price/name specifics. | Day 2 — Ankle Reset |
+| 2 | 48h | the cycle that kills comebacks | Story + deliver Day 2. Still no price/name specifics. | Day 2 — Ankle Reset |
 | 3 | 72h | day 3: what's actually different? | Checkpoint / felt-result read-back + reply ask. No pitch, no price, no join link (was "what Foundation Month actually looks like" — the old membership-reveal slot; see rewrite note above). | Day 3 — Movement Control |
-| 4 | 96h | the guy who almost stopped playing at 27 | Social proof + deliver Day 4. FIRST soft name-drop ("Stay Ready") — still no price — plus one low-key join link for an already-sold reader. | Day 4 — Strength That Moves |
-| 5 | 120h | 5 days done. here's the move. | FULL offer: name + $27/mo + Month 1 (Foundation, bound to the membership) / Month 2+ (Strength Block) breakdown + deliver Day 5. First email built to convert. | Day 5 — Power Reset |
-| 6 | 144h | The reset's done. Keep the body that earned it. | Urgency close, references Day 3 replies. | — |
-| 7 | 216h | still thinking about it? | Re-engage non-buyers, real question, no discount. | — |
+| 4 | 96h | nobody trained me back | Ty's real story (FOUNDER-STORY.md §3/§4) + deliver Day 4. FIRST soft name-drop ("Stay Ready") — still no price — plus **the sequence's first join link**, one low-key text link for an already-sold reader. *(Subject changed 2026-09-07, approval #91a — was "the guy who almost stopped playing at 27", an invented customer.)* | Day 4 — Strength That Moves |
+| 5 | 120h | 5 days done. here's the move. | Deliver Day 5 + a **reply-ask** ("What's still not working?"). **No join link, no price, no offer teardown** — rewritten by BTH-0059 / approval #83a, migration `0036`. *(Was: "FULL offer — name + $27/mo + Month 1/2 breakdown; first email built to convert." That is no longer what ships.)* | Day 5 — Power Reset |
+| 6 | 144h | The reset's done. Keep the body that earned it. | Urgency close, references Day 3 replies. **The sequence's only hard CTA** — gold button + text link, 2 join links total. | — |
+| 7 | 216h | still thinking about it? | Re-engage non-buyers, real question, no discount. **Reply-only — no links at all** (BTH-0059). | — |
 
 ## The real 5-Day Reset (restored from Drive `_v2`, 2026-05-31)
 Built by `reset-pdfs/generate.mjs` → `reset-pdfs/output/`. The earlier delivered set had drifted
