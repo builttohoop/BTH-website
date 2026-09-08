@@ -484,34 +484,37 @@ ${p('Quick check-in —')}
 ${p('Reply to this email with one line: what\'s different since Day 1? Hips, ankles, sleep — or nothing yet. Tell me that too.')}
 ${p('I read every reply. It\'s how I know what\'s actually working.', { muted: true })}
 ${divider()}
-${p('Tomorrow I want to tell you about a guy who almost quit playing at 27. Might sound familiar.', { muted: true })}
+${p('Tomorrow: my story, and the one idea this whole reset is built on.', { muted: true })}
 ${sig()}
 `},
 
   // EMAIL 4 — DAY 4 / STORY
+  // Ty's real story, per FOUNDER-STORY.md §3 (translation rule) + §4 (compliance shape).
+  // The prior version narrated an invented customer ("the guy who almost stopped playing at 27")
+  // as a real person above a live join link — replaced under approval #91 (a), 2026-09-07.
   {
     filename: 'email-4-day4-core-story.html',
-    subject: 'the guy who almost stopped playing at 27',
-    preheader: 'Could be you. Could be me. Could be someone you run with.',
+    subject: 'nobody trained me back',
+    preheader: 'The short version of my story — and the one idea the whole reset is built on.',
     body: `
-${hero('Day 4 · The Story', `The guy who almost ${g('quit')} at 27.`)}
-${p('Day 4. Almost there — this is the guy I told you about yesterday. Could be you, could be me, could be someone you run with.')}
+${hero('Day 4 · The Story', `Nobody trained me ${g('back.')}`)}
+${p('Day 4. Almost there.')}
 ${resetButton(4, 'Strength That Moves', 'BTH-Reset-Day-04-Strength-That-Moves.pdf')}
 ${p('Strength that supports movement — not strength that stays in the gym. This is the foundation that makes Day 5 possible.', { size: 14, muted: true })}
 ${divider()}
-${p('27 years old. Played pickup three nights a week all through college. Then life happened — desk job, less playing time, came back at 25 and nothing worked the same.')}
-${p('Hips tight every time he got to the gym. Knees barking after hard sessions. First step gone. Not slower — just not there.')}
-${p('He tried everything. Stretched more. Bought a program. Rested for two weeks. Came back and it was the same.')}
-${p('He started wondering if this was just it now. That\'s the part nobody says out loud.')}
+${p('You get up out of bed and your body files a complaint before your feet hit the floor. Hips tight. Something in the knee talking. You are not slower, exactly — the first step is just not there.')}
+${p('A lot of hoopers read that and figure it is one bad joint having a bad week. It usually is not.')}
 ${divider()}
-${p('What he didn\'t know: <strong>his body had never been trained to handle pickup AND gym work at the same time.</strong>')}
-${p('Everything he\'d ever done in the gym was built for someone who only went to the gym.')}
-${p('No one had ever given him a system that accounted for pickup recovery, lateral load, tendon prep, and the specific kind of fatigue that hits a body coming back to hardwood after years away.')}
-${p('He found the BTH method. Put in the first month exactly the way it was laid out. Weeks later — not overnight, and not on the same clock as anybody else — he was playing full speed without dreading the next day.')}
-${p('Not because it was magic. Because for the first time, the training matched the sport.')}
-${p('<strong>That\'s what Stay Ready is built to do.</strong>')}
-${p('If you replied on Day 3 and told me something already felt different — that\'s not nothing. That\'s the same shift that got him back on the court.', { size: 14, muted: true })}
-${p(`Already know you're in? You don't have to wait for Day 5 — <a href="${CHECKOUT_URL}" class="link" style="color:${C.goldText};text-decoration:underline;">join Stay Ready here</a>. I'll still send the rest of the reset either way.`, { size: 14, muted: true })}
+${p('Here is my part of it, and I will keep it short, because this email is not about me. <strong>I got hurt bad enough that a clinic handed me pain pills and sent me home. Nobody trained me back.</strong>')}
+${p('That is the whole credential. Nothing picked me up on the other side of it — no program was built for the part that comes after. I had to work that out myself, and I am still in it.')}
+${divider()}
+${p('What came out of it is the one idea this entire reset is built on: <strong>the lower body is a chain, and the weakest link falls first.</strong>')}
+${p('That is why it never stops at one thing. You work the back, and the knee starts talking. You settle the knee, and the arch starts taking the load. Most programs train a body part. The problem was never a body part — it was a chain.')}
+${p('Your hips, knees, ankles and feet are the links. Work them as one chain and it holds. Work them one at a time and you spend every month chasing whichever link is loudest.')}
+${p('That is the difference in what you have been doing these five days. Day 1 hips, Day 2 ankles, Day 3 the checkpoint, today strength that moves — that is not four drills. That is the chain, in order.')}
+${p('<strong>That is what Stay Ready is built to do</strong> — keep working the whole chain month over month, so what you built this week keeps building instead of sliding back.')}
+${p('If you replied on Day 3 and told me something already felt different — that is the chain starting to hold.', { size: 14, muted: true })}
+${p(`Already know you\'re in? You don\'t have to wait for Day 5 — <a href="${CHECKOUT_URL}" class="link" style="color:${C.goldText};text-decoration:underline;">join Stay Ready here</a>. I\'ll still send the rest of the reset either way.`, { size: 14, muted: true })}
 ${divider()}
 ${p('Tomorrow is Day 5 — your final reset day, and the day I send you the full link to join.', { muted: true })}
 ${sig()}
