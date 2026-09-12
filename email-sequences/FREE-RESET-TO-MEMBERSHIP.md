@@ -10,7 +10,10 @@ From: `Ty — Built to Hoop` · Reply-to `tyrell@built-to-hoop.com`.
 
 ## Locked rules
 - **LINK-ONLY reset.** Emails never list exercises. Each reset-day email carries exactly ONE gold CTA
-  that links to that day's real reset PDF. The workout lives in the PDF, not the email.
+  that links to that day's real reset PDF. The workout lives in the PDF, not the email. *(Superseded in part
+  2026-09-11 — BTH-0065, approval #96a: Days 2–5's CTA now opens the on-site page `reset/day-N.html`, so the
+  workout lives on the **page + a PDF download**, not the email. Day 1 still links its PDF — Day 1's page is
+  `thank-you.html`, which needs the signup context.)*
 - **Dark-first** premium black/gold (`automations/bth-mail-os/BTH-EMAIL-STYLE.md`) — survives Gmail/iOS dark mode.
 - **Stay Ready = $27/mo** membership (locked taxonomy). No "BTH Rise" in the funnel, no RISE10 discount, no hype.
 - **Checkout on the website:** membership CTAs point to `built-to-hoop.com/join` (the `CHECKOUT_URL`
@@ -51,10 +54,10 @@ From: `Ty — Built to Hoop` · Reply-to `tyrell@built-to-hoop.com`.
 |---|---|---|---|---|
 | 0 | 0 | your reset starts now | Deliver Day 1. No price, no membership name — credibility + a vague forward-tease only. | Day 1 — Hip Reset |
 | 1 | 24h | your hips are lying to you | Education / trust + a reply-only micro-commitment ask (no product ask). | — |
-| 2 | 48h | the cycle that kills comebacks | Story + deliver Day 2. Still no price/name specifics. | Day 2 — Ankle Reset |
-| 3 | 72h | day 3: what's actually different? | Checkpoint / felt-result read-back + reply ask. No pitch, no price, no join link (was "what Foundation Month actually looks like" — the old membership-reveal slot; see rewrite note above). | Day 3 — Movement Control |
-| 4 | 96h | nobody trained me back | Ty's real story (FOUNDER-STORY.md §3/§4) + deliver Day 4. FIRST soft name-drop ("Stay Ready") — still no price — plus **the sequence's first join link**, one low-key text link for an already-sold reader. *(Subject changed 2026-09-07, approval #91a — was "the guy who almost stopped playing at 27", an invented customer.)* | Day 4 — Strength That Moves |
-| 5 | 120h | 5 days done. here's the move. | Deliver Day 5 + a **reply-ask** ("What's still not working?"). **No join link, no price, no offer teardown** — rewritten by BTH-0059 / approval #83a, migration `0036`. *(Was: "FULL offer — name + $27/mo + Month 1/2 breakdown; first email built to convert." That is no longer what ships.)* | Day 5 — Power Reset |
+| 2 | 48h | the cycle that kills comebacks | Story + deliver Day 2. Still no price/name specifics. | Day 2 — Ankle Reset — page + PDF download *(was PDF-only until BTH-0065)* |
+| 3 | 72h | day 3: what's actually different? | Checkpoint / felt-result read-back + reply ask. No pitch, no price, no join link (was "what Foundation Month actually looks like" — the old membership-reveal slot; see rewrite note above). | Day 3 — Movement Control — page + PDF download *(was PDF-only until BTH-0065)* |
+| 4 | 96h | nobody trained me back | Ty's real story (FOUNDER-STORY.md §3/§4) + deliver Day 4. FIRST soft name-drop ("Stay Ready") — still no price — plus **the sequence's first join link**, one low-key text link for an already-sold reader. *(Subject changed 2026-09-07, approval #91a — was "the guy who almost stopped playing at 27", an invented customer.)* | Day 4 — Strength That Moves — page + PDF download *(was PDF-only until BTH-0065)* |
+| 5 | 120h | 5 days done. here's the move. | Deliver Day 5 + a **reply-ask** ("What's still not working?"). **No join link, no price, no offer teardown** — rewritten by BTH-0059 / approval #83a, migration `0036`. *(Was: "FULL offer — name + $27/mo + Month 1/2 breakdown; first email built to convert." That is no longer what ships.)* | Day 5 — Power Reset — page + PDF download; the page closes with the Stay Ready CTA under the finished work *(was PDF-only until BTH-0065)* |
 | 6 | 144h | The reset's done. Keep the body that earned it. | Urgency close, references Day 3 replies. **The sequence's only hard CTA** — gold button + text link, 2 join links total. | — |
 | 7 | 216h | still thinking about it? | Re-engage non-buyers, real question, no discount. **Reply-only — no links at all** (BTH-0059). | — |
 

@@ -240,14 +240,16 @@ function divider() {
 }
 
 // The ONLY reset content in an email: a single Tier-2 (navigate) CTA to that day's
-// real workout (PDF). Quieter than a Tier-1 commit — you're opening a doc to read.
-function resetButton(day, title, filename) {
+// real workout — the on-site page reset/day-N.html (BTH-0065, #96a; was the PDF).
+// The page renders the workout inline, fires reset_day_viewed { day: N }, and carries
+// the PDF as a secondary download. Quieter than a Tier-1 commit — you're going to read.
+function resetButton(day, title) {
   return `
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:24px 0;">
   <tr>
     <td>
-      ${btnSecondary(`${RESET_BASE}/${filename}`, `Open Day ${day} — ${title}`, 300)}
-      <p class="t-muted" style="margin:12px 0 0;font-size:13px;color:${C.muted};">The full workout, step by step. Pull it up on your phone or print it before you start.</p>
+      ${btnSecondary(`https://built-to-hoop.com/reset/day-${day}.html`, `Open Day ${day} — ${title}`, 300)}
+      <p class="t-muted" style="margin:12px 0 0;font-size:13px;color:${C.muted};">The full workout, step by step — opens right on your phone. The PDF is on the page if you want to print it.</p>
     </td>
   </tr>
 </table>`;
@@ -441,7 +443,7 @@ ${sig()}
     body: `
 ${hero('Day 2 · Ankles', `The cycle that kills ${g('comebacks.')}`)}
 ${p('Day 2 — the Ankle Reset — is ready. And here\'s the thing that kills more comebacks than any injury ever has: stopping, then starting over from further back every time.')}
-${resetButton(2, 'Ankle Reset', 'BTH-Reset-Day-02-Ankle-Reset.pdf')}
+${resetButton(2, 'Ankle Reset')}
 ${p('For a lot of guys, unstable ankles are the real reason the knees take the hit. Today trains the system underneath them — not just taping over it.', { size: 14, muted: true })}
 ${divider()}
 ${p('I know why you\'re on this list.')}
@@ -474,7 +476,7 @@ ${sig()}
     body: `
 ${hero('Day 3 · Check-In', `What's actually ${g('different?')}`)}
 ${p('Day 3. Halfway through — this is the email I told you about: no pitch, I actually want to hear from you.')}
-${resetButton(3, 'Movement Control', 'BTH-Reset-Day-03-Movement-Control.pdf')}
+${resetButton(3, 'Movement Control')}
 ${p('This is the day the hip work and the ankle work stop moving separately and start working as one system — some guys feel it as early as their first step.', { size: 14, muted: true })}
 ${divider()}
 ${p('Some guys feel looser by day 3. Some don\'t notice anything until day 5. Both are normal — the reset works on its own clock, not a marketing calendar.')}
@@ -499,7 +501,7 @@ ${sig()}
     body: `
 ${hero('Day 4 · The Story', `Nobody trained me ${g('back.')}`)}
 ${p('Day 4. Almost there.')}
-${resetButton(4, 'Strength That Moves', 'BTH-Reset-Day-04-Strength-That-Moves.pdf')}
+${resetButton(4, 'Strength That Moves')}
 ${p('Strength that supports movement — not strength that stays in the gym. This is the foundation that makes Day 5 possible.', { size: 14, muted: true })}
 ${divider()}
 ${p('You get up out of bed and your body files a complaint before your feet hit the floor. Hips tight. Something in the knee talking. You are not slower, exactly — the first step is just not there.')}
@@ -535,7 +537,7 @@ ${p('The reset ends today. Here\'s the move — and it\'s not the ask you\'re ex
 ${p('I\'m not asking you to buy anything right now. I want to ask you something more useful first.')}
 ${h('What\'s still not working?')}
 ${p('Maybe the reset helped, and something specific is still holding you back — an old injury that\'s still barking, a schedule that won\'t cooperate, a part of your game you don\'t trust yet. Maybe none of it moved the needle and you want to tell me why. Either way — hit reply, one sentence. I read every reply myself, and it tells me what to actually build for guys like you, not what I assume you need.')}
-${resetButton(5, 'Power Reset', 'BTH-Reset-Day-05-Power-Reset.pdf')}
+${resetButton(5, 'Power Reset')}
 ${p('Your last reset day — the work you put in over the last five is real, whatever\'s next.', { size: 14, muted: true })}
 ${p('Whatever you tell me shapes what I send you. If Stay Ready — the system that keeps building where this reset stops, $27 a month — turns out to be the right next step for you, I\'ll tell you exactly why, not just pitch you again. If it\'s not, I want to know that too.')}
 ${p('Tomorrow: one straight answer about what happens to the body you just rebuilt if you stop here.', { size: 14, muted: true })}
