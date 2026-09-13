@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- BTH sitemap — indexable pages only. LPs (lp/**) are noindex by design (ads-only SKAG pages),
-     thank-you.html is noindex (conversion page): both are deliberately absent. -->
+     thank-you.html is noindex (conversion page), as are the reset/*.html day pages (BTH-0065): all are deliberately absent. -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://built-to-hoop.com/</loc></url>
   <url><loc>https://built-to-hoop.com/about.html</loc></url>
