@@ -20,8 +20,8 @@ jobs:
 
       - name: Syntax-check JS files
         run: |
-          for f in assets/bth-tracking.js bth-operator-sw.js BTH-Operator.inline.js \
-                   email-sequences/generate-html-emails.mjs; do
+          for f in assets/bth-tracking.js assets/bth-click-id.js bth-operator-sw.js \
+                   BTH-Operator.inline.js email-sequences/generate-html-emails.mjs; do
             [ -f "$f" ] && node --check "$f" && echo "✓ $f"
           done
 
@@ -40,6 +40,13 @@ jobs:
 
       - name: Internal link integrity
         run: node .github/scripts/check-links.mjs
+
+      # BTH-GOAL-0057 D7. The client_reference_id shape is a contract with the Mail OS
+      # worker's parser, in a different repo — the two halves ship as two separate merges,
+      # so nothing else would catch a drift until an abandoned checkout silently went
+      # anonymous again. This runs the real function out of assets/bth-click-id.js.
+      - name: client_reference_id shape (abandoned-checkout identity)
+        run: node .github/scripts/check-client-reference.mjs
 
   # Its OWN required check, independent of the gate. A secret or member PII in a diff
   # blocks the merge whether or not anyone approves it. This is the check that was
