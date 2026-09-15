@@ -255,6 +255,21 @@
     color: var(--black); line-height: 1.2;
   }
 
+  /* BTH-98a: Days 2-5 are links, not previews. The reset's only on-site door. */
+  a.day-card {
+    display: block; text-decoration: none; color: inherit;
+    transition: background 120ms ease, border-color 120ms ease, transform 120ms ease;
+  }
+  a.day-card:hover, a.day-card:focus-visible {
+    background: var(--white); border-color: var(--black); transform: translateY(-1px);
+  }
+  a.day-card:focus-visible { outline: 2px solid var(--gold-text); outline-offset: 2px; }
+  a.day-card .day-open {
+    display: block; margin-top: 8px;
+    font-family: var(--B); font-size: 10px; font-weight: 700;
+    letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold-text);
+  }
+
   .divider-line {
     height: 1px; background: var(--border); margin-bottom: 48px;
   }
@@ -486,22 +501,26 @@
         <div class="day-num">Day 1</div>
         <div class="day-label">Hip Reset</div>
       </div>
-      <div class="day-card">
+      <a class="day-card" href="reset/day-2.html">
         <div class="day-num">Day 2</div>
         <div class="day-label">Ankle Reset</div>
-      </div>
-      <div class="day-card">
+        <span class="day-open">Open</span>
+      </a>
+      <a class="day-card" href="reset/day-3.html">
         <div class="day-num">Day 3</div>
         <div class="day-label">Movement Control</div>
-      </div>
-      <div class="day-card">
+        <span class="day-open">Open</span>
+      </a>
+      <a class="day-card" href="reset/day-4.html">
         <div class="day-num">Day 4</div>
         <div class="day-label">Game-Ready Strength</div>
-      </div>
-      <div class="day-card">
+        <span class="day-open">Open</span>
+      </a>
+      <a class="day-card" href="reset/day-5.html">
         <div class="day-num">Day 5</div>
         <div class="day-label">Power Reset</div>
-      </div>
+        <span class="day-open">Open</span>
+      </a>
     </div>
 
     <div class="divider-line"></div>
