@@ -106,7 +106,9 @@ for (const [label, bad] of [
 
 console.log("client_reference_id — Stripe's 200-char ceiling and the drop order");
 // Segment widths: lead 48 ("l_" + 2 id + "x" + 43), cid 23, joiners 1 and 3. So
-// lead+cid+gclid overflows past a 125-char gclid, and lead+gclid past a 149-char one.
+// lead+cid+gclid overflows past a 125-char gclid, lead+gclid past a 149-char one, and
+// cid+gclid (the legacy shape) past a 174-char one. Drop order: cid, then lead, never the gclid -
+// and a lead holder must never carry LESS attribution than the legacy code would have.
 const hugeGclid = "E".repeat(140);
 check(
   "over the ceiling: the cid goes first, the lead and gclid survive",
@@ -115,14 +117,21 @@ check(
 );
 const hugerGclid = "E".repeat(170);
 check(
-  "still over: the lead goes next, the un-re-derivable gclid is never dropped",
+  "still over: the lead goes next, but cid + gclid still fits, so the legacy shape is emitted (never less than legacy)",
   clientReference(CID, hugerGclid, TOKEN),
-  `g_${hugerGclid}`
+  `c_1234567890x1699999999_g_${hugerGclid}`
+);
+const hugestGclid = "E".repeat(180);
+check(
+  "still over: the cid goes too, the un-re-derivable gclid is never dropped",
+  clientReference(CID, hugestGclid, TOKEN),
+  `g_${hugestGclid}`
 );
 const allRefs = [
   clientReference(CID, GCLID, TOKEN),
   clientReference(CID, hugeGclid, TOKEN),
   clientReference(CID, hugerGclid, TOKEN),
+  clientReference(CID, hugestGclid, TOKEN),
   clientReference(CID, "E".repeat(400), TOKEN)
 ];
 check("no emitted reference ever exceeds 200 chars", allRefs.every(r => r.length <= 200), true);

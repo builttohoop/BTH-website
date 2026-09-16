@@ -112,7 +112,9 @@
    * makes the segment self-terminating for the worker's parser. A token of any other shape
    * is skipped rather than guessed at: it would not verify on the worker anyway.
    *
-   * Overflow at 200 chars drops the cid first, then the lead token, and never the gclid —
+   * Overflow at 200 chars drops the cid first; if lead + gclid still overflows it tries cid + gclid
+   * (the legacy shape) before falling back to the gclid alone — so a lead holder never carries LESS
+   * attribution than the legacy code would have (adversarial review, 2026-09-16) — and never the gclid —
    * the gclid is the offline-conversion upload key and cannot be re-derived, while the lead
    * token is also carried independently on every checkout_started beacon. In practice the
    * ceiling is unreachable: the lead segment is ~49 chars and the cid ~23, so a gclid would
@@ -139,6 +141,7 @@
 
     var ref = build(true, true);
     if (ref.length > 200) ref = build(true, false);
+    if (ref.length > 200) ref = build(false, true);
     if (ref.length > 200) ref = build(false, false);
     if (ref.length > 200) ref = g ? ("g_" + g).slice(0, 200) : "";
     return ref;
