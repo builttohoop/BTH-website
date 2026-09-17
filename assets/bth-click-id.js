@@ -8,7 +8,9 @@
  *    inputs so /api/subscribe receives them (Mail OS stores them on the contact —
  *    D1 columns land with the mail-os half of this pipe).
  * 4. On any owned Stripe Payment Link click: append client_reference_id so the Stripe
- *    webhook can join payer → click → browser session.
+ *    webhook can join payer → click → browser session — and, since BTH-GOAL-0057
+ *    Deliverable 7, the signed lead token too, so an ABANDONED checkout has a person
+ *    attached to it (see "WHY THE LEAD TOKEN MATTERS" below).
  *
  * WHY THE BROWSER ID MATTERS (2026-08-09 root-cause fix). Ty ruled that the Stripe
  * link keeps its hosted confirmation page, so buyers never return to built-to-hoop.com.
@@ -21,6 +23,23 @@
  *
  * The _ga cookie is written per-domain, not per-property, so this one value is correct
  * for every GA4 property on built-to-hoop.com.
+ *
+ * WHY THE LEAD TOKEN MATTERS (BTH-GOAL-0057 D7, Ty ruling R3 2026-09-15). Mail OS has
+ * shipped an abandoned-checkout recovery email since 2026-08-18 (sequence 30) and it has
+ * never sent once: 24 abandons → 24 anonymous rows → 0 emails. Stripe's
+ * checkout.session.expired carries an email only if the person typed one into Stripe and
+ * then stopped, which nobody does — and client_reference_id carried no identity at all,
+ * because this function encoded only the GA client id and the gclid and then BAILED OUT
+ * when both were missing. That bail is exactly organic and direct traffic. So a lead who
+ * had already given BTH their email ten times still arrived at the expired webhook as an
+ * anonymous row.
+ *
+ * "bth_lead_ref" is the signed, non-PII lead token Mail OS returns from /api/subscribe
+ * ("<contact_id>.<HMAC>", BTH-GOAL-0054) — the same token the funnel beacons in
+ * bth-events.js already carry. Stamping it here is what gives that shipped recovery
+ * machine somebody to reach. It is never trusted on its face: the worker re-verifies the
+ * HMAC (verifyLeadToken) before it touches a contact, so a hand-typed or edited
+ * client_reference_id resolves to nobody.
  *
  * No-op when nothing was ever captured. Never blocks a form or a checkout click.
  */
@@ -69,22 +88,65 @@
     } catch (err) { return ""; }
   }
 
+  /* The signed lead token Mail OS handed back at signup. Read fresh at click time, not at
+   * wire time: join.html's #70a email field POSTs /api/subscribe on blur and writes this
+   * key when the response lands, which can be well after DOMContentLoaded. */
+  function leadRef() {
+    try { return window.localStorage.getItem("bth_lead_ref") || ""; } catch (err) { return ""; }
+  }
+
   /* Stripe allows [A-Za-z0-9_-] in client_reference_id, max 200 chars — so the dot in
    * the client_id is encoded as "x". The cid half is digits-only by construction, which
    * makes the first "_g_" after it an unambiguous separator even though a gclid can
-   * itself contain "_g_". If the pair would overflow 200 chars the cid is dropped, never
-   * the gclid: the gclid is the offline-conversion upload key and cannot be re-derived,
-   * while a missing cid only costs us this one sale's session join. */
-  function clientReference(cid, gclid) {
+   * itself contain "_g_".
+   *
+   * Shapes, in the order this function emits them:
+   *   l_<id>x<sig>[_c_<cid1>x<cid2>][_g_<gclid>]   — with a lead token (BTH-GOAL-0057 D7)
+   *   c_<cid1>x<cid2>[_g_<gclid>]                  — no lead token; byte-identical to what
+   *   g_<gclid>                                      has shipped since BTH-GOAL-0019
+   *
+   * The lead segment is only ever emitted for a token of the exact shape
+   * <digits>.<43 base64url chars>. Stripe's alphabet IS the base64url alphabet, so no
+   * character is left over to act as a delimiter and a signature may itself contain "_c_"
+   * or "_g_" — the fixed 43-char width (b64url of HMAC-SHA256, padding stripped) is what
+   * makes the segment self-terminating for the worker's parser. A token of any other shape
+   * is skipped rather than guessed at: it would not verify on the worker anyway.
+   *
+   * Overflow at 200 chars drops the cid first; if lead + gclid still overflows it tries cid + gclid
+   * (the legacy shape) before falling back to the gclid alone — so a lead holder never carries LESS
+   * attribution than the legacy code would have (adversarial review, 2026-09-16) — and never the gclid —
+   * the gclid is the offline-conversion upload key and cannot be re-derived, while the lead
+   * token is also carried independently on every checkout_started beacon. In practice the
+   * ceiling is unreachable: the lead segment is ~49 chars and the cid ~23, so a gclid would
+   * have to run past ~125 characters before anything is dropped at all.
+   *
+   * The two markers around this function are load-bearing: .github/scripts/
+   * check-client-reference.mjs slices the REAL function out of this file between them and
+   * runs it, so the shapes CI asserts are the shapes the site actually emits — not a copy
+   * that can drift. Do not remove or reword them. */
+  /* [unit:clientReference] */
+  function clientReference(cid, gclid, lead) {
     var g = String(gclid || "").replace(/[^A-Za-z0-9_-]/g, "");
     var c = cid ? "c_" + cid.replace(".", "x") : "";
-    var ref = "";
-    if (c && g) ref = c + "_g_" + g;
-    else if (c) ref = c;
-    else if (g) ref = "g_" + g;
+    var lm = /^(\d{1,12})\.([A-Za-z0-9_-]{43})$/.exec(String(lead || ""));
+    var l = lm ? "l_" + lm[1] + "x" + lm[2] : "";
+
+    function build(withLead, withCid) {
+      var parts = [];
+      if (withLead && l) parts.push(l);
+      if (withCid && c) parts.push(c);
+      if (g) parts.push("g_" + g);
+      return parts.join("_");
+    }
+
+    var ref = build(true, true);
+    if (ref.length > 200) ref = build(true, false);
+    if (ref.length > 200) ref = build(false, true);
+    if (ref.length > 200) ref = build(false, false);
     if (ref.length > 200) ref = g ? ("g_" + g).slice(0, 200) : "";
     return ref;
   }
+  /* [/unit:clientReference] */
 
   function setHidden(form, name, value) {
     if (!value) return;
@@ -144,7 +206,12 @@
         var u = new URL(a.href);
         if (u.searchParams.get("client_reference_id")) return;
         // Read at click time, not at wire time: by now the cookie is always present.
-        var ref = clientReference(gaClientId(), rec && rec.gclid);
+        // BTH-GOAL-0057 D7: the lead token joins the read, so this no longer bails out
+        // merely because cid and gclid are both absent — which was the case for every
+        // organic and direct visitor, i.e. for every abandoned checkout BTH has recorded.
+        // It still bails when there is genuinely nothing to encode (no lead token, no
+        // browser id, no gclid): an empty client_reference_id is worse than no parameter.
+        var ref = clientReference(gaClientId(), rec && rec.gclid, leadRef());
         if (!ref) return;
         u.searchParams.set("client_reference_id", ref);
         a.href = u.toString();
