@@ -47,6 +47,21 @@ Static HTML/CSS/JS. No build pipeline. Edit files, push to `main`, site updates 
 
 ---
 
+## Homepage price rule (approval #81, ruled 2026-09-03)
+
+`index.html` is a **cold-traffic surface**: doctrine §4 (`.claude/agent-system/00-project-context/TY-DOCTRINE.md`)
+says cold traffic gets the **Free 5-Day Reset only — no paid pricing, no tier menu**. Ty's ruling on
+approval #81 ("no price on homepage") applied that to the homepage over the sales-page grading rubric's
+Category 5 ("price visible") — the four price displays PR #119 added were reverted by PR #129
+(`fix/homepage-price-free-81a`, merged 2026-09-04). The grading note lives in
+`BTH/00-operator/reports/page-grading-2026-08-30/CORE-PAGES-SCORECARD.md` (Category 5 = N/A for `index.html`).
+
+**Regression check before any homepage merge:** `grep -cE '\$[0-9]' index.html` must print **0**.
+Tier pages (`tier-1/2/3.html`) and `join.html` are warm-traffic surfaces and keep their prices
+(source of truth: Motherboard `products.json`).
+
+---
+
 ## Tracking
 
 Every page loads:
