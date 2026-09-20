@@ -507,7 +507,7 @@ ${divider()}
 ${p('You get up out of bed and your body files a complaint before your feet hit the floor. Hips tight. Something in the knee talking. You are not slower, exactly — the first step is just not there.')}
 ${p('A lot of hoopers read that and figure it is one bad joint having a bad week. It usually is not.')}
 ${divider()}
-${p('Here is my part of it, and I will keep it short, because this email is not about me. <strong>I got hurt bad enough that a clinic handed me pain pills and sent me home. Nobody trained me back.</strong>')}
+${p('Here is my part of it. <strong>I got hurt bad enough that a clinic handed me pain pills and sent me home. Nobody trained me back.</strong>')}
 ${p('That is the whole credential. Nothing picked me up on the other side of it — no program was built for the part that comes after. I had to work that out myself, and I am still in it.')}
 ${divider()}
 ${p('What came out of it is the one idea this entire reset is built on: <strong>the lower body is a chain, and the weakest link falls first.</strong>')}
