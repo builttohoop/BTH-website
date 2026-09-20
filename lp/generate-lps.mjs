@@ -181,7 +181,7 @@ const B_PAGES = [
     faq: [
       { q: 'What makes this the best basketball training program for someone comparing options?', a: 'Everything is included at one price — Foundation Month, the Strength Block, and every add-on track — with nothing held back for a future upsell.' },
       { q: 'Who actually built this?', a: 'A hooper who still plays, not a content agency — the training reflects what the game actually demands from an adult body.' },
-      { q: 'How do I know it will work for me before I pay?', a: 'Start with the free 5-Day Reset first. It is built from the same system, so you will know how it fits before committing to Stay Ready.' },
+      { q: 'How do I know it will work for me before I pay?', a: 'Start with the free 5-Day Reset first. It is built from the same system, so you can tell how it fits before committing to Stay Ready.' },
     ],
   },
   {
@@ -249,7 +249,7 @@ const R_PAGES = [
       `The free 5-Day Reset is where that starts — foundational movement and strength you control the intensity of. ${TRAINING_NOT_TREATMENT}`,
     ],
     faq: [
-      { q: 'Is this ankle rehab?', a: 'No. BTH is basketball training — strength, stability and movement work for hoopers. Rehab for an injury belongs with a professional; BTH is for building the base once you are cleared to train.' },
+      { q: 'Is this ankle rehab?', a: 'No. BTH is basketball training — strength, stability and movement work for hoopers. Recovering from an injury belongs with a professional; BTH is for building the base once you are cleared to train.' },
       { q: 'I am scared to cut hard again. Will this help?', a: 'Confidence tends to come back through stacked small wins — sessions where the ankle does its job and you notice. That is what the Reset and the Ankle Rebuild Track are built to do.' },
       { q: 'How do I know if I am ready to start?', a: 'If you are cleared for normal activity and training, the first days are low-intensity and scale to you. If you are not sure, ask the professional who saw the injury — then start.' },
     ],

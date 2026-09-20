@@ -99,8 +99,24 @@ function copyOnly(src, isHtml) {
   return s;
 }
 
-function negated(line, index) {
-  return NEGATORS.test(line.slice(Math.max(0, index - 60), index));
+/**
+ * A banned word inside an explicit denial is allowed — that is how the safety lines and the
+ * "is this rehab? No." FAQ answers are written, and they are the copy we most want to keep.
+ *
+ * The window looks BOTH ways. A backward-only window missed
+ * "Is this ankle rehab?' , a: 'No. BTH is basketball training" — the denial follows the word,
+ * because the word is in the question.
+ */
+function negated(lines, i, index, word) {
+  const line = lines[i];
+  const before = line.slice(Math.max(0, index - 60), index);
+  const after = line.slice(index + word.length, index + word.length + 60);
+  // In rendered HTML the question and its answer are different elements, so the denial can be
+  // on the NEXT line: "<h3>Is this ankle rehab?</h3>" / "<p>No. BTH is basketball training…</p>".
+  const prev = (lines[i - 1] || '').slice(-60);
+  const next = (lines[i + 1] || '').slice(0, 60);
+  return NEGATORS.test(before) || NEGATORS.test(after)
+      || NEGATORS.test(prev) || NEGATORS.test(next);
 }
 
 /** Scan a list of absolute paths and return every hit. */
@@ -115,7 +131,7 @@ function scan(fileList) {
         re.lastIndex = 0;
         let m;
         while ((m = re.exec(line)) !== null) {
-          if (negated(line, m.index)) continue;
+          if (negated(lines, i, m.index, m[0])) continue;
           found.push({
             file: relative(ROOT, file).replace(/\\/g, '/'),
             line: i + 1,
@@ -143,7 +159,11 @@ const countHits = (fileList) => scan(fileList).length;
 const argv = process.argv.slice(2);
 const changedIdx = argv.indexOf('--changed');
 const baseRef = changedIdx !== -1 ? argv[changedIdx + 1] : null;
-const explicit = argv.filter((a, i) => a !== '--changed' && i !== changedIdx + 1 && !a.startsWith('--'));
+// NB: only skip the value after --changed when --changed is actually present. Using
+// `i !== changedIdx + 1` unguarded drops argv[0] when changedIdx is -1, which silently turned
+// `check-banned-words.mjs routine.html` into a full-site scan.
+const explicit = argv.filter((a, i) =>
+  !a.startsWith('--') && !(changedIdx !== -1 && i === changedIdx + 1));
 
 let files;
 let scopeNote = '';
