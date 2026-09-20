@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en" style="color-scheme: light;">
+<head>
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+    <link rel="shortcut icon" href="assets/favicon.ico">
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<meta name="robots" content="noindex, nofollow">
+<title>The 5-Minute Check — Built to Hoop</title>
+<meta name="description" content="Five items, a wall and a chair. Run it, copy your results, send them back.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/bth-system.css">
+<style>
+/* The 5-Minute Check — the neutral, member-facing instrument.
+   Ported from the BTH Movement Diagnostic's Test B ("nothing in it assumes a history"),
+   with the Full Diagnostic's red-flag sweep moved to the FRONT as a hard gate.
+   Deliberately no database: localStorage to resume, clipboard to deliver. The artifact
+   version's cloud save wrote to an invalid path and failed silently — this removes that
+   lane rather than repairing it. Tokens from assets/bth-system.css. */
+:root { color-scheme: light only; }
+*,*::before,*::after { margin:0; padding:0; box-sizing:border-box; -webkit-text-size-adjust:100%; }
+html { background:var(--white); }
+body { background:var(--white); color:var(--black); font-family:var(--B); font-size:16px; line-height:1.55; padding-bottom:104px; -webkit-font-smoothing:antialiased; overflow-x:hidden; }
+.wrap { max-width:600px; margin:0 auto; padding:0 20px; }
+
+header { padding:28px 0 14px; }
+.brand { font-family:var(--H); font-weight:700; letter-spacing:0.16em; font-size:11px; color:var(--gold-text); text-transform:uppercase; }
+h1 { font-family:var(--H); font-size:clamp(28px,7vw,40px); font-weight:700; margin:8px 0 6px; letter-spacing:0.01em; line-height:1.05; text-transform:uppercase; }
+.sub { color:var(--muted); font-size:14.5px; margin:0; }
+
+.callout { background:var(--cream); border:1px solid var(--border); border-left:3px solid var(--gold); border-radius:2px; padding:15px 16px; margin:16px 0; font-size:14.5px; color:var(--bth-muted-strong); }
+.callout strong { color:var(--black); font-weight:600; }
+.callout.stop { border-left-color:#C0392B; }
+
+h2 { font-family:var(--H); font-size:20px; font-weight:700; text-transform:uppercase; letter-spacing:0.02em; margin:30px 0 6px; }
+
+/* RED FLAG GATE */
+.gate { border:2px solid var(--black); border-radius:2px; padding:20px; margin:18px 0; background:var(--white); }
+.gate .q { padding:13px 0; border-bottom:1px solid var(--border); display:flex; gap:12px; align-items:center; justify-content:space-between; }
+.gate .q:last-of-type { border-bottom:none; }
+.gate .qt { font-size:15.5px; font-weight:500; flex:1; }
+.yn { display:flex; gap:6px; flex:0 0 auto; }
+.yn button { min-width:54px; min-height:40px; padding:9px 12px; border-radius:2px; border:1px solid var(--border); background:var(--white); color:var(--muted); font-family:var(--H); font-weight:700; font-size:12px; letter-spacing:0.06em; cursor:pointer; text-transform:uppercase; }
+.yn button[aria-pressed="true"].n { background:var(--black); border-color:var(--black); color:#fff; }
+.yn button[aria-pressed="true"].y { background:#C0392B; border-color:#C0392B; color:#fff; }
+
+.flagbox { display:none; margin-top:16px; padding:18px; border-radius:2px; background:#FBEDEA; border:1px solid #E0A99E; }
+.flagbox.on { display:block; }
+.flagbox h3 { font-family:var(--H); font-size:17px; text-transform:uppercase; margin:0 0 8px; color:#8E2A1C; }
+.flagbox p { margin:0 0 10px; font-size:15.5px; color:var(--black); }
+.flagbox p:last-child { margin-bottom:0; }
+
+/* ITEMS */
+.item { background:var(--white); border:1px solid var(--border); border-radius:2px; padding:18px; margin-bottom:12px; }
+.item.locked { opacity:0.45; pointer-events:none; }
+.itop { display:flex; gap:11px; align-items:flex-start; }
+.idx { flex:0 0 auto; width:28px; height:28px; border-radius:2px; background:var(--cream); border:1px solid var(--border); color:var(--gold-text); font-family:var(--H); font-weight:700; font-size:13px; display:flex; align-items:center; justify-content:center; }
+.iname { font-family:var(--H); font-weight:600; font-size:16.5px; line-height:1.25; flex:1; text-transform:uppercase; letter-spacing:0.01em; }
+.how { font-size:15px; color:var(--bth-muted-strong); margin-top:10px; }
+.pass { margin-top:11px; padding:11px 13px; background:var(--cream); border-radius:2px; font-size:14.5px; color:var(--bth-muted-strong); }
+.pass b { color:var(--gold-text); font-family:var(--H); font-weight:600; display:block; margin-bottom:3px; font-size:10.5px; letter-spacing:0.12em; text-transform:uppercase; }
+.pf { display:flex; gap:8px; margin-top:13px; }
+.pf button { flex:1; min-height:44px; padding:12px; border-radius:2px; border:1px solid var(--border); background:var(--white); color:var(--muted); font-family:var(--H); font-weight:700; font-size:12px; letter-spacing:0.08em; cursor:pointer; text-transform:uppercase; }
+.pf button[aria-pressed="true"].y { background:var(--black); border-color:var(--black); color:#fff; }
+.pf button[aria-pressed="true"].n { background:var(--gold); border-color:var(--gold); color:var(--black); }
+
+.score { background:var(--cream); border:1px solid var(--gold); border-radius:2px; padding:22px; margin:20px 0; text-align:center; }
+.scorenum { font-family:var(--H); font-size:52px; font-weight:700; color:var(--gold-text); line-height:1; }
+.scorelab { font-family:var(--H); font-size:11px; font-weight:600; letter-spacing:0.16em; color:var(--muted); text-transform:uppercase; margin-top:5px; }
+.verdict { margin-top:14px; padding-top:14px; border-top:1px solid var(--border); font-size:15.5px; color:var(--bth-muted-strong); }
+.verdict b { color:var(--black); display:block; font-family:var(--H); font-size:19px; font-weight:700; margin-bottom:5px; text-transform:uppercase; }
+
+.next { background:var(--black); color:rgba(255,255,255,0.75); border-radius:2px; padding:20px; margin:18px 0; }
+.next h3 { font-family:var(--H); color:var(--gold); font-size:15px; text-transform:uppercase; letter-spacing:0.08em; margin:0 0 9px; }
+.next p { margin:0 0 9px; font-size:15px; }
+.next p:last-child { margin:0; }
+.next ol { margin:9px 0 0; padding-left:20px; font-size:15px; }
+.next li { margin-bottom:7px; }
+
+.bar { position:fixed; left:0; right:0; bottom:0; background:var(--white); border-top:1px solid var(--border); padding:11px 16px calc(11px + env(safe-area-inset-bottom)); z-index:40; }
+.barin { max-width:600px; margin:0 auto; display:flex; gap:9px; align-items:center; }
+.prog { flex:1; min-width:0; }
+.progtxt { font-family:var(--H); font-size:10.5px; font-weight:600; letter-spacing:0.08em; color:var(--muted); text-transform:uppercase; margin-bottom:5px; }
+.progbar { height:5px; background:var(--cream); border:1px solid var(--border); border-radius:99px; overflow:hidden; }
+.progfill { height:100%; background:var(--gold); width:0%; transition:width .25s; }
+.btn { min-height:44px; padding:12px 16px; border-radius:2px; border:none; background:var(--gold); color:var(--black); font-family:var(--H); font-weight:700; font-size:12px; letter-spacing:0.07em; cursor:pointer; text-transform:uppercase; white-space:nowrap; }
+.btn.ghost { background:var(--white); color:var(--muted); border:1px solid var(--border); }
+.btn[disabled] { opacity:0.4; cursor:default; }
+
+.toast { position:fixed; left:50%; transform:translateX(-50%); bottom:92px; background:var(--black); color:#fff; padding:12px 20px; border-radius:2px; font-family:var(--H); font-weight:700; font-size:12.5px; letter-spacing:0.05em; z-index:60; opacity:0; pointer-events:none; transition:opacity .2s; text-transform:uppercase; }
+.toast.on { opacity:1; }
+
+.safety { background:var(--cream); border:1px solid var(--border); border-radius:2px; padding:18px 20px; margin:24px 0 0; }
+.safety p { margin:0; font-size:15px; color:var(--black); }
+footer { padding:24px 0 16px; font-size:13px; color:var(--muted); line-height:1.6; text-align:center; }
+footer a { color:var(--muted); }
+[hidden] { display:none !important; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="brand">Built to Hoop</div>
+  <h1>The 5-Minute Check</h1>
+  <p class="sub">A wall, a chair, your phone. Five items. Then send it back.</p>
+</header>
+
+<div class="callout">
+  <strong>Before you start.</strong> Barefoot. Prop the phone on a shelf or a stack of books,
+  about knee height, six to eight feet back. Film each item so you can watch it back — you'll
+  only send me the ones that don't come back clean.
+</div>
+
+<!-- ============ RED FLAG GATE ============ -->
+<h2>First, three questions</h2>
+<div class="callout stop">
+  <strong>These outrank everything else on this page.</strong> Answer them honestly before you
+  move. They aren't movement findings — they're a reason to have somebody look at you in person.
+</div>
+
+<div class="gate" id="gate">
+  <div class="q"><div class="qt">Pain that wakes you at night, or pain at rest?</div>
+    <div class="yn" data-f="f1"><button class="n" data-v="0" aria-pressed="false">No</button><button class="y" data-v="1" aria-pressed="false">Yes</button></div></div>
+  <div class="q"><div class="qt">Any numbness, tingling, or a leg that gives way?</div>
+    <div class="yn" data-f="f2"><button class="n" data-v="0" aria-pressed="false">No</button><button class="y" data-v="1" aria-pressed="false">Yes</button></div></div>
+  <div class="q"><div class="qt">Any joint that locks or catches mid-movement?</div>
+    <div class="yn" data-f="f3"><button class="n" data-v="0" aria-pressed="false">No</button><button class="y" data-v="1" aria-pressed="false">Yes</button></div></div>
+
+  <div class="flagbox" id="flagbox">
+    <h3>Stop here — and email me instead.</h3>
+    <p>That's a yes, so I'm not going to hand you a routine off a video. Go see somebody who can
+      put hands on it. That's not me being careful for the sake of it — it's the honest answer.</p>
+    <p>Email me anyway at <a href="mailto:tyrell@built-to-hoop.com?subject=Personalized%20Routine%20Request%20%E2%80%94%20screening%20yes">tyrell@built-to-hoop.com</a>
+      and I'll answer you personally. I'll be here after.</p>
+  </div>
+</div>
+
+<!-- ============ THE FIVE ITEMS ============ -->
+<h2>Now the five</h2>
+<div class="callout">
+  Run them in order. Score each one honestly — a "not clean" is the useful answer here, not the
+  bad one. It's the whole reason you're running this.
+</div>
+
+<div id="items"></div>
+
+<!-- ============ SCORE ============ -->
+<div class="score" id="score">
+  <div class="scorenum" id="scoreNum">–</div>
+  <div class="scorelab">out of 5 clean</div>
+  <div class="verdict" id="verdict">Answer all five to get your read.</div>
+</div>
+
+<div class="next" id="next" hidden>
+  <h3>What to send me</h3>
+  <p id="nextLead"></p>
+  <ol>
+    <li>Hit <strong>Copy my results</strong> below.</li>
+    <li>Reply to my email and paste them in.</li>
+    <li>Attach a short clip of each item that came back <strong>not clean</strong> — those only,
+      nothing else. No face needed.</li>
+  </ol>
+  <p>That's it. I'll watch them myself and write back with what I saw.</p>
+</div>
+
+<div class="safety">
+  <p><strong>Assessment and training, not diagnosis.</strong> Nothing here treats, cures or
+    diagnoses any condition. Pain that persists deserves a clinician's eyes — please go see one.</p>
+</div>
+
+<footer>
+  Built to Hoop · <a href="/routine.html">What this is for</a>
+</footer>
+</div>
+
+<div class="bar"><div class="barin">
+  <div class="prog">
+    <div class="progtxt" id="progTxt">0 of 5 scored</div>
+    <div class="progbar"><div class="progfill" id="progFill"></div></div>
+  </div>
+  <button class="btn ghost" id="resetBtn">Start over</button>
+  <button class="btn" id="copyBtn" disabled>Copy my results</button>
+</div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+"use strict";
+
+var ITEMS = [
+ {id:"s1", name:"Ankle wall test",
+  how:"Toes a few inches off a wall, foot pointed straight at it. Drive the knee forward to touch the wall — heel stays down. Back the foot off until you find the furthest you can go with the heel planted. Measure big toe to wall. Both sides.",
+  pass:"4 inches or more on both sides, and less than an inch of difference between them."},
+ {id:"s2", name:"Single-leg stance, 30 seconds",
+  how:"Barefoot, hands on hips, eyes open. Thirty seconds on each leg. Film it from the front and watch it back.",
+  pass:"No touchdowns, no grabbing for anything, and no visible hip drop on either side."},
+ {id:"s3", name:"Single-leg squat to a chair, 5 reps",
+  how:"Stand on one leg in front of a chair. Five controlled reps down to a light tap, then stand back up. Film from the front, both sides.",
+  pass:"The knee tracks over the middle of the foot the whole way down and back up. No cave, no collapse, both sides."},
+ {id:"s4", name:"Half-kneeling rotation",
+  how:"Half-kneel, both knees at 90 degrees, arms crossed on your chest. Rotate as far as you can each way without the hips moving. Film from above or high in front.",
+  pass:"Both directions look about the same. Neither side is clearly shorter than the other."},
+ {id:"s5", name:"Deep squat hold, 10 seconds",
+  how:"Bodyweight squat, as deep as you go. Hold it for ten seconds. Film from the side, then from the front.",
+  pass:"Heels stay down, chest stays up, and nothing pinches in the front of either hip."}
+];
+
+var VERDICTS = {
+ 5:["Build.","Nothing in this check came back against you. Whatever your ceiling is right now, this says it's a training question rather than a movement one."],
+ 4:["Patch.","One item didn't come back clean and the other four held. That one is worth working on its own before you stack more load on top of it."],
+ 3:["Patch.","Two came back not clean. For a lot of hoopers two like that are connected rather than separate — which is the useful part, because it means there's an order to work in."],
+ 2:["Rebuild.","Three came back not clean. More than one link is picking up slack for another, and adding volume right now adds it on top of that."],
+ 1:["Rebuild.","Four came back not clean. That's a starting-point read, and a starting point is exactly what a routine is for."],
+ 0:["Rebuild.","None of the five came back clean. That isn't a verdict on you — it's the most useful result this check gives, because it says where to start instead of leaving you guessing."]
+};
+
+var state = {};   // s1..s5 -> 1 clean / 0 not clean
+var flags = {};   // f1..f3 -> 1 yes / 0 no
+var KEY = "bth_check_v1";
+
+function esc(s){ return String(s).replace(/[&<>"']/g, function(c){
+  return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); }
+
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify({s:state,f:flags})); }catch(e){} }
+function load(){
+  try{ var r = localStorage.getItem(KEY);
+    if(r){ var o = JSON.parse(r) || {}; state = o.s || {}; flags = o.f || {}; }
+  }catch(e){ state = {}; flags = {}; }
+}
+
+function anyFlag(){ return flags.f1===1 || flags.f2===1 || flags.f3===1; }
+
+function renderItems(){
+  var out = "";
+  ITEMS.forEach(function(it, i){
+    out += '<div class="item" id="card_'+it.id+'">'
+      + '<div class="itop"><div class="idx">'+(i+1)+'</div><div class="iname">'+esc(it.name)+'</div></div>'
+      + '<div class="how">'+esc(it.how)+'</div>'
+      + '<div class="pass"><b>You are clean if</b>'+esc(it.pass)+'</div>'
+      + '<div class="pf" data-i="'+it.id+'">'
+      +   '<button class="y" data-v="1" aria-pressed="false">Clean</button>'
+      +   '<button class="n" data-v="0" aria-pressed="false">Not clean</button>'
+      + '</div></div>';
+  });
+  document.getElementById("items").innerHTML = out;
+}
+
+function paint(){
+  // red-flag buttons
+  Array.prototype.forEach.call(document.querySelectorAll(".yn"), function(grp){
+    var f = grp.getAttribute("data-f");
+    Array.prototype.forEach.call(grp.children, function(b){
+      var v = parseInt(b.getAttribute("data-v"), 10);
+      b.setAttribute("aria-pressed", flags[f] === v ? "true" : "false");
+    });
+  });
+  var flagged = anyFlag();
+  document.getElementById("flagbox").classList.toggle("on", flagged);
+
+  // item buttons + lock when a red flag is present
+  ITEMS.forEach(function(it){
+    var card = document.getElementById("card_"+it.id);
+    if(card) card.classList.toggle("locked", flagged);
+    var grp = document.querySelector('.pf[data-i="'+it.id+'"]');
+    if(!grp) return;
+    Array.prototype.forEach.call(grp.children, function(b){
+      var v = parseInt(b.getAttribute("data-v"), 10);
+      b.setAttribute("aria-pressed", state[it.id] === v ? "true" : "false");
+    });
+  });
+
+  var answered = 0, clean = 0, notClean = [];
+  ITEMS.forEach(function(it){
+    if(state[it.id] !== undefined){ answered++; if(state[it.id] === 1) clean++; else notClean.push(it.name); }
+  });
+
+  var num = document.getElementById("scoreNum");
+  var ver = document.getElementById("verdict");
+  var nxt = document.getElementById("next");
+  var copyBtn = document.getElementById("copyBtn");
+
+  if(flagged){
+    num.textContent = "–";
+    ver.innerHTML = "<b>Hold up.</b>Answer the three questions above first — a yes there matters more than anything the five items would tell you.";
+    nxt.hidden = true;
+    copyBtn.disabled = true;
+  } else if(answered < ITEMS.length){
+    num.textContent = answered ? clean + "/" + answered : "–";
+    ver.innerHTML = "Answer all five to get your read.";
+    nxt.hidden = true;
+    copyBtn.disabled = true;
+  } else {
+    num.textContent = clean;
+    var d = VERDICTS[clean];
+    ver.innerHTML = "<b>" + esc(d[0]) + "</b>" + esc(d[1]);
+    nxt.hidden = false;
+    copyBtn.disabled = false;
+    document.getElementById("nextLead").textContent = notClean.length
+      ? "Film these and send them with your results: " + notClean.join(" · ") + "."
+      : "Nothing came back not clean, so there's nothing to film. Just send the results.";
+  }
+
+  var pct = Math.round(answered / ITEMS.length * 100);
+  document.getElementById("progFill").style.width = pct + "%";
+  document.getElementById("progTxt").textContent = answered + " of " + ITEMS.length + " scored";
+}
+
+function summary(){
+  var L = ["BTH 5-MINUTE CHECK", ""];
+  L.push("Screening: " +
+    (anyFlag() ? "YES to at least one — see the note below" : "No to all three"));
+  L.push("");
+  var clean = 0, notClean = [];
+  ITEMS.forEach(function(it, i){
+    var v = state[it.id];
+    var word = v === 1 ? "CLEAN" : (v === 0 ? "NOT CLEAN" : "not scored");
+    if(v === 1) clean++;
+    if(v === 0) notClean.push((i+1) + ". " + it.name);
+    L.push((i+1) + ". " + it.name + " — " + word);
+  });
+  L.push("");
+  L.push("Score: " + clean + " of 5 clean");
+  if(notClean.length){
+    L.push("");
+    L.push("Filming these:");
+    notClean.forEach(function(n){ L.push("  " + n); });
+  }
+  if(anyFlag()){
+    L.push("");
+    L.push("NOTE: I answered yes to a screening question, so I have not run the five items.");
+  }
+  return L.join("\n");
+}
+
+function toast(msg){
+  var t = document.getElementById("toast");
+  t.textContent = msg; t.classList.add("on");
+  setTimeout(function(){ t.classList.remove("on"); }, 2000);
+}
+
+load();
+renderItems();
+paint();
+
+document.getElementById("gate").addEventListener("click", function(e){
+  var btn = e.target.closest("button"); if(!btn) return;
+  var grp = btn.parentElement; var f = grp.getAttribute("data-f"); if(!f) return;
+  flags[f] = parseInt(btn.getAttribute("data-v"), 10);
+  save(); paint();
+});
+
+document.getElementById("items").addEventListener("click", function(e){
+  var btn = e.target.closest("button"); if(!btn) return;
+  var grp = btn.parentElement; var id = grp.getAttribute("data-i"); if(!id) return;
+  state[id] = parseInt(btn.getAttribute("data-v"), 10);
+  save(); paint();
+});
+
+document.getElementById("copyBtn").addEventListener("click", async function(){
+  var txt = summary();
+  try {
+    await navigator.clipboard.writeText(txt);
+    toast("Copied — paste it into your reply");
+  } catch(e){
+    var ta = document.createElement("textarea");
+    ta.value = txt; ta.setAttribute("readonly", "");
+    ta.style.position = "fixed"; ta.style.left = "-9999px";
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand("copy"); toast("Copied — paste it into your reply"); }
+    catch(e2){ toast("Copy failed — select and copy manually"); }
+    document.body.removeChild(ta);
+  }
+});
+
+document.getElementById("resetBtn").addEventListener("click", function(){
+  state = {}; flags = {};
+  try { localStorage.removeItem(KEY); } catch(e){}
+  paint();
+  window.scrollTo(0, 0);
+  toast("Cleared");
+});
+
+})();
+</script>
+</body>
+</html>
