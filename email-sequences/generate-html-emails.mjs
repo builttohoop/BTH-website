@@ -561,11 +561,12 @@ ${p('You finished the reset. Five days in, your hips are looser, your ankles mov
 ${p('A few of you replied on Day 3 telling me your hips already felt different by then. If that was you — this is the fork: keep building on that, or let it slide back.', { size: 14, muted: true })}
 ${p('Here\'s the part most guys miss: a reset is maintenance, not building. Stop now and it slips back in a few weeks. Keep going and you build on top of it instead.')}
 ${p('That\'s the whole difference between Stay Ready and everything else you\'ve tried.')}
-${p('I built it the way I needed it built. Nobody trained me back after my own injury, so I worked the chain in order on myself first — and I\'m still the one testing it, month over month.')}
+${p('I built it the way I needed it built. Nobody trained me back after my own injury, so I worked the chain in order on myself first — and I still run it myself, month over month.')}
 ${h('What you\'re actually getting:')}
 ${ul([
   'The full BTH method — Foundation (your first month inside), then The Strength Block, run for you month to month',
   'Hip Reset, Knee Protection, Ankle Rebuild, Skill Builder, and Recovery System — all included',
+  '<strong>New — the Personalized Routine.</strong> Run a five-minute movement check on your phone, send me short clips of whatever it flags, and I write you a nightly routine off what I actually saw. Twelve to fifteen minutes, every night before bed. Included through October 31.',
   'Everything delivered straight to you the day you join — and the BTH app is on the way. When it launches, you\'ll be set up for it.',
 ])}
 ${p('$27/month. Cancel anytime. Keep everything you download.')}
