@@ -91,7 +91,7 @@ const A_PAGES = [
     faq: [
       { q: 'What is actually in this basketball workout plan?', a: 'Five days: skill work, strength, ankle/knee mobility, a jump-focused Power day, and a recovery-anchored close — each one a single focused session, not a mixed-bag circuit.' },
       { q: 'Do the days need to be done in order?', a: 'Yes — the plan is sequenced on purpose, with each day building on the one before it.' },
-      { q: 'What happens after the 5 days?', a: 'You will know whether the approach fits your body. From there, BTH Stay Ready is the full month-by-month version of the same plan — no pressure either way.' },
+      { q: 'What happens after the 5 days?', a: 'Five days is enough to tell whether the approach fits your body. From there, BTH Stay Ready is the full month-by-month version of the same plan — no pressure either way.' },
     ],
   },
   {
@@ -181,7 +181,7 @@ const B_PAGES = [
     faq: [
       { q: 'What makes this the best basketball training program for someone comparing options?', a: 'Everything is included at one price — Foundation Month, the Strength Block, and every add-on track — with nothing held back for a future upsell.' },
       { q: 'Who actually built this?', a: 'A hooper who still plays, not a content agency — the training reflects what the game actually demands from an adult body.' },
-      { q: 'How do I know it will work for me before I pay?', a: 'Start with the free 5-Day Reset first. It is built from the same system, so you will know how it fits before committing to Stay Ready.' },
+      { q: 'How do I know it will work for me before I pay?', a: 'Start with the free 5-Day Reset first. It is built from the same system, so you can tell how it fits before committing to Stay Ready.' },
     ],
   },
   {
@@ -221,7 +221,7 @@ const R_PAGES = [
     faq: [
       { q: 'I have not played in years. Is this too advanced?', a: 'No — the Reset is built as an on-ramp. The first three days are bodyweight only, and every session scales to where you actually are.' },
       { q: 'Can I do this while starting to play pickup again?', a: 'Yes. It is designed to run alongside your first weeks back, not instead of them.' },
-      { q: 'What happens after the five days?', a: 'You will know whether the approach fits. BTH Stay Ready is the full month-by-month system if you want to keep building — no pressure either way.' },
+      { q: 'What happens after the five days?', a: 'Five days is enough to tell whether the approach fits. BTH Stay Ready is the full month-by-month system if you want to keep building — no pressure either way.' },
     ],
   },
   {
@@ -249,7 +249,7 @@ const R_PAGES = [
       `The free 5-Day Reset is where that starts — foundational movement and strength you control the intensity of. ${TRAINING_NOT_TREATMENT}`,
     ],
     faq: [
-      { q: 'Is this ankle rehab?', a: 'No. BTH is basketball training — strength, stability and movement work for hoopers. Rehab for an injury belongs with a professional; BTH is for building the base once you are cleared to train.' },
+      { q: 'Is this ankle rehab?', a: 'No. BTH is basketball training — strength, stability and movement work for hoopers. Recovering from an injury belongs with a professional; BTH is for building the base once you are cleared to train.' },
       { q: 'I am scared to cut hard again. Will this help?', a: 'Confidence tends to come back through stacked small wins — sessions where the ankle does its job and you notice. That is what the Reset and the Ankle Rebuild Track are built to do.' },
       { q: 'How do I know if I am ready to start?', a: 'If you are cleared for normal activity and training, the first days are low-intensity and scale to you. If you are not sure, ask the professional who saw the injury — then start.' },
     ],
@@ -304,7 +304,7 @@ const R_PAGES = [
     faq: [
       { q: 'Is this a rehab or return-to-play program?', a: 'No. BTH is basketball training — not treatment, not rehab, not medical advice. It is built for hoopers who have already been cleared to train. If you are still working through an injury, see a professional first.' },
       { q: 'I have been cleared, but I am nowhere near game shape. Where do I start?', a: 'Here. The first three days are bodyweight only and every session scales — the Reset is built to start at the bottom, on purpose.' },
-      { q: 'What happens after the five days?', a: 'You will know whether the approach fits. BTH Stay Ready is the full month-by-month system if you want to keep building — no pressure either way.' },
+      { q: 'What happens after the five days?', a: 'Five days is enough to tell whether the approach fits. BTH Stay Ready is the full month-by-month system if you want to keep building — no pressure either way.' },
     ],
   },
 ];
@@ -387,6 +387,12 @@ nav { position:fixed; top:0; left:0; right:0; z-index:100; height:62px; display:
 .join-btn { display:block; width:100%; text-align:center; font-family:var(--H); font-size:15px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--black); background:var(--gold); border:none; padding:16px; border-radius:2px; cursor:pointer; text-decoration:none; transition:all 0.18s; }
 .join-btn:hover { background:var(--black); color:var(--white); }
 .buy-note { font-size:13px; color:var(--muted); margin:14px 0 0; letter-spacing:0.02em; line-height:1.5; }
+.story-band { background:var(--cream); border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
+.story-band-in { max-width:1200px; margin:0 auto; padding:34px 52px; }
+.story-band p { max-width:760px; font-size:17px; line-height:1.7; color:var(--muted); margin:0 0 10px; }
+.story-band p:last-child { margin-bottom:0; }
+.story-band .cred { color:var(--black); font-weight:600; }
+@media (max-width:800px) { .story-band-in { padding:28px 24px; } .story-band p { font-size:16px; } }
 .value-strip { background:var(--cream); border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
 .value-strip-title { max-width:1200px; margin:0 auto; padding:44px 52px 0; font-family:var(--H); font-size:clamp(26px,3.6vw,36px); font-weight:700; letter-spacing:0.02em; text-transform:uppercase; color:var(--black); }
 @media (max-width:800px) { .value-strip-title { padding:36px 24px 0; } }
@@ -534,6 +540,17 @@ const valueStrip = (cards, title) => `<section class="value-strip"><h2 class="va
 ${cards.map(([h, b]) => `  <div class="value-card"><h3><span>—</span>${h}</h3><p>${b}</p></div>`).join('\n')}
 </div></section>`;
 
+// WHY THIS EXISTS — the compressed story band. STORY-DOCTRINE section 2: credential, chain,
+// still in it. One definition, all 18 LPs. Deliberately knee-free: these pages take paid
+// traffic and the knee never becomes a paid theme (FOUNDER-STORY section 4).
+const storyBand = () => `<section class="story-band">
+  <div class="story-band-in">
+    <p class="cred">I got hurt bad enough that a clinic handed me pain pills and sent me home. Nobody trained me back.</p>
+    <p>So I worked it out in order, on myself. The lower body is a chain — the weakest link goes first, and most programs train a body part instead of the chain.</p>
+    <p>I'm still in it. That's the only reason any of this exists.</p>
+  </div>
+</section>`;
+
 const whySection = (p) => `<section class="lp-section">
   <div class="lp-eyebrow">Why It Works</div>
   <h2 class="lp-h2">${p.h1}<br>Built As <span class="gold">One System.</span></h2>
@@ -575,7 +592,8 @@ const page = (p, kind) => `${head(p)}
   </div>
   ${kind === 'A' ? formCardA(p) : offerCardB()}
 </section>
-${kind === 'B' ? freeStartB(p) + '\n' : ''}${whySection(p)}
+${kind === 'B' ? freeStartB(p) + '\n' : ''}${storyBand()}
+${whySection(p)}
 ${valueStrip(kind === 'A' ? A_VALUES : B_VALUES, kind === 'A' ? "What's Inside The System" : "What's Inside The Membership")}
 ${faqSection(p)}
 <footer>

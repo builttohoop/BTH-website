@@ -67,6 +67,7 @@ const days = [
     feel: ['Less stiffness in the hips', 'More control through range', 'Smoother, freer movement'],
     focus: 'Move slow — every single rep. No pain. Back off if it pinches.',
     tomorrow: 'Ankle Reset — building stability from the ground up.',
+    note: 'I learned the order the hard way — you work one link and the next one starts talking. We start at the hips because that is usually where the chain gives first.',
   },
   {
     num: '02',
@@ -103,6 +104,7 @@ const days = [
     feel: ['Ankles warming up instead of stiff', 'Better balance and control', 'Lighter, more reactive steps'],
     focus: 'Move light, stay springy. Control every rep and landing. Instability now = the training working.',
     tomorrow: 'Movement Control — where Days 1 and 2 start connecting.',
+    note: 'The ankle was the last one I got to, and it was holding up everything above it. Ground first. Whatever the ankle will not do, the knee and hip end up doing for it.',
   },
   {
     num: '03',
@@ -142,6 +144,7 @@ const days = [
     feel: ['More coordination in movement', 'Better balance under control', 'Smoother direction changes'],
     focus: 'Move controlled — every rep. Stay balanced. No rushed reps, ever.',
     tomorrow: 'Strength That Moves — the kind that actually transfers.',
+    note: 'Control is the part nobody trains. I got range back long before I moved like I trusted it, and that gap is the whole reason this day exists.',
   },
   {
     num: '04',
@@ -180,6 +183,7 @@ const days = [
     feel: ['Strong but not stiff', 'More stable on one leg', 'Movements feel controlled'],
     focus: 'Move strong, stay smooth. No forced or grinding reps. Control over load, always.',
     tomorrow: 'Power Reset — everything converts to game-ready movement. Last one.',
+    note: 'Nobody trained me back, so I had to work out what strong enough to play actually meant. It was not what the gym told me. This is the version that held up.',
   },
   {
     num: '05',
@@ -219,6 +223,7 @@ const days = [
     feel: ['Light — move explosive', 'Reactive off the floor', 'Powerful when it counts'],
     focus: 'Full intent every rep. Land soft, explode fast. Finish strong. Five days done — now go unleash your game.',
     tomorrow: null,
+    note: 'I am still in it — the knee is the link I am working on right now. This is the day I still run myself, which is the only reason it is in here.',
   },
 ];
 
@@ -379,6 +384,16 @@ body {
   border-radius: 0 2px 2px 0;
 }
 .intro-text { font-size: 9.5pt; color: rgba(17,19,24,0.78); line-height: 1.6; }
+.why-note {
+  border-left: 2pt solid ${C.gold};
+  padding: 7pt 0 7pt 11pt;
+  margin: 0 0 14pt 0;
+}
+.why-label {
+  font-family: 'Oswald', sans-serif; font-size: 6.5pt; font-weight: 600;
+  letter-spacing: 0.16em; text-transform: uppercase; color: #7A5700; margin-bottom: 3pt;
+}
+.why-text { font-size: 9pt; color: rgba(17,19,24,0.72); line-height: 1.55; font-style: italic; }
 
 /* ─── BLOCK ─── */
 .block { margin-bottom: 18px; break-inside: avoid; }
@@ -521,6 +536,13 @@ body {
   <!-- INTRO -->
   <div class="intro-block">
     <p class="intro-text">${day.intro}</p>
+  </div>
+
+  <!-- WHY THIS DAY — first person. The Reset is the only BTH product every lead touches,
+       and it carried no reason for existing. One line per day, drawn from FOUNDER-STORY. -->
+  <div class="why-note">
+    <div class="why-label">Why this day</div>
+    <p class="why-text">${day.note}</p>
   </div>
 
   <!-- BLOCKS -->

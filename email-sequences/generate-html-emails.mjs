@@ -401,7 +401,7 @@ ${p('Move slow on every rep. No pain — if something pinches, back off. This is
 ${p('Do this today. Tomorrow I\'m sending you the truth about why your hips feel locked up &mdash; it\'s not what you think. Day 2 of the reset lands the day after.')}
 ${divider()}
 ${p('One more thing.')}
-${p('This isn\'t a random stretch routine. It\'s the same method I use to help grown men who stepped away — injury, work, life — rebuild a body that can handle coming back to the court.')}
+${p('This isn\'t a random stretch routine. I got hurt bad enough that a clinic handed me pain pills and sent me home, and nobody trained me back — so I worked it out in order, on myself. What you\'re about to run is that order.')}
 ${p('Five days won\'t undo years away. But it\'ll show you what changes when the training is actually built for the comeback.')}
 ${p('There\'s more after Day 5 — I\'ll show you then.', { muted: true })}
 ${sig('Ty<br>Built to Hoop')}
@@ -420,6 +420,7 @@ ${p('For a lot of guys, it\'s that the hips <strong>shut down</strong> — and t
 ${p('Every lateral cut. Every hard stop. Every time you planted on the wrong angle and felt that pull — your hips were supposed to absorb that. But if they\'ve never been trained to load and reset, they stop doing the job.')}
 ${p('So the back tightens. The knees start compensating. The first step gets slower — and nobody connects the dots until it\'s gone.')}
 ${p('And if you\'ve been away &mdash; injury, work, life &mdash; the shutdown had that whole time to set in. Coming back doesn\'t undo it. Coming back <strong>tests</strong> it.')}
+${p('I found that out the long way round. I worked my back, and the knee got loud. I settled the knee, and the arch started taking the load. Every time I chased the loud one, a quieter one spoke up.')}
 ${p('That\'s the cycle.')}
 ${divider()}
 ${p('The reset you\'re doing this week interrupts it. That\'s real — for a few days your hips get permission to move again.')}
@@ -453,6 +454,7 @@ ${p('Maybe it\'s been months. Maybe years.')}
 ${p('It\'s not because you\'re getting old. It\'s not bad luck. It\'s not that your window closed.')}
 ${p('It\'s because nothing you\'ve tried was built for a comeback.')}
 ${p('Everything out there — YouTube workouts, gym programs, "just rest more" — was built for someone who never left. Not for a hooper coming back to a body that kept score while he was gone.')}
+${p('I know that one personally. I got sent home from a clinic with pain pills and no plan, and there was nothing built for the part that comes after. I built this because it didn\'t exist.')}
 ${p('<strong>BTH exists to break that cycle.</strong>')}
 ${p('The reset is 5 days. What actually breaks the cycle for good takes longer than that — and in a couple days I\'ll show you exactly what it looks like.')}
 ${divider()}
@@ -482,6 +484,8 @@ ${divider()}
 ${p('Some guys feel looser by day 3. Some don\'t notice anything until day 5. Both are normal — the reset works on its own clock, not a marketing calendar.')}
 ${p('And if you\'ve been away a while: day 3 is usually when the doubt shows up. <em>Is this going to hold when I actually play?</em> That\'s not a red flag. That\'s every comeback ever made.')}
 ${divider()}
+${p('I still get that one, for what it\'s worth. The knee is the link I\'m working on right now — day 3 of my own week looks a lot like yours.')}
+${divider()}
 ${p('Quick check-in —')}
 ${p('Reply to this email with one line: what\'s different since Day 1? Hips, ankles, sleep — or nothing yet. Tell me that too.')}
 ${p('I read every reply. It\'s how I know what\'s actually working.', { muted: true })}
@@ -507,7 +511,7 @@ ${divider()}
 ${p('You get up out of bed and your body files a complaint before your feet hit the floor. Hips tight. Something in the knee talking. You are not slower, exactly — the first step is just not there.')}
 ${p('A lot of hoopers read that and figure it is one bad joint having a bad week. It usually is not.')}
 ${divider()}
-${p('Here is my part of it, and I will keep it short, because this email is not about me. <strong>I got hurt bad enough that a clinic handed me pain pills and sent me home. Nobody trained me back.</strong>')}
+${p('Here is my part of it. <strong>I got hurt bad enough that a clinic handed me pain pills and sent me home. Nobody trained me back.</strong>')}
 ${p('That is the whole credential. Nothing picked me up on the other side of it — no program was built for the part that comes after. I had to work that out myself, and I am still in it.')}
 ${divider()}
 ${p('What came out of it is the one idea this entire reset is built on: <strong>the lower body is a chain, and the weakest link falls first.</strong>')}
@@ -539,6 +543,7 @@ ${h('What\'s still not working?')}
 ${p('Maybe the reset helped, and something specific is still holding you back — an old injury that\'s still barking, a schedule that won\'t cooperate, a part of your game you don\'t trust yet. Maybe none of it moved the needle and you want to tell me why. Either way — hit reply, one sentence. I read every reply myself, and it tells me what to actually build for guys like you, not what I assume you need.')}
 ${resetButton(5, 'Power Reset')}
 ${p('Your last reset day — the work you put in over the last five is real, whatever\'s next.', { size: 14, muted: true })}
+${p('I\'m still running this on myself, for whatever that\'s worth to you. The knee is the link I\'m working right now. I\'m not selling you the end of it — I\'m the first person it has to hold up for.')}
 ${p('Whatever you tell me shapes what I send you. If Stay Ready — the system that keeps building where this reset stops, $27 a month — turns out to be the right next step for you, I\'ll tell you exactly why, not just pitch you again. If it\'s not, I want to know that too.')}
 ${p('Tomorrow: one straight answer about what happens to the body you just rebuilt if you stop here.', { size: 14, muted: true })}
 ${sig()}
@@ -556,6 +561,7 @@ ${p('You finished the reset. Five days in, your hips are looser, your ankles mov
 ${p('A few of you replied on Day 3 telling me your hips already felt different by then. If that was you — this is the fork: keep building on that, or let it slide back.', { size: 14, muted: true })}
 ${p('Here\'s the part most guys miss: a reset is maintenance, not building. Stop now and it slips back in a few weeks. Keep going and you build on top of it instead.')}
 ${p('That\'s the whole difference between Stay Ready and everything else you\'ve tried.')}
+${p('I built it the way I needed it built. Nobody trained me back after my own injury, so I worked the chain in order on myself first — and I\'m still the one testing it, month over month.')}
 ${h('What you\'re actually getting:')}
 ${ul([
   'The full BTH method — Foundation (your first month inside), then The Strength Block, run for you month to month',
@@ -577,7 +583,8 @@ ${sig()}
     body: `
 ${hero('Still In?', `What's ${g('stopping')} you?`)}
 ${p('I\'m not going to try to talk you into this with a discount.')}
-${p('I\'m also not going to ask you the same thing twice. If you replied on Day 5, I already have what you told me — and if I owe you an answer I haven\'t sent, tell me and I\'ll fix that.')}
+${p('So here\'s the honest version instead. I got hurt, got handed pain pills, got sent home, and nobody trained me back. Everything in Stay Ready exists because I had to work it out in order on myself — and I\'m still in it.')}
+${p('I\'m also not going to ask you the same thing twice. If you replied on Day 5, I already have what you told me — and if I owe you an answer I haven\'t sent, tell me and I\'ll sort that out.')}
 ${p('If you didn\'t reply — this is the last email in this run, so let me ask it a different way.')}
 ${h('Which one of these is actually true for you right now?')}
 ${ul([
