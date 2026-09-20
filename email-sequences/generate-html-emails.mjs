@@ -577,7 +577,7 @@ ${sig()}
     body: `
 ${hero('Still In?', `What's ${g('stopping')} you?`)}
 ${p('I\'m not going to try to talk you into this with a discount.')}
-${p('I\'m also not going to ask you the same thing twice. If you replied on Day 5, I already have what you told me — and if I owe you an answer I haven\'t sent, tell me and I\'ll fix that.')}
+${p('I\'m also not going to ask you the same thing twice. If you replied on Day 5, I already have what you told me — and if I owe you an answer I haven\'t sent, tell me and I\'ll sort that out.')}
 ${p('If you didn\'t reply — this is the last email in this run, so let me ask it a different way.')}
 ${h('Which one of these is actually true for you right now?')}
 ${ul([

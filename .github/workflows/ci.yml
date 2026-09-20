@@ -48,6 +48,20 @@ jobs:
       - name: client_reference_id shape (abandoned-checkout identity)
         run: node .github/scripts/check-client-reference.mjs
 
+      # BTH-GOAL-0058. FOUNDER-STORY.md section 4 bans a list of words because each one makes
+      # a claim BTH cannot stand behind. That rule was prose-only, and on 2026-09-20 a sweep
+      # found six live breaches — including the H1 of the top-of-funnel page, which read
+      # "5 Days. 5 Fixes.", and three FAQ answers opening with "You will". Prose does not stop
+      # a word coming back; this does.
+      #
+      # Scoped to the files the PR touches, so a codebase that already violates the rule does
+      # not fail every PR forever. It also prints the remaining sitewide count on every run, so
+      # the backlog stays visible and can only go down.
+      - name: Banned words (FOUNDER-STORY section 4)
+        run: |
+          git fetch --no-tags --depth=50 origin "${{ github.event.pull_request.base.ref }}" || true
+          node .github/scripts/check-banned-words.mjs --changed "origin/${{ github.event.pull_request.base.ref }}"
+
   # Its OWN required check, independent of the gate. A secret or member PII in a diff
   # blocks the merge whether or not anyone approves it. This is the check that was
   # sitting unwired on disk while every push went unscanned.
