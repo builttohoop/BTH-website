@@ -1,7 +1,23 @@
 {
   "_README": "Canonical BTH announcement registry — the single source of truth for the Updates page (web), the app's What's New (mirrored into bth-app-native/src/content/announcements.ts), and the email broadcast. To post a new update: add an entry at the TOP of `items` and re-render each surface. Voice: veteran hooper — direct, athletic, premium, real. No hype. `audience`: \"public\" shows everywhere; \"member\" gets a 'Member Update' badge on the site (label-only — the site has no auth) and is gated to members in the app. NOTE: the app mirror (bth-app-native/src/content/announcements.ts) curates per surface and uses different field names — its 'tone' maps to this file's 'status_tone', and its audience 'free' maps to this file's 'public' (same meaning). When adding an entry, add it to BOTH and keep them in sync.",
-  "updated_at": "2026-06-25",
+  "updated_at": "2026-09-20",
   "items": [
+    {
+      "id": "bth-personalized-routine-2026-09",
+      "area": "Membership",
+      "title": "The Personalized Routine",
+      "status": "Available Now",
+      "status_tone": "live",
+      "audience": "member",
+      "eyebrow": "Nobody Is Watching You Move",
+      "summary": "Run a five-minute movement check on your phone. Ty watches your clips himself and writes you a nightly routine off what he saw.",
+      "body": "Five items, a wall and a chair, about five minutes. You film only what doesn't come back clean and send it in — Ty watches the footage himself, not software, and writes you a nightly routine built off what your body actually did. Twelve to fifteen minutes, every night before bed. After four weeks you run the same check again and he writes the next one off what moved. Included with Stay Ready through October 31, for as long as your membership is active. After that it gets its own price.",
+      "cta": {
+        "label": "Get watched",
+        "href": "routine.html"
+      },
+      "date": "2026-09-20"
+    },
     {
       "id": "bth-add-on-tracks-2026-06",
       "area": "Program",
