@@ -255,6 +255,21 @@
     color: var(--black); line-height: 1.2;
   }
 
+  /* BTH-98a: Days 2-5 are links, not previews. The reset's only on-site door. */
+  a.day-card {
+    display: block; text-decoration: none; color: inherit;
+    transition: background 120ms ease, border-color 120ms ease, transform 120ms ease;
+  }
+  a.day-card:hover, a.day-card:focus-visible {
+    background: var(--white); border-color: var(--black); transform: translateY(-1px);
+  }
+  a.day-card:focus-visible { outline: 2px solid var(--gold-text); outline-offset: 2px; }
+  a.day-card .day-open {
+    display: block; margin-top: 8px;
+    font-family: var(--B); font-size: 10px; font-weight: 700;
+    letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold-text);
+  }
+
   .divider-line {
     height: 1px; background: var(--border); margin-bottom: 48px;
   }
@@ -317,6 +332,12 @@
     padding: 16px 20px; margin-bottom: 48px;
   }
   .email-note strong { color: var(--black); font-weight: 600; }
+
+  /* BTH-98b: orienting line above the day grid. */
+  .days-intro {
+    font-size: 15px; color: var(--muted); line-height: 1.7; margin-bottom: 16px;
+  }
+  .days-intro strong { color: var(--black); font-weight: 600; }
 
   .next-section-label {
     font-family: var(--B); font-size: 11px; font-weight: 700;
@@ -477,31 +498,38 @@
 
     <!-- EMAIL = BACKUP / RETURN PATH -->
     <p class="email-note">
-      <strong>Backup copy on its way.</strong> Day 1 was also sent to your email as a PDF, and Days 2–5 land in your inbox each morning. Lose this page? Come back anytime, or run the whole thing straight from the emails.
+      <strong>Backup copy on its way.</strong> Day 1 was also sent to your email as a PDF, and a reminder for Days 2–5 lands in your inbox each morning. You don't have to wait for it — every day is open below right now.
     </p>
 
-    <!-- 5-Day Reset Preview -->
+    <!-- BTH-98b: was "5-Day Reset Preview". Nothing here is a preview - all five days
+         are live pages and four of them are one tap away. -->
+    <div class="next-section-label">Your Whole Reset &mdash; Open Now</div>
+    <p class="days-intro"><strong>Day 1 is done.</strong> The other four are already waiting &mdash; no email required. Tap any day to open it.</p>
     <div class="days-grid">
       <div class="day-card">
         <div class="day-num">Day 1</div>
         <div class="day-label">Hip Reset</div>
       </div>
-      <div class="day-card">
+      <a class="day-card" href="reset/day-2.html">
         <div class="day-num">Day 2</div>
         <div class="day-label">Ankle Reset</div>
-      </div>
-      <div class="day-card">
+        <span class="day-open">Open</span>
+      </a>
+      <a class="day-card" href="reset/day-3.html">
         <div class="day-num">Day 3</div>
         <div class="day-label">Movement Control</div>
-      </div>
-      <div class="day-card">
+        <span class="day-open">Open</span>
+      </a>
+      <a class="day-card" href="reset/day-4.html">
         <div class="day-num">Day 4</div>
-        <div class="day-label">Game-Ready Strength</div>
-      </div>
-      <div class="day-card">
+        <div class="day-label">Strength That Moves</div>
+        <span class="day-open">Open</span>
+      </a>
+      <a class="day-card" href="reset/day-5.html">
         <div class="day-num">Day 5</div>
         <div class="day-label">Power Reset</div>
-      </div>
+        <span class="day-open">Open</span>
+      </a>
     </div>
 
     <div class="divider-line"></div>
