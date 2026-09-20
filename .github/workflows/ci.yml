@@ -59,7 +59,10 @@ jobs:
       # the backlog stays visible and can only go down.
       - name: Banned words (FOUNDER-STORY section 4)
         run: |
-          git fetch --no-tags --depth=50 origin "${{ github.event.pull_request.base.ref }}" || true
+          # The checkout is shallow, so `base...HEAD` has no merge base until history is deepened.
+          git fetch --no-tags --unshallow origin "${{ github.event.pull_request.base.ref }}" 2>/dev/null \
+            || git fetch --no-tags --depth=200 origin "${{ github.event.pull_request.base.ref }}" \
+            || true
           node .github/scripts/check-banned-words.mjs --changed "origin/${{ github.event.pull_request.base.ref }}"
 
   # Its OWN required check, independent of the gate. A secret or member PII in a diff

@@ -151,12 +151,20 @@ if (explicit.length) {
   files = explicit.map((f) => join(ROOT, f));
 } else if (baseRef) {
   const { execFileSync } = await import('node:child_process');
-  let changed = [];
-  try {
-    changed = execFileSync('git', ['diff', '--name-only', '--diff-filter=ACMR', `${baseRef}...HEAD`], { encoding: 'utf8' })
-      .split('\n').map((l) => l.trim()).filter(Boolean);
-  } catch (e) {
-    console.error(`banned-words: could not diff against ${baseRef} — ${e.message}`);
+  const diff = (spec) => execFileSync('git', ['diff', '--name-only', '--diff-filter=ACMR', ...spec], { encoding: 'utf8' })
+    .split('\n').map((l) => l.trim()).filter(Boolean);
+
+  let changed = null;
+  // Three-dot is what we want — only what this branch added. But CI checkouts are shallow and
+  // `A...B` needs a merge base, which a shallow clone may not have ("fatal: no merge base").
+  // Two-dot needs no merge base; it can over-include commits that landed on the base since
+  // branching, which for a lint is safe: it never under-reports.
+  for (const spec of [[`${baseRef}...HEAD`], [baseRef, 'HEAD']]) {
+    try { changed = diff(spec); break; } catch { /* try the next form */ }
+  }
+  if (changed === null) {
+    console.error(`banned-words: could not diff against ${baseRef} (tried three-dot and two-dot).`);
+    console.error('  In CI, fetch the base branch with enough history — `git fetch --unshallow` or fetch-depth: 0.');
     process.exit(1);
   }
   const all = listFiles().map((f) => relative(ROOT, f).replace(/\\/g, '/'));
