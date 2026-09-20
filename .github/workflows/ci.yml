@@ -59,11 +59,17 @@ jobs:
       # the backlog stays visible and can only go down.
       - name: Banned words (FOUNDER-STORY section 4)
         run: |
+          # This workflow runs on push as well as pull_request, and on a push event
+          # github.event.pull_request.base.ref is EMPTY — which asked git to diff against
+          # "origin/" and failed the job for a reason that had nothing to do with copy.
+          BASE="${{ github.event.pull_request.base.ref }}"
+          [ -n "$BASE" ] || BASE="${{ github.event.repository.default_branch }}"
+          [ -n "$BASE" ] || BASE="main"
           # The checkout is shallow, so `base...HEAD` has no merge base until history is deepened.
-          git fetch --no-tags --unshallow origin "${{ github.event.pull_request.base.ref }}" 2>/dev/null \
-            || git fetch --no-tags --depth=200 origin "${{ github.event.pull_request.base.ref }}" \
+          git fetch --no-tags --unshallow origin "$BASE" 2>/dev/null \
+            || git fetch --no-tags --depth=200 origin "$BASE" \
             || true
-          node .github/scripts/check-banned-words.mjs --changed "origin/${{ github.event.pull_request.base.ref }}"
+          node .github/scripts/check-banned-words.mjs --changed "origin/$BASE"
 
   # Its OWN required check, independent of the gate. A secret or member PII in a diff
   # blocks the merge whether or not anyone approves it. This is the check that was
