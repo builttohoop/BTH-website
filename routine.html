@@ -74,6 +74,11 @@ h1 .gold { color:var(--gold-text); }
 .cta.ghost { background:transparent; color:var(--black); border:1.5px solid var(--black); margin-top:11px; }
 .cta.ghost:hover { background:var(--cream); }
 .undercta { font-size:13.5px; color:var(--muted); text-align:center; margin-top:14px; }
+/* Sits ABOVE the join button on purpose. The screening gate is the one thing a reader must be able
+   to act on BEFORE paying — putting it under the buttons left it hidden behind the mobile sticky
+   bar at 375x812, which is exactly the reader this line exists to catch. */
+.prescreen { font-size:13.5px; line-height:1.5; color:var(--muted); text-align:center; margin:0 0 18px; }
+.prescreen a { color:var(--gold-text); font-weight:600; text-decoration:underline; text-underline-offset:3px; }
 
 /* SECTIONS */
 section { padding:50px 0; border-top:1px solid var(--border); }
@@ -162,7 +167,7 @@ footer { border-top:1px solid var(--border); padding:40px 24px 54px; text-align:
 @media (max-width:640px) {
   .mobile-sticky-cta { display:flex; position:fixed; left:0; right:0; bottom:0; z-index:120; background:var(--black); padding:10px 16px calc(10px + env(safe-area-inset-bottom)); border-top:1px solid rgba(255,255,255,0.12); }
   .mobile-sticky-cta a { display:block; width:100%; text-align:center; min-height:44px; font-family:var(--H); font-size:14px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--black); background:var(--gold); padding:14px; border-radius:2px; text-decoration:none; }
-  body { padding-bottom:68px; }
+  body { padding-bottom:84px; }   /* the sticky bar measures 71.2px — 68 left the footer clipped */
   .hero { padding:104px 0 44px; }
 }
 </style>
@@ -177,7 +182,7 @@ footer { border-top:1px solid var(--border); padding:40px 24px 54px; text-align:
     <a href="/about.html">About</a>
   </div>
 </nav>
-<div class="mobile-sticky-cta"><a href="#request">Request Yours &rarr;</a></div>
+<div class="mobile-sticky-cta"><a href="https://buy.stripe.com/4gMaEXbvh7nu1sccHJaAw00">Join Stay Ready — $27/mo &rarr;</a></div>
 
 <!-- ============ HERO ============ -->
 <div class="wrap">
@@ -187,9 +192,14 @@ footer { border-top:1px solid var(--border); padding:40px 24px 54px; text-align:
   <p class="lede">Run a five-minute movement check on your phone. Get a night routine built off
     what your body actually does — not what you think it's doing.</p>
   <div class="badge">Included with Stay Ready · First group</div>
-  <a class="cta" href="https://buy.stripe.com/4gMaEXbvh7nu1sccHJaAw00" id="checkout">Get the membership</a>
+  <p class="prescreen"><a href="#three">Read the three questions before you join &rarr;</a><br>
+    A yes to any of them and I answer you personally instead of sending the check — and you don't
+    need to be a member for that.</p>
+  <a class="cta" href="https://buy.stripe.com/4gMaEXbvh7nu1sccHJaAw00" id="checkout">Get the membership — $27/mo</a>
   <a class="cta ghost" href="#request">Already a member? Request yours</a>
-  <p class="undercta">12–15 minutes a night. Four weeks. Then you run the check again and we compare.</p>
+  <p class="undercta"><strong>Stay Ready is the Built to Hoop membership — $27/mo, month to month,
+    cancel any time with one email.</strong> The routine itself is 12–15 minutes a night for four
+    weeks. Then you run the check again and we compare.</p>
 </header>
 </div>
 
@@ -236,8 +246,9 @@ footer { border-top:1px solid var(--border); padding:40px 24px 54px; text-align:
   <p>That's what this is. You run a short movement check on your phone — no gym, no equipment, no
     coach standing over you. Five items, pass or fail, about five minutes. It tells you which ones
     came back clean and which didn't.</p>
-  <p>Then you film just the ones that didn't, and send them with your results. I watch your footage
-    myself — not software, not somebody else. Then I write down what I saw.</p>
+  <p>Then you film just the ones that didn't and send them straight back — reply to the same email I
+    sent the check in, paste your copied results, attach the clips. That's the whole handoff. I watch
+    your footage myself — not software, not somebody else. Then I write down what I saw.</p>
   <p class="ink">What comes back is a night routine built for what the check and the clips showed.
     Not a stretching PDF with your name on the cover. Twelve to fifteen minutes, done at night,
     four weeks long. Then you run the same check again and we look at what moved.</p>
@@ -251,7 +262,8 @@ footer { border-top:1px solid var(--border); padding:40px 24px 54px; text-align:
   <ol class="steps">
     <li>
       <h3>Join, then request it</h3>
-      <p>One button. Tell me you want in and I'll know.</p>
+      <p>One button each. The request opens an email with your name, the address you joined with, and
+        the three questions already in it — answer those honestly and send.</p>
     </li>
     <li>
       <h3>I send you the check</h3>
@@ -261,7 +273,8 @@ footer { border-top:1px solid var(--border); padding:40px 24px 54px; text-align:
     <li>
       <h3>You film only what didn't come back clean</h3>
       <p>Usually two or three short clips. Phone propped on a shelf, a few minutes, done in your
-        living room. No face needed.</p>
+        living room. No face needed. Send them back the same way they came — hit reply on my email,
+        attach the clips, paste your results in. No app to download, nothing to upload anywhere.</p>
     </li>
     <li>
       <h3>I watch it myself</h3>
@@ -282,16 +295,18 @@ footer { border-top:1px solid var(--border); padding:40px 24px 54px; text-align:
   <h2>Where this actually stands</h2>
   <div class="card gold">
     <h3>Straight up: this is brand new.</h3>
-    <p>I'm building it right now. The check is written and I'm running it on myself before I put it
-      in front of anybody else, because I'm not sending you something I haven't done.</p>
-    <p>So here's the deal if you join today. You get the membership and everything in it
-      immediately. You click the request button and I'll have your name. The moment the check is
-      ready, you're in the first group that gets it — before it goes to anyone else, and included.</p>
+    <p>The check itself is built and working — you get the link the same day you ask, and I ran it on
+      myself before putting it in front of anybody, because I'm not sending you something I haven't
+      done.</p>
+    <p>What's new is the part I do by hand: sitting down with your clips and writing the routine off
+      what I see. I've done that for exactly one person so far, and that person is me. You'd be in
+      the first group it goes to, which means you get my full attention and you're also the reason
+      it gets better.</p>
     <p class="ink"><strong>I'd rather tell you that than pretend there's a machine running behind
       this page.</strong></p>
   </div>
-  <p>If you'd rather wait until it's running, that's fair. Join later and it'll still be here. It
-    just won't be included by then.</p>
+  <p>If you'd rather wait until a few other people have been through it first, that's fair — join
+    later and it'll still be here. It just won't be included by then.</p>
 </section>
 </div>
 
@@ -349,7 +364,7 @@ footer { border-top:1px solid var(--border); padding:40px 24px 54px; text-align:
     <div class="card">
       <h3>Not built for</h3>
       <ul>
-        <li>Anyone in acute pain right now</li>
+        <li>Anyone in acute pain right now — the three questions below are where that line sits</li>
         <li>Post-surgery inside 12 months</li>
         <li>Anyone wanting a jump program — that's Foundation</li>
         <li>Anyone who won't do 15 minutes a night</li>
@@ -360,7 +375,7 @@ footer { border-top:1px solid var(--border); padding:40px 24px 54px; text-align:
 </div>
 
 <!-- ============ THE THREE QUESTIONS — visible, not only in the mailto ============ -->
-<div class="wrap">
+<div class="wrap" id="three">
 <section>
   <h2>Three questions first</h2>
   <p>The request button fills these in for you. If your mail app strips them, or you'd rather just
@@ -386,10 +401,10 @@ footer { border-top:1px solid var(--border); padding:40px 24px 54px; text-align:
 
   <details>
     <summary>How long until I get mine?</summary>
-    <div class="a"><p>The check is being finalized now. Click request and you're in the first
-      group — I'll email you the moment it's ready. After that, requests are worked in the order
-      they come in. When yours is up you'll hear from me. I'm not going to give you a date I
-      can't keep.</p></div>
+    <div class="a"><p>The check goes out the same day you ask — that part is built and I'm not
+      making you wait on it. The routine is the part I write by hand, so requests are worked in the
+      order they come in. When yours is up you'll hear from me. I'm not going to give you a date I
+      can't keep, because I'd rather keep the one I give you.</p></div>
   </details>
 
   <details>
@@ -401,7 +416,8 @@ footer { border-top:1px solid var(--border); padding:40px 24px 54px; text-align:
   <details>
     <summary>Do I have to show my face?</summary>
     <div class="a"><p>No. I need to see how you move, not who you are. Your footage isn't shared
-      with anyone unless you tell me it's okay.</p></div>
+      with anyone unless you tell me it's okay — it stays in my email, and I don't upload it
+      anywhere or run it through anything else.</p></div>
   </details>
 
   <details>
@@ -421,8 +437,9 @@ footer { border-top:1px solid var(--border); padding:40px 24px 54px; text-align:
   <details>
     <summary>Is it really included?</summary>
     <div class="a"><p>Included with Stay Ready for the first group who ask, and when that group is
-      full I'll say so right here. The membership costs what it costs. This doesn't cost extra
-      right now. That won't be true forever.</p></div>
+      full I'll say so right here. Stay Ready is $27/mo, month to month, cancel any time with one
+      email — no refunds on a month already started. The routine doesn't cost extra right now. That
+      won't be true forever.</p></div>
   </details>
 
   <details>
@@ -443,7 +460,8 @@ footer { border-top:1px solid var(--border); padding:40px 24px 54px; text-align:
 <div class="wrap" id="join">
 <section class="final">
   <h2>Get watched.</h2>
-  <p>You've been guessing long enough. Join, request it, and be first in line when it opens.</p>
+  <p>You've been guessing long enough. Join, request it, and you're first in line. Five minutes with
+    a wall and a chair, and somebody finally looks.</p>
   <br>
   <a class="cta" href="https://buy.stripe.com/4gMaEXbvh7nu1sccHJaAw00">Get the membership</a>
   <a class="cta ghost" id="request"
