@@ -68,6 +68,8 @@
         "reset.html",
         "thank-you.html",
         "welcome.html",
+        "routine.html",
+        "routine-check.html",
         "manage.html",
         "knee.html",
         "mobility.html",
@@ -86,6 +88,8 @@
       ],
       "_path_notes": {
         "welcome.html": "The post-purchase page — where the conversion actually fires. It emits the client-side GA4 `purchase` and Meta `Purchase` events, carries the hardcoded G-/AW-/fbq ids, calls Mail OS /api/purchase/by-session, and renders real receipt values. Every reason assets/bth-tracking.js is Tier C applies here harder: a drift on this page silently breaks purchase attribution, and the number it breaks is revenue. Mapped 2026-08-23 (Ty's ruling) — it had been failing closed to D as an unmapped path.",
+        "routine.html": "The Personalized Routine sales page. Live buy.stripe.com $27/mo link, a mailto request channel that reaches Ty's inbox directly, the member-eligibility rule (Stay Ready monthly + annual only), the three screening questions, and a dated inclusion window. A drift here either takes money from someone who is not eligible or loses the safety gate — the same class as welcome.html and manage.html, not a copy tweak. It shipped on 2026-09-20 carrying build-status copy Ty rejected (corrected in #155) while falling closed to D as an unmapped path. Mapped 2026-09-20 (Ty's ruling, BTH-GOAL-0058 G16).",
+        "routine-check.html": "The 5-item movement instrument itself. Deliberately unlinked and absent from sitemap.xml — it reaches people only through Ty's reply email, so no crawl and no URL sweep will ever catch it going stale. It enforces the three screening questions in the UI (a yes locks all five items and disables Copy), which is the control that stops someone in pain being handed a routine instead of being told to see a person. Medical-adjacent safety logic, judgment not mechanics. Mapped 2026-09-20 alongside routine.html.",
         "manage.html": "Self-serve cancel and billing. Holds the live Stripe billing-portal URL plus the Gumroad fallback for pre-in-house members. Break this and members cannot cancel — that is a chargeback and consumer-law surface, not a copy tweak.",
         "knee.html": "Live buy.stripe.com link ($41.99) plus injury/pain content. Same medical-adjacent claim class as seo/**, just sitting at the repo root.",
         "mobility.html": "Live buy.stripe.com link ($41.99) plus pain/stiffness claims. Same class as knee.html.",
