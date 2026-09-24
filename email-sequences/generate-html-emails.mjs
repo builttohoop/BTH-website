@@ -21,7 +21,7 @@
 //
 // Design rules (locked):
 //  • LINK-ONLY reset delivery — emails NEVER list exercises. Each reset-day email
-//    carries ONE Tier-2 CTA that links to that day's real reset PDF.
+//    carries ONE Tier-2 CTA that links to that day's on-site day page (reset/day-N.html).
 //  • Membership = "Stay Ready" $27/mo (locked taxonomy). No "BTH Rise", no discount, no hype.
 //  • ONE named offer per sequence: Stay Ready $27/mo. (BTH-0041)
 //    BANNED as phase names — they are separate purchasable products with their own checkouts:
@@ -255,7 +255,11 @@ function resetButton(day, title) {
 </table>`;
 }
 
-function membershipCta(featured) {
+// BTH-0069 (2026-09-24): optional button label (default keeps any other caller byte-identical), and the
+// featured box's terms line now matches Stay Ready's live /join terms. "Keep everything you download"
+// is a Group-Coaching-only term (COMPLIANCE-POLICY Gate 4) — fixed here, in the helper, so it can't
+// come back through a new caller.
+function membershipCta(featured, label = 'Join Stay Ready →') {
   if (featured) {
     return `
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:28px 0;">
@@ -263,15 +267,15 @@ function membershipCta(featured) {
     <td class="box-soft" style="background:${C.boxSoft};border:1px solid ${C.border};border-left:4px solid ${C.gold};padding:24px 28px;">
       <p class="oswald t-gold" style="margin:0 0 4px;font-size:11px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:${C.goldText};">The next step</p>
       <p class="oswald t-ink" style="margin:0 0 12px;font-size:22px;font-weight:700;line-height:1.2;color:${C.ink};">Stay Ready — $27/month</p>
-      <p class="t-body" style="margin:0 0 16px;font-size:15px;line-height:1.7;color:${C.body};">Cancel anytime. Keep everything you download. Month 1 picks up exactly where the reset left off.</p>
-      ${btnPrimary(CHECKOUT_URL, 'Join Stay Ready →', 240)}
+      <p class="t-body" style="margin:0 0 16px;font-size:15px;line-height:1.7;color:${C.body};">Cancel anytime with one email. Month 1 picks up exactly where the reset left off.</p>
+      ${btnPrimary(CHECKOUT_URL, label, 240)}
     </td>
   </tr>
 </table>`;
   }
   return `
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:24px 0 8px;">
-  <tr><td>${btnPrimary(CHECKOUT_URL, 'Join Stay Ready →', 240)}</td></tr>
+  <tr><td>${btnPrimary(CHECKOUT_URL, label, 240)}</td></tr>
 </table>`;
 }
 
@@ -380,6 +384,18 @@ function g(word) {
 // prior QA hedges kept verbatim (E0 durability, E1 "for a lot of guys", E4 "Weeks later — not
 // overnight…", E5 "don't have to start the comeback over again" / "knees feel less loaded"). No
 // subject lines changed — opens are healthy, only clicks are the problem.
+//
+// REWRITE 2026-09-24 — BTH-0069 (approval #103 a). E1, E6 and E7 rewritten; E0 and E2–E5 untouched.
+// Live read before the change: steps 213/218/219 had 0 human clicks ever (74/70/57 sends). E1 at
+// hour 24 is where the reader expects Day 2, so it now opens Day 2 early (one Tier-2 CTA to
+// reset/day-2.html right after one story insertion). E6 stops congratulating a finish nobody has had
+// (reset_day has only ever recorded 1) and sends the stalled reader back to Day 2. E7 becomes the one
+// real close: it had no link at all; now one Tier-1 /join CTA via membershipCta(true, label). The
+// Personalized Routine mention in E7 uses Goal 58 G17's dual-dated line verbatim (true before AND
+// after Nov 1), so E7 needs no second press on 2026-10-22. Arm A only (no A/B mechanism exists in
+// Mail OS). Clinic credential stays owned by E4. QA: compliance PASS (R2 2026-09-23 + final-#1
+// recheck 2026-09-24), bth-mission-qa PASS on #1/#6/#7 (2026-09-24). Filenames unchanged — the
+// seeder maps by position/filename.
 
 const emails = [
 
@@ -407,32 +423,23 @@ ${p('There\'s more after Day 5 — I\'ll show you then.', { muted: true })}
 ${sig('Ty<br>Built to Hoop')}
 `},
 
-  // EMAIL 1 — DAY 1 / HIP EDUCATION (pure education/sell)
+  // EMAIL 1 — HOUR 24 / THE CHAIN + DAY 2 OPEN EARLY (BTH-0069 rewrite)
   {
     filename: 'email-1-hip-education.html',
-    subject: 'your hips are lying to you',
-    preheader: 'It\'s not that your hips are tight. It\'s that they shut down.',
+    subject: 'day 2 is open',
+    preheader: 'It\'s rarely just the hip. Day 2, the link underneath it, is ready now.',
     body: `
-${hero('The Truth · Hips', `Your hips are ${g('lying')} to you.`)}
-${p('Yesterday I promised you the truth about why your hips feel locked up. Here it is &mdash; the part nobody tells you:')}
-${p('It\'s usually not that your hips are tight.')}
-${p('For a lot of guys, it\'s that the hips <strong>shut down</strong> — and the lower back takes over to protect them.')}
-${p('Every lateral cut. Every hard stop. Every time you planted on the wrong angle and felt that pull — your hips were supposed to absorb that. But if they\'ve never been trained to load and reset, they stop doing the job.')}
-${p('So the back tightens. The knees start compensating. The first step gets slower — and nobody connects the dots until it\'s gone.')}
-${p('And if you\'ve been away &mdash; injury, work, life &mdash; the shutdown had that whole time to set in. Coming back doesn\'t undo it. Coming back <strong>tests</strong> it.')}
-${p('I found that out the long way round. I worked my back, and the knee got loud. I settled the knee, and the arch started taking the load. Every time I chased the loud one, a quieter one spoke up.')}
-${p('That\'s the cycle.')}
+${hero('Day 2 · Open Early', `It's rarely just the ${g('hip.')}`)}
+${p('Morning after a run. Your hips are locked before your feet hit the floor.')}
+${p('The truth I promised: for a lot of hoopers, that isn\'t a hip problem alone. <strong>The lower body is a chain, and the weakest link falls first.</strong> I learned it the long way: I worked my back, and the knee got loud.')}
+${p('That\'s why Day 2 is the ankles, the link underneath. It was going to land tomorrow. It\'s open now.')}
+${resetButton(2, 'Ankle Reset')}
+${p('Same rules as Day 1: move slow, stay in control, no pain. If something pinches, back off right away.', { size: 14, muted: true })}
 ${divider()}
-${p('The reset you\'re doing this week interrupts it. That\'s real — for a few days your hips get permission to move again.')}
-${p('Interrupting a pattern and rebuilding it are two different jobs, though. More on that later this week.')}
+${p('Five days won\'t rebuild a chain. What they can do is show you which link talks first on you, and that\'s worth knowing before your next run.', { muted: true })}
+${p('Haven\'t run Day 1 yet? It\'s in yesterday\'s email. Start there, then come back to this one. The order matters more than the speed.', { size: 14, muted: true })}
 ${divider()}
-${p('Quick favor —')}
-${p('Reply to this email with one word: <strong>RIGHT</strong> if your right hip\'s worse, <strong>LEFT</strong> if it\'s your left, <strong>EVEN</strong> if they\'re about the same. I read every reply myself — it tells me what to send you next.')}
-${divider()}
-${p('For now — did you do the Day 1 hip reset? If not, do it before tomorrow.')}
-${p('<strong>15 minutes. Today.</strong>')}
-${p(`Missed Day 1? <a href="${RESET_BASE}/BTH-Reset-Day-01-Hip-Reset.pdf" class="link" style="color:${C.goldText};text-decoration:underline;">It's still here</a> — do it before Day 2 lands tomorrow.`, { size: 14, muted: true })}
-${p('Tomorrow: Day 2 — the Ankle Reset. And I\'m naming the thing that kills more comebacks than any injury ever has.', { muted: true })}
+${p('Tomorrow I\'m naming the thing that kills more comebacks than any injury ever has.', { muted: true })}
 ${sig()}
 `},
 
@@ -549,54 +556,45 @@ ${p('Tomorrow: one straight answer about what happens to the body you just rebui
 ${sig()}
 `},
 
-  // EMAIL 6 — THE CLOSE (no reset content, no fake deadlines)
+  // EMAIL 6 — PICK IT BACK UP (was "The Close"; the ask moves to #7) (BTH-0069 rewrite)
   {
     filename: 'email-6-the-close.html',
-    subject: 'The reset\'s done. Keep the body that earned it.',
-    preheader: 'A reset is maintenance, not building. Keep going and you build on top of it.',
+    subject: 'the straight answer I owe you',
+    preheader: 'What happens if you stop here, and where to pick it back up.',
     body: `
-${hero('The Close', `Keep the body you ${g('earned.')}`)}
-${p('Straight talk — the answer I promised you yesterday.')}
-${p('You finished the reset. Five days in, your hips are looser, your ankles move better, your knees feel less stacked. You earned that — and you did the work to get it.')}
-${p('A few of you replied on Day 3 telling me your hips already felt different by then. If that was you — this is the fork: keep building on that, or let it slide back.', { size: 14, muted: true })}
-${p('Here\'s the part most guys miss: a reset is maintenance, not building. Stop now and it slips back in a few weeks. Keep going and you build on top of it instead.')}
-${p('That\'s the whole difference between Stay Ready and everything else you\'ve tried.')}
-${p('I built it the way I needed it built. Nobody trained me back after my own injury, so I worked the chain in order on myself first — and I still run it myself, month over month.')}
-${h('What you\'re actually getting:')}
-${ul([
-  'The full BTH method — Foundation (your first month inside), then The Strength Block, run for you month to month',
-  'Hip Reset, Knee Protection, Ankle Rebuild, Skill Builder, and Recovery System — all included',
-  'Everything delivered straight to you the day you join — and the BTH app is on the way. When it launches, you\'ll be set up for it.',
-])}
-${p('Want a nightly routine written off your own movement footage? That\'s the Personalized Routine — included with Stay Ready through October 31, 2026, then inside coaching only. Reply and ask me about it.', { size: 14, muted: true })}
-${p('$27/month. Cancel anytime. Keep everything you download.')}
-${membershipCta(true)}
-${p('Questions? Reply to this email. I read every one.')}
-${p('Not ready yet? No pressure — the list stays open. But the body you just earned is worth keeping ready.')}
+${hero('Pick It Back Up', `Start where you ${g('stopped.')}`)}
+${p('It\'s 11 at night. Day 2 is still sitting in your inbox. Work ran long, you\'re wiped, and you tell yourself tomorrow.')}
+${p('I had to start over from square one myself, and I\'m still in it. The knee is the link I\'m working on right now.')}
+${p('Straight answer, like I promised yesterday: a few days of this is maintenance, not building. For most guys, stop here and whatever it loosened up starts sliding back.')}
+${p('But that answer assumes you ran all five days. Most guys who start this stall after Day 1, and the chain doesn\'t care which day you stopped on. Missing a day doesn\'t end a comeback. Starting over from zero every time does. Pick it up where you left off.')}
+${resetButton(2, 'Ankle Reset')}
+${p('Day 2 is where most guys stall, so that\'s where I\'m sending you back. Already past it? Run the next day you haven\'t done. Each one is in its own email.', { size: 14, muted: true })}
+${divider()}
+${p('If you ran all five, good. In three days I\'ll send you what comes after the reset: what it is, what it costs, and no discount, because there isn\'t one.', { muted: true })}
 ${sig()}
 `},
 
-  // EMAIL 7 — RE-ENGAGE (no reset content)
+  // EMAIL 7 — THE CLOSE (was "Re-engage": reply-only, zero links) (BTH-0069 rewrite)
   {
     filename: 'email-7-re-engage.html',
-    subject: 'still thinking about it?',
-    preheader: 'No discount coming. Just one real question.',
+    subject: 'what comes after the reset',
+    preheader: 'What Stay Ready is, what it costs, and no discount coming.',
     body: `
-${hero('Still In?', `What's ${g('stopping')} you?`)}
-${p('I\'m not going to try to talk you into this with a discount.')}
-${p('So here\'s the honest version instead. I got hurt, got handed pain pills, got sent home, and nobody trained me back. Everything in Stay Ready exists because I had to work it out in order on myself — and I\'m still in it.')}
-${p('I\'m also not going to ask you the same thing twice. If you replied on Day 5, I already have what you told me — and if I owe you an answer I haven\'t sent, tell me and I\'ll sort that out.')}
-${p('If you didn\'t reply — this is the last email in this run, so let me ask it a different way.')}
-${h('Which one of these is actually true for you right now?')}
+${hero('What Comes Next', `Keep the chain ${g('working.')}`)}
+${p('Morning after a run. You\'re halfway down the stairs before your hips decide to show up for the day.')}
+${p('I\'m still in it. The knee is the link I\'m working on right now, and I run the same system I\'m about to show you, month over month.')}
+${p('<strong>That\'s what Stay Ready is:</strong> the lower body worked as a chain, in order, every month. It\'s built to keep what the reset started moving forward, not sliding back.')}
+${h('What\'s inside')}
 ${ul([
-  '<strong>Price.</strong> ($27/month is one pickup session\'s worth of gym cost — but "worth it" is still your call, not mine.)',
-  '<strong>Timing.</strong> (Month 1 is built for guys easing back in — 3 days a week, around a real schedule — but if life\'s genuinely too full right now, that\'s real too.)',
-  '<strong>Trust.</strong> (You haven\'t seen it work yet. Fair. That one only gets solved by trying it — I can\'t argue you out of it.)',
-  '<strong>Something else.</strong> Tell me what it actually is.',
+  'The full BTH method, run for you month to month. Foundation (your first month inside Stay Ready, not a separate purchase), then The Strength Block.',
+  'Everything delivered straight to your inbox the day you join, the same way the reset reached you.',
 ])}
-${p('Hit reply and give me a letter, or just say it in your own words. I read every one, and I\'ll give you a straight answer back — not another pitch.')}
-${p('If Stay Ready ends up being the move, it\'s still $27 a month, cancel anytime — no lock-in.')}
-${p('If it\'s genuinely not for you right now, no hard feelings — the reset was free and I hope it did what it was supposed to do.', { muted: true, size: 14 })}
+${p('Want a nightly routine written off your own movement footage? That\'s the Personalized Routine — included with Stay Ready through October 31, 2026, then inside coaching only. Reply and ask me about it.', { size: 14, muted: true })}
+${membershipCta(true, 'See everything that\'s inside →')}
+${p('No discount is coming. That\'s the price, month to month.', { size: 14, muted: true })}
+${divider()}
+${p('Not the right time? No hard feelings. The reset was free, and it\'s yours to keep running. If something\'s in the way (price, timing, or you just don\'t trust it yet), hit reply and tell me which. I read every one, and I\'ll give you a straight answer back, not another pitch.')}
+${p('This is the last email in this run.', { muted: true })}
 ${sig()}
 `},
 ];
