@@ -108,6 +108,9 @@ footer { background:var(--cream); border-top:1px solid var(--border); padding:48
 .foot-links a:hover { color:var(--gold); }
 .foot-copy { width:100%; text-align:center; font-size:11px; color:var(--muted); padding-top:24px; border-top:1px solid var(--soft); opacity:0.6; }
 
+.quick-answers { margin-top:56px; padding-top:32px; border-top:1px solid var(--border); }
+.quick-answers h2 { margin-top:0; }
+
 /* ─── NAV (OVERRIDE) ─── */
 nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
@@ -193,6 +196,82 @@ nav {
 .mobile-menu .mobile-cta:hover { filter: brightness(0.9); color: var(--black); }
 
 </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://built-to-hoop.com/#organization",
+      "name": "Built to Hoop",
+      "url": "https://built-to-hoop.com/",
+      "logo": "https://built-to-hoop.com/assets/apple-touch-icon.png",
+      "sameAs": [
+        "https://www.instagram.com/builttohoop2026/",
+        "https://www.tiktok.com/@builttohoop"
+      ]
+    },
+    {
+      "@type": "Article",
+      "@id": "https://built-to-hoop.com/seo/hip-mobility-for-hoopers.html#article",
+      "headline": "Hip Mobility for Hoopers.",
+      "description": "Stiff hips wreck pickup. But static stretching doesn't fix it. Here's what actually works for adult hoopers.",
+      "url": "https://built-to-hoop.com/seo/hip-mobility-for-hoopers.html",
+      "mainEntityOfPage": "https://built-to-hoop.com/seo/hip-mobility-for-hoopers.html",
+      "datePublished": "2026-05-03",
+      "dateModified": "2026-09-26",
+      "inLanguage": "en-US",
+      "author": {
+        "@type": "Person",
+        "name": "Ty",
+        "jobTitle": "Founder, Built to Hoop",
+        "url": "https://built-to-hoop.com/about.html",
+        "worksFor": {
+          "@id": "https://built-to-hoop.com/#organization"
+        }
+      },
+      "publisher": {
+        "@id": "https://built-to-hoop.com/#organization"
+      },
+      "isPartOf": {
+        "@type": "CollectionPage",
+        "@id": "https://built-to-hoop.com/seo/#collection"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://built-to-hoop.com/seo/hip-mobility-for-hoopers.html#faq",
+      "url": "https://built-to-hoop.com/seo/hip-mobility-for-hoopers.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Tight hips from basketball — why won't they loosen up?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Because most hoopers try to stretch them loose, and stretching only borrows range for a few minutes. Tight hips after pickup usually mean the hip has range it can't control under load. Hold the end of that range, load it, and practice it at speed. That's what makes the range stick."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How long does it take for tight hips to loosen up?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It varies. Most hoopers who do the work 3 to 4 times a week notice their hips moving easier within a few weeks, and it keeps building over time. Already seeing a pro for your hips? Keep doing that."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Should I stretch my hips before pickup?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Not with long static holds. Save those for after. Before you play, use hip CARs and leg swings so the hip moves through the range the game is about to ask for."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
 </head>
 <body>
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T9SFFTB7" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
@@ -207,7 +286,7 @@ nav {
     <a href="../updates.html">Updates</a>
     <a href="../about.html">About</a>
   </div>
-  <a href="../reset.html" class="nav-cta">Free Reset</a>
+  <a href="../reset.html?utm_source=organic&amp;utm_medium=seo&amp;utm_campaign=hip-mobility-for-hoopers" class="nav-cta">Free Reset</a>
   <button class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
     <span></span><span></span><span></span>
   </button>
@@ -219,7 +298,7 @@ nav {
   <a href="../addons.html">Tracks</a>
   <a href="../updates.html">Updates</a>
   <a href="../about.html">About</a>
-  <a href="../reset.html" class="mobile-cta">Free Reset</a>
+  <a href="../reset.html?utm_source=organic&amp;utm_medium=seo&amp;utm_campaign=hip-mobility-for-hoopers" class="mobile-cta">Free Reset</a>
 </div>
 
 <article class="article-wrap article">
@@ -230,7 +309,7 @@ nav {
   <h2>Mobility ≠ Flexibility</h2>
   <p>Flexibility is how far you can passively move a joint. Mobility is how far you can <strong>actively control</strong> a joint while loaded.</p>
   <p>On a basketball court, only one of those things matters. You're not lying on the floor reaching for your toes. You're cutting hard off your right foot and asking your hip to absorb force at the end of its range, instantly.</p>
-  <p>If your hip can stretch into a position passively but can't move into it actively under load — you don't have a mobility problem. You have a strength-in-range problem. Static stretching can't fix it.</p>
+  <p>If your hip can stretch into a position passively but can't move into it actively under load — you don't have a mobility problem. You have a strength-in-range problem. Static stretching alone won't build that.</p>
   <div class="callout"><div class="callout-title">The Truth</div><div class="callout-body">"You don't need more flexibility. You need range your hip can actually use under load."</div></div>
 
   <h2>The 4 Things That Actually Work</h2>
@@ -252,6 +331,15 @@ nav {
   <p>If you want a 6-week structured progression that does all four of those things — open, own, load, express — that's exactly what the <a href="../addons.html">Hip Reset Track</a> is built for.</p>
   <p>If you'd rather build the full base first (hip + ankle + strength + pickup integration), <a href="../tier-1.html">Foundation</a> covers it.</p>
 
+<section class="quick-answers" aria-label="Quick answers">
+  <div class="article-eyebrow">Quick Answers</div>
+  <h2>Tight hips from basketball — why won't they loosen up?</h2>
+  <p>Because most hoopers try to stretch them loose, and stretching only borrows range for a few minutes. Tight hips after pickup usually mean the hip has range it can't control under load. Hold the end of that range, load it, and practice it at speed. That's what makes the range stick.</p>
+  <h3>How long does it take for tight hips to loosen up?</h3>
+  <p>It varies. Most hoopers who do the work 3 to 4 times a week notice their hips moving easier within a few weeks, and it keeps building over time. Already seeing a pro for your hips? Keep doing that.</p>
+  <h3>Should I stretch my hips before pickup?</h3>
+  <p>Not with long static holds. Save those for after. Before you play, use hip CARs and leg swings so the hip moves through the range the game is about to ask for.</p>
+  </section>
 <div class="related"><div class="related-eyebrow">Read Next</div><ul><li><a href="why-knees-hurt-after-basketball.html">Why Your Knees Hurt After Basketball</a></li><li><a href="best-basketball-warmup.html">Best Basketball Warmup</a></li><li><a href="how-to-train-legs-for-basketball.html">How to Train Legs for Basketball Without Feeling Heavy</a></li></ul></div>
 </article>
 
@@ -260,7 +348,7 @@ nav {
     <div class="cta-eyebrow">Free 5-Day Reset</div>
     <div class="cta-title">Start With Better Movement.</div>
     <p class="cta-sub">Five short workouts that give your hips, ankles, and court movement a structured starting point. Free. No card required.</p>
-    <a href="../reset.html" class="btn-gold">Get the Free 5-Day Reset →</a>
+    <a href="../reset.html?utm_source=organic&amp;utm_medium=seo&amp;utm_campaign=hip-mobility-for-hoopers" class="btn-gold">Get the Free 5-Day Reset →</a>
   </div>
 </div>
 
@@ -310,7 +398,7 @@ nav {
     <a href="../tier-2.html">Rise</a>
     <a href="../tier-3.html">Stay Ready</a>
     <a href="../addons.html">Add-Ons</a>
-    <a href="../reset.html">Free Reset</a>
+    <a href="../reset.html?utm_source=organic&amp;utm_medium=seo&amp;utm_campaign=hip-mobility-for-hoopers">Free Reset</a>
     <a href="../about.html">About</a>
   </div>
   <div class="foot-copy">© 2026 Built to Hoop. All rights reserved. &nbsp;·&nbsp; tyrell@built-to-hoop.com</div>
