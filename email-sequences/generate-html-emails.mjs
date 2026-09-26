@@ -566,9 +566,9 @@ ${h('What you\'re actually getting:')}
 ${ul([
   'The full BTH method — Foundation (your first month inside), then The Strength Block, run for you month to month',
   'Hip Reset, Knee Protection, Ankle Rebuild, Skill Builder, and Recovery System — all included',
-  '<strong>New — the Personalized Routine.</strong> Run a five-minute movement check on your phone, send me short clips of whatever it flags, and I write you a nightly routine off what I actually saw. Twelve to fifteen minutes, every night before bed. Included through October 31.',
   'Everything delivered straight to you the day you join — and the BTH app is on the way. When it launches, you\'ll be set up for it.',
 ])}
+${p('Want a nightly routine written off your own movement footage? That\'s the Personalized Routine — included with Stay Ready through October 31, 2026, then inside coaching only. Reply and ask me about it.', { size: 14, muted: true })}
 ${p('$27/month. Cancel anytime. Keep everything you download.')}
 ${membershipCta(true)}
 ${p('Questions? Reply to this email. I read every one.')}
