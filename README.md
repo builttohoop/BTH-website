@@ -108,11 +108,20 @@ BTH-GOAL-0032 (list exported + imported to D1 2026-07-08).
 
 ## To deploy changes
 
+`main` is protected: nothing is pushed to it directly. A change ships by pull request, and the merge is the deploy.
+
 ```bash
-git add -A
+git switch -c my-change origin/main
+git add <files>
 git commit -m "your message"
-git push origin main
+git push -u origin my-change
+gh pr create --repo builttohoop/BTH-website --base main
+gh pr merge my-change --repo builttohoop/BTH-website --merge   # only once validate + leak-scan are green
 ```
+
+Green-only (Ty's ruling, 2026-10-04): a PR merges once its required checks, `validate` and `leak-scan`, pass.
+Never merge a red or pending PR, and never with `--admin`. A daily digest issue lists every merge with its
+revert command.
 
 Site goes live in ~60 seconds. No build step.
 
