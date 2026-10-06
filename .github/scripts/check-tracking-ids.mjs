@@ -12,12 +12,22 @@ if (process.argv.includes('--help')) {
 
 const SOURCE = 'assets/bth-tracking.js';
 const EXCLUDED_DIRS = new Set(['.git', '.github', 'node_modules', '09-archive']);
+// A family may carry several patterns; every match lands in the same ID set.
+// (?<![\w-]) keeps `hero-G-ABCDEF1`-style class names out of the GA4/Ads/GTM sets.
 const families = [
-  { name: 'GA4', pattern: /\bG-[A-Z0-9]{6,}\b/g },
-  { name: 'Google Ads', pattern: /\bAW-[0-9]+\b/g },
-  { name: 'GTM', pattern: /\bGTM-[A-Z0-9]+\b/g },
-  // fbq('init', '<id>') with or without a trailing advanced-matching object.
-  { name: 'Meta', pattern: /\bfbq\s*\(\s*(['"])init\1\s*,\s*(['"])([0-9]+)\2\s*[,)]/g, group: 3 },
+  { name: 'GA4', patterns: [/(?<![\w-])G-[A-Z0-9]{6,}\b/g] },
+  { name: 'Google Ads', patterns: [/(?<![\w-])AW-[0-9]+\b/g] },
+  { name: 'GTM', patterns: [/(?<![\w-])GTM-[A-Z0-9]+\b/g] },
+  {
+    name: 'Meta',
+    patterns: [
+      // fbq('init', '<id>') with or without a trailing advanced-matching object.
+      /\bfbq\s*\(\s*(['"])init\1\s*,\s*(['"])([0-9]+)\2\s*[,)]/g,
+      // the <noscript> pixel: https://www.facebook.com/tr?id=<id>&ev=PageView
+      /facebook\.com\/tr\?id=([0-9]+)/g,
+    ],
+    group: [3, 1],
+  },
 ].map((family) => ({ ...family, ids: new Map() }));
 
 function htmlFiles(dir) {
@@ -35,12 +45,15 @@ function htmlFiles(dir) {
 function scan(file) {
   const text = readFileSync(file, 'utf8');
   for (const family of families) {
-    for (const match of text.matchAll(family.pattern)) {
-      const id = match[family.group ?? 0];
-      const location = `${file}:${text.slice(0, match.index).split('\n').length}`;
-      if (!family.ids.has(id)) family.ids.set(id, new Set());
-      family.ids.get(id).add(location);
-    }
+    family.patterns.forEach((pattern, index) => {
+      const group = Array.isArray(family.group) ? family.group[index] : (family.group ?? 0);
+      for (const match of text.matchAll(pattern)) {
+        const id = match[group];
+        const location = `${file}:${text.slice(0, match.index).split('\n').length}`;
+        if (!family.ids.has(id)) family.ids.set(id, new Set());
+        family.ids.get(id).add(location);
+      }
+    });
   }
 }
 
