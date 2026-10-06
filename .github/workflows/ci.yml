@@ -41,6 +41,18 @@ jobs:
       - name: Internal link integrity
         run: node .github/scripts/check-links.mjs
 
+      - name: Homepage has no price (approval 81a)
+        run: node .github/scripts/check-homepage-no-price.mjs
+
+      - name: Tracking ID consistency
+        run: node .github/scripts/check-tracking-ids.mjs
+
+      - name: Email design-system shell
+        run: node .github/scripts/check-email-shell.mjs
+
+      - name: Reset day page contract
+        run: node scripts/check-reset-day-pages.mjs
+
       # BTH-GOAL-0057 D7. The client_reference_id shape is a contract with the Mail OS
       # worker's parser, in a different repo — the two halves ship as two separate merges,
       # so nothing else would catch a drift until an abandoned checkout silently went
