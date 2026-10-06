@@ -215,9 +215,10 @@
   }
 
   // Meta browser ids for that server-side Lead: the pixel's own first-party _fbp/_fbc
-  // cookies, so Meta can match the server event to the browser. When _fbc is missing
-  // (pixel blocked or not loaded yet) but the landing URL still carries ?fbclid=, build
-  // it the way the pixel does. The worker re-validates both and drops anything malformed.
+  // cookies, so Meta can match the server event to the browser. When the landing URL
+  // carries a ?fbclid= the cookie does not already hold (pixel blocked, not loaded yet,
+  // or a cookie from an older click), build fbc the way the pixel does (see metaFbc).
+  // The worker re-validates both and drops anything malformed.
   var META_BROWSER_ID = /^fb\.\d\.\d{10,16}\.[A-Za-z0-9_.-]{1,450}$/;
 
   function metaCookie(name) {
@@ -233,12 +234,22 @@
     return "";
   }
 
-  function fbcFromUrl() {
+  function fbclidFromUrl() {
     try {
       var id = new URLSearchParams(window.location.search).get("fbclid");
-      if (id && /^[A-Za-z0-9_-]{1,450}$/.test(id)) return "fb.1." + Date.now() + "." + id;
+      if (id && /^[A-Za-z0-9_-]{1,450}$/.test(id)) return id;
     } catch (e) {}
     return "";
+  }
+
+  // A fresh ?fbclid= is the ad click that brought this visit, so it beats a _fbc cookie
+  // left by an older click (the pixel would rewrite the cookie too, but it may be blocked).
+  // The same click already in the cookie keeps the cookie, with its original timestamp.
+  function metaFbc() {
+    var cookie = metaCookie("_fbc");
+    var id = fbclidFromUrl();
+    if (id && cookie.slice(-(id.length + 1)) !== "." + id) return "fb.1." + Date.now() + "." + id;
+    return cookie;
   }
   // ---- /Lead conversion ------------------------------------------------------
 
@@ -313,9 +324,12 @@
       } catch (e) {}
       var formData = new FormData(form);
       var fbp = metaCookie("_fbp");
-      var fbc = metaCookie("_fbc") || fbcFromUrl();
+      var fbc = metaFbc();
       if (fbp) formData.set("fbp", fbp);
       if (fbc) formData.set("fbc", fbc);
+      // This form passes the worker's event_id to the pixel as eventID, so it asks for the
+      // server Lead. An older cached form never sends this and never gets an unpaired one.
+      formData.set("meta_dedupe", "1");
 
       fetch(form.action, { method: "POST", body: formData })
         .then(function (res) {
