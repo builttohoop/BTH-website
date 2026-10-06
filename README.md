@@ -70,7 +70,7 @@ Every page loads:
 - **Meta Pixel** `1320146003572375` — PageView automatic
 - **TikTok Pixel** `D7RNU1RC77U2TFGF3SO0` — PageView automatic
 
-`assets/bth-tracking.js` fires `ViewContent`, `Lead`, and `InitiateCheckout` to all three platforms.
+`assets/bth-tracking.js` fires `ViewContent` and `InitiateCheckout` to all three platforms. The opt-in `Lead` is fired by `assets/bth-form.js` (`fireLead()`) on the submitting page, only after `/api/subscribe` confirms a real contact write.
 
 ---
 

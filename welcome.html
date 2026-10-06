@@ -27,9 +27,10 @@
   <!-- ─────────────────────────────────────────────────────────────────────────
        PURCHASE EVENT — client-side half. Ty's decision, 2026-08-10.
 
-       THIS PAGE NEVER FIRES A LEAD EVENT. It is the BUYER page. thank-you.html
-       is the lead page; pointing a $27 sale at it would label a purchase as a
-       lead. Do not copy thank-you.html's fireLead block in here. Ever.
+       THIS PAGE NEVER FIRES A LEAD EVENT. It is the BUYER page. The Lead fires on
+       the opt-in form page (assets/bth-form.js fireLead(), since 2026-10-06);
+       pointing a $27 sale at it would label a purchase as a lead. Do not copy
+       fireLead or thank-you.html's legacy Lead shim in here. Ever.
 
        THE DEDUPE CONTRACT (read before touching a line of this):
        The Mail OS Worker already emits the authoritative purchase server-side —
