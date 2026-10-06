@@ -5,11 +5,12 @@
  *
  * Events:
  *   ViewContent      — on tier/addon/knee/mobility/bounce page load
- *   Lead             — fired on thank-you.html (the confirmed free-reset opt-in page),
- *                      NOT on form submit. The owned .bth-mail-form redirects to
- *                      thank-you.html only on a successful /api/subscribe, so Lead
- *                      fires exactly once per real opt-in (BTH-GOAL-0032 — removed the
- *                      submit-side double-fire + the dead legacy-embed detection).
+ *   Lead             — NOT fired here. assets/bth-form.js fires it on the submitting
+ *                      page once /api/subscribe confirms a real contact write, then
+ *                      redirects to thank-you.html, which fires nothing. One fire per
+ *                      real opt-in (BTH-GOAL-0032 removed this file's old submit
+ *                      listener; 2026-10-06 moved the fire off thank-you.html, which
+ *                      TikTok's in-app browser opens in a different browser).
  *   InitiateCheckout — on the owned Stripe Payment Link CTA (STRIPE_LINK_MAP), any
  *                      legacy Gumroad CTA link (kept live through the cutover parallel
  *                      window), OR any element carrying data-bth-checkout (e.g. coaching)
@@ -195,12 +196,12 @@
     }, true);
   }
 
-  // Lead — fired on thank-you.html (the confirmed free-reset opt-in page), NOT here.
-  // The owned .bth-mail-form (bth-form.js) redirects to /thank-you.html only on a
-  // successful /api/subscribe, so Lead fires exactly once per real opt-in. The old
-  // submit-side listener double-counted (it fired on submit AND thank-you.html) and
-  // mis-fired on invalid-email / 429 / network-fail submits; its legacy-embed (ml-*)
-  // detection was already dead since the embeds were removed in BTH-GOAL-0027.
+  // Lead — fired by bth-form.js, NOT here: only after /api/subscribe confirms a real
+  // contact write, on the submitting page, before the redirect to /thank-you.html
+  // (which fires nothing since 2026-10-06). This file's old submit-side listener
+  // double-counted (it fired on submit AND thank-you.html) and mis-fired on
+  // invalid-email / 429 / network-fail submits; its legacy-embed (ml-*) detection
+  // was already dead since the embeds were removed in BTH-GOAL-0027.
   // Removed in BTH-GOAL-0032.
 
   if (document.readyState === "loading") {

@@ -9,9 +9,12 @@
  *   - fetch(action, {method:'POST', body:new FormData(form)})
  *   - button runs press(scale)->working(spinner)->success(checkmark) per the spec states
  *   - on success: redirect to /thank-you.html. A REAL contact write (worker says
- *     created/queued) also sets sessionStorage "bth_lead" — thank-you.html fires the
- *     Lead pixels only when that flag is present, so honeypot-dropped submits and
- *     direct thank-you loads never count as conversions (ghost-conversion fix, 2026-07-23)
+ *     created/queued) fires the Lead pixels HERE, on the submitting page, before the
+ *     redirect — so honeypot-dropped submits and direct thank-you loads never count
+ *     as conversions (ghost-conversion fix, 2026-07-23). Moved off thank-you.html
+ *     2026-10-06: TikTok's in-app browser opens the redirect in a different browser
+ *     with no sessionStorage, so the old flag-gated fire there missed every TikTok
+ *     opt-in (0 of 5, contacts 94/96/99/102/131; every other opt-in fired, 35 of 35)
  *   - 429 -> inline "too many attempts" message, button re-enabled
  *   - other non-ok / network error -> inline fallback message with the support email
  *   - honeypot ("company") is left untouched here; validation/limiting is server-side
@@ -154,6 +157,49 @@
   }
   // ---- /Domain typo guard ----------------------------------------------------
 
+  // ---- Lead conversion -------------------------------------------------------
+  // Fires the Lead pixels (GA4, Meta, TikTok) plus the GTM "bth_lead" push, then
+  // calls done() exactly once: when GA4 confirms the hit (event_callback), or on
+  // the fallback timer if gtag.js is blocked or slow, so a blocked tag can never
+  // hold the redirect. Every pixel call is guarded: one failing tag never stops
+  // the others or the redirect.
+  var LEAD_PROPS = { content_name: "free_reset_optin", content_category: "lead_magnet" };
+
+  function fireLead(done) {
+    var finished = false;
+    function finish() {
+      if (finished) return;
+      finished = true;
+      done();
+    }
+    try { if (window.fbq) window.fbq("track", "Lead", LEAD_PROPS); } catch (e) {}
+    try { if (window.ttq) window.ttq.track("Lead", LEAD_PROPS); } catch (e) {}
+    try {
+      (window.dataLayer = window.dataLayer || []).push({
+        event: "bth_lead",
+        bth_event_name: "Lead",
+        bth_content_name: LEAD_PROPS.content_name,
+        bth_content_category: LEAD_PROPS.content_category
+      });
+    } catch (e) {}
+    var waitForGa = false;
+    try {
+      if (typeof window.gtag === "function") {
+        window.gtag("event", "Lead", {
+          content_name: LEAD_PROPS.content_name,
+          content_category: LEAD_PROPS.content_category,
+          transport_type: "beacon",
+          event_callback: finish,
+          event_timeout: 1500
+        });
+        waitForGa = true;
+      }
+    } catch (e) {}
+    // event_timeout only runs once gtag.js has loaded; this covers a blocked gtag.js.
+    window.setTimeout(finish, waitForGa ? 1600 : 0);
+  }
+  // ---- /Lead conversion ------------------------------------------------------
+
   function wireForm(form) {
     if (form.dataset.bthWired === "1") return;
     form.dataset.bthWired = "1";
@@ -237,9 +283,6 @@
               var realLead = (typeof data.created === "boolean")
                 ? data.created
                 : (Number(data.queued) > 0);
-              if (realLead) {
-                try { window.sessionStorage.setItem("bth_lead", "1"); } catch (e) {}
-              }
               // BTH-GOAL-0054: the worker's signed, non-PII lead token — the identity
               // assets/bth-events.js attaches to first-party funnel beacons (Day-1
               // view, offer view, checkout start). localStorage on purpose: the
@@ -252,9 +295,17 @@
                 btn.classList.add("is-success");
               }
               if (successEl) successEl.classList.add("is-visible");
-              window.setTimeout(function () {
+              // Redirect once both are true: the success state has shown for 500ms,
+              // and (on a real lead) the Lead pixels have gone out.
+              var left = false;
+              var pending = realLead ? 2 : 1;
+              function go() {
+                if (--pending > 0 || left) return;
+                left = true;
                 window.location.href = redirectUrl;
-              }, 500);
+              }
+              window.setTimeout(go, 500);
+              if (realLead) fireLead(go);
             });
           }
           if (btn) {
