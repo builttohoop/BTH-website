@@ -20,7 +20,7 @@
   --bth-gold-text: #7A5700;   /* WCAG-AA-safe gold for TEXT on light (cream/white) surfaces — RULED by Ty 2026-08-30 (approval CC-#78, "go with recommended"): 6.58:1 on white, 5.74:1 on cream. Never use for backgrounds/borders/icons; --bth-gold stays those. */
 
   /* ─── DERIVED NEUTRALS (from real site usage) ──────────── */
-  --bth-muted:        rgba(17, 19, 24, 0.50);  /* secondary text */
+  --bth-muted:        rgba(17, 19, 24, 0.62);  /* secondary text — 0.62 = WCAG AA: 5.27:1 on white, 4.93:1 on cream (was 0.50 = 3.5:1) */
   --bth-muted-strong: rgba(17, 19, 24, 0.72);  /* body copy on cream */
   --bth-border:       rgba(17, 19, 24, 0.12);  /* hairlines */
   --bth-soft:         rgba(17, 19, 24, 0.06);  /* very faint rule */
