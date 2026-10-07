@@ -48,17 +48,21 @@
   })();
   </script>
 
-  <!-- Fire Lead event on page load — this page = confirmed email opt-in.
-       GUARDED (ghost-conversion fix, 2026-07-23): only a submit that actually
-       wrote a contact carries sessionStorage "bth_lead" (set by bth-form.js from
-       the worker's created/queued response). Direct loads, bots, back-button
-       revisits, and honeypot-dropped submits arrive without it and fire nothing. -->
+  <!-- Lead fires on the submitting page now (2026-10-06): assets/bth-form.js fireLead(),
+       before the redirect, and only when the worker confirms a real contact write. The
+       old fire here was gated on a sessionStorage flag, and TikTok's in-app browser opens
+       this page in a different browser without it, so every TikTok opt-in went uncounted.
+
+       TRANSITION SHIM — delete after 2026-11-05. A visitor whose tab still runs the
+       older cached bth-form.js arrives with "bth_lead" set and no Lead fired on submit,
+       so this fires it once for them. It cannot double-count: the new bth-form.js never
+       sets the flag. Direct loads, bots and revisits carry no flag and fire nothing. -->
   <script>
-  (function fireLead() {
+  (function legacyLeadShim() {
     var isRealLead = false;
     try {
       isRealLead = window.sessionStorage.getItem("bth_lead") === "1";
-      if (isRealLead) window.sessionStorage.removeItem("bth_lead");
+      window.sessionStorage.removeItem("bth_lead");
     } catch (e) {}
     if (!isRealLead) return;
     var props = { content_name: "free_reset_optin", content_category: "lead_magnet" };
@@ -85,7 +89,8 @@
 
   <!-- BTH-GOAL-0054: first-party Day-1 view. This page IS Day 1 (rendered inline
        since 2026-08-07), so a view here = "reset_day_viewed day 1" in the owned
-       funnel store. Unguarded by design — unlike the Lead pixel above, a returning
+       funnel store. Unguarded by design — unlike the Lead (fired on the submitting
+       page by assets/bth-form.js, gated on the worker's created flag), a returning
        lead re-reading Day 1 is a real view; the worker dedupes per identity per day. -->
   <script src="assets/bth-events.js" defer></script>
   <script>
