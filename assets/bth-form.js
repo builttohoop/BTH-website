@@ -15,6 +15,10 @@
  *     2026-10-06: TikTok's in-app browser opens the redirect in a different browser
  *     with no sessionStorage, so the old flag-gated fire there missed every TikTok
  *     opt-in (0 of 5, contacts 94/96/99/102/131; every other opt-in fired, 35 of 35)
+ *   - the worker also sends that Lead to Meta server-side (Conversions API) and
+ *     returns its `event_id`; the fbq Lead passes it as eventID so Meta keeps one.
+ *     The pixel's _fbp/_fbc ride along in the POST so the server event matches
+ *     (2026-10-06)
  *   - 429 -> inline "too many attempts" message, button re-enabled
  *   - other non-ok / network error -> inline fallback message with the support email
  *   - honeypot ("company") is left untouched here; validation/limiting is server-side
@@ -165,14 +169,25 @@
   // the others or the redirect.
   var LEAD_PROPS = { content_name: "free_reset_optin", content_category: "lead_magnet" };
 
-  function fireLead(done) {
+  // eventId: the id of the Lead the worker sent to Meta server-side (Conversions API),
+  // returned as `event_id`. Passing it as the pixel's eventID lets Meta dedupe the two
+  // into one Lead. No id (older worker, or no server Lead sent) = the plain call.
+  function fireLead(done, eventId) {
     var finished = false;
     function finish() {
       if (finished) return;
       finished = true;
       done();
     }
-    try { if (window.fbq) window.fbq("track", "Lead", LEAD_PROPS); } catch (e) {}
+    var metaOpts = (typeof eventId === "string" && /^[A-Za-z0-9_-]{1,100}$/.test(eventId))
+      ? { eventID: eventId }
+      : null;
+    try {
+      if (window.fbq) {
+        if (metaOpts) window.fbq("track", "Lead", LEAD_PROPS, metaOpts);
+        else window.fbq("track", "Lead", LEAD_PROPS);
+      }
+    } catch (e) {}
     try { if (window.ttq) window.ttq.track("Lead", LEAD_PROPS); } catch (e) {}
     try {
       (window.dataLayer = window.dataLayer || []).push({
@@ -197,6 +212,44 @@
     } catch (e) {}
     // event_timeout only runs once gtag.js has loaded; this covers a blocked gtag.js.
     window.setTimeout(finish, waitForGa ? 1600 : 0);
+  }
+
+  // Meta browser ids for that server-side Lead: the pixel's own first-party _fbp/_fbc
+  // cookies, so Meta can match the server event to the browser. When the landing URL
+  // carries a ?fbclid= the cookie does not already hold (pixel blocked, not loaded yet,
+  // or a cookie from an older click), build fbc the way the pixel does (see metaFbc).
+  // The worker re-validates both and drops anything malformed.
+  var META_BROWSER_ID = /^fb\.\d\.\d{10,16}\.[A-Za-z0-9_.-]{1,450}$/;
+
+  function metaCookie(name) {
+    try {
+      var parts = document.cookie ? document.cookie.split(";") : [];
+      for (var i = 0; i < parts.length; i++) {
+        var part = parts[i].replace(/^\s+/, "");
+        if (part.indexOf(name + "=") !== 0) continue;
+        var value = decodeURIComponent(part.slice(name.length + 1));
+        return META_BROWSER_ID.test(value) ? value : "";
+      }
+    } catch (e) {}
+    return "";
+  }
+
+  function fbclidFromUrl() {
+    try {
+      var id = new URLSearchParams(window.location.search).get("fbclid");
+      if (id && /^[A-Za-z0-9_-]{1,450}$/.test(id)) return id;
+    } catch (e) {}
+    return "";
+  }
+
+  // A fresh ?fbclid= is the ad click that brought this visit, so it beats a _fbc cookie
+  // left by an older click (the pixel would rewrite the cookie too, but it may be blocked).
+  // The same click already in the cookie keeps the cookie, with its original timestamp.
+  function metaFbc() {
+    var cookie = metaCookie("_fbc");
+    var id = fbclidFromUrl();
+    if (id && cookie.slice(-(id.length + 1)) !== "." + id) return "fb.1." + Date.now() + "." + id;
+    return cookie;
   }
   // ---- /Lead conversion ------------------------------------------------------
 
@@ -270,6 +323,13 @@
         if (picked && picked.value) window.sessionStorage.setItem("bth_seg", picked.value);
       } catch (e) {}
       var formData = new FormData(form);
+      var fbp = metaCookie("_fbp");
+      var fbc = metaFbc();
+      if (fbp) formData.set("fbp", fbp);
+      if (fbc) formData.set("fbc", fbc);
+      // This form passes the worker's event_id to the pixel as eventID, so it asks for the
+      // server Lead. An older cached form never sends this and never gets an unpaired one.
+      formData.set("meta_dedupe", "1");
 
       fetch(form.action, { method: "POST", body: formData })
         .then(function (res) {
@@ -305,7 +365,7 @@
                 window.location.href = redirectUrl;
               }
               window.setTimeout(go, 500);
-              if (realLead) fireLead(go);
+              if (realLead) fireLead(go, data.event_id);
             });
           }
           if (btn) {
