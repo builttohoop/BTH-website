@@ -1,0 +1,4 @@
+# scripts/check-reset-day-pages.mjs (CI "Reset day page contract") rejects a CR in
+# the reset day pages. The index already holds them as LF; this keeps a Windows
+# checkout (core.autocrlf=true) LF too, so the local run matches CI. DKT-0054.
+reset/*.html text eol=lf
