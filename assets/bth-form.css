@@ -67,7 +67,7 @@
   box-sizing: border-box;
   -webkit-appearance: none;
 }
-.bth-mail-form input::placeholder { color: rgba(17,19,24,.38); }
+.bth-mail-form input::placeholder { color: rgba(17,19,24,.62); }
 .bth-mail-form input:focus {
   outline: none;
   border-color: var(--bth-gold, var(--gold, #E6A800));

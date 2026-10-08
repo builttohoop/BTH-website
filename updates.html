@@ -46,7 +46,7 @@
 :root { color-scheme: light only; }
 
 /* ─── PAGE-SPECIFIC TOKENS ─── */
-:root { --green:#1F8A4C; }
+:root { --green:#17703D; }
 
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; -webkit-text-size-adjust: 100%; }
 html { scroll-behavior: smooth; background: var(--white); }
@@ -92,7 +92,7 @@ nav {
 .mobile-menu a:hover { color: var(--gold); }
 .mobile-menu a.current { color: var(--gold); }
 .mobile-menu .mobile-cta { margin-top: 28px; text-align: center; background: var(--gold); color: var(--black); border-radius: 2px; padding: 20px 24px; font-size: 15px; letter-spacing: 0.12em; border-bottom: none; font-weight: 700; }
-.mobile-menu .mobile-cta:hover { filter: brightness(0.9); }
+.mobile-menu .mobile-cta:hover { filter: brightness(0.9); color: var(--black); }
 
 /* ─── HEADER ─── */
 .up-hero { background: var(--black); padding: 128px 52px 72px; position: relative; overflow: hidden; }
@@ -147,9 +147,9 @@ nav {
 /* ─── CTA BAND ─── */
 .cta-band { background: var(--gold); padding: 64px 52px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 28px; }
 @media (max-width: 768px) { .cta-band { padding: 52px 24px; flex-direction: column; align-items: flex-start; } }
-.cta-eyebrow { font-family: var(--B); font-size: 10px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(17,19,24,0.5); margin-bottom: 8px; }
+.cta-eyebrow { font-family: var(--B); font-size: 10px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--on-gold-muted); margin-bottom: 8px; }
 .cta-title { font-family: var(--H); font-size: clamp(32px, 4.6vw, 54px); font-weight: 700; line-height: 0.94; text-transform: uppercase; color: var(--black); margin-bottom: 10px; }
-.cta-sub { font-size: 15px; color: rgba(17,19,24,0.6); line-height: 1.55; max-width: 420px; }
+.cta-sub { font-size: 15px; color: var(--on-gold-muted); line-height: 1.55; max-width: 420px; }
 .btn-cta { display:inline-block; font-family: var(--H); font-size: 15px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); background: var(--black); padding: 18px 44px; border-radius: 2px; text-decoration: none; white-space: nowrap; flex-shrink: 0; transition: opacity 0.18s; }
 .btn-cta:hover { opacity: 0.88; }
 
@@ -162,7 +162,7 @@ footer { background: var(--cream); border-top: 1px solid var(--border); padding:
 .foot-links { display: flex; gap: 28px; flex-wrap: wrap; }
 .foot-links a { font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.18s; display:inline-flex; align-items:center; min-height:44px; }
 .foot-links a:hover { color: var(--gold-text); }
-.foot-copy { width: 100%; text-align: center; font-size: 11px; color: var(--muted); padding-top: 24px; border-top: 1px solid var(--soft); opacity: 0.6; }
+.foot-copy { width: 100%; text-align: center; font-size: 11px; color: var(--muted); padding-top: 24px; border-top: 1px solid var(--soft); }
 
 /* BTH-MOBILE-WATERMARK — the hero watermark's clamp() floor is larger than its vw
    term can produce below ~700px, so on a phone it renders wider than the text
