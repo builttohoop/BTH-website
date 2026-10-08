@@ -17,7 +17,7 @@ mkdirSync(OUT, { recursive: true });
 //   --bth-white  #FFFFFF      → C.white  (card backgrounds, section fill)
 //   --bth-cream  #F3EFE7      → C.cream  (intro block background)
 //   --bth-gold   #E6A800      → C.gold   (hero band, accents, CTAs)
-//   --bth-muted  rgba(17,19,24,0.52)  → C.muted  (secondary text)
+//   --bth-muted  rgba(17,19,24,0.62)  → C.muted  (secondary text)
 //   --bth-border rgba(17,19,24,0.12)  → C.border (hairlines)
 //   --r-square   2px          → border-radius:2px on all cards/blocks
 //   --font-display Oswald     → 'Oswald', sans-serif (headings, labels)
@@ -28,7 +28,7 @@ const C = {
   white: '#FFFFFF',
   cream: '#F3EFE7',
   gold:  '#E6A800',
-  muted: 'rgba(17,19,24,0.52)',
+  muted: 'rgba(17,19,24,0.62)',
   border:'rgba(17,19,24,0.12)',
 };
 
