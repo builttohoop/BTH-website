@@ -41,10 +41,14 @@
  *     "Is this ankle rehab?" / "No. BTH is basketball training".
  *
  * WARN-ONLY FOR THE NEW CLASSES. On 2026-10-08 main carried hits that only rules 3 and 4 find, and
- * the PR that added them fixes no copy. So a hit the gate failed before still fails, exactly as
- * before; a hit only the new rules find prints as WARN and exits 0. `--strict` (or
- * BANNED_WORDS_STRICT=1) fails on both. Flip CI to --strict once the WARN list is empty, then the
- * legacy* helpers below can go.
+ * the PR that added them fixes no copy. So a hit the gate failed before still fails; a hit only
+ * the new rules find prints as WARN and exits 0. `--strict` (or BANNED_WORDS_STRICT=1) fails on
+ * both. Flip CI to --strict once the WARN list is empty, then the legacy* helpers below can go.
+ *
+ * Three shapes the old gate failed now pass, on purpose, because the old gate was wrong about
+ * them: a denial written "don't" / "do not" or with a curly apostrophe; a question answered
+ * "Nope." or "None."; and text that leaked out of a tag through a ">" inside a quoted attribute
+ * value. None of them occurred on main on 2026-10-08 (the old gate reported 0 hits there).
  */
 
 import { readFileSync, readdirSync, statSync } from 'node:fs';
