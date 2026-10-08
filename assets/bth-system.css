@@ -20,7 +20,7 @@
   --bth-gold-text: #7A5700;   /* WCAG-AA-safe gold for TEXT on light (cream/white) surfaces — RULED by Ty 2026-08-30 (approval CC-#78, "go with recommended"): 6.58:1 on white, 5.74:1 on cream. Never use for backgrounds/borders/icons; --bth-gold stays those. */
 
   /* ─── DERIVED NEUTRALS (from real site usage) ──────────── */
-  --bth-muted:        rgba(17, 19, 24, 0.62);  /* secondary text — 0.62 = WCAG AA: 5.27:1 on white, 4.93:1 on cream (was 0.50 = 3.5:1) */
+  --bth-muted:        rgba(17, 19, 24, 0.62);  /* secondary text — 0.62 = WCAG AA: 5.20:1 on white, 4.96:1 on cream (was 0.50 = 3.5:1) */
   --bth-muted-strong: rgba(17, 19, 24, 0.72);  /* body copy on cream */
   --bth-border:       rgba(17, 19, 24, 0.12);  /* hairlines */
   --bth-soft:         rgba(17, 19, 24, 0.06);  /* very faint rule */
@@ -30,8 +30,11 @@
   /* On-dark equivalents (used in nav + start-here block) */
   --bth-on-dark-fg:        rgba(255,255,255,0.65);
   --bth-on-dark-fg-strong: #FFFFFF;
-  --bth-on-dark-muted:     rgba(255,255,255,0.48);
+  --bth-on-dark-muted:     rgba(255,255,255,0.48);  /* 0.48 = WCAG AA: 4.98:1 on --bth-black */
   --bth-on-dark-faint:     rgba(255,255,255,0.10);
+
+  /* On-gold equivalent (text sitting ON the --bth-gold band) */
+  --bth-on-gold-muted:     rgba(17, 19, 24, 0.72);  /* 0.72 = WCAG AA: 5.03:1 on #E6A800 — --bth-muted is only 3.91:1 there */
 
   /* ─── SEMANTIC FOREGROUND / BACKGROUND ─────────────────── */
   --fg-1: var(--bth-black);
@@ -147,6 +150,8 @@
   --gold:   var(--bth-gold);
   --gold-text: var(--bth-gold-text);
   --muted:  var(--bth-muted);
+  --on-dark-muted: var(--bth-on-dark-muted);
+  --on-gold-muted: var(--bth-on-gold-muted);
   --border: var(--bth-border);
   --soft:   var(--bth-soft);
 }
