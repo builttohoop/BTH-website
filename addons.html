@@ -32,11 +32,11 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Built to Hoop">
 <meta property="og:title" content="BTH Add-Ons — Targeted Tracks for Hoopers | Built to Hoop">
-<meta property="og:description" content="Condition-specific training tracks for basketball players: hip, knee, ankle, skill, and recovery.">
+<meta property="og:description" content="Targeted training tracks for basketball players: hip, knee, ankle, skill, and recovery.">
 <meta property="og:url" content="https://built-to-hoop.com/addons.html">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="BTH Add-Ons — Targeted Tracks for Hoopers | Built to Hoop">
-<meta name="twitter:description" content="Condition-specific training tracks for basketball players: hip, knee, ankle, skill, and recovery.">
+<meta name="twitter:description" content="Targeted training tracks for basketball players: hip, knee, ankle, skill, and recovery.">
 <meta name="description" content="BTH Add-Ons — Hip Reset, Knee Protection, Ankle Rebuild, Skill Builder, Recovery System. Targeted training for what's actually holding your game back. From $41.99.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -68,6 +68,11 @@ nav { position:fixed; top:0; left:0; right:0; z-index:100; height:62px; display:
 .hero-title .gold { color:var(--gold-text); }
 .hero-sub { font-size:18px; color:var(--muted); max-width:620px; line-height:1.7; margin-bottom:36px; }
 .hero-sub strong { color:var(--black); font-weight:600; }
+/* BTH-SAFETY-LINE - training, not treatment. Body copy at a readable size, in the hero,
+   never shrunk into the footer (same pattern as routine.html .safety). */
+.safety { background:var(--cream); border:1px solid var(--border); border-left:4px solid var(--gold); border-radius:2px; padding:16px 20px; margin-top:28px; max-width:620px; }
+.safety p { margin:0; font-size:15px; line-height:1.6; color:var(--black); }
+.safety strong { font-weight:600; }
 
 .btn-primary { font-family:var(--H); font-size:15px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--white); background:var(--black); padding:16px 38px; border-radius:2px; text-decoration:none; display:inline-block; transition:background 0.18s; white-space:nowrap; }
 .btn-primary:hover { background:var(--gold); color:var(--black); }
@@ -324,11 +329,14 @@ nav {
   <div class="hero-inner">
     <div class="hero-eyebrow">BTH Add-Ons — Targeted Tracks</div>
     <h1 class="hero-title">Train What's <span class="gold">Actually</span><br>Holding You Back.</h1>
-    <p class="hero-sub">Five targeted tracks for the stuff that never gets addressed properly. <strong>Hips that won't open. Knees that bark at you. Ankles that roll every other pickup run.</strong> Plus a Skill Builder and a Recovery System that actually works for hoopers.</p>
+    <p class="hero-sub">Five targeted tracks for the stuff that never gets addressed properly. <strong>Hips that won't open. Knees that bark at you. Ankles that roll every other pickup run.</strong> Plus a Skill Builder and a Recovery System built around how hoopers actually recover.</p>
     <p class="hero-sub" style="margin-bottom:32px;">Standalone from <strong>$41.99</strong>. All five included free in <strong>BTH Stay Ready</strong>.</p>
     <div style="display:flex; gap:14px; flex-wrap:wrap;">
       <a href="#tracks" class="btn-gold">See All Tracks</a>
       <a href="tier-3.html" class="btn-secondary">Or Get Everything — Tier 3</a>
+    </div>
+    <div class="safety">
+      <p><strong>Training, not treatment.</strong> If the pain is sharp, there's swelling, or it's getting worse, see a doctor or physical therapist before you start any track.</p>
     </div>
   </div>
 </section>
@@ -344,7 +352,7 @@ nav {
     <div class="who-card reveal">
       <div class="icon">01</div>
       <h4>Something Hurts</h4>
-      <p>A joint you can't trust. Pain that shows up every time you play. Pick the matching rebuild track — hip, knee, or ankle.</p>
+      <p>A joint you can't trust. An ache that shows up every time you play. Pick the matching rebuild track — hip, knee, or ankle. Sharp or getting worse? See a doctor or physical therapist first.</p>
     </div>
     <div class="who-card reveal">
       <div class="icon">02</div>
@@ -354,7 +362,7 @@ nav {
     <div class="who-card reveal">
       <div class="icon">03</div>
       <h4>Recovery's Broken</h4>
-      <p>You stretch, foam roll, and still feel heavy the next day. The Recovery System teaches you what actually works.</p>
+      <p>You stretch, foam roll, and still feel heavy the next day. The Recovery System gives you a plan for the day after pickup.</p>
     </div>
   </div>
 </section>
@@ -388,13 +396,13 @@ nav {
     <div class="addon-card reveal" data-num="02">
       <div class="addon-tag">Injury Bundle Eligible</div>
       <h3 class="addon-name">BTH Knee Protection</h3>
-      <p class="addon-blurb"><strong>For:</strong> patellar tendon pain, knees that ache after hard jumps, tracking issues, quad/VMO weakness you can feel when you land.</p>
+      <p class="addon-blurb"><strong>For:</strong> knees that ache after hard jumps, front-of-knee soreness the day after pickup, quad/VMO weakness you can feel when you land.</p>
       <ul class="addon-list">
-        <li>Patellar tendon rebuild (isometrics → heavy slow → dynamic)</li>
+        <li>Patellar tendon loading progression (isometrics → heavy slow → dynamic)</li>
         <li>VMO + quad balance work that changes how you land</li>
-        <li>Ankle-hip connection drills (most knee pain isn't the knee)</li>
+        <li>Ankle-hip connection drills (a lot of knee ache starts above or below the knee)</li>
         <li>Jump-load management protocol for weekly pickup</li>
-        <li>Knee-safe pickup prep you'll actually do</li>
+        <li>Pre-pickup knee prep you'll actually do</li>
       </ul>
       <div class="addon-foot">
         <div class="addon-price">$41.99</div>
@@ -406,7 +414,7 @@ nav {
     <div class="addon-card reveal" data-num="03">
       <div class="addon-tag">Injury Bundle Eligible</div>
       <h3 class="addon-name">BTH Ankle Rebuild</h3>
-      <p class="addon-blurb"><strong>For:</strong> chronic ankle sprains, ankles that "just roll," calf/achilles tightness, landings that feel unstable.</p>
+      <p class="addon-blurb"><strong>For:</strong> ankles that roll every other run, calf/achilles tightness, landings that feel unstable.</p>
       <ul class="addon-list">
         <li>Full ankle mobility + stability rebuild (3 phases)</li>
         <li>Calf/achilles load tolerance protocol</li>
@@ -472,8 +480,8 @@ nav {
       <div class="bundle-badge">Best Value — Injuries</div>
       <div>
         <h3 class="bundle-title">Hip + Knee + Ankle<br>Injury Bundle</h3>
-        <p class="bundle-body">All three rebuild tracks, sequenced the way they should be run: <strong>ankle foundation → knee tracking → hip control</strong>. If you've been bouncing between physical therapy, YouTube videos, and mobility apps with no system — this is the system.</p>
-        <p class="bundle-body" style="margin-bottom:0;">Comes with the <strong>30-day return-to-pickup roadmap</strong> so you're not guessing when to play again.</p>
+        <p class="bundle-body">All three rebuild tracks, sequenced the way they should be run: <strong>ankle foundation → knee tracking → hip control</strong>. If you've been bouncing between YouTube videos and mobility apps with no system — this is the system. It's training, not a replacement for a doctor or physical therapist.</p>
+        <p class="bundle-body" style="margin-bottom:0;">Comes with the <strong>30-day pickup roadmap</strong> for fitting your runs around the work — a training plan, not a medical clearance.</p>
       </div>
       <div class="bundle-price-wrap">
         <div class="bundle-old">$125.97 standalone</div>
@@ -528,7 +536,7 @@ nav {
     </div>
     <div class="faq-item">
       <div class="faq-q">Is this medical advice or physical therapy?</div>
-      <div class="faq-a">No. The rebuild tracks are training protocols built from what's kept me and other hoopers on the court — not a replacement for a PT or doctor if you've got an acute injury. If you're in sharp pain, see someone. If you're in "my knees just always feel like this" territory, this is for you.</div>
+      <div class="faq-a">No. The rebuild tracks are training, built from what's kept me and other hoopers on the court. They don't diagnose or treat anything, and they're not a replacement for a doctor or physical therapist. <strong>If the pain is sharp, there's swelling, or it's getting worse, see one first.</strong> If you're in "my knees just always feel like this after pickup" territory, this is built for that.</div>
     </div>
   </div>
 </section>
