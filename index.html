@@ -139,7 +139,7 @@ nav {
   letter-spacing: 0.02em; text-transform: uppercase;
   color: var(--black); margin-bottom: 28px;
 }
-.hero-title .gold { color: var(--gold); }
+.hero-title .gold { color: var(--gold-text); }
 .hero-title .outline { -webkit-text-stroke: 2px rgba(17,19,24,0.2); color: transparent; }
 .hero-sub {
   font-size: 17px; color: var(--muted);
@@ -226,7 +226,7 @@ nav {
 .ticker-item {
   font-family: var(--H); font-size: 12px; font-weight: 600;
   letter-spacing: 0.22em; text-transform: uppercase;
-  color: rgba(17,19,24,0.35); white-space: nowrap;
+  color: var(--muted); white-space: nowrap;
   display: flex; align-items: center; gap: 32px; padding-right: 32px;
 }
 .ticker-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--gold); opacity: 0.7; flex-shrink: 0; }
@@ -530,7 +530,7 @@ nav {
 .start-if {
   font-family: var(--B); font-size: 10px; font-weight: 700;
   letter-spacing: 0.22em; text-transform: uppercase;
-  color: rgba(255,255,255,0.4);
+  color: var(--on-dark-muted, rgba(255,255,255,0.48));
 }
 .start-situation {
   font-family: var(--H); font-size: clamp(20px, 2.2vw, 26px); font-weight: 700;
@@ -549,7 +549,7 @@ nav {
 }
 .start-btn:hover { filter: brightness(0.9); }
 .start-sub {
-  font-size: 13px; color: rgba(255,255,255,0.45); line-height: 1.55;
+  font-size: 13px; color: var(--on-dark-muted, rgba(255,255,255,0.48)); line-height: 1.55;
 }
 
 /* ─── CTA BAND ─── */
@@ -562,14 +562,14 @@ nav {
 .cta-eyebrow {
   font-family: var(--B); font-size: 10px; font-weight: 600;
   letter-spacing: 0.2em; text-transform: uppercase;
-  color: rgba(17,19,24,0.5); margin-bottom: 8px;
+  color: var(--on-gold-muted, rgba(17,19,24,0.72)); margin-bottom: 8px;
 }
 .cta-title {
   font-family: var(--H); font-size: clamp(36px, 5vw, 60px);
   font-weight: 700; line-height: 0.92;
   text-transform: uppercase; color: var(--black); margin-bottom: 10px;
 }
-.cta-sub { font-size: 15px; color: rgba(17,19,24,0.6); line-height: 1.55; max-width: 420px; }
+.cta-sub { font-size: 15px; color: var(--on-gold-muted, rgba(17,19,24,0.72)); line-height: 1.55; max-width: 420px; }
 .btn-cta {
   display: inline-block;
   font-family: var(--H); font-size: 15px; font-weight: 700;
@@ -606,11 +606,11 @@ footer {
   color: var(--muted); text-decoration: none;
   transition: color 0.18s;
 }
-.foot-links a:hover { color: var(--gold); }
+.foot-links a:hover { color: var(--gold-text); }
 .foot-copy {
   width: 100%; text-align: center;
   font-size: 11px; color: var(--muted);
-  padding-top: 24px; border-top: 1px solid var(--soft); opacity: 0.6;
+  padding-top: 24px; border-top: 1px solid var(--soft);
 }
 
 /* ─── REVEAL ─── */
