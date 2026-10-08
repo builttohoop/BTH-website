@@ -156,7 +156,7 @@ nav { position:fixed; top:0; left:0; right:0; z-index:100; height:62px; display:
 .cta-band { background:var(--gold); padding:72px 52px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:32px; }
 @media (max-width:768px) { .cta-band { padding:56px 24px; flex-direction:column; align-items:flex-start; } }
 .cta-title { font-family:var(--H); font-size:clamp(36px,5vw,56px); font-weight:700; line-height:0.92; text-transform:uppercase; color:var(--black); margin-bottom:10px; }
-.cta-sub { font-size:15px; color:rgba(17,19,24,0.6); line-height:1.55; max-width:460px; }
+.cta-sub { font-size:15px; color:var(--on-gold-muted); line-height:1.55; max-width:460px; }
 .btn-cta { display:inline-block; font-family:var(--H); font-size:15px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:var(--gold); background:var(--black); padding:18px 44px; border-radius:2px; text-decoration:none; white-space:nowrap; flex-shrink:0; transition:opacity 0.18s; }
 .btn-cta:hover { opacity:0.88; }
 
@@ -168,7 +168,7 @@ footer { background:var(--cream); border-top:1px solid var(--border); padding:48
 .foot-links { display:flex; gap:28px; flex-wrap:wrap; }
 .foot-links a { font-size:12px; font-weight:500; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); text-decoration:none; transition:color 0.18s; display:inline-flex; align-items:center; min-height:44px; }
 .foot-links a:hover { color:var(--gold-text); }
-.foot-copy { width:100%; text-align:center; font-size:11px; color:var(--muted); padding-top:24px; border-top:1px solid var(--soft); opacity:0.6; }
+.foot-copy { width:100%; text-align:center; font-size:11px; color:var(--muted); padding-top:24px; border-top:1px solid var(--soft); }
 
 /* --- MOBILE NAV --- */
 .nav-toggle {
@@ -340,14 +340,14 @@ nav {
         <div class="price-val">$27<span class="cycle">/month</span></div>
         <div class="price-sub"><strong>Flexible.</strong> Cancel anytime. Keep everything you've already downloaded.</div>
         <a href="https://buy.stripe.com/4gMaEXbvh7nu1sccHJaAw00" class="price-cta primary" target="_blank" rel="noopener noreferrer">Start Monthly — Cancel Anytime →</a>
-        <p style="font-size:11px;color:rgba(17,19,24,0.5);margin-top:8px;text-align:center;letter-spacing:0.03em;">One email cancels it. No calls, no retention maze. No refunds on the current month.</p>
+        <p style="font-size:11px;color:var(--muted);margin-top:8px;text-align:center;letter-spacing:0.03em;">One email cancels it. No calls, no retention maze. No refunds on the current month.</p>
       </div>
       <div class="price-card featured">
         <div class="price-tag">Annual <span class="price-save">Save $127</span></div>
         <div class="price-val">$197<span class="cycle">/year</span></div>
         <div class="price-sub"><strong>Best value.</strong> 7 months free vs monthly. Lock in the rate for 12 months.</div>
         <a href="https://buy.stripe.com/8x228rczlePW2wg6jlaAw09" class="price-cta gold" target="_blank" rel="noopener noreferrer">Start Annual →</a>
-        <p style="font-size:11px;color:rgba(17,19,24,0.5);margin-top:8px;text-align:center;letter-spacing:0.03em;">Cancel anytime · No refunds</p>
+        <p style="font-size:11px;color:var(--muted);margin-top:8px;text-align:center;letter-spacing:0.03em;">Cancel anytime · No refunds</p>
       </div>
     </div>
 
@@ -407,16 +407,16 @@ nav {
         <div class="was">Standalone: <strong>$41.99</strong></div>
       </div>
       <div class="lib-card" style="background: var(--black); border-color: var(--black);">
-        <div class="tag" style="color: var(--gold-text);">Ongoing</div>
+        <div class="tag" style="color: var(--gold);">Ongoing</div>
         <h4 style="color: var(--white);">Monthly Updates</h4>
         <p style="color: rgba(243,239,231,0.65);">New drops, new protocols, new tracks. Added to your library as they come out.</p>
-        <div class="was" style="color: rgba(243,239,231,0.5);"><strong style="color:var(--gold-text);">Free inside Tier 3</strong></div>
+        <div class="was" style="color: rgba(243,239,231,0.5);"><strong style="color:var(--gold);">Free inside Tier 3</strong></div>
       </div>
       <div class="lib-card" style="background: var(--black); border-color: var(--black);">
-        <div class="tag" style="color: var(--gold-text);">Ongoing</div>
+        <div class="tag" style="color: var(--gold);">Ongoing</div>
         <h4 style="color: var(--white);">Batched Q&A</h4>
         <p style="color: rgba(243,239,231,0.65);">Submit questions. I answer in batches — weekly or biweekly. Priority support.</p>
-        <div class="was" style="color: rgba(243,239,231,0.5);"><strong style="color:var(--gold-text);">Members only</strong></div>
+        <div class="was" style="color: rgba(243,239,231,0.5);"><strong style="color:var(--gold);">Members only</strong></div>
       </div>
     </div>
   </div>
@@ -562,13 +562,13 @@ nav {
 <!-- CTA BAND -->
 <div class="cta-band">
   <div>
-    <div class="section-eyebrow" style="color: rgba(17,19,24,0.5); margin-bottom: 8px;">Tier 3 · Stay Ready</div>
+    <div class="section-eyebrow" style="color: var(--on-gold-muted); margin-bottom: 8px;">Tier 3 · Stay Ready</div>
     <div class="cta-title">Unlock Everything.<br>Starting Today.</div>
     <div class="cta-sub">Monthly or annual. Cancel monthly with one email, any time. Save $127 on annual. Your choice — the library is the same either way.</div>
   </div>
   <div style="text-align:center;flex-shrink:0;">
     <a href="https://buy.stripe.com/4gMaEXbvh7nu1sccHJaAw00" class="btn-cta" target="_blank" rel="noopener noreferrer">Join Stay Ready — Secure Checkout →</a>
-    <p style="font-size:11px;color:rgba(17,19,24,0.55);margin-top:8px;letter-spacing:0.03em;">Cancel anytime · No refunds</p>
+    <p style="font-size:11px;color:var(--on-gold-muted);margin-top:8px;letter-spacing:0.03em;">Cancel anytime · No refunds</p>
   </div>
 </div>
 
