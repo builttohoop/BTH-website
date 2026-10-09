@@ -8,16 +8,27 @@ const OUT = join(__dirname, 'output');
 mkdirSync(OUT, { recursive: true });
 
 // ─── BRAND TOKENS ───
-// Source: BTH/design-system/bth-system.css — the single source of truth.
-// PDF constraints require inline CSS; this object mirrors bth-system.css tokens.
-// Any palette change updates bth-system.css first, then propagates here.
+// Source: BTH/design-system/bth-system.css — the single source of truth (the site ships a
+// mirror at assets/bth-system.css). PDF constraints require inline CSS; this object mirrors
+// bth-system.css tokens. Any palette change updates bth-system.css first, then propagates here.
+// Every TEXT color below is one of these tokens, and every text pair is WCAG AA (4.5:1; 3:1
+// only for large text). The two non-token values left in the CSS are not text pairs: the
+// hero-band watermark (decorative) and the feel-band hairline.
 //
 //   bth-system.css token      → C value
 //   --bth-black  #111318      → C.black  (text, headers, card borders)
 //   --bth-white  #FFFFFF      → C.white  (card backgrounds, section fill)
 //   --bth-cream  #F3EFE7      → C.cream  (intro block background)
-//   --bth-gold   #E6A800      → C.gold   (hero band, accents, CTAs)
-//   --bth-muted  rgba(17,19,24,0.62)  → C.muted  (secondary text)
+//   --bth-gold   #E6A800      → C.gold   (hero band, close band, borders, gold-on-black text)
+//   --bth-gold-text #7A5700   → C.goldText (gold AS TEXT on white/cream: 6.58:1 on white;
+//                                           --bth-gold is only 2.11:1 there)
+//   --bth-muted  rgba(17,19,24,0.62)  → C.muted  (secondary text on white: 5.20:1)
+//   --bth-muted-strong rgba(17,19,24,0.72) → C.mutedStrong (body copy on white/cream)
+//   --bth-on-gold-muted rgba(17,19,24,0.72) → C.onGoldMuted (secondary text ON the gold
+//                                           bands: 5.03:1; --bth-muted is only 3.91:1 there)
+//   --bth-on-dark-fg-strong #FFFFFF   → C.onDarkStrong (primary text on the black bands)
+//   --bth-on-dark-fg rgba(255,255,255,0.65) → C.onDarkFg (body text on the black bands)
+//   --bth-on-dark-muted rgba(255,255,255,0.48) → C.onDarkMuted (labels on black: 4.98:1)
 //   --bth-border rgba(17,19,24,0.12)  → C.border (hairlines)
 //   --r-square   2px          → border-radius:2px on all cards/blocks
 //   --font-display Oswald     → 'Oswald', sans-serif (headings, labels)
@@ -28,7 +39,13 @@ const C = {
   white: '#FFFFFF',
   cream: '#F3EFE7',
   gold:  '#E6A800',
+  goldText: '#7A5700',
   muted: 'rgba(17,19,24,0.62)',
+  mutedStrong: 'rgba(17,19,24,0.72)',
+  onGoldMuted: 'rgba(17,19,24,0.72)',
+  onDarkStrong: '#FFFFFF',
+  onDarkFg: 'rgba(255,255,255,0.65)',
+  onDarkMuted: 'rgba(255,255,255,0.48)',
   border:'rgba(17,19,24,0.12)',
 };
 
@@ -314,7 +331,7 @@ body {
   font-weight: 600;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.5);
+  color: ${C.onDarkMuted};
 }
 
 /* ─── HERO BAND ─── */
@@ -324,6 +341,8 @@ body {
   position: relative;
   overflow: hidden;
 }
+/* Decorative watermark: repeats the .day-label number, so it is incidental text with no
+   WCAG contrast minimum. Keep it faint; every readable label on the band uses C.onGoldMuted. */
 .hero-band::after {
   content: '${day.num}';
   position: absolute;
@@ -344,7 +363,7 @@ body {
   font-weight: 700;
   letter-spacing: 0.24em;
   text-transform: uppercase;
-  color: rgba(17,19,24,0.6);
+  color: ${C.onGoldMuted};
   margin-bottom: 6px;
 }
 .day-title {
@@ -360,7 +379,7 @@ body {
 .day-tagline {
   font-size: 10.5pt;
   font-weight: 500;
-  color: rgba(17,19,24,0.65);
+  color: ${C.onGoldMuted};
 }
 .day-meta {
   position: relative;
@@ -369,7 +388,7 @@ body {
   display: flex;
   gap: 22px;
 }
-.day-meta div { font-size: 8pt; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(17,19,24,0.7); }
+.day-meta div { font-size: 8pt; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: ${C.onGoldMuted}; }
 .day-meta b { display: block; font-family: 'Oswald', sans-serif; font-size: 12pt; letter-spacing: 0.04em; color: ${C.black}; margin-top: 2px; }
 
 /* ─── MAIN CONTENT ─── */
@@ -383,7 +402,7 @@ body {
   margin-bottom: 20px;
   border-radius: 0 2px 2px 0;
 }
-.intro-text { font-size: 9.5pt; color: rgba(17,19,24,0.78); line-height: 1.6; }
+.intro-text { font-size: 9.5pt; color: ${C.mutedStrong}; line-height: 1.6; }
 .why-note {
   border-left: 2pt solid ${C.gold};
   padding: 7pt 0 7pt 11pt;
@@ -391,9 +410,9 @@ body {
 }
 .why-label {
   font-family: 'Oswald', sans-serif; font-size: 6.5pt; font-weight: 600;
-  letter-spacing: 0.16em; text-transform: uppercase; color: #7A5700; margin-bottom: 3pt;
+  letter-spacing: 0.16em; text-transform: uppercase; color: ${C.goldText}; margin-bottom: 3pt;
 }
-.why-text { font-size: 9pt; color: rgba(17,19,24,0.72); line-height: 1.55; font-style: italic; }
+.why-text { font-size: 9pt; color: ${C.mutedStrong}; line-height: 1.55; font-style: italic; }
 
 /* ─── BLOCK ─── */
 .block { margin-bottom: 18px; break-inside: avoid; }
@@ -403,13 +422,13 @@ body {
   font-weight: 700;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: ${C.gold};
+  color: ${C.goldText};
   margin-bottom: 10px;
   display: flex;
   align-items: baseline;
   gap: 10px;
 }
-.block-label em { font-style: normal; font-weight: 600; letter-spacing: 0.04em; color: rgba(17,19,24,0.4); text-transform: none; font-size: 8.5pt; }
+.block-label em { font-style: normal; font-weight: 600; letter-spacing: 0.04em; color: ${C.muted}; text-transform: none; font-size: 8.5pt; }
 
 /* ─── EXERCISE CARD ─── */
 .exercise {
@@ -426,7 +445,7 @@ body {
   font-family: 'Oswald', sans-serif;
   font-size: 17pt;
   font-weight: 700;
-  color: ${C.gold};
+  color: ${C.goldText};
   line-height: 1;
   flex-shrink: 0;
   width: 30px;
@@ -440,16 +459,16 @@ body {
   color: ${C.black};
   line-height: 1.1;
 }
-.ex-sets { font-size: 8.5pt; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: ${C.gold}; margin-top: 3px; }
-.ex-cue { font-size: 9pt; color: rgba(17,19,24,0.7); line-height: 1.55; padding-left: 44px; }
+.ex-sets { font-size: 8.5pt; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: ${C.goldText}; margin-top: 3px; }
+.ex-cue { font-size: 9pt; color: ${C.mutedStrong}; line-height: 1.55; padding-left: 44px; }
 
 /* ─── FEEL / FOCUS ─── */
 .feel-band { margin: 20px 0 0; padding: 16px 18px; background: ${C.black}; border-radius: 2px; break-inside: avoid; }
 .feel-title { font-family: 'Oswald', sans-serif; font-size: 9pt; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: ${C.gold}; margin-bottom: 8px; }
 .feel-list { list-style: none; display: flex; flex-wrap: wrap; gap: 6px 22px; margin-bottom: 12px; }
-.feel-list li { font-size: 9pt; color: rgba(255,255,255,0.82); position: relative; padding-left: 16px; }
+.feel-list li { font-size: 9pt; color: ${C.onDarkStrong}; position: relative; padding-left: 16px; }
 .feel-list li::before { content: '↑'; position: absolute; left: 0; color: ${C.gold}; font-weight: 700; }
-.focus-line { font-size: 9pt; color: rgba(255,255,255,0.7); line-height: 1.55; border-top: 1px solid rgba(255,255,255,0.12); padding-top: 10px; }
+.focus-line { font-size: 9pt; color: ${C.onDarkFg}; line-height: 1.55; border-top: 1px solid rgba(255,255,255,0.12); padding-top: 10px; }
 .focus-line b { color: ${C.gold}; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; font-size: 8pt; }
 
 /* ─── FOOTER ─── */
@@ -463,17 +482,17 @@ body {
   flex-wrap: wrap;
   gap: 6px;
 }
-.foot-logo { font-family: 'Oswald', sans-serif; font-size: 10pt; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(17,19,24,0.3); }
-.foot-logo span { color: ${C.gold}; }
-.foot-url { font-size: 8pt; color: rgba(17,19,24,0.3); letter-spacing: 0.04em; }
-.foot-day { font-family: 'Oswald', sans-serif; font-size: 9pt; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(17,19,24,0.35); }
+.foot-logo { font-family: 'Oswald', sans-serif; font-size: 10pt; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: ${C.muted}; }
+.foot-logo span { color: ${C.goldText}; }
+.foot-url { font-size: 8pt; color: ${C.muted}; letter-spacing: 0.04em; }
+.foot-day { font-family: 'Oswald', sans-serif; font-size: 9pt; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: ${C.muted}; }
 .foot-cta {
   width: 100%;
   border-top: 1px solid ${C.border};
   padding-top: 9px;
   font-size: 8.5pt;
   letter-spacing: 0.04em;
-  color: rgba(17,19,24,0.55);
+  color: ${C.muted};
 }
 .foot-cta b { color: ${C.black}; font-weight: 700; }
 .foot-cta a { color: ${C.black}; font-weight: 700; text-decoration: none; }
@@ -489,7 +508,7 @@ body {
   font-family: 'DM Sans', sans-serif;
   font-size: 8pt; font-weight: 700;
   letter-spacing: 0.2em; text-transform: uppercase;
-  color: rgba(17,19,24,0.55);
+  color: ${C.onGoldMuted};
   margin-bottom: 6px;
 }
 .close-title {
@@ -499,7 +518,7 @@ body {
   color: ${C.black}; line-height: 1;
   margin-bottom: 10px;
 }
-.close-body { font-size: 9.5pt; color: rgba(17,19,24,0.78); line-height: 1.6; max-width: 6in; margin-bottom: 12px; }
+.close-body { font-size: 9.5pt; color: ${C.onGoldMuted}; line-height: 1.6; max-width: 6in; margin-bottom: 12px; }
 .close-body b { color: ${C.black}; }
 .close-offer {
   font-family: 'Oswald', sans-serif;
