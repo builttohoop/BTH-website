@@ -7,7 +7,9 @@
 // mode (@media prefers-color-scheme + Outlook [data-ogsc]). A solid black header
 // band with a 3px gold stripe (constant in both inboxes), left-aligned editorial
 // body, white card on light / near-black on dark. Ty selected 1B on 2026-07-07,
-// superseding 1A "Center Court". Gold (#E6A800) stays the accent constant on both modes.
+// superseding 1A "Center Court". Gold (#E6A800) stays the FILL constant on both modes
+// (Tier-1 CTA, header stripe, wordmark on the black band). Gold TEXT on a light surface
+// uses --bth-gold-text #7A5700 (AA) and flips to #E6A800 in dark mode via .t-gold/.link.
 //
 // CTA = BTH Forms & CTA System tiers (button by how important the click is):
 //  • Tier 1 · Primary (COMMIT) — solid gold — "Start the 5-Day Reset", "Join Stay Ready".
@@ -63,9 +65,11 @@ const C = {
   bandInk: '#F3EFE7',   // wordmark text on the band
   ink:     '#111318',   // headings + wordmark (light)
   body:    '#45474D',   // body copy (light)
-  muted:   '#8A8578',   // secondary text (light)
-  goldText:'#B4841A',   // gold for eyebrow / small text / links on white (reads better than #E6A800 on light)
-  gold:    '#E6A800',   // Tier-1 CTA fill + headline accent — CONSTANT both modes
+  // AA text colors (design-system tokens, opaque so no client can composite them differently).
+  // Every light text color sits on the white card (#FFFFFF) or the featured box (#F6F3EC).
+  muted:   '#6B6D70',   // secondary text (light) = --bth-muted rgba(17,19,24,.62) flattened on white: 5.19:1 white, 4.68:1 #F6F3EC (was #8A8578, 3.68:1)
+  goldText:'#7A5700',   // --bth-gold-text: eyebrow / links / headline accent word on light: 6.58:1 white, 5.94:1 #F6F3EC (was #B4841A, 3.36:1)
+  gold:    '#E6A800',   // Tier-1 CTA fill, header stripe, wordmark on the band — CONSTANT both modes. A FILL, never text on light (2.11:1 on white)
   btnText: '#111318',   // Tier-1 CTA label — CONSTANT
   btn2:    'rgba(17,19,24,0.24)', // Tier-2 outline border (light)
   boxSoft: '#F6F3EC',   // featured-card fill (light)
@@ -217,8 +221,8 @@ function btnSecondary(url, label, widthPx = 300) {
 <!--<![endif]-->`;
 }
 
-// 1B hero: left-aligned eyebrow + big Oswald headline (pass ONE gold accent word as
-// <span class="t-gold" style="color:#E6A800;">word</span>), optional lead line + Tier-1 CTA.
+// 1B hero: left-aligned eyebrow + big Oswald headline (wrap ONE accent word in g(word)),
+// optional lead line + Tier-1 CTA.
 function hero(eyebrow, headlineHtml, leadText, ctaUrl, ctaLabel) {
   const lead = leadText
     ? `\n  <p class="t-body" style="margin:15px 0 0;font-size:15px;line-height:1.68;color:${C.body};">${leadText}</p>`
@@ -302,9 +306,11 @@ function sig(name = 'Ty, BTH') {
   return `${divider()}<p class="t-body" style="margin:0;font-size:15px;color:${C.body};">— ${name}<br><span class="t-muted" style="font-size:13px;color:${C.muted};">Built to Hoop · <a class="link" href="https://built-to-hoop.com" style="color:${C.goldText};">built-to-hoop.com</a></span></p>`;
 }
 
-// Gold accent word for headlines (constant #E6A800 both modes).
+// Gold accent word for headlines: --bth-gold-text #7A5700 on the light card (the website's
+// `.hero-title .gold` rule), flipped to electric gold #E6A800 on dark by .t-gold. #E6A800 on
+// white is 2.11:1 — under even the 3:1 large-text bar — so it is never the light value.
 function g(word) {
-  return `<span class="t-gold" style="color:${C.gold};">${word}</span>`;
+  return `<span class="t-gold" style="color:${C.goldText};">${word}</span>`;
 }
 
 // ─── EMAILS ──────────────────────────────────────────────────────
