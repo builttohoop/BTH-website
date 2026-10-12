@@ -69,6 +69,15 @@ jobs:
       # Scoped to the files the PR touches, so a codebase that already violates the rule does
       # not fail every PR forever. It also prints the remaining sitewide count on every run, so
       # the backlog stays visible and can only go down.
+      #
+      # 2026-10-08: the gate also scans the attributes a reader sees (alt, title, aria-label,
+      # placeholder, meta description/og/twitter, input-button value) and only counts a denial
+      # in the same sentence. Hits that only those rules find print as WARN (and as ::warning
+      # annotations) and do not fail the job yet — main carries 8 of them. Add --strict below
+      # once the WARN list is empty.
+      - name: Banned words gate self-test
+        run: node --test .github/scripts/check-banned-words.test.mjs
+
       - name: Banned words (FOUNDER-STORY section 4)
         run: |
           # This workflow runs on push as well as pull_request, and on a push event
