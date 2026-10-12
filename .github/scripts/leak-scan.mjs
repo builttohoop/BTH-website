@@ -263,9 +263,9 @@ export async function scanBranch({ repo, base = 'origin/main', head = 'HEAD', fi
 function parseArgs(argv) {
   const options = {};
   for (let index = 0; index < argv.length; index += 1) {
-    const token = argv[index];
-    if (!token.startsWith('--')) throw new Error(`Unexpected argument: ${token}`);
-    const key = token.slice(2);
+    const arg = argv[index];
+    if (!arg.startsWith('--')) throw new Error(`Unexpected argument: ${arg}`);
+    const key = arg.slice(2);
     const next = argv[index + 1];
     const value = next && !next.startsWith('--') ? argv[++index] : true;
     if (Object.hasOwn(options, key)) {

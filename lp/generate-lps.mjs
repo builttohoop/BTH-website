@@ -260,7 +260,7 @@ const R_PAGES = [
     sub: 'Two days sore after every run is not a law of nature past 30 — it is a sign the base needs work. Five free days of <strong>training and recovery, built together</strong>.',
     bullets: ['For the hooper who is always a little banged up', 'Recovery built into the training, not bolted on', 'Mobility, strength and easy days in the right order', 'Free to start — no card, no trial'],
     whyParas: [
-      'When everything hurts after basketball — knees, back, calves, all of it a little — the answer is almost never one magic stretch. It is the base: a body that has not trained between runs has no buffer, so every game spends more than it has. The fix is boring and it is built to work over time — build the buffer.',
+      'When everything hurts after basketball — knees, back, calves, all of it a little — the answer is almost never one magic stretch. It is the base: a body that has not trained between runs has no buffer, so every game spends more than it has. The plan is boring and it is built to work over time — build the buffer.',
       `The free 5-Day Reset is five days of exactly that: mobility, strength and recovery work sequenced so your next run costs less. ${TRAINING_NOT_TREATMENT}`,
     ],
     faq: [
