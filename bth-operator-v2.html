@@ -23,15 +23,24 @@
   <style>
     :root {
       --black:#111318; --gold:#E6A800; --gold-dim:#E6A800; --gold-text:#7A5700; --gold-bg:rgba(230,168,0,.10);
-      --white:#F3EFE7; --dark:#FFFFFF; --mid:#F3EFE7; --gray:rgba(17,19,24,.16); --muted:rgba(17,19,24,.58);
+      --white:#F3EFE7; --dark:#FFFFFF; --mid:#F3EFE7; --gray:rgba(17,19,24,.16); --muted:rgba(17,19,24,.66);
+      --ink:#111318; --band:#111318; --on-band:#F3EFE7; --on-gold:#111318;
       --nav-h:68px; --sb:env(safe-area-inset-bottom,0px); --st:env(safe-area-inset-top,44px);
+      color-scheme:light;
+    }
+    @media (prefers-color-scheme:dark){
+      :root{
+        --white:#0E0F13; --dark:#1A1C22; --mid:#24272E; --gray:rgba(243,239,231,.16); --muted:rgba(243,239,231,.66);
+        --ink:#F3EFE7; --band:#07080A; --gold-text:#E6A800; --gold-bg:rgba(230,168,0,.14);
+        color-scheme:dark;
+      }
     }
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
     ::placeholder{color:var(--muted);opacity:1;}
-    html,body{height:100%;overflow:hidden;background:var(--white);color:var(--black);font-family:'DM Sans',sans-serif;}
+    html,body{height:100%;overflow:hidden;background:var(--white);color:var(--ink);font-family:'DM Sans',sans-serif;}
     @keyframes tabIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
     @keyframes cardIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-    nav{position:fixed;bottom:0;left:0;right:0;height:calc(var(--nav-h) + var(--sb));padding-bottom:var(--sb);background:var(--black);border-top:3px solid var(--gold);box-shadow:none;display:flex;align-items:center;z-index:100;}
+    nav{position:fixed;bottom:0;left:0;right:0;height:calc(var(--nav-h) + var(--sb));padding-bottom:var(--sb);background:var(--band);border-top:3px solid var(--gold);box-shadow:none;display:flex;align-items:center;z-index:100;}
     .nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:8px 4px;background:none;border:none;cursor:pointer;color:rgba(255,255,255,.52);transition:color .18s;}
     .nav-btn.active{color:var(--gold);}
     .nav-icon{font-size:20px;transition:transform .2s;}
@@ -39,17 +48,17 @@
     .nav-label{font-family:'DM Sans',sans-serif;font-size:9px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;}
     .tab{position:fixed;top:0;left:0;right:0;bottom:calc(var(--nav-h) + var(--sb));overflow-y:auto;overflow-x:hidden;padding:calc(var(--st) + 20px) 16px 32px;display:none;-webkit-overflow-scrolling:touch;background:var(--white);}
     .tab.active{display:block;animation:tabIn .2s ease;}
-    .page-title{font-family:'Oswald',sans-serif;font-size:42px;font-weight:700;line-height:.95;letter-spacing:.04em;text-transform:uppercase;color:#fff;}
-    .page-sub{font-family:'DM Sans',sans-serif;font-size:12px;color:rgba(255,255,255,.58);margin-top:8px;letter-spacing:.08em;text-transform:uppercase;}
+    .page-title{font-family:'Oswald',sans-serif;font-size:42px;font-weight:700;line-height:.95;letter-spacing:.04em;text-transform:uppercase;color:var(--ink);}
+    .page-sub{font-family:'DM Sans',sans-serif;font-size:12px;color:var(--muted);margin-top:8px;letter-spacing:.08em;text-transform:uppercase;}
     .page-head{margin:-2px 0 28px;padding-bottom:20px;border-bottom:3px solid var(--gold);}
     .section-label{font-family:'DM Sans',sans-serif;font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
-    .card{background:var(--dark);border:1px solid var(--gray);border-left:3px solid var(--black);border-radius:2px;padding:18px 16px;margin-bottom:12px;animation:cardIn .2s ease both;box-shadow:none;}
-    .card-title{font-family:'Oswald',sans-serif;font-size:18px;font-weight:700;color:var(--black);margin-bottom:10px;letter-spacing:.08em;text-transform:uppercase;}
+    .card{background:var(--dark);border:1px solid var(--gray);border-left:3px solid var(--ink);border-radius:2px;padding:18px 16px;margin-bottom:12px;animation:cardIn .2s ease both;box-shadow:none;}
+    .card-title{font-family:'Oswald',sans-serif;font-size:18px;font-weight:700;color:var(--ink);margin-bottom:10px;letter-spacing:.08em;text-transform:uppercase;}
     .input-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--gray);}
     .input-row:last-child{border-bottom:none;}
-    .input-label{font-size:14px;font-weight:500;color:var(--black);}
+    .input-label{font-size:14px;font-weight:500;color:var(--ink);}
     .input-sub{font-family:'DM Sans',sans-serif;font-size:11px;color:var(--muted);}
-    .num-input{font-family:'DM Sans',sans-serif;font-variant-numeric:tabular-nums;font-size:16px;font-weight:700;color:var(--gold);background:none;border:none;outline:none;width:70px;text-align:right;-webkit-appearance:none;}
+    .num-input{font-family:'DM Sans',sans-serif;font-variant-numeric:tabular-nums;font-size:16px;font-weight:700;color:var(--gold-text);background:none;border:none;outline:none;width:70px;text-align:right;-webkit-appearance:none;}
     .num-input::placeholder{color:var(--muted);font-size:14px;}
     .bar-wrap{height:4px;background:var(--gray);border-radius:2px;overflow:hidden;margin-top:6px;}
     .bar-fill{height:100%;border-radius:2px;transition:width .4s ease,background .3s ease;}
@@ -57,14 +66,14 @@
     .btch-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
     .btch-item{display:flex;align-items:center;gap:8px;background:var(--mid);border:1px solid var(--gray);border-radius:2px;padding:10px 12px;cursor:pointer;transition:border-color .2s,background .2s;}
     .btch-item.done{border-color:var(--gold);background:var(--gold-bg);}
-    .btch-icon{font-size:16px;flex-shrink:0;}.btch-label{font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;letter-spacing:.2px;color:var(--black);}
+    .btch-icon{font-size:16px;flex-shrink:0;}.btch-label{font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;letter-spacing:.2px;color:var(--ink);}
     .btch-check{margin-left:auto;font-size:14px;color:var(--muted);}
-    .btch-item.done .btch-check{color:var(--gold);}
-    .btch-all-done{background:var(--gold);border:2px solid var(--gold);border-radius:2px;padding:12px 16px;margin-bottom:10px;text-align:center;font-weight:900;font-size:14px;letter-spacing:1px;color:var(--black);display:none;}
+    .btch-item.done .btch-check{color:var(--gold-text);}
+    .btch-all-done{background:var(--gold);border:2px solid var(--gold);border-radius:2px;padding:12px 16px;margin-bottom:10px;text-align:center;font-weight:900;font-size:14px;letter-spacing:1px;color:var(--on-gold);display:none;}
     .task-item{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--gray);}
     .task-item:last-child{border-bottom:none;}
     .task-check{width:22px;height:22px;border-radius:2px;border:2px solid var(--muted);background:none;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:border-color .2s,background .2s;font-size:13px;color:transparent;}
-    .task-check.done{border-color:var(--gold);background:var(--gold);color:var(--black);}
+    .task-check.done{border-color:var(--gold);background:var(--gold);color:var(--on-gold);}
     .task-text{font-size:13px;flex:1;}.task-text.done{text-decoration:line-through;color:var(--muted);}
     .collapsible-header{display:flex;align-items:center;justify-content:space-between;cursor:pointer;padding:4px 0;user-select:none;}
     .collapsible-arrow{font-size:12px;color:var(--muted);transition:transform .25s;}
@@ -73,15 +82,15 @@
     .collapsible-header.open .collapsible-arrow{transform:rotate(180deg);}
     .sched-item{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--gray);}
     .sched-item:last-child{border-bottom:none;}
-    .sched-time{font-family:'DM Sans',sans-serif;font-variant-numeric:tabular-nums;font-size:12px;font-weight:700;color:var(--gold);min-width:54px;cursor:pointer;border:none;background:none;outline:none;-webkit-appearance:none;}
-    .sched-label{font-size:14px;font-weight:500;color:var(--black);flex:1;}
+    .sched-time{font-family:'DM Sans',sans-serif;font-variant-numeric:tabular-nums;font-size:12px;font-weight:700;color:var(--gold-text);min-width:54px;cursor:pointer;border:none;background:none;outline:none;-webkit-appearance:none;}
+    .sched-label{font-size:14px;font-weight:500;color:var(--ink);flex:1;}
     .pip-row{display:flex;gap:6px;margin-bottom:4px;flex-wrap:wrap;}
     .pip-dot{width:30px;height:30px;border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;font-family:'DM Sans',sans-serif;font-variant-numeric:tabular-nums;border:2px solid var(--gray);color:var(--muted);}
-    .pip-dot.done{background:var(--gold);border-color:var(--gold);color:var(--black);}
-    .pip-dot.today{border-color:var(--gold);color:var(--gold);}
+    .pip-dot.done{background:var(--gold);border-color:var(--gold);color:var(--on-gold);}
+    .pip-dot.today{border-color:var(--gold);color:var(--gold-text);}
     .pip-dot.rest{background:var(--gray);border-color:var(--gray);color:var(--muted);}
     .streak-stat{text-align:center;flex:1;}
-    .streak-num{font-family:'DM Sans',sans-serif;font-variant-numeric:tabular-nums;font-size:28px;font-weight:700;color:var(--gold);}
+    .streak-num{font-family:'DM Sans',sans-serif;font-variant-numeric:tabular-nums;font-size:28px;font-weight:700;color:var(--gold-text);}
     .streak-label{font-size:10px;color:var(--muted);margin-top:2px;letter-spacing:.5px;text-transform:uppercase;}
     .grade-card{text-align:center;padding:24px 16px;}
     .grade-letter{font-family:'Oswald',sans-serif;font-size:80px;font-weight:700;line-height:1;}
@@ -97,24 +106,24 @@
     .grade-breakdown{display:flex;margin-top:16px;border-top:1px solid var(--gray);}
     .grade-item{flex:1;text-align:center;padding:10px 4px;border-right:1px solid var(--gray);}
     .grade-item:last-child{border-right:none;}
-    .grade-item-val{font-family:'DM Sans',sans-serif;font-variant-numeric:tabular-nums;font-size:16px;font-weight:700;color:var(--black);}
+    .grade-item-val{font-family:'DM Sans',sans-serif;font-variant-numeric:tabular-nums;font-size:16px;font-weight:700;color:var(--ink);}
     .grade-item-lbl{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;}
     .week-day-selector{display:flex;gap:6px;margin-bottom:14px;}
     .sel-btn{flex:1;min-height:44px;padding:8px 4px;text-align:center;border-radius:2px;border:1px solid var(--gray);background:var(--mid);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;color:var(--muted);transition:all .2s;}
-    .sel-btn.active{border-color:var(--gold);color:var(--gold);background:var(--gold-bg);}
+    .sel-btn.active{border-color:var(--gold);color:var(--gold-text);background:var(--gold-bg);}
     .exercise-row{padding:13px 0;border-bottom:1px solid var(--gray);animation:cardIn .2s ease both;}
     .exercise-row:last-child{border-bottom:none;}
-    .ex-name{font-size:14px;font-weight:600;color:var(--black);margin-bottom:4px;}
-    .ex-week{font-family:'DM Sans',sans-serif;font-variant-numeric:tabular-nums;font-size:13px;color:var(--gold);}
+    .ex-name{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:4px;}
+    .ex-week{font-family:'DM Sans',sans-serif;font-variant-numeric:tabular-nums;font-size:13px;color:var(--gold-text);}
     .ex-rest{font-family:'DM Sans',sans-serif;font-variant-numeric:tabular-nums;font-size:10px;color:var(--muted);margin-top:4px;}
     .warmup-item{font-size:12px;color:var(--muted);padding:4px 0;border-bottom:1px solid var(--gray);}
     .warmup-item:last-child{border-bottom:none;}
-    .intent-badge{display:inline-block;padding:4px 12px;border-radius:2px;background:var(--gold-bg);border:1px solid var(--gold);font-size:11px;color:var(--gold);font-weight:700;letter-spacing:.5px;margin-bottom:6px;}
+    .intent-badge{display:inline-block;padding:4px 12px;border-radius:2px;background:var(--gold-bg);border:1px solid var(--gold);font-size:11px;color:var(--gold-text);font-weight:700;letter-spacing:.5px;margin-bottom:6px;}
     .intent-feel{font-size:12px;color:var(--muted);font-style:italic;}
     .goal-edit-row{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--gray);}
     .goal-edit-row:last-child{border-bottom:none;}
-    .goal-label{font-size:14px;font-weight:500;color:var(--black);}
-    .goal-input{font-family:'DM Sans',sans-serif;font-variant-numeric:tabular-nums;font-size:14px;font-weight:700;color:var(--gold);background:none;border:none;outline:none;width:70px;text-align:right;-webkit-appearance:none;}
+    .goal-label{font-size:14px;font-weight:500;color:var(--ink);}
+    .goal-input{font-family:'DM Sans',sans-serif;font-variant-numeric:tabular-nums;font-size:14px;font-weight:700;color:var(--gold-text);background:none;border:none;outline:none;width:70px;text-align:right;-webkit-appearance:none;}
     .week-day-bar{display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid var(--gray);}
     .week-day-bar:last-child{border-bottom:none;}
     .wdb-label{font-family:'DM Sans',sans-serif;font-variant-numeric:tabular-nums;font-size:10px;color:var(--muted);width:28px;}
@@ -122,27 +131,27 @@
     .wdb-fill{height:100%;background:var(--gold);border-radius:2px;transition:width .4s;}
     .wdb-val{font-family:'DM Sans',sans-serif;font-variant-numeric:tabular-nums;font-size:10px;color:var(--muted);width:36px;text-align:right;}
     .note-item{background:var(--mid);border:1px solid var(--gray);border-radius:2px;padding:12px;margin-bottom:8px;animation:cardIn .2s ease both;}
-    .note-text{font-size:14px;color:var(--black);line-height:1.55;white-space:pre-wrap;}
+    .note-text{font-size:14px;color:var(--ink);line-height:1.55;white-space:pre-wrap;}
     .note-ts{font-family:'DM Sans',sans-serif;font-variant-numeric:tabular-nums;font-size:10px;color:var(--muted);margin-top:6px;}
     .note-delete{float:right;font-size:12px;color:var(--muted);cursor:pointer;margin-left:8px;}
-    .note-textarea{width:100%;background:var(--mid);border:1px solid var(--gray);border-radius:2px;padding:12px;color:var(--black);font-family:'DM Sans',sans-serif;font-size:14px;resize:none;outline:none;min-height:82px;transition:border-color .2s;display:block;}
+    .note-textarea{width:100%;background:var(--mid);border:1px solid var(--gray);border-radius:2px;padding:12px;color:var(--ink);font-family:'DM Sans',sans-serif;font-size:14px;resize:none;outline:none;min-height:82px;transition:border-color .2s;display:block;}
     .note-textarea:focus{border-color:var(--gold);}
-    .btn-primary{width:100%;padding:15px;background:var(--gold);border:2px solid var(--gold);border-radius:2px;font-family:'Oswald',sans-serif;font-weight:700;font-size:15px;letter-spacing:.1em;text-transform:uppercase;color:var(--black);cursor:pointer;transition:transform .1s,opacity .1s;}
+    .btn-primary{width:100%;padding:15px;background:var(--gold);border:2px solid var(--gold);border-radius:2px;font-family:'Oswald',sans-serif;font-weight:700;font-size:15px;letter-spacing:.1em;text-transform:uppercase;color:var(--on-gold);cursor:pointer;transition:transform .1s,opacity .1s;}
     .btn-primary:active{transform:scale(.97);}
-    .btn-secondary{width:100%;padding:12px;background:none;border:2px solid var(--black);border-radius:2px;font-family:'Oswald',sans-serif;font-weight:700;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--black);cursor:pointer;transition:border-color .2s,color .2s;margin-top:8px;}
-    .btn-secondary:active{border-color:var(--gold);color:var(--gold);}
-    .ex-input{flex:1;background:var(--mid);border:1px solid var(--gray);border-radius:2px;padding:8px 10px;color:var(--black);font-size:13px;outline:none;font-family:'DM Sans',sans-serif;}
+    .btn-secondary{width:100%;padding:12px;background:none;border:2px solid var(--ink);border-radius:2px;font-family:'Oswald',sans-serif;font-weight:700;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);cursor:pointer;transition:border-color .2s,color .2s;margin-top:8px;}
+    .btn-secondary:active{border-color:var(--gold);color:var(--gold-text);}
+    .ex-input{flex:1;background:var(--mid);border:1px solid var(--gray);border-radius:2px;padding:8px 10px;color:var(--ink);font-size:13px;outline:none;font-family:'DM Sans',sans-serif;}
     .ex-input:focus{border-color:var(--gold);}.ex-input-sm{width:76px;flex:none;}
     .ex-input-row{display:flex;gap:8px;margin-bottom:6px;}
     .added-ex{display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--gray);}
     .added-ex:last-child{border-bottom:none;}
-    .added-ex-name{font-size:13px;font-weight:500;color:var(--black);}
+    .added-ex-name{font-size:13px;font-weight:500;color:var(--ink);}
     .added-ex-sets{font-family:'DM Sans',sans-serif;font-variant-numeric:tabular-nums;font-size:10px;color:var(--muted);}
     .added-ex-del{font-size:12px;color:var(--muted);cursor:pointer;padding:4px;}
-    .toast-el{position:fixed;bottom:calc(var(--nav-h) + var(--sb) + 16px);left:50%;transform:translateX(-50%) translateY(20px);background:var(--black);color:var(--white);padding:10px 20px;border:2px solid var(--gold);border-radius:2px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;opacity:0;transition:opacity .25s,transform .25s;pointer-events:none;z-index:999;white-space:nowrap;}
+    .toast-el{position:fixed;bottom:calc(var(--nav-h) + var(--sb) + 16px);left:50%;transform:translateX(-50%) translateY(20px);background:var(--band);color:var(--on-band);padding:10px 20px;border:2px solid var(--gold);border-radius:2px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;opacity:0;transition:opacity .25s,transform .25s;pointer-events:none;z-index:999;white-space:nowrap;}
     .toast-el.show{opacity:1;transform:translateX(-50%) translateY(0);}
     .yesterday-banner{background:var(--gold-bg);border:1px solid var(--gold);border-radius:2px;padding:10px 14px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;}
-    .yesterday-text{font-size:12px;color:var(--gold);font-weight:700;}
+    .yesterday-text{font-size:12px;color:var(--gold-text);font-weight:700;}
     .yesterday-back{font-size:11px;color:var(--muted);cursor:pointer;}
     #today-micro{font-family:'DM Sans',sans-serif;font-size:12px;color:var(--muted);margin-top:3px;line-height:1.4;font-weight:500;}
     .divider{height:1px;background:var(--gray);margin:14px 0;}
@@ -152,6 +161,46 @@
     button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid rgba(230,168,0,.38);outline-offset:2px;}
     @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;}}
     ::-webkit-scrollbar{display:none;}
+    /* Ty Week + Money (round 2) */
+    .tw-tabs{display:flex;gap:6px;margin-bottom:16px;}
+    .tw-weeknav{display:flex;align-items:center;gap:8px;margin-bottom:12px;}
+    .tw-arrow{width:44px;height:44px;flex:none;border:1px solid var(--gray);background:var(--dark);color:var(--ink);border-radius:2px;font-size:18px;font-weight:700;cursor:pointer;}
+    .tw-arrow:disabled{opacity:.35;cursor:default;}
+    .tw-range{flex:1;text-align:center;font-family:'Oswald',sans-serif;font-size:15px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);}
+    .tw-big{font-family:'Oswald',sans-serif;font-size:44px;font-weight:700;line-height:1;color:var(--ink);font-variant-numeric:tabular-nums;}
+    .tw-big-sub{font-size:12px;color:var(--muted);margin-top:6px;font-variant-numeric:tabular-nums;}
+    .tw-bar{height:8px;background:var(--gray);border-radius:2px;overflow:hidden;margin-top:12px;}
+    .tw-bar-fill{height:100%;background:var(--gold);transition:width .4s ease;}
+    .tw-days{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:12px;}
+    .tw-day{min-height:56px;padding:6px 0;border:1px solid var(--gray);background:var(--dark);border-radius:2px;color:var(--ink);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-family:'DM Sans',sans-serif;}
+    .tw-day .tw-dname{font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;}
+    .tw-day .tw-dcount{font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums;}
+    .tw-day.today{box-shadow:inset 0 3px 0 var(--gold);}
+    .tw-day.full{background:var(--gold);border-color:var(--gold);color:var(--on-gold);}
+    .tw-day.full .tw-dcount{color:var(--on-gold);}
+    .tw-day.sel{outline:2px solid var(--ink);outline-offset:-2px;}
+    .tw-time{font-size:12px;font-weight:700;color:var(--muted);font-variant-numeric:tabular-nums;min-width:44px;}
+    .tw-count{font-size:13px;font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums;white-space:nowrap;}
+    .tw-count.hit{color:var(--gold-text);}
+    .tw-row{display:flex;align-items:center;gap:8px;padding:10px 0;border-bottom:1px solid var(--gray);}
+    .tw-row:last-child{border-bottom:none;}
+    .tw-input{flex:1;min-width:0;min-height:44px;background:var(--mid);border:1px solid var(--gray);border-radius:2px;padding:8px 10px;color:var(--ink);font-family:'DM Sans',sans-serif;font-size:16px;outline:none;}
+    .tw-input:focus{border-color:var(--gold);}
+    .tw-input.sm{flex:none;width:96px;}
+    .tw-input.time{flex:none;width:132px;padding:8px 6px;}
+    .tw-chips{display:flex;gap:3px;margin:8px 0 2px;}
+    .tw-chip{flex:1;min-width:0;min-height:44px;border:1px solid var(--gray);background:var(--mid);color:var(--muted);border-radius:2px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;cursor:pointer;}
+    .tw-chip.on{background:var(--gold);border-color:var(--gold);color:var(--on-gold);}
+    .tw-del,.tw-step{width:44px;height:44px;flex:none;border:1px solid var(--gray);background:var(--dark);color:var(--ink);border-radius:2px;font-size:16px;font-weight:700;cursor:pointer;}
+    .tw-del{border-color:transparent;background:none;color:var(--muted);}
+    .tw-item{padding:12px 0;border-bottom:1px solid var(--gray);}
+    .tw-item:last-child{border-bottom:none;}
+    .tw-note{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:14px;}
+    .tw-link{display:block;width:100%;min-height:44px;background:none;border:none;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;text-decoration:underline;cursor:pointer;}
+    .tw-amt{font-size:15px;font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums;white-space:nowrap;}
+    .tw-sum{display:flex;align-items:center;gap:12px;}
+    .tw-sum-main{flex:1;min-width:0;}
+    .tw-sum-go{font-size:22px;color:var(--muted);}
   </style>
 </head>
 <body>
@@ -164,7 +213,7 @@
   <button class="nav-btn active" onclick="switchTab('today',this)"><span class="nav-icon">T</span><span class="nav-label">Today</span></button>
   <button class="nav-btn" onclick="switchTab('train',this)"><span class="nav-icon">W</span><span class="nav-label">Train</span></button>
   <button class="nav-btn" onclick="switchTab('nutrition',this)"><span class="nav-icon">N</span><span class="nav-label">Nutrition</span></button>
-  <button class="nav-btn" onclick="switchTab('week',this)"><span class="nav-icon">R</span><span class="nav-label">Week</span></button>
+  <button class="nav-btn" onclick="switchTab('week',this)"><span class="nav-icon">✓</span><span class="nav-label">Ty Week</span></button>
   <button class="nav-btn" onclick="switchTab('claude',this)"><span class="nav-icon">C</span><span class="nav-label">Claude</span></button>
 </nav>
 <div id="toast" class="toast-el"></div>
@@ -345,6 +394,7 @@ function renderToday(){
   var waterPct=Math.min(100,((parseFloat(log.water)||0)/goals.water)*100);
   var html='<div class="page-head"><div class="page-title">BTH OPERATOR</div><div class="page-sub">'+formatDate(dateD)+'</div><div id="today-micro"></div></div>';
   if(isYest){html+='<div class="yesterday-banner"><div class="yesterday-text">Viewing another operator day</div><div class="yesterday-back" role="button" tabindex="0" onclick="returnToToday()">← Active Day</div></div>';}
+  html+=twTodayCardHtml();
   html+='<div class="card"><div class="card-title">SLEEP + ENERGY</div>'
     +'<div class="input-row"><div><div class="input-label">Sleep</div><div class="input-sub">hours</div></div><input class="num-input" type="number" step="0.5" min="0" max="12" placeholder="—" value="'+esc(log.sleep||'')+'" oninput="db(\'sleep\',this.value)"></div>'
     +'<div class="input-row"><div><div class="input-label">Energy</div><div class="input-sub">1 – 7</div></div><input class="num-input" type="number" min="1" max="7" placeholder="—" value="'+esc(log.energy||'')+'" oninput="db(\'energy\',this.value)"></div>'
@@ -371,7 +421,7 @@ function renderTasksHtml(){
   var html='<div class="card"><div class="card-title">TODAY\'S TASKS</div>';
   if(taskData&&taskData.tasks&&taskData.tasks.length){
     var allDone=taskData.completed&&taskData.completed.every(Boolean);
-    if(allDone)html+='<div style="text-align:center;color:var(--gold);font-family:\'Oswald\',sans-serif;font-size:14px;font-weight:600;padding:6px 0 10px;letter-spacing:1px;">ALL DONE — LOCKED IN</div>';
+    if(allDone)html+='<div style="text-align:center;color:var(--gold-text);font-family:\'Oswald\',sans-serif;font-size:14px;font-weight:600;padding:6px 0 10px;letter-spacing:1px;">ALL DONE — LOCKED IN</div>';
     taskData.tasks.forEach(function(t,i){var done=taskData.completed&&taskData.completed[i];html+='<div class="task-item"><div class="task-check '+(done?'done':'')+'" role="button" tabindex="0" aria-pressed="'+!!done+'" onclick="toggleTask('+i+')">'+(done?'✓':'')+'</div><div class="task-text '+(done?'done':'')+'">'+esc(t)+'</div></div>';});
   } else if(after2pm){
     html+='<div style="font-size:11px;color:var(--muted);font-style:italic;margin-bottom:8px;">No tasks set — backup tasks:</div>';
@@ -414,14 +464,14 @@ function renderProgramView(){
   if(!ACCESS.canViewWorkouts())return renderLockedWorkouts();
   var dayData=PHASE2.days[trainDay-1],intent=PHASE2.weekIntent[trainWeek-1],warmup=dayData.type==='lower'?PHASE2.warmups.lower:PHASE2.warmups.upper;
   var html='';
-  if(PHASE2.goalPills){html+='<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;">';PHASE2.goalPills.forEach(function(p){html+='<span style="font-family:\'Oswald\',sans-serif;font-size:10px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--gold);border:1px solid var(--gold);border-radius:2px;padding:4px 10px;">'+esc(p)+'</span>';});html+='</div>';}
+  if(PHASE2.goalPills){html+='<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;">';PHASE2.goalPills.forEach(function(p){html+='<span style="font-family:\'Oswald\',sans-serif;font-size:10px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--gold-text);border:1px solid var(--gold);border-radius:2px;padding:4px 10px;">'+esc(p)+'</span>';});html+='</div>';}
   html+='<div class="section-label">WEEK</div><div class="week-day-selector">';
   [1,2,3,4].forEach(function(w){html+='<button class="sel-btn '+(trainWeek===w?'active':'')+'" onclick="setTrainWeek('+w+')">W'+w+'</button>';});
   html+='</div><div class="intent-badge">'+esc(intent.goal.toUpperCase())+'</div><div class="intent-feel">'+esc(intent.feel)+'</div><div class="divider"></div>';
   html+='<div class="section-label">DAY</div><div class="week-day-selector">';
   PHASE2.days.forEach(function(d){html+='<button class="sel-btn '+(trainDay===d.num?'active':'')+'" onclick="setTrainDay('+d.num+')">D'+d.num+'</button>';});
   html+='</div>';
-  html+='<div class="card"><div style="font-family:\'Oswald\',sans-serif;font-size:20px;font-weight:700;text-transform:uppercase;color:var(--black);margin-bottom:2px;">'+esc(dayData.title)+'</div><div style="font-family:\'DM Sans\',sans-serif;font-size:12px;color:var(--muted);">'+esc(dayData.sub)+'</div></div>';
+  html+='<div class="card"><div style="font-family:\'Oswald\',sans-serif;font-size:20px;font-weight:700;text-transform:uppercase;color:var(--ink);margin-bottom:2px;">'+esc(dayData.title)+'</div><div style="font-family:\'DM Sans\',sans-serif;font-size:12px;color:var(--muted);">'+esc(dayData.sub)+'</div></div>';
   html+='<div class="card"><div class="card-title">WARMUP ('+(dayData.type==='lower'?'Lower':'Upper')+')</div>';
   warmup.forEach(function(w){html+='<div class="warmup-item">• '+esc(w)+'</div>';});
   html+='</div><div class="card"><div class="card-title">EXERCISES — WEEK '+trainWeek+'</div>';
@@ -434,18 +484,18 @@ function renderProgramView(){
     else{html+='<div class="exercise-row" style="animation-delay:'+(i*.04)+'s"><div class="ex-name">'+esc(ex.name)+tagHtml+'</div><div class="ex-week">'+esc(wv)+'</div><div class="ex-rest">Rest: '+esc(ex.rest)+'</div>'+(ex.note?'<div style="font-size:11px;color:var(--muted);font-style:italic;margin-top:4px;">'+esc(ex.note)+'</div>':'')+'</div>';}
   });
   html+='</div>';
-  if(dayData.finisher){var f=dayData.finisher;html+='<div class="card" style="background:var(--black);border-color:var(--black);"><div style="font-family:\'Oswald\',sans-serif;font-size:13px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--gold);">FINISHER · '+esc(f.title)+'</div><div style="font-family:\'DM Sans\',sans-serif;font-size:12px;color:rgba(255,255,255,.72);margin:8px 0 10px;line-height:1.5;">'+esc(f.desc)+'</div><div style="font-family:\'DM Sans\',sans-serif;font-variant-numeric:tabular-nums;font-size:14px;font-weight:700;color:var(--gold);">Week '+trainWeek+' — '+esc(f.weeks[trainWeek-1])+'</div></div>';}
+  if(dayData.finisher){var f=dayData.finisher;html+='<div class="card" style="background:var(--band);border-color:var(--band);"><div style="font-family:\'Oswald\',sans-serif;font-size:13px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--gold);">FINISHER · '+esc(f.title)+'</div><div style="font-family:\'DM Sans\',sans-serif;font-size:12px;color:rgba(255,255,255,.72);margin:8px 0 10px;line-height:1.5;">'+esc(f.desc)+'</div><div style="font-family:\'DM Sans\',sans-serif;font-variant-numeric:tabular-nums;font-size:14px;font-weight:700;color:var(--gold);">Week '+trainWeek+' — '+esc(f.weeks[trainWeek-1])+'</div></div>';}
   html+='<div class="card"><div class="collapsible-header" role="button" tabindex="0" aria-expanded="false" onclick="toggleCollapsible(this)"><div class="card-title" style="margin:0;">HOW TO RUN IT + RED FLAGS</div><div class="collapsible-arrow">▼</div></div><div class="collapsible-body"><div style="padding-top:10px;"><div class="section-label">HOW TO RUN THIS BLOCK</div>';
   PHASE2.howTo.forEach(function(r){html+='<div style="font-size:12px;color:var(--muted);padding:5px 0;border-bottom:1px solid var(--gray);">• '+esc(r)+'</div>';});
   html+='<div class="section-label" style="margin-top:12px;">RED FLAGS — STOP OR SCALE BACK</div><div style="font-size:12px;color:var(--muted);line-height:1.5;padding:6px 0;">Performance training only; this does not diagnose or treat injury.</div>';
-  PHASE2.redFlags.forEach(function(f){html+='<div style="font-size:12px;font-weight:600;color:var(--black);padding:5px 0;border-bottom:1px solid var(--gray);">CAUTION · '+esc(f)+'</div>';});
+  PHASE2.redFlags.forEach(function(f){html+='<div style="font-size:12px;font-weight:600;color:var(--ink);padding:5px 0;border-bottom:1px solid var(--gray);">CAUTION · '+esc(f)+'</div>';});
   html+='</div></div></div>';
   return html;
 }
 function renderLockedWorkouts(){
   return '<div class="card" style="text-align:center;padding:34px 20px;">'
-    +'<div style="font-size:20px;font-weight:700;margin-bottom:10px;color:var(--gold);">LOCKED</div>'
-    +'<div style="font-family:\'Oswald\',sans-serif;font-size:22px;font-weight:700;text-transform:uppercase;color:var(--black);letter-spacing:.5px;">Members Only</div>'
+    +'<div style="font-size:20px;font-weight:700;margin-bottom:10px;color:var(--gold-text);">LOCKED</div>'
+    +'<div style="font-family:\'Oswald\',sans-serif;font-size:22px;font-weight:700;text-transform:uppercase;color:var(--ink);letter-spacing:.5px;">Members Only</div>'
     +'<div style="font-family:\'DM Sans\',sans-serif;font-size:13px;color:var(--muted);margin:10px auto 20px;line-height:1.6;max-width:280px;">The full Built to Hoop training block unlocks with BTH Stay Ready — $27/mo.</div>'
     +'<button class="btn-primary" onclick="startSubscribe()">UNLOCK WORKOUTS</button>'
     +'<button class="btn-secondary" onclick="redeemCode()">I have a member code</button>'
@@ -475,7 +525,7 @@ function renderMyWorkoutsView(){
   var workouts=load('bth_custom_workouts')||[];
   if(!workouts.length)return'<div class="no-data">No custom workouts yet<br><span style="font-size:11px;">Tap CREATE to build one</span></div>';
   var html='';
-  workouts.forEach(function(w,i){html+='<div class="card"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;"><div><div style="font-family:\'Oswald\',sans-serif;font-size:18px;font-weight:600;text-transform:uppercase;color:var(--black);">'+esc(w.name)+'</div><div style="font-family:\'DM Sans\',sans-serif;font-size:11px;font-weight:600;color:var(--muted);letter-spacing:.5px;text-transform:uppercase;">'+esc((w.type||'').toUpperCase())+' · '+(w.exercises?w.exercises.length:0)+' EXERCISES</div></div><div onclick="deleteCustomWorkout('+i+')" style="font-size:13px;color:var(--muted);cursor:pointer;padding:4px;">✕</div></div>';if(w.exercises&&w.exercises.length){w.exercises.forEach(function(ex){html+='<div style="font-size:13px;padding:5px 0;border-bottom:1px solid var(--gray);"><span style="color:var(--black);font-weight:500;">'+esc(ex.name)+'</span><span style="font-family:\'DM Sans\',sans-serif;font-variant-numeric:tabular-nums;color:var(--gold);float:right;">'+esc(ex.sets)+'×'+esc(ex.reps)+'</span></div>';});}html+='</div>';});
+  workouts.forEach(function(w,i){html+='<div class="card"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;"><div><div style="font-family:\'Oswald\',sans-serif;font-size:18px;font-weight:600;text-transform:uppercase;color:var(--ink);">'+esc(w.name)+'</div><div style="font-family:\'DM Sans\',sans-serif;font-size:11px;font-weight:600;color:var(--muted);letter-spacing:.5px;text-transform:uppercase;">'+esc((w.type||'').toUpperCase())+' · '+(w.exercises?w.exercises.length:0)+' EXERCISES</div></div><div onclick="deleteCustomWorkout('+i+')" style="font-size:13px;color:var(--muted);cursor:pointer;padding:4px;">✕</div></div>';if(w.exercises&&w.exercises.length){w.exercises.forEach(function(ex){html+='<div style="font-size:13px;padding:5px 0;border-bottom:1px solid var(--gray);"><span style="color:var(--ink);font-weight:500;">'+esc(ex.name)+'</span><span style="font-family:\'DM Sans\',sans-serif;font-variant-numeric:tabular-nums;color:var(--gold-text);float:right;">'+esc(ex.sets)+'×'+esc(ex.reps)+'</span></div>';});}html+='</div>';});
   return html;
 }
 function setTrainWeek(w){trainWeek=w;save('bth_train_week',w);renderTrain();}
@@ -497,19 +547,18 @@ function renderNutrition(){
   html+='<button class="btn-primary" style="margin-top:12px;" onclick="saveGoals()">SAVE GOALS</button></div></div></div>';
   var keys=weekKeys();
   html+='<div class="card"><div class="card-title">THIS WEEK — PROTEIN</div>';
-  keys.forEach(function(k){var lg=getLog(k),val=parseFloat(lg.protein)||0,pct=Math.min(100,(val/goals.protein)*100),isToday=k===todayKey();html+='<div class="week-day-bar"><div class="wdb-label" style="'+(isToday?'color:var(--gold)':'')+'">'+formatDayLabel(k)+'</div><div class="wdb-bar"><div class="wdb-fill" style="width:'+pct+'%;'+(pct>=100?'background:var(--gold)':'')+'"></div></div><div class="wdb-val">'+(val?val+'g':'—')+'</div></div>';});
+  keys.forEach(function(k){var lg=getLog(k),val=parseFloat(lg.protein)||0,pct=Math.min(100,(val/goals.protein)*100),isToday=k===todayKey();html+='<div class="week-day-bar"><div class="wdb-label" style="'+(isToday?'color:var(--gold-text)':'')+'">'+formatDayLabel(k)+'</div><div class="wdb-bar"><div class="wdb-fill" style="width:'+pct+'%;'+(pct>=100?'background:var(--gold)':'')+'"></div></div><div class="wdb-val">'+(val?val+'g':'—')+'</div></div>';});
   html+='</div>';
   document.getElementById('tab-nutrition').innerHTML=html;
 }
 function dbNut(field,value,barId,colorClass,goal){clearTimeout(saveTimer);saveTimer=setTimeout(function(){var log=getLog(activeLogKey);log[field]=value;setLog(activeLogKey,log);var bar=document.getElementById(barId);if(bar){var pct=Math.min(100,((parseFloat(value)||0)/goal)*100);bar.style.width=pct+'%';bar.className='bar-fill '+(pct>=100?'bar-green':colorClass);}},600);}
 function saveGoals(){var current=getGoals();save('bth_goals',Object.assign({},current,tempGoals));tempGoals={};toast('Goals saved ✓');renderNutrition();}
-function renderWeek(){
+function renderWeekReview(){
   var keys=weekKeys(),logs=keys.map(function(k){return{key:k,log:getLog(k)};});
   var loggedDays=logs.filter(function(d){return Object.keys(d.log).length>0;}).length;
-  var html='<div class="page-head"><div class="page-title">WEEK</div><div class="page-sub">Performance + Pipeline + Streaks</div></div>';
-  html+='<div class="card grade-card">';
-  if(loggedDays<2){html+='<div class="no-data"><div style="color:var(--black);font-family:\'Oswald\',sans-serif;font-size:16px;font-weight:600;margin-bottom:4px;">No grade yet</div>Log at least 2 days to see your weekly grade.</div>';}
-  else{var scores=logs.map(function(d){return scoreDay(d.log);}).filter(function(s){return s!==null;});var avg=Math.round(scores.reduce(function(a,b){return a+b;},0)/scores.length);var grade=scoreToGrade(avg);var col=avg>=70?'var(--gold)':'var(--black)';var bthDays=logs.filter(function(d){return BTH_ITEMS.every(function(it){return d.log[it.key];});}).length;var gymDays=logs.filter(function(d){return d.log.gym;}).length;var sleepVals=logs.map(function(d){return parseFloat(d.log.sleep);}).filter(function(v){return v>0;});var avgSleep=sleepVals.length?(sleepVals.reduce(function(a,b){return a+b;},0)/sleepVals.length).toFixed(1)+'h':'—';html+='<div class="grade-letter" style="color:'+col+'">'+grade+'</div><div class="grade-score">'+avg+'/100 AVG · '+loggedDays+' days logged</div><div class="grade-breakdown">';[{label:'BTH',val:bthDays+' days'},{label:'GYM',val:gymDays+' days'},{label:'SLEEP',val:avgSleep}].forEach(function(b){html+='<div class="grade-item"><div class="grade-item-val">'+b.val+'</div><div class="grade-item-lbl">'+b.label+'</div></div>';});html+='</div>';}
+  var html='<div class="card grade-card">';
+  if(loggedDays<2){html+='<div class="no-data"><div style="color:var(--ink);font-family:\'Oswald\',sans-serif;font-size:16px;font-weight:600;margin-bottom:4px;">No grade yet</div>Log at least 2 days to see your weekly grade.</div>';}
+  else{var scores=logs.map(function(d){return scoreDay(d.log);}).filter(function(s){return s!==null;});var avg=Math.round(scores.reduce(function(a,b){return a+b;},0)/scores.length);var grade=scoreToGrade(avg);var col=avg>=70?'var(--gold-text)':'var(--ink)';var bthDays=logs.filter(function(d){return BTH_ITEMS.every(function(it){return d.log[it.key];});}).length;var gymDays=logs.filter(function(d){return d.log.gym;}).length;var sleepVals=logs.map(function(d){return parseFloat(d.log.sleep);}).filter(function(v){return v>0;});var avgSleep=sleepVals.length?(sleepVals.reduce(function(a,b){return a+b;},0)/sleepVals.length).toFixed(1)+'h':'—';html+='<div class="grade-letter" style="color:'+col+'">'+grade+'</div><div class="grade-score">'+avg+'/100 AVG · '+loggedDays+' days logged</div><div class="grade-breakdown">';[{label:'BTH',val:bthDays+' days'},{label:'GYM',val:gymDays+' days'},{label:'SLEEP',val:avgSleep}].forEach(function(b){html+='<div class="grade-item"><div class="grade-item-val">'+b.val+'</div><div class="grade-item-lbl">'+b.label+'</div></div>';});html+='</div>';}
   html+='</div>';
   html+='<div class="card"><div class="card-title">THIS WEEK — BTH PIPELINE</div><div class="pip-row">';
   keys.forEach(function(k){var lg=getLog(k),isToday=k===todayKey(),hasData=Object.keys(lg).length>0;var allBTH=hasData&&BTH_ITEMS.every(function(it){return lg[it.key];});var cls=isToday&&!hasData?'today':allBTH?'done':!hasData?'rest':'';html+='<div class="pip-dot '+cls+'">'+formatDayLabel(k).charAt(0)+'</div>';});
@@ -521,17 +570,131 @@ function renderWeek(){
   [{label:'BTH',val:bth,best:bthB},{label:'Gym',val:gym,best:gymB},{label:'Read',val:read,best:readB}].forEach(function(s){html+='<div class="streak-stat"><div class="streak-num">'+s.val+'</div><div class="streak-label">'+s.label+'</div><div style="font-family:\'DM Sans\',sans-serif;font-variant-numeric:tabular-nums;font-size:9px;color:var(--muted);">best '+s.best+'</div></div>';});
   html+='</div></div>';
   html+='<div class="card"><div class="card-title">DAY BREAKDOWN</div>';
-  keys.forEach(function(k){var lg=getLog(k),isToday=k===todayKey(),score=scoreDay(lg);html+='<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--gray);"><div style="font-family:\'DM Sans\',sans-serif;font-size:12px;font-weight:600;'+(isToday?'color:var(--gold)':'color:var(--muted)')+';width:32px;">'+formatDayLabel(k)+'</div><div style="flex:1;">';if(score!==null){var g=scoreToGrade(score),gc=score>=70?'var(--gold)':'var(--black)';html+='<div style="display:flex;align-items:center;gap:8px;"><span style="font-family:\'Oswald\',sans-serif;font-size:16px;font-weight:600;color:'+gc+';">'+g+'</span><span style="font-family:\'DM Sans\',sans-serif;font-size:12px;color:var(--muted);">'+score+'/100</span>'+(lg.gym?'<span style="font-size:11px;font-weight:700;color:var(--black);">GYM</span>':'')+(BTH_ITEMS.every(function(it){return lg[it.key];})?'<span style="font-size:11px;font-weight:700;color:var(--gold);">BTH</span>':'')+'</div>';}else{html+='<span style="font-family:\'DM Sans\',sans-serif;font-size:12px;color:var(--muted);">No data</span>';}html+='</div></div>';});
+  keys.forEach(function(k){var lg=getLog(k),isToday=k===todayKey(),score=scoreDay(lg);html+='<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--gray);"><div style="font-family:\'DM Sans\',sans-serif;font-size:12px;font-weight:600;'+(isToday?'color:var(--gold-text)':'color:var(--muted)')+';width:32px;">'+formatDayLabel(k)+'</div><div style="flex:1;">';if(score!==null){var g=scoreToGrade(score),gc=score>=70?'var(--gold-text)':'var(--ink)';html+='<div style="display:flex;align-items:center;gap:8px;"><span style="font-family:\'Oswald\',sans-serif;font-size:16px;font-weight:600;color:'+gc+';">'+g+'</span><span style="font-family:\'DM Sans\',sans-serif;font-size:12px;color:var(--muted);">'+score+'/100</span>'+(lg.gym?'<span style="font-size:11px;font-weight:700;color:var(--ink);">GYM</span>':'')+(BTH_ITEMS.every(function(it){return lg[it.key];})?'<span style="font-size:11px;font-weight:700;color:var(--gold-text);">BTH</span>':'')+'</div>';}else{html+='<span style="font-family:\'DM Sans\',sans-serif;font-size:12px;color:var(--muted);">No data</span>';}html+='</div></div>';});
   html+='</div>';
+  return html;
+}
+// ── TY WEEK + MONEY (round 2) ─────────────────────────────────────────
+// Ty's own week: daily goals he checks off, weekly minimums counted across
+// days, and a weekly money goal with logged entries. It starts EMPTY: no goal,
+// minimum or money number is pre-filled. One key: bth_tyweek_v1.
+var TYWEEK_KEY='bth_tyweek_v1';
+var TW_DAYS=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+var TW_LONG=['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+var TW_MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+var twView='week',twOffset=0,twDay=null,twMoneyEditing=false,twNewDays=[0,1,2,3,4,5,6];
+function twLoad(){var s=load(TYWEEK_KEY);if(!s||s.version!==1)s={version:1,goals:[],minimums:[],moneyGoal:null,weeks:{}};s.goals=s.goals||[];s.minimums=s.minimums||[];s.weeks=s.weeks||{};if(s.moneyGoal===undefined)s.moneyGoal=null;return s;}
+var TW=twLoad();
+function twSave(){save(TYWEEK_KEY,TW);}
+function twId(p){return p+'-'+Date.now().toString(36)+Math.random().toString(36).slice(2,6);}
+function twFind(list,id){for(var i=0;i<list.length;i++)if(list[i].id===id)return list[i];return null;}
+function twMonday(off){var d=tyNow();d.setHours(12,0,0,0);var w=d.getDay();d.setDate(d.getDate()-(w===0?6:w-1)+7*(off||0));return d;}
+function twWeekKey(off){return dateKey(twMonday(off));}
+function twKeyTime(k){var p=String(k).split('-').map(Number);return new Date(p[0],p[1]-1,p[2]).getTime();}
+function twTodayIdx(){var w=tyNow().getDay();return w===0?6:w-1;}
+function twWeek(off,create){var k=twWeekKey(off);if(!TW.weeks[k]){if(!create)return{checks:{},money:[]};TW.weeks[k]={checks:{},money:[]};}var w=TW.weeks[k];w.checks=w.checks||{};w.money=w.money||[];return w;}
+function twRange(off){var m=twMonday(off),s=new Date(m);s.setDate(m.getDate()+6);return TW_MON[m.getMonth()]+' '+m.getDate()+' – '+(s.getMonth()!==m.getMonth()?TW_MON[s.getMonth()]+' ':'')+s.getDate();}
+function twIsSetUp(){return TW.goals.length>0||TW.minimums.length>0;}
+function twGoalsFor(i){return TW.goals.filter(function(g){return g.days.indexOf(i)!==-1;}).sort(function(a,b){return(a.time||'99').localeCompare(b.time||'99');});}
+function twChecked(w,i,id){return!!(w.checks[i]&&w.checks[i][id]);}
+function twMinCount(w,id){var n=0;for(var i=0;i<7;i++)if(twChecked(w,i,id))n++;return n;}
+function twDayStats(w,i){var g=twGoalsFor(i),d=g.filter(function(x){return twChecked(w,i,x.id);}).length;return{done:d,total:g.length};}
+function twWeekStats(w){var done=0,total=0;for(var i=0;i<7;i++){var s=twDayStats(w,i);done+=s.done;total+=s.total;}TW.minimums.forEach(function(m){done+=Math.min(twMinCount(w,m.id),m.target);total+=m.target;});return{done:done,total:total,pct:total?Math.round(done/total*100):0};}
+function twMoneyTotal(w){return w.money.reduce(function(a,e){return a+(parseFloat(e.amt)||0);},0);}
+function twFmt(n){n=Number(n)||0;var neg=n<0,a=Math.abs(n),s=(Math.round(a*100)%100)?a.toFixed(2):String(Math.round(a));s=s.replace(/\B(?=(\d{3})+(?!\d))/g,',');return(neg?'-$':'$')+s;}
+function twEntryDate(ts){try{var d=new Date(ts);if(d.getHours()<6)d.setDate(d.getDate()-1);return TW_DAYS[d.getDay()===0?6:d.getDay()-1]+' '+TW_MON[d.getMonth()]+' '+d.getDate();}catch(e){return'';}}
+function renderWeek(){
+  if(twDay===null)twDay=twTodayIdx();
+  var sub=twView==='review'?'Performance + Pipeline + Streaks':twView==='setup'?'Your goals + minimums':(twView==='money'?'Money · ':'Goals · ')+twRange(twOffset);
+  var html='<div class="page-head"><div class="page-title">TY WEEK</div><div class="page-sub">'+sub+'</div></div>';
+  if(twView!=='setup'){html+='<div class="tw-tabs">';[['week','GOALS'],['money','MONEY'],['review','REVIEW']].forEach(function(t){html+='<button class="sel-btn '+(twView===t[0]?'active':'')+'" aria-pressed="'+(twView===t[0])+'" onclick="twSetView(\''+t[0]+'\')">'+t[1]+'</button>';});html+='</div>';}
+  if(twView==='setup')html+=twSetupHtml();
+  else if(twView==='money')html+=twMoneyHtml();
+  else if(twView==='review')html+=renderWeekReview();
+  else html+=twWeekHtml();
   document.getElementById('tab-week').innerHTML=html;
 }
+function twSetView(v){twView=v;twMoneyEditing=false;renderWeek();document.getElementById('tab-week').scrollTop=0;}
+function twShift(d){twOffset=Math.min(0,twOffset+d);twDay=twOffset===0?twTodayIdx():0;renderWeek();}
+function twPickDay(i){twDay=i;renderWeek();}
+function twWeekNavHtml(){return'<div class="tw-weeknav"><button class="tw-arrow" aria-label="Previous week" onclick="twShift(-1)">‹</button><div class="tw-range">'+(twOffset===0?'This week':twRange(twOffset))+'</div><button class="tw-arrow" aria-label="Next week" onclick="twShift(1)"'+(twOffset>=0?' disabled':'')+'>›</button></div>';}
+function twCheckRow(i,id,on,label,right){return'<div class="task-item"><button class="task-check '+(on?'done':'')+'" aria-pressed="'+on+'" aria-label="'+esc(label)+'" onclick="twToggle('+i+',\''+id+'\')">'+(on?'✓':'')+'</button><div class="task-text '+(on?'done':'')+'" style="font-size:14px;">'+esc(label)+'</div>'+(right||'')+'</div>';}
+function twWeekHtml(){
+  if(!twIsSetUp())return'<div class="card" style="border-left-color:var(--gold);"><div class="card-title">SET UP YOUR WEEK</div><div class="tw-note">Add the goals you want to check off each day and the minimums you want to hit this week. Nothing is filled in for you.</div><button class="btn-primary" onclick="twSetView(\'setup\')">SET UP YOUR WEEK</button></div>';
+  var w=twWeek(twOffset,false),ws=twWeekStats(w),todayI=twOffset===0?twTodayIdx():-1,i;
+  var html=twWeekNavHtml();
+  html+='<div class="card"><div class="tw-big">'+ws.pct+'%</div><div class="tw-big-sub">'+ws.done+' of '+ws.total+' done this week</div><div class="tw-bar"><div class="tw-bar-fill" style="width:'+ws.pct+'%"></div></div></div>';
+  html+='<div class="tw-days" role="group" aria-label="Pick a day">';
+  for(i=0;i<7;i++){var s=twDayStats(w,i),full=s.total>0&&s.done===s.total;html+='<button class="tw-day'+(i===twDay?' sel':'')+(i===todayI?' today':'')+(full?' full':'')+'" aria-pressed="'+(i===twDay)+'" aria-label="'+TW_LONG[i]+(i===todayI?' (today)':'')+', '+s.done+' of '+s.total+' done" onclick="twPickDay('+i+')"><span class="tw-dname">'+TW_DAYS[i]+'</span><span class="tw-dcount">'+(s.total?s.done+'/'+s.total:'–')+'</span></button>';}
+  html+='</div>';
+  var day=twMonday(twOffset);day.setDate(day.getDate()+twDay);
+  var goals=twGoalsFor(twDay),ds=twDayStats(w,twDay);
+  html+='<div class="card"><div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px;"><div class="card-title">'+TW_LONG[twDay].toUpperCase()+' · '+TW_MON[day.getMonth()].toUpperCase()+' '+day.getDate()+'</div><div class="tw-count'+(ds.total&&ds.done===ds.total?' hit':'')+'">'+(ds.total?ds.done+'/'+ds.total:'')+'</div></div>';
+  if(!goals.length)html+='<div class="tw-note" style="margin:0;">Nothing set for '+TW_LONG[twDay]+'.</div>';
+  goals.forEach(function(g){html+=twCheckRow(twDay,g.id,twChecked(w,twDay,g.id),g.label,g.time?'<span class="tw-time">'+esc(g.time)+'</span>':'');});
+  html+='</div>';
+  if(TW.minimums.length){
+    html+='<div class="card"><div class="card-title">WEEKLY MINIMUMS</div><div class="tw-note" style="margin-bottom:4px;">Check it on '+TW_LONG[twDay]+' if you did it that day.</div>';
+    TW.minimums.forEach(function(m){var c=twMinCount(w,m.id);html+=twCheckRow(twDay,m.id,twChecked(w,twDay,m.id),m.label,'<span class="tw-count'+(c>=m.target?' hit':'')+'">'+c+'/'+m.target+'</span>');});
+    html+='</div>';
+  }
+  html+='<button class="btn-secondary" onclick="twSetView(\'setup\')">EDIT MY WEEK</button>';
+  return html;
+}
+function twToggle(i,id){var w=twWeek(twOffset,true);w.checks[i]=w.checks[i]||{};if(w.checks[i][id])delete w.checks[i][id];else w.checks[i][id]=true;twSave();renderWeek();}
+function twChipsHtml(days,fn){var h='<div class="tw-chips" role="group" aria-label="Days">';for(var i=0;i<7;i++){var on=days.indexOf(i)!==-1;h+='<button class="tw-chip'+(on?' on':'')+'" aria-pressed="'+on+'" aria-label="'+TW_LONG[i]+'" onclick="'+fn+'('+i+',this)">'+'MTWTFSS'.charAt(i)+'</button>';}return h+'</div>';}
+function twChipFlip(days,i,btn){var k=days.indexOf(i);if(k===-1)days.push(i);else days.splice(k,1);days.sort();if(btn){btn.classList.toggle('on',k===-1);btn.setAttribute('aria-pressed',String(k===-1));}}
+function twSetupHtml(){
+  var html='<div class="card"><div class="card-title">DAILY GOALS</div><div class="tw-note">Things you check off on set days. Add a time if it is part of your schedule.</div>';
+  TW.goals.forEach(function(g){html+='<div class="tw-item"><div style="display:flex;gap:6px;align-items:center;"><input class="tw-input" aria-label="Goal name" value="'+esc(g.label)+'" onchange="twEditGoal(\''+g.id+'\',\'label\',this.value)"><input class="tw-input time" type="time" aria-label="Time for '+esc(g.label)+'" value="'+esc(g.time||'')+'" onchange="twEditGoal(\''+g.id+'\',\'time\',this.value)"><button class="tw-del" aria-label="Delete '+esc(g.label)+'" onclick="twDelGoal(\''+g.id+'\')">✕</button></div>'+twChipsHtml(g.days,'twGoalDay.bind(null,\''+g.id+'\')')+'</div>';});
+  html+='<div class="tw-item"><div class="section-label" style="margin:0 0 6px;">ADD A GOAL</div><div style="display:flex;gap:6px;"><input class="tw-input" id="tw-new-goal" placeholder="Goal name" aria-label="New goal name"><input class="tw-input time" id="tw-new-time" type="time" aria-label="Time (optional)"></div>'+twChipsHtml(twNewDays,'twNewDay')+'<button class="btn-secondary" onclick="twAddGoal()">+ ADD GOAL</button></div></div>';
+  html+='<div class="card"><div class="card-title">WEEKLY MINIMUMS</div><div class="tw-note">The least you will do this week, counted across any days.</div>';
+  TW.minimums.forEach(function(m){html+='<div class="tw-item"><div style="display:flex;gap:6px;align-items:center;"><input class="tw-input" aria-label="Minimum name" value="'+esc(m.label)+'" onchange="twEditMin(\''+m.id+'\',this.value)"><button class="tw-del" aria-label="Delete '+esc(m.label)+'" onclick="twDelMin(\''+m.id+'\')">✕</button></div><div style="display:flex;align-items:center;gap:8px;margin-top:8px;"><div class="input-sub" style="flex:1;">Times per week</div><button class="tw-step" aria-label="Fewer times" onclick="twStepMin(\''+m.id+'\',-1)">−</button><div class="tw-count" style="min-width:28px;text-align:center;">'+m.target+'</div><button class="tw-step" aria-label="More times" onclick="twStepMin(\''+m.id+'\',1)">+</button></div></div>';});
+  html+='<div class="tw-item"><div class="section-label" style="margin:0 0 6px;">ADD A MINIMUM</div><div style="display:flex;gap:6px;"><input class="tw-input" id="tw-new-min" placeholder="Minimum name" aria-label="New minimum name"><input class="tw-input sm" id="tw-new-target" type="number" inputmode="numeric" min="1" max="21" placeholder="Times" aria-label="Times per week"></div><button class="btn-secondary" onclick="twAddMin()">+ ADD MINIMUM</button></div></div>';
+  html+='<button class="btn-primary" onclick="twSetView(\'week\')">DONE</button>';
+  return html;
+}
+function twNewDay(i,btn){twChipFlip(twNewDays,i,btn);}
+function twGoalDay(id,i,btn){var g=twFind(TW.goals,id);if(!g)return;twChipFlip(g.days,i,btn);if(!g.days.length){twChipFlip(g.days,i,btn);toast('Keep at least one day');return;}twSave();}
+function twEditGoal(id,field,val){var g=twFind(TW.goals,id);if(!g)return;val=String(val||'').trim();if(field==='label'&&!val){toast('A goal needs a name');renderWeek();return;}g[field]=val;twSave();}
+function twDelGoal(id){var g=twFind(TW.goals,id);if(!g||!confirm('Delete "'+g.label+'"?'))return;TW.goals=TW.goals.filter(function(x){return x.id!==id;});twSave();renderWeek();}
+function twAddGoal(){var n=document.getElementById('tw-new-goal'),t=document.getElementById('tw-new-time'),label=(n.value||'').trim();if(!label){toast('Name the goal first');n.focus();return;}if(!twNewDays.length){toast('Pick at least one day');return;}TW.goals.push({id:twId('g'),label:label,time:t.value||'',days:twNewDays.slice()});twNewDays=[0,1,2,3,4,5,6];twSave();renderWeek();toast('Goal added');}
+function twEditMin(id,val){var m=twFind(TW.minimums,id);if(!m)return;val=String(val||'').trim();if(!val){toast('A minimum needs a name');renderWeek();return;}m.label=val;twSave();}
+function twStepMin(id,d){var m=twFind(TW.minimums,id);if(!m)return;m.target=Math.max(1,Math.min(21,m.target+d));twSave();renderWeek();}
+function twDelMin(id){var m=twFind(TW.minimums,id);if(!m||!confirm('Delete "'+m.label+'"?'))return;TW.minimums=TW.minimums.filter(function(x){return x.id!==id;});twSave();renderWeek();}
+function twAddMin(){var n=document.getElementById('tw-new-min'),t=document.getElementById('tw-new-target'),label=(n.value||'').trim(),target=parseInt(t.value,10);if(!label){toast('Name the minimum first');n.focus();return;}if(!(target>=1)){toast('How many times this week?');t.focus();return;}TW.minimums.push({id:twId('m'),label:label,target:Math.min(21,target)});twSave();renderWeek();toast('Minimum added');}
+function twMoneyHtml(){
+  var html='';
+  if(TW.moneyGoal===null||twMoneyEditing){
+    return html+'<div class="card" style="border-left-color:var(--gold);"><div class="card-title">'+(TW.moneyGoal===null?'SET YOUR MONEY GOAL':'EDIT MONEY GOAL')+'</div><div class="tw-note">Your money goal for each week. You type the number; the app adds up what you log against it.</div><input class="tw-input" style="width:100%;margin-bottom:12px;" id="tw-money-goal" type="number" inputmode="decimal" min="0" step="any" placeholder="Weekly goal in $" aria-label="Weekly money goal in dollars" value="'+(TW.moneyGoal!==null?esc(TW.moneyGoal):'')+'"><button class="btn-primary" onclick="twSetMoneyGoal()">SAVE GOAL</button>'+(TW.moneyGoal!==null?'<button class="tw-link" onclick="twMoneyEdit(false)">Cancel</button>':'')+'</div>';
+  }
+  var w=twWeek(twOffset,false),tot=twMoneyTotal(w),goal=TW.moneyGoal,pct=goal>0?Math.max(0,Math.min(100,Math.round(tot/goal*100))):0;
+  html+=twWeekNavHtml();
+  html+='<div class="card"><div class="tw-big">'+twFmt(tot)+'</div><div class="tw-big-sub">of '+twFmt(goal)+' · '+(tot>=goal?'goal hit':twFmt(goal-tot)+' to go')+'</div><div class="tw-bar"><div class="tw-bar-fill" style="width:'+pct+'%"></div></div><button class="tw-link" style="text-align:left;margin-top:6px;" onclick="twMoneyEdit(true)">Edit goal</button></div>';
+  html+='<div class="card"><div class="card-title">LOG MONEY</div><div style="display:flex;gap:6px;margin-bottom:12px;"><input class="tw-input sm" id="tw-amt" type="number" inputmode="decimal" step="any" placeholder="$" aria-label="Amount in dollars"><input class="tw-input" id="tw-note" placeholder="What for (optional)" aria-label="What it was for"></div><button class="btn-primary" onclick="twAddMoney()">ADD ENTRY</button></div>';
+  html+='<div class="card"><div class="card-title">'+(twOffset===0?'THIS WEEK':'THAT WEEK')+'</div>';
+  if(!w.money.length)html+='<div class="tw-note" style="margin:0;">Nothing logged yet.</div>';
+  [].concat(w.money).reverse().forEach(function(e){html+='<div class="tw-row"><div style="flex:1;min-width:0;"><div class="input-label">'+esc(e.note||'Entry')+'</div><div class="input-sub">'+twEntryDate(e.ts)+'</div></div><div class="tw-amt">'+twFmt(e.amt)+'</div><button class="tw-del" aria-label="Delete '+esc(e.note||'entry')+'" onclick="twDelMoney(\''+e.id+'\')">✕</button></div>';});
+  return html+'</div>';
+}
+function twMoneyEdit(on){twMoneyEditing=!!on;renderWeek();}
+function twSetMoneyGoal(){var el=document.getElementById('tw-money-goal'),v=parseFloat(el.value);if(!(v>0)){toast('Enter a goal above $0');el.focus();return;}TW.moneyGoal=Math.round(v*100)/100;twMoneyEditing=false;twSave();renderWeek();toast('Money goal saved');}
+function twAddMoney(){var a=document.getElementById('tw-amt'),n=document.getElementById('tw-note'),v=parseFloat(a.value);if(!v){toast('Enter an amount');a.focus();return;}var w=twWeek(twOffset,true);w.money.push({id:twId('e'),amt:Math.round(v*100)/100,note:(n.value||'').trim(),ts:new Date().toISOString()});twSave();renderWeek();toast('Logged '+twFmt(v));}
+function twDelMoney(id){var w=twWeek(twOffset,true),e=twFind(w.money,id);if(!e||!confirm('Delete '+twFmt(e.amt)+(e.note?' ('+e.note+')':'')+'?'))return;w.money=w.money.filter(function(x){return x.id!==id;});twSave();renderWeek();}
+function twTodayCardHtml(){
+  var sub;
+  if(!twIsSetUp()&&TW.moneyGoal===null)sub='Set up your week';
+  else{var w=twWeek(0,false),ds=twDayStats(w,twTodayIdx()),ws=twWeekStats(w),parts=[];if(twIsSetUp()){parts.push('Today '+ds.done+'/'+ds.total);parts.push('Week '+ws.pct+'%');}if(TW.moneyGoal!==null)parts.push(twFmt(twMoneyTotal(w))+' of '+twFmt(TW.moneyGoal));sub=parts.join(' · ');}
+  return'<button class="card tw-sum" style="width:100%;text-align:left;cursor:pointer;font:inherit;color:inherit;border-left-color:var(--gold);" onclick="openTyWeek()"><div class="tw-sum-main"><div class="card-title" style="margin:0 0 2px;">TY WEEK</div><div class="input-sub" style="font-size:12px;">'+sub+'</div></div><div class="tw-sum-go" aria-hidden="true">›</div></button>';
+}
+function openTyWeek(){twView='week';twOffset=0;twDay=twTodayIdx();switchTab('week',document.querySelectorAll('.nav-btn')[3]);}
 function renderClaude(){
   var email=load('bth_email')||'',notes=load('bth_claude_notes')||[];
   var html='<div class="page-head"><div class="page-title">CLAUDE</div><div class="page-sub">Notes · Questions · Email updates</div></div>';
   html+='<div class="card"><div class="card-title">PUSH TO CLAUDE</div><textarea class="note-textarea" id="claude-note-input" placeholder="Drop a thought, question, or update for Claude..."></textarea><button class="btn-primary" style="margin-top:10px;" onclick="saveClaudeNote()">SEND TO CLAUDE</button></div>';
   if(notes.length){html+='<div class="section-label">SAVED NOTES ('+notes.length+')</div>';[].concat(notes).reverse().forEach(function(n,i){var realIdx=notes.length-1-i;html+='<div class="note-item"><span class="note-delete" onclick="deleteClaudeNote('+realIdx+')">✕</span><div class="note-text">'+esc(n.text)+'</div><div class="note-ts">'+formatNoteTs(n.ts)+'</div></div>';});html+='<button class="btn-secondary" onclick="clearAllNotes()">Clear all notes</button>';}
   html+='<div class="divider"></div>';
-  html+='<div class="card"><div class="card-title">EMAIL UPDATES</div><div class="input-row"><div class="input-label">Your email</div><input type="email" id="bth-email-input" style="background:none;border:none;outline:none;font-family:\'DM Sans\',sans-serif;font-size:13px;font-weight:500;color:var(--gold);text-align:right;width:170px;" placeholder="your email" value="'+esc(email)+'" oninput="save(\'bth_email\',this.value)"></div><div style="margin-top:12px;display:flex;flex-direction:column;gap:8px;"><button class="btn-primary" onclick="sendDailyReport()">SEND TODAY\'S REPORT</button><button class="btn-secondary" onclick="sendCheckIn()">SEND CHECK-IN REMINDER</button></div><div style="margin-top:10px;font-family:\'DM Sans\',sans-serif;font-size:11px;color:var(--muted);line-height:1.7;">Opens your mail app pre-filled.<br>Hit send from there.</div></div>';
+  html+='<div class="card"><div class="card-title">EMAIL UPDATES</div><div class="input-row"><div class="input-label">Your email</div><input type="email" id="bth-email-input" style="background:none;border:none;outline:none;font-family:\'DM Sans\',sans-serif;font-size:13px;font-weight:500;color:var(--gold-text);text-align:right;width:170px;" placeholder="your email" value="'+esc(email)+'" oninput="save(\'bth_email\',this.value)"></div><div style="margin-top:12px;display:flex;flex-direction:column;gap:8px;"><button class="btn-primary" onclick="sendDailyReport()">SEND TODAY\'S REPORT</button><button class="btn-secondary" onclick="sendCheckIn()">SEND CHECK-IN REMINDER</button></div><div style="margin-top:10px;font-family:\'DM Sans\',sans-serif;font-size:11px;color:var(--muted);line-height:1.7;">Opens your mail app pre-filled.<br>Hit send from there.</div></div>';
   html+='<div class="card"><div class="card-title">OPERATOR TOOLS</div><div class="input-sub" id="pwa-status" style="line-height:1.6;margin-bottom:12px;">Installable PWA · active-day storage · offline shell</div><button class="btn-primary" onclick="enableNotifications()">ENABLE REMINDERS</button><button class="btn-secondary" onclick="downloadICS()">CALENDAR (.ICS)</button><button class="btn-secondary" onclick="exportCSV()">EXPORT ALL DATA (CSV)</button><button class="btn-secondary" onclick="downloadClaudeHandoff()">CLAUDE HANDOFF (JSON)</button></div>';
   document.getElementById('tab-claude').innerHTML=html;
   renderPwaStatus();
@@ -561,6 +724,11 @@ function csvCell(v){v=String(v==null?'':v);return /[",\n]/.test(v)?'"'+v.replace
 function exportCSV(){
   var cols=['operator_day_id','label_date','created_at','submitted_at','sleep','energy','water','protein','carbs','fat','calories','gym','reading','working','posted','filmed','edited','engaged','planned','recovery'];
   var rows=[cols.join(',')];OPERATOR_STATE.order.forEach(function(id){var d=OPERATOR_STATE.days[id];if(!d)return;var l=d.log||{};rows.push([id,d.labelDate,d.createdAt,d.submittedAt||'',l.sleep,l.energy,l.water,l.protein,l.carbs,l.fat,l.cals,l.gym,l.reading,l.working,l.posted,l.filmed,l.edited,l.engaged,l.planned,l.recovery].map(csvCell).join(','));});
+  var weekKeysTW=Object.keys(TW.weeks).sort(function(a,b){return twKeyTime(a)-twKeyTime(b);});
+  rows.push('');rows.push(['ty_week_of','day','type','item','time','done','target'].join(','));
+  weekKeysTW.forEach(function(k){var w=TW.weeks[k];w.checks=w.checks||{};for(var i=0;i<7;i++){twGoalsFor(i).forEach(function(g){rows.push([k,TW_DAYS[i],'goal',g.label,g.time||'',twChecked(w,i,g.id)?1:0,''].map(csvCell).join(','));});}TW.minimums.forEach(function(m){rows.push([k,'','minimum',m.label,'',twMinCount(w,m.id),m.target].map(csvCell).join(','));});});
+  rows.push('');rows.push(['money_week_of','logged_at','amount','note','weekly_goal'].join(','));
+  weekKeysTW.forEach(function(k){(TW.weeks[k].money||[]).forEach(function(e){rows.push([k,e.ts,e.amt,e.note||'',TW.moneyGoal===null?'':TW.moneyGoal].map(csvCell).join(','));});});
   downloadFile('bth-operator-export.csv',rows.join('\n'),'text/csv;charset=utf-8');toast('CSV ready');
 }
 function pad(n){return String(n).padStart(2,'0');}
@@ -571,7 +739,7 @@ function downloadICS(){
   sched.forEach(function(item){var p=item.time.split(':').map(Number),start=new Date(base);start.setHours(p[0],p[1],0,0);var end=new Date(start.getTime()+30*60000);body.push('BEGIN:VEVENT','UID:'+OPERATOR_STATE.activeDayId+'-'+item.id+'@built-to-hoop.com','DTSTAMP:'+icsDate(new Date()),'DTSTART:'+icsDate(start),'DTEND:'+icsDate(end),'SUMMARY:'+icsSafe(item.label),'DESCRIPTION:BTH Operator schedule','END:VEVENT');});
   body.push('END:VCALENDAR');downloadFile('bth-operator-schedule.ics',body.join('\r\n'),'text/calendar;charset=utf-8');toast('Calendar ready');
 }
-function downloadClaudeHandoff(){var day=findOperatorDay(OPERATOR_STATE.activeDayId),packet={source:'BTH Operator',exportedAt:new Date().toISOString(),activeDayId:day.id,labelDate:day.labelDate,log:day.log,tasks:day.tasks,notes:load('bth_claude_notes')||[]};downloadFile('bth-operator-claude-handoff.json',JSON.stringify(packet,null,2),'application/json');toast('Claude handoff ready');}
+function downloadClaudeHandoff(){var day=findOperatorDay(OPERATOR_STATE.activeDayId),packet={source:'BTH Operator',exportedAt:new Date().toISOString(),activeDayId:day.id,labelDate:day.labelDate,log:day.log,tasks:day.tasks,notes:load('bth_claude_notes')||[],tyWeek:TW};downloadFile('bth-operator-claude-handoff.json',JSON.stringify(packet,null,2),'application/json');toast('Claude handoff ready');}
 function enableNotifications(){if(!('Notification'in window)){toast('Notifications not supported here');return;}Notification.requestPermission().then(function(p){save('bth_notifications_enabled',p==='granted');renderPwaStatus();toast(p==='granted'?'Reminders on':'Permission: '+p);});}
 function notify(title,body){try{if(load('bth_notifications_enabled')&&Notification.permission==='granted')new Notification(title,{body:body,tag:'bth-'+OPERATOR_STATE.activeDayId});}catch(e){}}
 function reminderTick(){var now=new Date(),hhmm=pad(now.getHours())+':'+pad(now.getMinutes()),fired=OPERATOR_STATE.reminders.fired||{};getSchedule().forEach(function(item){var key=OPERATOR_STATE.activeDayId+':'+item.id+':'+hhmm;if(item.time===hhmm&&!fired[key]){fired[key]=true;OPERATOR_STATE.reminders.fired=fired;persistOperator();notify('BTH Operator',item.label+' — time to move.');}});}
