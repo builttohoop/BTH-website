@@ -22,7 +22,7 @@
   </script>
   <style>
     :root {
-      --black:#111318; --gold:#E6A800; --gold-dim:#E6A800; --gold-bg:rgba(230,168,0,.10);
+      --black:#111318; --gold:#E6A800; --gold-dim:#E6A800; --gold-text:#7A5700; --gold-bg:rgba(230,168,0,.10);
       --white:#F3EFE7; --dark:#FFFFFF; --mid:#F3EFE7; --gray:rgba(17,19,24,.16); --muted:rgba(17,19,24,.58);
       --nav-h:68px; --sb:env(safe-area-inset-bottom,0px); --st:env(safe-area-inset-top,44px);
     }
@@ -266,7 +266,7 @@ var PHASE2={
 // Workouts are gated for paying BTH members. Right now the gate is OPEN
 // (ENFORCE=false) so Ty has full access while the app is private.
 // AT PUBLIC LAUNCH: set ACCESS.ENFORCE=true. A verified purchase
-// (Gumroad/MailerLite webhook, or the redeem-code screen) just needs to call
+// (payment webhook, or the redeem-code screen) just needs to call
 //   ACCESS.setStatus({active:true,tier:'stay-ready',since:new Date().toISOString()})
 // once — nothing else in the app has to change. canViewWorkouts() does the rest.
 var ACCESS={
@@ -531,7 +531,7 @@ function renderClaude(){
   html+='<div class="card"><div class="card-title">PUSH TO CLAUDE</div><textarea class="note-textarea" id="claude-note-input" placeholder="Drop a thought, question, or update for Claude..."></textarea><button class="btn-primary" style="margin-top:10px;" onclick="saveClaudeNote()">SEND TO CLAUDE</button></div>';
   if(notes.length){html+='<div class="section-label">SAVED NOTES ('+notes.length+')</div>';[].concat(notes).reverse().forEach(function(n,i){var realIdx=notes.length-1-i;html+='<div class="note-item"><span class="note-delete" onclick="deleteClaudeNote('+realIdx+')">✕</span><div class="note-text">'+esc(n.text)+'</div><div class="note-ts">'+formatNoteTs(n.ts)+'</div></div>';});html+='<button class="btn-secondary" onclick="clearAllNotes()">Clear all notes</button>';}
   html+='<div class="divider"></div>';
-  html+='<div class="card"><div class="card-title">EMAIL UPDATES</div><div class="input-row"><div class="input-label">Your email</div><input type="email" id="bth-email-input" style="background:none;border:none;outline:none;font-family:\'DM Sans\',sans-serif;font-size:13px;font-weight:500;color:var(--gold);text-align:right;width:170px;" placeholder="you@email.com" value="'+esc(email)+'" oninput="save(\'bth_email\',this.value)"></div><div style="margin-top:12px;display:flex;flex-direction:column;gap:8px;"><button class="btn-primary" onclick="sendDailyReport()">SEND TODAY\'S REPORT</button><button class="btn-secondary" onclick="sendCheckIn()">SEND CHECK-IN REMINDER</button></div><div style="margin-top:10px;font-family:\'DM Sans\',sans-serif;font-size:11px;color:var(--muted);line-height:1.7;">Opens your mail app pre-filled.<br>Hit send from there.</div></div>';
+  html+='<div class="card"><div class="card-title">EMAIL UPDATES</div><div class="input-row"><div class="input-label">Your email</div><input type="email" id="bth-email-input" style="background:none;border:none;outline:none;font-family:\'DM Sans\',sans-serif;font-size:13px;font-weight:500;color:var(--gold);text-align:right;width:170px;" placeholder="your email" value="'+esc(email)+'" oninput="save(\'bth_email\',this.value)"></div><div style="margin-top:12px;display:flex;flex-direction:column;gap:8px;"><button class="btn-primary" onclick="sendDailyReport()">SEND TODAY\'S REPORT</button><button class="btn-secondary" onclick="sendCheckIn()">SEND CHECK-IN REMINDER</button></div><div style="margin-top:10px;font-family:\'DM Sans\',sans-serif;font-size:11px;color:var(--muted);line-height:1.7;">Opens your mail app pre-filled.<br>Hit send from there.</div></div>';
   html+='<div class="card"><div class="card-title">OPERATOR TOOLS</div><div class="input-sub" id="pwa-status" style="line-height:1.6;margin-bottom:12px;">Installable PWA · active-day storage · offline shell</div><button class="btn-primary" onclick="enableNotifications()">ENABLE REMINDERS</button><button class="btn-secondary" onclick="downloadICS()">CALENDAR (.ICS)</button><button class="btn-secondary" onclick="exportCSV()">EXPORT ALL DATA (CSV)</button><button class="btn-secondary" onclick="downloadClaudeHandoff()">CLAUDE HANDOFF (JSON)</button></div>';
   document.getElementById('tab-claude').innerHTML=html;
   renderPwaStatus();
