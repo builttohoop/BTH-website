@@ -81,6 +81,23 @@
     return STRIPE_LINK_MAP[base] || STRIPE_LINK_MAP[href] || { content_id: "stripe-checkout", content_type: "product" };
   }
 
+  // dataLayer `event` names, EXACTLY as the GTM container's custom-event triggers spell
+  // them (verified against the live public payload, GTM-T9SFFTB7, 2026-10-27):
+  // bth_view_content, bth_initiate_checkout, bth_lead. The old derivation
+  // ("bth_" + lowercased name) produced bth_viewcontent / bth_initiatecheckout, which no
+  // trigger listens for, so the GTM tags behind them never fired (DKT-0042).
+  // Lead is pushed by assets/bth-form.js; Purchase by welcome.html.
+  var GTM_EVENT_NAMES = {
+    ViewContent:      "bth_view_content",
+    InitiateCheckout: "bth_initiate_checkout",
+    Lead:             "bth_lead",
+  };
+
+  function gtmEventName(eventName) {
+    return GTM_EVENT_NAMES[eventName] ||
+      "bth_" + String(eventName).replace(/([a-z0-9])([A-Z])/g, "$1_$2").toLowerCase().replace(/\s+/g, "_");
+  }
+
   function fire(eventName, props) {
     props = props || {};
 
@@ -102,7 +119,7 @@
     // GTM dataLayer (for any tags configured in the container)
     try {
       window.dataLayer.push({
-        event:                "bth_" + eventName.toLowerCase().replace(/\s+/g, "_"),
+        event:                gtmEventName(eventName),
         bth_event_name:       eventName,
         bth_content_id:       props.content_id       || null,
         bth_content_name:     props.content_name     || null,
