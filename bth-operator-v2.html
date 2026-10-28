@@ -204,6 +204,7 @@
     .tw-hrs{flex:none;width:72px;text-align:center;}
     .tw-hmain{flex:1;min-width:0;}
     .task-item .tw-count{min-width:76px;text-align:right;}
+    .tw-hbox{flex:none;width:72px;display:flex;justify-content:center;}
   </style>
 </head>
 <body>
@@ -438,9 +439,9 @@ function renderScheduleHtml(){
   sched.forEach(function(item,idx){html+='<div class="sched-item"><input type="time" class="sched-time" value="'+esc(item.time)+'" onchange="updateSchedTime('+idx+',this.value)"><div class="sched-label">'+esc(item.label)+'</div></div>';});
   return html+'</div></div></div>';
 }
-function renderMicroSummary(){var el=document.getElementById('today-micro');if(!el)return;var log=getLog(activeLogKey);if(!Object.keys(log).length){el.textContent='No data logged yet — tap to start';return;}var bthCount=BTH_ITEMS.filter(function(it){return log[it.key];}).length;var parts=[];if(log.sleep)parts.push(log.sleep+'h sleep');if(log.energy)parts.push(log.energy+'/7 energy');if(log.protein)parts.push(log.protein+'g protein');parts.push(bthCount+'/6 BTH');el.textContent=parts.join(' · ');}
-function db(field,value,barId,colorClass,goal){clearTimeout(saveTimer);saveTimer=setTimeout(function(){var log=getLog(activeLogKey);log[field]=value;setLog(activeLogKey,log);if(barId&&goal){var bar=document.getElementById(barId);if(bar){var pct=Math.min(100,((parseFloat(value)||0)/goal)*100);bar.style.width=pct+'%';bar.className='bar-fill '+(pct>=100?'bar-green':colorClass);}}renderMicroSummary();},600);}
-function toggleField(field){var log=getLog(activeLogKey);log[field]=!log[field];setLog(activeLogKey,log);renderToday();}
+function renderMicroSummary(){var el=document.getElementById('today-micro');if(!el)return;var log=getLog(activeLogKey);if(!Object.keys(log).length){el.textContent=twIsSetUp()||TW.moneyGoal!==null?'':'No data logged yet — tap to start';return;}var bthCount=BTH_ITEMS.filter(function(it){return log[it.key];}).length;var parts=[];if(log.sleep)parts.push(log.sleep+'h sleep');if(log.energy)parts.push(log.energy+'/7 energy');if(log.protein)parts.push(log.protein+'g protein');parts.push(bthCount+'/6 BTH');el.textContent=parts.join(' · ');}
+function db(field,value,barId,colorClass,goal){clearTimeout(saveTimer);saveTimer=setTimeout(function(){var log=getLog(activeLogKey);log[field]=value;setLog(activeLogKey,log);if(field==='sleep'){twBridgeIn('sleep',value);twRefreshSum();}if(barId&&goal){var bar=document.getElementById(barId);if(bar){var pct=Math.min(100,((parseFloat(value)||0)/goal)*100);bar.style.width=pct+'%';bar.className='bar-fill '+(pct>=100?'bar-green':colorClass);}}renderMicroSummary();},600);}
+function toggleField(field){var log=getLog(activeLogKey);log[field]=!log[field];setLog(activeLogKey,log);if(field==='gym')twBridgeIn('gym',log.gym);renderToday();}
 function toggleBTH(key){var log=getLog(activeLogKey);log[key]=!log[key];setLog(activeLogKey,log);document.querySelectorAll('.btch-item').forEach(function(el){var m=el.getAttribute('onclick').match(/'([^']+)'/);if(!m)return;var k=m[1];el.classList.toggle('done',!!log[k]);el.querySelector('.btch-check').textContent=log[k]?'✓':'';});var allDone=BTH_ITEMS.every(function(it){return log[it.key];});var banner=document.getElementById('btch-all-done');if(banner)banner.style.display=allDone?'block':'none';renderMicroSummary();}
 function toggleTask(idx){var td=getTasks(activeLogKey)||{tasks:[],completed:[]};if(!td.completed)td.completed=[];td.completed[idx]=!td.completed[idx];setTasks(activeLogKey,td);renderToday();}
 function checkBackup(idx){var backups=["Review weekly goal","30-min walk","Message one person you've been meaning to reach"];var ex=getTasks(activeLogKey);if(!ex||!ex.tasks||!ex.tasks.length){var c=[false,false,false];c[idx]=true;setTasks(activeLogKey,{tasks:backups,completed:c,setAt:new Date().toISOString()});}else{if(!ex.completed)ex.completed=[];ex.completed[idx]=!ex.completed[idx];setTasks(activeLogKey,ex);}renderToday();}
@@ -611,14 +612,24 @@ function twMinTarget(m,off){if(m.targets){var l=twLetter(off);if(l&&m.targets[l]
 function twHrs(w,i,id){return(w.hours&&w.hours[i]&&parseFloat(w.hours[i][id]))||0;}
 function twMinHours(w,id){var n=0;for(var i=0;i<7;i++)n+=twHrs(w,i,id);return Math.round(n*10)/10;}
 function twMinValue(w,m){return m.unit==='hrs'?twMinHours(w,m.id):twMinCount(w,m.id);}
+// Today's Sleep and Gym rows and the Ty Week Sleep and Gym minimums are one record: a write on
+// either side lands in both, and the week reads the operator log for any day it has no entry for.
+var TW_BRIDGE={'tyweek:sleep':{field:'sleep',unit:'hrs'},'tyweek:gym':{field:'gym',unit:'times'}};
+function twBridgeOf(m){var b=m&&TW_BRIDGE[m.src];return b&&b.unit===m.unit?b:null;}
+function twDayDate(off,i){var d=twMonday(off);d.setDate(d.getDate()+i);return d;}
+function twRead(off){var w=twWeek(off,false),out={checks:{},hours:{},money:w.money};for(var i=0;i<7;i++){out.checks[i]=Object.assign({},w.checks[i]);out.hours[i]=Object.assign({},w.hours[i]);var day=findOperatorDay(dateKey(twDayDate(off,i))),log=day&&day.log;if(!log)continue;TW.minimums.forEach(function(m){var b=twBridgeOf(m);if(!b)return;if(m.unit==='hrs'){var v=parseFloat(log[b.field]);if(!(m.id in out.hours[i])&&v>0)out.hours[i][m.id]=Math.min(24,v);}else if(!(m.id in out.checks[i])&&log[b.field])out.checks[i][m.id]=true;});}return out;}
+function twBridgeOut(i,m,val){var b=twBridgeOf(m);if(!b)return;var day=findOperatorDay(dateKey(twDayDate(twOffset,i)));if(!day)return;var log=day.log||{};log[b.field]=m.unit==='hrs'?(val?String(val):''):!!val;setLog(day.id,log);}
+function twBridgeIn(field,val){var m=null;TW.minimums.forEach(function(x){var b=twBridgeOf(x);if(b&&b.field===field)m=x;});if(!m)return;var d=operatorDate(activeLogKey);d.setHours(12,0,0,0);var wd=d.getDay(),i=wd===0?6:wd-1;d.setDate(d.getDate()-i);var k=dateKey(d);if(!TW.weeks[k])TW.weeks[k]={checks:{},money:[],hours:{}};var w=TW.weeks[k];w.checks=w.checks||{};w.hours=w.hours||{};if(m.unit==='hrs'){var v=parseFloat(val);w.hours[i]=w.hours[i]||{};if(v>0)w.hours[i][m.id]=Math.min(24,Math.round(v*10)/10);else delete w.hours[i][m.id];}else{w.checks[i]=w.checks[i]||{};if(val)w.checks[i][m.id]=true;else delete w.checks[i][m.id];}twSave();}
+function twRefreshSum(){var c=document.querySelector('.tw-sum');if(c)c.outerHTML=twTodayCardHtml();}
 function twNum(n){return String(Math.round(n*10)/10);}
 function twDayStats(w,i){var g=twGoalsFor(i),d=g.filter(function(x){return twChecked(w,i,x.id);}).length;return{done:d,total:g.length};}
 // Week %: each daily-goal check is 1 unit, a times-minimum is worth its target in units,
 // and an hours-minimum is worth 7 units (one per day), filled in proportion to the hours.
-function twWeekStats(w,off){var done=0,total=0,gd=0,gt=0,hit=0;for(var i=0;i<7;i++){var s=twDayStats(w,i);gd+=s.done;gt+=s.total;}done=gd;total=gt;TW.minimums.forEach(function(m){var t=twMinTarget(m,off||0),v=twMinValue(w,m);if(v>=t)hit++;if(m.unit==='hrs'){done+=7*Math.min(1,v/t);total+=7;}else{done+=Math.min(v,t);total+=t;}});return{done:done,total:total,pct:total?Math.round(done/total*100):0,goalsDone:gd,goalsTotal:gt,minsHit:hit,minsTotal:TW.minimums.length};}
-function twSetHours(i,id,val){var v=parseFloat(val);if(isNaN(v)||v<0)v=0;if(v>24){toast('A day has 24 hours');v=24;}var w=twWeek(twOffset,true);w.hours[i]=w.hours[i]||{};if(v)w.hours[i][id]=Math.round(v*10)/10;else delete w.hours[i][id];twSave();renderWeek();}
+function twWeekStats(w,off){var done=0,total=0,gd=0,gt=0,hit=0,md=0,mt=0;for(var i=0;i<7;i++){var s=twDayStats(w,i);gd+=s.done;gt+=s.total;}done=gd;total=gt;TW.minimums.forEach(function(m){var t=twMinTarget(m,off||0),v=twMinValue(w,m);if(v>=t)hit++;var u=m.unit==='hrs'?7:t,f=Math.min(1,v/t)*u;done+=f;total+=u;md+=f;mt+=u;});return{done:done,total:total,pct:total?Math.round(done/total*100):0,goalsDone:gd,goalsTotal:gt,minsHit:hit,minsTotal:TW.minimums.length,minPct:mt?Math.round(md/mt*100):0};}
+function twSetHours(i,id,val){var v=parseFloat(val);if(isNaN(v)||v<0)v=0;if(v>24){toast('A day has 24 hours');v=24;}var w=twWeek(twOffset,true);w.hours[i]=w.hours[i]||{};if(v)w.hours[i][id]=Math.round(v*10)/10;else delete w.hours[i][id];twBridgeOut(i,twFind(TW.minimums,id),v?Math.round(v*10)/10:0);twSave();renderWeek();}
 function twMoneyTotal(w){return w.money.reduce(function(a,e){return a+(parseFloat(e.amt)||0);},0);}
-function twFmt(n){n=Number(n)||0;var neg=n<0,a=Math.abs(n),s=(Math.round(a*100)%100)?a.toFixed(2):String(Math.round(a));s=s.replace(/\B(?=(\d{3})+(?!\d))/g,',');return(neg?'-$':'$')+s;}
+function twTime12(t){var m=/^(\d{1,2}):(\d{2})$/.exec(t||'');if(!m)return t||'';var h=+m[1];return(h%12||12)+':'+m[2]+' '+(h<12?'AM':'PM');}
+function twFmt(n,cents){n=Number(n)||0;var neg=n<0,a=Math.abs(n),s=(cents||Math.round(a*100)%100)?a.toFixed(2):String(Math.round(a));s=s.replace(/\B(?=(\d{3})+(?!\d))/g,',');return(neg?'-$':'$')+s;}
 function twEntryDate(ts){try{var d=new Date(ts);if(d.getHours()<6)d.setDate(d.getDate()-1);return TW_DAYS[d.getDay()===0?6:d.getDay()-1]+' '+TW_MON[d.getMonth()]+' '+d.getDate();}catch(e){return'';}}
 function renderWeek(){
   if(twDay===null)twDay=twTodayIdx();
@@ -638,27 +649,27 @@ function twWeekNavHtml(){return'<div class="tw-weeknav"><button class="tw-arrow"
 function twCheckRow(i,id,on,label,right){return'<div class="task-item"><button class="task-check '+(on?'done':'')+'" aria-pressed="'+on+'" aria-label="'+esc(label)+'" onclick="twToggle('+i+',\''+id+'\')">'+(on?'✓':'')+'</button><div class="task-text '+(on?'done':'')+'" style="font-size:14px;">'+esc(label)+'</div>'+(right||'')+'</div>';}
 function twWeekHtml(){
   if(!twIsSetUp())return'<div class="card" style="border-left-color:var(--gold);"><div class="card-title">SET UP YOUR WEEK</div><div class="tw-note">Add the goals you want to check off each day and the minimums you want to hit this week.</div><button class="btn-primary" onclick="twSetView(\'setup\')">SET UP YOUR WEEK</button></div>';
-  var w=twWeek(twOffset,false),ws=twWeekStats(w,twOffset),todayI=twOffset===0?twTodayIdx():-1,i;
+  var w=twRead(twOffset),ws=twWeekStats(w,twOffset),todayI=twOffset===0?twTodayIdx():-1,i;
   var html=twWeekNavHtml();
-  html+='<div class="card"><div class="tw-big">'+ws.pct+'%</div><div class="tw-big-sub">'+(ws.goalsTotal?ws.goalsDone+' of '+ws.goalsTotal+' goals checked · ':'')+ws.minsHit+' of '+ws.minsTotal+' minimums hit</div><div class="tw-bar"><div class="tw-bar-fill" style="width:'+ws.pct+'%"></div></div></div>';
+  html+='<div class="card"><div class="tw-big">'+ws.pct+'%</div><div class="tw-big-sub">'+(ws.goalsTotal?'Goals '+ws.goalsDone+'/'+ws.goalsTotal:'')+(ws.goalsTotal&&ws.minsTotal?' · ':'')+(ws.minsTotal?(ws.goalsTotal?'Minimums '+ws.minPct+'%':'Weekly minimums'):'')+'</div><div class="tw-bar"><div class="tw-bar-fill" style="width:'+ws.pct+'%"></div></div></div>';
   html+='<div class="tw-days" role="group" aria-label="Pick a day">';
   for(i=0;i<7;i++){var s=twDayStats(w,i),full=s.total>0&&s.done===s.total;html+='<button class="tw-day'+(i===twDay?' sel':'')+(i===todayI?' today':'')+(full?' full':'')+'" aria-pressed="'+(i===twDay)+'" aria-label="'+TW_LONG[i]+(i===todayI?' (today)':'')+', '+s.done+' of '+s.total+' done" onclick="twPickDay('+i+')"><span class="tw-dname">'+TW_DAYS[i]+'</span><span class="tw-dcount">'+(s.total?s.done+'/'+s.total:'–')+'</span></button>';}
   html+='</div>';
   var day=twMonday(twOffset);day.setDate(day.getDate()+twDay);
   var goals=twGoalsFor(twDay),ds=twDayStats(w,twDay);
-  html+='<div class="card"><div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px;"><div class="card-title">'+TW_LONG[twDay].toUpperCase()+' · '+TW_MON[day.getMonth()].toUpperCase()+' '+day.getDate()+'</div><div class="tw-count'+(ds.total&&ds.done===ds.total?' hit':'')+'">'+(ds.total?ds.done+'/'+ds.total:'')+'</div></div>';
-  if(!goals.length)html+='<div class="tw-note" style="margin:0;">'+(TW.goals.length?'Nothing set for '+TW_LONG[twDay]+'.':'No daily goals yet. Add them under EDIT MY WEEK.')+'</div>';
-  goals.forEach(function(g){html+=twCheckRow(twDay,g.id,twChecked(w,twDay,g.id),g.label,g.time?'<span class="tw-time">'+esc(g.time)+'</span>':'');});
-  html+='</div>';
+  if(TW.goals.length){html+='<div class="card"><div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px;"><div class="card-title">'+TW_LONG[twDay].toUpperCase()+' · '+TW_MON[day.getMonth()].toUpperCase()+' '+day.getDate()+'</div><div class="tw-count'+(ds.total&&ds.done===ds.total?' hit':'')+'">'+(ds.total?ds.done+'/'+ds.total:'')+'</div></div>';
+  if(!goals.length)html+='<div class="tw-note" style="margin:0;">'+'Nothing set for '+TW_LONG[twDay]+'.'+'</div>';
+  goals.forEach(function(g){html+=twCheckRow(twDay,g.id,twChecked(w,twDay,g.id),g.label,g.time?'<span class="tw-time">'+esc(twTime12(g.time))+'</span>':'');});
+  html+='</div>';}
   if(TW.minimums.length){
-    html+='<div class="card"><div class="card-title">WEEKLY MINIMUMS</div><div class="tw-note" style="margin-bottom:4px;">Check it or log the hours for '+TW_LONG[twDay]+'.</div>';
-    TW.minimums.forEach(function(m){var c=twMinValue(w,m),t=twMinTarget(m,twOffset),cnt='<span class="tw-count'+(c>=t?' hit':'')+'">'+twNum(c)+'/'+t+(m.unit==='hrs'?' hrs':'')+'</span>';if(m.unit!=='hrs'){html+=twCheckRow(twDay,m.id,twChecked(w,twDay,m.id),m.label,cnt);return;}var h=twHrs(w,twDay,m.id);html+='<div class="task-item"><div class="tw-hmain"><div class="task-text" style="font-size:14px;">'+esc(m.label)+'</div></div><input class="tw-input tw-hrs" type="number" inputmode="decimal" min="0" max="24" step="0.5" placeholder="0" value="'+(h?twNum(h):'')+'" aria-label="'+esc(m.label)+' hours on '+TW_LONG[twDay]+'" onchange="twSetHours('+twDay+',\''+m.id+'\',this.value)">'+cnt+'</div>';});
+    html+='<div class="card"><div class="card-title">WEEKLY MINIMUMS</div><div class="tw-note" style="margin-bottom:4px;">Check it or log the hours for '+TW_LONG[twDay]+', '+TW_MON[day.getMonth()]+' '+day.getDate()+'.</div>';
+    TW.minimums.forEach(function(m){var c=twMinValue(w,m),t=twMinTarget(m,twOffset),cnt='<span class="tw-count'+(c>=t?' hit':'')+'">'+twNum(c)+'/'+t+(m.unit==='hrs'?' hrs':'')+'</span>';if(m.unit!=='hrs'){var on=twChecked(w,twDay,m.id);html+='<div class="task-item"><div class="tw-hmain"><div class="task-text" style="font-size:14px;">'+esc(m.label)+'</div></div><div class="tw-hbox"><button class="task-check '+(on?'done':'')+'" aria-pressed="'+on+'" aria-label="'+esc(m.label)+' on '+TW_LONG[twDay]+'" onclick="twToggle('+twDay+',\''+m.id+'\')">'+(on?'✓':'')+'</button></div>'+cnt+'</div>';return;}var h=twHrs(w,twDay,m.id);html+='<div class="task-item"><div class="tw-hmain"><div class="task-text" style="font-size:14px;">'+esc(m.label)+'</div></div><input class="tw-input tw-hrs" type="number" inputmode="decimal" min="0" max="24" step="0.5" placeholder="—" value="'+(h?twNum(h):'')+'" aria-label="'+esc(m.label)+' hours on '+TW_LONG[twDay]+'" onchange="twSetHours('+twDay+',\''+m.id+'\',this.value)">'+cnt+'</div>';});
     html+='</div>';
   }
   html+='<button class="btn-secondary" onclick="twSetView(\'setup\')">EDIT MY WEEK</button>';
   return html;
 }
-function twToggle(i,id){var w=twWeek(twOffset,true);w.checks[i]=w.checks[i]||{};if(w.checks[i][id])delete w.checks[i][id];else w.checks[i][id]=true;twSave();renderWeek();}
+function twToggle(i,id){var on=twChecked(twRead(twOffset),i,id),w=twWeek(twOffset,true);w.checks[i]=w.checks[i]||{};if(on)delete w.checks[i][id];else w.checks[i][id]=true;twBridgeOut(i,twFind(TW.minimums,id),!on);twSave();renderWeek();}
 function twChipsHtml(days,fn){var h='<div class="tw-chips" role="group" aria-label="Days">';for(var i=0;i<7;i++){var on=days.indexOf(i)!==-1;h+='<button class="tw-chip'+(on?' on':'')+'" aria-pressed="'+on+'" aria-label="'+TW_LONG[i]+'" onclick="'+fn+'('+i+',this)">'+'MTWTFSS'.charAt(i)+'</button>';}return h+'</div>';}
 function twChipFlip(days,i,btn){var k=days.indexOf(i);if(k===-1)days.push(i);else days.splice(k,1);days.sort();if(btn){btn.classList.toggle('on',k===-1);btn.setAttribute('aria-pressed',String(k===-1));}}
 function twSetupHtml(){
@@ -693,17 +704,17 @@ function twMoneyHtml(){
   html+='<div class="card"><div class="card-title">LOG MONEY</div><div style="display:flex;gap:6px;margin-bottom:12px;"><input class="tw-input sm" id="tw-amt" type="number" inputmode="decimal" step="any" placeholder="$" aria-label="Amount in dollars"><input class="tw-input" id="tw-note" placeholder="What for (optional)" aria-label="What it was for"></div><button class="btn-primary" onclick="twAddMoney()">ADD ENTRY</button></div>';
   html+='<div class="card"><div class="card-title">'+(twOffset===0?'THIS WEEK':'THAT WEEK')+'</div>';
   if(!w.money.length)html+='<div class="tw-note" style="margin:0;">Nothing logged yet.</div>';
-  [].concat(w.money).reverse().forEach(function(e){html+='<div class="tw-row"><div style="flex:1;min-width:0;"><div class="input-label">'+esc(e.note||'Entry')+'</div><div class="input-sub">'+twEntryDate(e.ts)+'</div></div><div class="tw-amt">'+twFmt(e.amt)+'</div><button class="tw-del" aria-label="Delete '+esc(e.note||'entry')+'" onclick="twDelMoney(\''+e.id+'\')">✕</button></div>';});
+  [].concat(w.money).reverse().forEach(function(e){html+='<div class="tw-row"><div style="flex:1;min-width:0;"><div class="input-label">'+esc(e.note||'Entry')+'</div><div class="input-sub">'+twEntryDate(e.ts)+'</div></div><div class="tw-amt">'+twFmt(e.amt,true)+'</div><button class="tw-del" aria-label="Delete '+esc(e.note||'entry')+'" onclick="twDelMoney(\''+e.id+'\')">✕</button></div>';});
   return html+'</div>';
 }
 function twMoneyEdit(on){twMoneyEditing=!!on;renderWeek();}
 function twSetMoneyGoal(){var el=document.getElementById('tw-money-goal'),v=parseFloat(el.value);if(!(v>0)){toast('Enter a goal above $0');el.focus();return;}TW.moneyGoal=Math.round(v*100)/100;twMoneyEditing=false;twSave();renderWeek();toast('Money goal saved');}
 function twAddMoney(){var a=document.getElementById('tw-amt'),n=document.getElementById('tw-note'),v=parseFloat(a.value);if(!v){toast('Enter an amount');a.focus();return;}var w=twWeek(twOffset,true);w.money.push({id:twId('e'),amt:Math.round(v*100)/100,note:(n.value||'').trim(),ts:new Date().toISOString()});twSave();renderWeek();toast('Logged '+twFmt(v));}
-function twDelMoney(id){var w=twWeek(twOffset,true),e=twFind(w.money,id);if(!e||!confirm('Delete '+twFmt(e.amt)+(e.note?' ('+e.note+')':'')+'?'))return;w.money=w.money.filter(function(x){return x.id!==id;});twSave();renderWeek();}
+function twDelMoney(id){var w=twWeek(twOffset,true),e=twFind(w.money,id);if(!e||!confirm('Delete '+twFmt(e.amt,true)+(e.note?' ('+e.note+')':'')+'?'))return;w.money=w.money.filter(function(x){return x.id!==id;});twSave();renderWeek();}
 function twTodayCardHtml(){
   var sub;
   if(!twIsSetUp()&&TW.moneyGoal===null)sub='Set up your week';
-  else{var w=twWeek(0,false),ds=twDayStats(w,twTodayIdx()),ws=twWeekStats(w),parts=[];if(twIsSetUp()){if(ds.total)parts.push('Today '+ds.done+'/'+ds.total);parts.push('Week '+ws.pct+'%');}if(TW.moneyGoal!==null)parts.push(twFmt(twMoneyTotal(w))+' of '+twFmt(TW.moneyGoal));sub=parts.join(' · ');}
+  else{var w=twRead(0),ds=twDayStats(w,twTodayIdx()),ws=twWeekStats(w),parts=[];if(twIsSetUp()){if(ds.total)parts.push('Today '+ds.done+'/'+ds.total);parts.push('Week '+ws.pct+'%');}if(TW.moneyGoal!==null)parts.push(twFmt(twMoneyTotal(w))+' of '+twFmt(TW.moneyGoal));sub=parts.join(' · ');}
   return'<button class="card tw-sum" style="width:100%;text-align:left;cursor:pointer;font:inherit;color:inherit;border-left-color:var(--gold);" onclick="openTyWeek()"><div class="tw-sum-main"><div class="card-title" style="margin:0 0 2px;">TY WEEK</div><div class="input-sub" style="font-size:12px;">'+sub+'</div></div><div class="tw-sum-go" aria-hidden="true">›</div></button>';
 }
 function openTyWeek(){twView='week';twOffset=0;twDay=twTodayIdx();switchTab('week',document.querySelectorAll('.nav-btn')[3]);}
