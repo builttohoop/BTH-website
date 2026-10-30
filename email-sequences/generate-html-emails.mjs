@@ -418,7 +418,7 @@ ${hero(
   `${RESET_BASE}/BTH-Reset-Day-01-Hip-Reset.pdf`,
   'Start the 5-Day Reset'
 )}
-${p('Your 5-Day BTH Reset is live. Day 1 — the Hip Reset — is ready and takes about 15 minutes. You\'ll feel it working before you finish.')}
+${p('Your 5-Day BTH Reset is live. Day 1 — the Hip Reset — is ready and takes 15 to 20 minutes. You\'ll feel it working before you finish.')}
 ${p('Move slow on every rep. No pain — if something pinches, back off. This is about control and position, not effort.')}
 ${p('Do this today. Tomorrow I\'m sending you the truth about why your hips feel locked up &mdash; it\'s not what you think. Day 2 of the reset lands the day after.')}
 ${divider()}
