@@ -530,7 +530,7 @@ ${divider()}
 ${p('What came out of it is the one idea this entire reset is built on: <strong>the lower body is a chain, and the weakest link falls first.</strong>')}
 ${p('That is why it never stops at one thing. You work the back, and the knee starts talking. You settle the knee, and the arch starts taking the load. Most programs train a body part. The problem was never a body part — it was a chain.')}
 ${p('Your hips, knees, ankles and feet are the links. Work them as one chain and it holds. Work them one at a time and you spend every month chasing whichever link is loudest.')}
-${p('That is the difference in what you have been doing these five days. Day 1 hips, Day 2 ankles, Day 3 the checkpoint, today strength that moves — that is not four drills. That is the chain, in order.')}
+${p('That is the difference in what you have been doing these five days. Day 1 hips, Day 2 ankles, Day 3 movement control, today strength that moves — that is not four drills. That is the chain, in order.')}
 ${p('<strong>That is what Stay Ready is built to do</strong> — keep working the whole chain month over month, so what you built this week keeps building instead of sliding back.')}
 ${p('If you replied on Day 3 and told me something already felt different — that is the chain starting to hold.', { size: 14, muted: true })}
 ${p(`Already know you\'re in? You don\'t have to wait for Day 5 — <a href="${CHECKOUT_URL}" class="link" style="color:${C.goldText};text-decoration:underline;">join Stay Ready here</a>. I\'ll still send the rest of the reset either way.`, { size: 14, muted: true })}
@@ -547,7 +547,7 @@ ${sig()}
     body: `
 ${hero('Day 5 · The Move', `5 days done. Here's the ${g('move.')}`)}
 ${p('Day 5. Last one.')}
-${p('You made it through the reset. If you did all 5 days, a lot of guys feel their hips looser, ankles with more range, knees carrying less load than Day 1.')}
+${p('You made it through the reset. If you did all 5 days, a lot of guys feel their hips looser, ankles with more range, and more stable on one leg.')}
 ${p('That\'s real. That\'s the BTH method working.')}
 ${p('Here\'s the truth: <strong>the reset is maintenance, not building.</strong> It gets your body back to baseline. It doesn\'t keep building once you stop opening these emails.')}
 ${p('The reset ends today. Here\'s the move — and it\'s not the ask you\'re expecting.')}
