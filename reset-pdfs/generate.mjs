@@ -119,9 +119,9 @@ const days = [
       },
     ],
     feel: ['Ankles warming up instead of stiff', 'Better balance and control', 'Lighter, more reactive steps'],
-    focus: 'Move light, stay springy. Control every rep and landing. Instability now = the training working.',
+    focus: 'Move light, stay springy. Control every rep and landing. Some wobble is normal when balance is challenged. Keep a wall or counter in reach. If it turns to pain, stop.',
     tomorrow: 'Movement Control — where Days 1 and 2 start connecting.',
-    note: 'The ankle was the last one I got to, and it was holding up everything above it. Ground first. Whatever the ankle will not do, the knee and hip end up doing for it.',
+    note: 'The ankle holds up everything above it. Ground first. Whatever the ankle will not do, the knee and hip end up doing for it.',
   },
   {
     num: '03',
@@ -248,7 +248,7 @@ const days = [
       },
     ],
     feel: ['Light — move explosive', 'Reactive off the floor', 'Powerful when it counts'],
-    focus: 'Full intent every rep. Land soft, explode fast. Finish strong. Five days done — now go unleash your game.',
+    focus: 'Full intent every rep. Land soft, explode fast. Five days done.',
     tomorrow: null,
     note: 'I am still in it — the knee is the link I am working on right now. This is the day I still run myself, which is the only reason it is in here.',
   },
@@ -282,7 +282,7 @@ function buildHTML(day) {
   const feel = day.feel.map((f) => `<li>${f}</li>`).join('');
   const tomorrow = day.tomorrow
     ? `<div class="foot-day">Tomorrow — ${day.tomorrow}</div>`
-    : `<div class="foot-day">Five days done. Go unleash your game.</div>`;
+    : `<div class="foot-day">Five days done.</div>`;
 
   // Stay Ready CTA (BTH-GOAL-0052 D3): Days 1–4 get a compact footer line; Day 5 gets the
   // dedicated full close band instead — distinct and larger by design, never footer-sized.
@@ -579,7 +579,7 @@ body {
 
   <!-- FEEL / FOCUS -->
   <div class="feel-band">
-    <div class="feel-title">What you should feel</div>
+    <div class="feel-title">What to look for</div>
     <ul class="feel-list">${feel}</ul>
     <div class="focus-line"><b>Focus</b> &nbsp;${day.focus}</div>
   </div>
