@@ -198,7 +198,7 @@ const days = [
       },
     ],
     feel: ['Strong but not stiff', 'More stable on one leg', 'Movements feel controlled'],
-    focus: 'Move strong, stay smooth. No forced or grinding reps. Control over load, always.',
+    focus: 'Move strong, stay smooth. No forced or grinding reps. Control over load, always. Pick a weight that leaves 2–3 reps in the tank on every set.',
     tomorrow: 'Power Reset — everything converts to game-ready movement. Last one.',
     note: 'Nobody trained me back, so I had to work out what strong enough to play actually meant. It was not what the gym told me. This is the version that held up.',
   },
@@ -208,8 +208,18 @@ const days = [
     goal: 'POWER',
     time: '20–25 MIN',
     tagline: 'Turn five days of work into game-ready power.',
-    intro: 'Rapidly convert all your resetting into game-ready power. This is what the first four days were building toward. Land soft. Absorb first — then explode. Don’t crash into the ground and hope. The power comes from control, not force — the same principle as every day this week.',
+    intro: 'Rapidly convert all your resetting into game-ready power. This is what the first four days were building toward. Land soft. If anything pinches, stop and get it checked. Absorb first — then explode. Don’t crash into the ground and hope. The power comes from control, not force — the same principle as every day this week.',
     blocks: [
+      {
+        label: 'Warm-Up Block',
+        sub: 'Controlled pace',
+        exercises: [
+          { name: 'Ankle Circles', sets: '2 × 10 each', cue: 'Controlled pace.' },
+          { name: 'Hip Circles', sets: '2 × 10 each', cue: 'Controlled pace.' },
+          { name: 'Lateral Shuffle', sets: '2 × 10 each way', cue: 'Controlled pace.' },
+          { name: 'Pogo Hops in Place', sets: '2 × 15', cue: 'Controlled pace.' },
+        ],
+      },
       {
         label: 'Movement Block',
         sub: 'Convert mobility to power',
@@ -224,7 +234,7 @@ const days = [
         sub: 'Speed and explosiveness',
         exercises: [
           { name: 'Approach Jumps', sets: '3 × 3', cue: 'Two-step run-up. Jump, land, and stick. Full intent on each one.' },
-          { name: 'Reactive Sprints (Short)', sets: '4 × 1', cue: 'Accelerate hard. Stop under control. 10–15 yards max.' },
+          { name: 'Reactive Sprints (Short)', sets: '4 × 1', cue: 'Accelerate hard. Stop under control. 10–15 yards max. Walk back. Full recovery between sprints.' },
         ],
       },
       {
