@@ -145,13 +145,13 @@ const B_PAGES = [
   {
     slug: 'basketball-training-membership', eyebrow: 'One Membership', h1: 'Basketball Training <span class="gold">Membership</span>', keyword: 'basketball training membership',
     title: 'Basketball Training Membership — BTH Stay Ready',
-    sub: 'One membership, the whole BTH system — <strong>Foundation Month, the Strength Block and every add-on track</strong>, for $27 a month.',
+    sub: 'One membership, the whole BTH system — <strong>Foundation, the Strength Block and every add-on track</strong>, for $27 a month.',
     whyParas: [
-      'A basketball training membership only earns a monthly payment if it keeps delivering after the first week. BTH Stay Ready is built as one system, not a bundle of one-off products — Foundation Month gets your base built, the Strength Block keeps the training moving, and every add-on track (jump, mobility, recovery, and more) is already included, not sold separately later.',
+      'A basketball training membership only earns a monthly payment if it keeps delivering after the first week. BTH Stay Ready is built as one system, not a bundle of one-off products — Foundation gets your base built, the Strength Block keeps the training moving, and every add-on track (jump, mobility, recovery, and more) is already included, not sold separately later.',
       'You do not need to guess whether you are "ready" for a membership. If you have run the free 5-Day Reset and it fit your body and your schedule, Stay Ready is the same approach continued — same voice, same structure, month after month.',
     ],
     faq: [
-      { q: 'What is actually included in this basketball training membership?', a: 'Foundation Month, the ongoing Strength Block, and every add-on track BTH makes — jump, mobility, recovery and more — all inside one $27/month membership. Nothing held back for a future upsell.' },
+      { q: 'What is actually included in this basketball training membership?', a: 'Foundation, the ongoing Strength Block, and every add-on track BTH makes — jump, mobility, recovery and more — all inside one $27/month membership. Nothing held back for a future upsell.' },
       { q: 'Can I cancel anytime?', a: 'Yes — it is a self-serve monthly membership with no lock-in. Cancel whenever it stops earning its spot in your month.' },
       { q: 'What if I am not sure yet?', a: 'Start with the free 5-Day Reset first — no card required. If it fits, Stay Ready is the same training continued.' },
     ],
@@ -175,11 +175,11 @@ const B_PAGES = [
     title: 'Comparing Basketball Training Programs — BTH Stay Ready',
     sub: 'You are comparing. Good. Here is exactly what is inside BTH Stay Ready — <strong>judge it against anything else</strong> you are looking at.',
     whyParas: [
-      'If you are trying to find the best basketball training program, the honest answer is: judge it on what is actually inside, not the sales page. BTH Stay Ready gives you Foundation Month, an ongoing Strength Block, and every add-on track — jump, mobility, recovery — for one price, built by someone who still plays, not a content studio.',
+      'If you are trying to find the best basketball training program, the honest answer is: judge it on what is actually inside, not the sales page. BTH Stay Ready gives you Foundation, an ongoing Strength Block, and every add-on track — jump, mobility, recovery — for one price, built by someone who still plays, not a content studio.',
       'Compare that directly against whatever else you have open in another tab: what is included, what is upsold later, and who built it. Stay Ready is deliberately structured so there is nothing hidden behind a second paywall once you join.',
     ],
     faq: [
-      { q: 'What makes this the best basketball training program for someone comparing options?', a: 'Everything is included at one price — Foundation Month, the Strength Block, and every add-on track — with nothing held back for a future upsell.' },
+      { q: 'What makes this the best basketball training program for someone comparing options?', a: 'Everything is included at one price — Foundation, the Strength Block, and every add-on track — with nothing held back for a future upsell.' },
       { q: 'Who actually built this?', a: 'A hooper who still plays, not a content agency — the training reflects what the game actually demands from an adult body.' },
       { q: 'How do I know it will work for me before I pay?', a: 'Start with the free 5-Day Reset first. It is built from the same system, so you can tell how it fits before committing to Stay Ready.' },
     ],
@@ -190,10 +190,10 @@ const B_PAGES = [
     sub: 'The full BTH system, delivered online — train at home, at the gym, or on the road. <strong>$27 a month, cancel anytime.</strong>',
     whyParas: [
       'An online basketball training program has to earn trust without a gym, a coach in the room, or a contract locking you in. Stay Ready is built for exactly that — every session delivered digitally, no app install, no equipment requirement beyond what each day actually calls for.',
-      'It runs wherever you are: home, a hotel gym on the road, or your regular gym floor. The training does not change based on your location — Foundation Month, the Strength Block and every add-on track travel with you.',
+      'It runs wherever you are: home, a hotel gym on the road, or your regular gym floor. The training does not change based on your location — Foundation, the Strength Block and every add-on track travel with you.',
     ],
     faq: [
-      { q: 'Is this online basketball training program actually complete, or a stripped-down version?', a: 'It is the full system — Foundation Month, the Strength Block and every add-on track — delivered digitally with nothing held back for an in-person version.' },
+      { q: 'Is this online basketball training program actually complete, or a stripped-down version?', a: 'It is the full system — Foundation, the Strength Block and every add-on track — delivered digitally with nothing held back for an in-person version.' },
       { q: 'Do I need any special equipment to train online?', a: 'No — sessions are built to run with minimal or no equipment, so they work at home, in a hotel room, or in a gym.' },
       { q: 'Is there a contract?', a: 'No — it is $27 a month, cancel anytime, self-serve.' },
     ],
@@ -473,7 +473,7 @@ const offerCardB = () => `<div class="form-card member" id="join">
     <div class="form-h">BTH Stay Ready</div>
     <div class="price-row"><span class="price-num">$27</span><span class="price-per">/month</span></div>
     <ul class="inside-list">
-      <li>Foundation Month — your first four weeks, structured</li>
+      <li>Foundation: where every member starts</li>
       <li>The Strength Block</li>
       <li>All five add-on tracks included</li>
       <li>Train at home or in the gym</li>
@@ -571,7 +571,7 @@ const A_VALUES = [
   ['No Gym Required', 'The first three days need zero equipment. Train in your living room, hotel room, or the gym.'],
 ];
 const B_VALUES = [
-  ['Everything Included', 'Foundation Month, the Strength Block and every add-on track — one membership, one price.'],
+  ['Everything Included', 'Foundation, the Strength Block and every add-on track. One membership, one price.'],
   ['Cancel Anytime', 'Monthly, self-serve, no lock-in. Stay because the training earns it.'],
   ['Built By A Hooper', 'Made by a player who still hoops. Direct, structured, honest training — no hype.'],
 ];
