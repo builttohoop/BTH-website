@@ -250,7 +250,7 @@ const R_PAGES = [
     ],
     faq: [
       { q: 'Is this ankle rehab?', a: 'No. BTH is basketball training — strength, stability and movement work for hoopers. Recovering from an injury belongs with a professional; BTH is for building the base once you are cleared to train.' },
-      { q: 'I am scared to cut hard again. Will this help?', a: 'Confidence tends to come back through stacked small wins — sessions where the ankle does its job and you notice. That is what the Reset and the Ankle Rebuild Track are built to do.' },
+      { q: 'I am scared to cut hard again. Will this help?', a: 'Confidence tends to come back through stacked small wins — sessions where the ankle does its job and you notice. That is what the Reset and the Ankle Strength Track are built to do.' },
       { q: 'How do I know if I am ready to start?', a: 'If you are cleared for normal activity and training, the first days are low-intensity and scale to you. If you are not sure, ask the professional who saw the injury — then start.' },
     ],
   },
