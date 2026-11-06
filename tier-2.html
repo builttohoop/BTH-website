@@ -34,17 +34,17 @@ window.addEventListener("DOMContentLoaded", function () {
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="color-scheme" content="light">
-<title>BTH Rise — Tier 2 — Built to Hoop</title>
+<title>BTH Rise — Built to Hoop</title>
 <link rel="canonical" href="https://built-to-hoop.com/tier-2.html">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Built to Hoop">
-<meta property="og:title" content="BTH Rise — Tier 2 | Built to Hoop">
-<meta property="og:description" content="The 12-week performance system for hoopers ready to rebuild strength, speed, and game conditioning.">
+<meta property="og:title" content="BTH Rise | Built to Hoop">
+<meta property="og:description" content="BTH Rise. The next step after Foundation, with one job: turn that strength into bounce. Four weeks, four training days a week, with an optional two-week Rise Tendon Bridge.">
 <meta property="og:url" content="https://built-to-hoop.com/tier-2.html">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="BTH Rise — Tier 2 | Built to Hoop">
-<meta name="twitter:description" content="The 12-week performance system for hoopers ready to rebuild strength, speed, and game conditioning.">
-<meta name="description" content="BTH Rise — 12 weeks. 3 phases. The performance system for hoopers ready to convert strength into bounce, speed, and stay-ready output.">
+<meta name="twitter:title" content="BTH Rise | Built to Hoop">
+<meta name="twitter:description" content="BTH Rise. The next step after Foundation, with one job: turn that strength into bounce. Four weeks, four training days a week, with an optional two-week Rise Tendon Bridge.">
+<meta name="description" content="BTH Rise. Four weeks, one job: turn strength into bounce. Includes the Rise Tendon Bridge and Rise 12-Week. $97, one time.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/bth-system.css">
@@ -293,6 +293,9 @@ nav {
    the authored vw sizing is unchanged. Decorative only (pointer-events:none). */
 @media (max-width:700px) { .hero::before { display:none; } }
 
+/* GOAL-0060 - four-day week grid */
+.week-grid.four { grid-template-columns:repeat(2,1fr); }
+@media (max-width:768px) { .week-grid.four { grid-template-columns:1fr; } }
 /* BTH-MOBILE-OVERFLOW - keep the page inside the viewport at phone widths. */
 @media (max-width:700px) {
   /* long purchase CTAs could not wrap and ran off-screen */
@@ -314,23 +317,24 @@ nav {
 <!-- HERO -->
 <section class="hero">
   <div class="hero-inner">
-    <div class="hero-eyebrow">Tier 2 · BTH Rise · Live</div>
+    <div class="hero-eyebrow">Rise · The Next Step · Live</div>
     <span class="launch-tag">Launch Price</span>
     <h1 class="hero-title">
       Built<br>
       to <span class="gold">Rise.</span>
     </h1>
     <p class="hero-sub">
-      12 weeks. 3 phases. Phases 3–5 of the BTH method. <strong>Strength to Bounce</strong> → <strong>Game Speed</strong> → <strong>Stay Ready</strong>. For hoopers ready to convert the foundation into real output on the court.
+      The next step after Foundation. One job: <strong>turn that strength into bounce</strong>. Four weeks, four training days a week, and an optional two-week Rise Tendon Bridge after.
     </p>
     <div class="price-strip">
       <div class="price-big">$97<span class="small">launch price · one time</span></div>
-      <div class="price-meta"><strong>One-time payment. Keep forever.</strong><br>Or unlock Tier 2 + everything else inside BTH Stay Ready ($27/mo).</div>
+      <div class="price-meta"><strong>One-time payment. Keep forever.</strong><br>Opens in the BTH app, with a PDF copy by email.<br>Or unlock Rise + everything else inside Stay Ready ($27/mo).</div>
     </div>
     <div class="btn-row">
       <a href="#buy" class="btn-gold">Get BTH Rise — $97</a>
-      <a href="tier-3.html" class="btn-secondary">Or unlock everything with Tier 3 →</a>
+      <a href="tier-3.html" class="btn-secondary">Or unlock everything with Stay Ready →</a>
     </div>
+    <p style="font-size:13px;color:var(--muted);margin-top:14px;line-height:1.6;"><strong style="color:var(--black);">Includes the new 4-week Rise, the Rise Tendon Bridge and Rise 12-Week.</strong> Already bought Rise? The new versions are yours free.</p>
     <p style="font-size:12px;color:var(--muted);margin-top:10px;letter-spacing:0.03em;">All sales final · No refunds</p>
   </div>
 </section>
@@ -338,62 +342,56 @@ nav {
 <!-- WHO IT'S FOR -->
 <div class="pad-narrow">
   <div class="section-eyebrow">Who This Is For</div>
-  <h2 class="section-title">For Hoopers Who<br>Already Move Clean.</h2>
-  <p class="section-body" style="margin-bottom: 20px;">Tier 1 got you out of pain. Got the hips loose, the ankles stable, the base built. <strong style="color:var(--black);">Now it's time to build the output.</strong></p>
-  <p class="section-body">BTH Rise is the performance layer. This is where training stops being about undoing damage and starts being about adding to what you can do on the court. Stronger. Springier. Faster off the plant. More bounce on cuts. Real transfer — not gym numbers.</p>
+  <h2 class="section-title">For Hoopers Who<br>Already Land Clean.</h2>
+  <p class="section-body" style="margin-bottom: 20px;">You got your strength back and then you jumped and it felt flat. <strong style="color:var(--black);">Strong is not the same as springy.</strong></p>
+  <p class="section-body" style="margin-bottom: 20px;">I got hurt bad enough that a clinic handed me pain pills and sent me home. Nobody trained me back. Getting strong was the first half. The second half is asking for the bounce, and most of us never learned how to ask. I'm still working on it myself.</p>
+  <p class="section-body">Rise is that second half: heavy lifts, jump work and short sprints, four weeks, one job. Strength first, then speed out of it. That's what this is.</p>
 
   <div class="callout">
     <div class="callout-title">One Reminder</div>
-    <div class="callout-body">"Tier 2 is open to all. If you're dealing with pain or breakdown right now, Tier 1 first. It's not a gate — it's a sequence."</div>
+    <div class="callout-body">"Rise is open to all. If you're newer to loading, start with Foundation first. It's not a gate. It's a sequence."</div>
   </div>
 </div>
 
-<!-- THE 3 PHASES -->
+<!-- THE BLOCK -->
 <div class="inside-bg">
   <div class="pad">
-    <div class="section-eyebrow">The 12-Week System</div>
-    <h2 class="section-title">Three Phases.<br>One Progression.</h2>
+    <div class="section-eyebrow">The Four-Week Block</div>
+    <h2 class="section-title">One Job.<br>Four Weeks.</h2>
 
     <div class="phase-block" style="margin-top: 44px;">
-      <div class="phase-tag">Phase 3 · Weeks 1–4</div>
+      <div class="phase-tag">Rise · 4 Weeks</div>
       <div class="phase-name">Strength to Bounce</div>
-      <div class="phase-desc">Convert the base strength from Tier 1 into <strong>elastic, springy output.</strong> Slow strength work paired with jump intent. The bridge between weight room and court.</div>
+      <div class="phase-desc">Take the strength from Foundation and ask for <strong>elastic, springy output.</strong> A heavy lift, then a jump. Short sprints, never conditioning. Four days a week, with the two lower days kept apart so your legs come in fresh.</div>
       <ul class="phase-list">
-        <li>Heavy goblet + Bulgarian splits</li>
-        <li>Controlled box jumps with clean landings</li>
-        <li>Pogos, skips, tempo rebounds</li>
-        <li>Hip-dominant posterior work</li>
-        <li>Readiness-based loading</li>
-        <li>2x strength + 1x movement per week</li>
+        <li>Smith squat, Romanian deadlift, Bulgarian split squat</li>
+        <li>Box jumps, broad jumps and pogos with clean landings</li>
+        <li>Short acceleration and build-up sprints</li>
+        <li>Calf and shin work</li>
+        <li>Chest, back, shoulders, arms and abs on the upper days</li>
+        <li>Week 4 is a primer: a lighter week so you finish fresh</li>
       </ul>
     </div>
 
     <div class="phase-block">
-      <div class="phase-tag">Phase 4 · Weeks 5–8</div>
-      <div class="phase-name">Game Speed</div>
-      <div class="phase-desc">Cuts. Decelerations. Direction changes. The transfer phase. <strong>Train the exact movements that happen inside every possession</strong> — at the speeds they actually happen.</div>
+      <div class="phase-tag">Optional · 2 Weeks</div>
+      <div class="phase-name">Rise Tendon Bridge</div>
+      <div class="phase-desc">Two lighter weeks between Rise and Dominate. <strong>Optional by design.</strong> Slow holds and controlled reps for quads, calves and soleus, single-leg control, and a low-contact landing day. Upper body and abs stay on the same path, with easy conditioning and a short nightly cooldown.</div>
       <ul class="phase-list">
-        <li>Reactive step + cut patterns</li>
-        <li>Scissor jumps, skater bounds</li>
-        <li>Single-leg stability under load</li>
-        <li>Defensive slide + recover work</li>
-        <li>Deceleration from full speed</li>
-        <li>Pickup-integrated programming</li>
+        <li>Four days a week, two weeks</li>
+        <li>Slow holds and controlled reps</li>
+        <li>Single-leg control, weaker side first</li>
+        <li>A low-contact landing day</li>
+        <li>Upper body and abs on the same path</li>
+        <li>Skip it and go straight to Dominate, or take it first</li>
       </ul>
+      <p class="phase-desc" style="margin-top:18px;margin-bottom:0;">The Bridge is training, not treatment. If something is sharp, swollen or changing how you move, stop and get it checked.</p>
     </div>
 
     <div class="phase-block">
-      <div class="phase-tag">Phase 5 · Weeks 9–12</div>
-      <div class="phase-name">Stay Ready</div>
-      <div class="phase-desc">Lock in what you built. <strong>Maintenance logic, game-day protocols, recovery integration.</strong> You stop dropping off after heavy weeks. You start staying ready — for the next run, the next season, the next decade.</div>
-      <ul class="phase-list">
-        <li>Pre-game warm-up protocol</li>
-        <li>In-season minimum effective dose</li>
-        <li>Off-day recovery layer</li>
-        <li>Reactive peaking sets</li>
-        <li>Ongoing readiness framework</li>
-        <li>Graduation into Tier 3 if you want it</li>
-      </ul>
+      <div class="phase-tag">Also Included · 12 Weeks</div>
+      <div class="phase-name">Rise 12-Week</div>
+      <div class="phase-desc">The original Rise is still here: <strong>Strength to Bounce, Game Speed and Stay Ready</strong>, three blocks back to back. Every Rise purchase includes it. Run the new four-week Rise, the 12-week version, or both.</div>
     </div>
   </div>
 </div>
@@ -401,23 +399,28 @@ nav {
 <!-- WEEKLY STRUCTURE -->
 <div class="pad-narrow">
   <div class="section-eyebrow">What a Week Looks Like</div>
-  <h2 class="section-title">Built Around<br>Your Pickup.</h2>
-  <p class="section-body">Three intensity levels. Three training days. The readiness framework decides the rest — no guessing when to load and when to pull back.</p>
-  <div class="week-grid">
+  <h2 class="section-title">Four Days.<br>Room to Recover.</h2>
+  <p class="section-body">Four training days, then rest: Day 1, Day 2, off, Day 3, Day 4, off, off. The lower days sit at least 48 hours apart, and if your legs are still heavy you add one more rest day.</p>
+  <div class="week-grid four">
     <div class="week-card">
-      <div class="wk">High Day</div>
-      <h4>Load + Intent</h4>
-      <p>Max-intent strength work. Heaviest of the week. Placed on days with no pickup before or after.</p>
+      <div class="wk">Day 1</div>
+      <h4>Lower A: Force + Jump Prep</h4>
+      <p>Heavy lower-body strength with jump work. Sharp, not grinding.</p>
     </div>
     <div class="week-card">
-      <div class="wk">Moderate Day</div>
-      <h4>Strength + Bounce</h4>
-      <p>Strength work with bounce intent. Lower volume than High Day. Lives near pickup, not on it.</p>
+      <div class="wk">Day 2</div>
+      <h4>Chest + Arms + Abs</h4>
+      <p>Upper size and core. Your legs get the day.</p>
     </div>
     <div class="week-card">
-      <div class="wk">Low Day</div>
-      <h4>Movement + Reset</h4>
-      <p>Skill work, movement patterns, prehab. The session that protects everything else you did.</p>
+      <div class="wk">Day 3</div>
+      <h4>Lower B: Single-Leg Power</h4>
+      <p>One leg at a time, plus elastic work. Weaker side goes first.</p>
+    </div>
+    <div class="week-card">
+      <div class="wk">Day 4</div>
+      <h4>Back, Shoulders + Arms</h4>
+      <p>Posture, shoulders, arms and an abs circuit.</p>
     </div>
   </div>
 </div>
@@ -425,33 +428,33 @@ nav {
 <!-- COMPARISON -->
 <div class="inside-bg">
   <div class="pad">
-    <div class="section-eyebrow">Tier 1 vs Tier 2</div>
+    <div class="section-eyebrow">Foundation vs Rise</div>
     <h2 class="section-title">Where You Are<br>vs Where You're Going.</h2>
     <div class="compare">
       <div class="compare-row">
         <div class="compare-cell head">What It Does</div>
-        <div class="compare-cell head">Tier 1 — Foundation</div>
-        <div class="compare-cell head featured">Tier 2 — Rise</div>
+        <div class="compare-cell head">Foundation</div>
+        <div class="compare-cell head featured">Rise</div>
       </div>
       <div class="compare-row">
-        <div class="compare-cell feat">Method Phases</div>
-        <div class="compare-cell">Phases 1–2 (Reset + Rebuild)</div>
-        <div class="compare-cell" style="background:rgba(230,168,0,0.05);">Phases 3–5 (Bounce + Speed + Stay Ready)</div>
+        <div class="compare-cell feat">Role</div>
+        <div class="compare-cell">Start here</div>
+        <div class="compare-cell" style="background:rgba(230,168,0,0.05);">The next step</div>
       </div>
       <div class="compare-row">
-        <div class="compare-cell feat">Length</div>
-        <div class="compare-cell">Open-ended. Repeatable base.</div>
-        <div class="compare-cell" style="background:rgba(230,168,0,0.05);">12 weeks. 3 phases. Structured progression.</div>
+        <div class="compare-cell feat">Job</div>
+        <div class="compare-cell">Build strength</div>
+        <div class="compare-cell" style="background:rgba(230,168,0,0.05);">Turn strength into bounce</div>
       </div>
       <div class="compare-row">
-        <div class="compare-cell feat">Focus</div>
-        <div class="compare-cell">Get out of pain. Build the foundation.</div>
-        <div class="compare-cell" style="background:rgba(230,168,0,0.05);">Build bounce, speed, and court transfer.</div>
+        <div class="compare-cell feat">Days a Week</div>
+        <div class="compare-cell">Four lift days, three optional extras</div>
+        <div class="compare-cell" style="background:rgba(230,168,0,0.05);">Four training days</div>
       </div>
       <div class="compare-row">
         <div class="compare-cell feat">Best for</div>
-        <div class="compare-cell">First-time hoopers, returning from breakdown</div>
-        <div class="compare-cell" style="background:rgba(230,168,0,0.05);">Hoopers already moving clean who want output</div>
+        <div class="compare-cell">Newer to loading, or coming back to training</div>
+        <div class="compare-cell" style="background:rgba(230,168,0,0.05);">Already lifting and landing clean</div>
       </div>
       <div class="compare-row">
         <div class="compare-cell feat">Price</div>
@@ -468,8 +471,8 @@ nav {
   <h2 class="section-title">Real Answers.</h2>
   <div style="margin-top: 36px;">
     <div class="faq-item">
-      <div class="faq-q">Do I need Tier 1 first?</div>
-      <div class="faq-a"><strong>Tier 2 is open to all.</strong> But if you're currently dealing with pain, stiffness, or breakdown — Tier 1 first. It's not a gate. It's a sequence. Trying to train bounce on top of a foundation that hurts is how you end up back where you started.</div>
+      <div class="faq-q">Do I need Foundation first?</div>
+      <div class="faq-a"><strong>Rise is open to all.</strong> If you are newer to loading, Foundation first. It's not a gate. It's a sequence: strength first, then bounce.</div>
     </div>
     <div class="faq-item">
       <div class="faq-q">Why is it a launch price?</div>
@@ -477,19 +480,27 @@ nav {
     </div>
     <div class="faq-item">
       <div class="faq-q">Can I do this while still playing pickup?</div>
-      <div class="faq-a">That's the whole point. <strong>BTH Rise is built around pickup, not separate from it.</strong> The readiness framework places every training day around your actual game schedule.</div>
+      <div class="faq-a">Rise is four training days with rest between the lower days. <strong>Pickup counts as a leg day.</strong> Place the lower days away from your games, and use the extra rest day when your legs are heavy.</div>
     </div>
     <div class="faq-item">
       <div class="faq-q">What equipment do I need?</div>
-      <div class="faq-a">Dumbbells, a bench, a rack. A box is helpful but optional. <strong>Runs at Planet Fitness or any standard gym.</strong></div>
+      <div class="faq-a">A Smith machine or squat rack, dumbbells, a bench, a box, and room for short sprints.</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q">How is this different from Tier 3?</div>
-      <div class="faq-a">Tier 2 is the program itself — 12 weeks, one-time buy. <strong>Tier 3 is the membership</strong> that unlocks Tier 1, Tier 2, all 5 add-ons, and ongoing updates — $27/mo or $197/yr. If you want the full library, <a href="tier-3.html">Tier 3</a> is the play.</div>
+      <div class="faq-q">What is the Bridge, and do I need it?</div>
+      <div class="faq-a">The Rise Tendon Bridge is an <strong>optional two-week block</strong> between Rise and Dominate. Take it if you want two lighter leg weeks first, or your lower-body work has started to feel flat or heavy. Skip it if you feel sharp. Dominate works either way.</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q">Do I need Tier 1 to do Tier 2?</div>
-      <div class="faq-a">Not required. But if pain is the issue, start with <a href="tier-1.html">Tier 1</a>. If output is the issue, start here.</div>
+      <div class="faq-q">What about the 12-week version?</div>
+      <div class="faq-a"><strong>Rise 12-Week is still here</strong>, and every Rise purchase includes it. The new Rise is one job in four weeks; the 12-week version runs three blocks back to back.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">I already bought Rise. Do I get the new one?</div>
+      <div class="faq-a"><strong>Yes, free.</strong> The new and improved Rise and the Rise Tendon Bridge are added for everyone who already bought Rise, and Rise 12-Week stays yours. Nothing is taken away.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">How is this different from Stay Ready?</div>
+      <div class="faq-a">Rise is one program, bought once. <strong>Stay Ready is the membership</strong> that unlocks Foundation, Rise, Dominate, the add-on tracks and ongoing updates: $27/mo or $197/yr. If you want the full library, <a href="tier-3.html">Stay Ready</a> is the play.</div>
     </div>
   </div>
 </div>
@@ -497,9 +508,9 @@ nav {
 <!-- CTA BAND -->
 <div class="cta-band">
   <div>
-    <div class="section-eyebrow" style="color: var(--on-gold-muted); margin-bottom: 8px;">Tier 2 · BTH Rise · Launch Price</div>
+    <div class="section-eyebrow" style="color: var(--on-gold-muted); margin-bottom: 8px;">Rise · The Next Step</div>
     <div class="cta-title">$97.<br>Lock It In.</div>
-    <div class="cta-sub">12 weeks of real progression. $97 one-time — no subscription, no expiration, yours to keep.</div>
+    <div class="cta-sub">Four weeks of real progression, plus the Rise Tendon Bridge and Rise 12-Week. $97 one-time. No subscription, no expiration, yours to keep.</div>
   </div>
   <div style="text-align:center;flex-shrink:0;">
     <a href="https://buy.stripe.com/00w3cv9n923agn64bdaAw02" class="btn-cta" target="_blank" rel="noopener noreferrer">Get Rise — $97 →</a>
@@ -511,7 +522,7 @@ nav {
 <section style="max-width:760px;margin:0 auto;padding:64px 24px;">
   <div class="section-eyebrow">Secure Checkout</div>
   <h2 class="section-title">Check Out in Seconds.</h2>
-  <p class="section-body" style="margin-bottom:28px;">No detours — secure Stripe checkout. Rise lands in your email the moment you're in. Instant download, keep forever.</p>
+  <p class="section-body" style="margin-bottom:28px;">Secure Stripe checkout. Rise opens in the BTH app, with a PDF copy by email. Keep it forever.</p>
   <a href="https://buy.stripe.com/00w3cv9n923agn64bdaAw02" class="btn-gold" target="_blank" rel="noopener noreferrer">Get BTH Rise — $97 →</a>
 </section>
 
@@ -519,12 +530,13 @@ nav {
 <footer>
   <div>
     <div class="foot-logo">Built to <span>Hoop</span>.</div>
-    <div class="foot-tagline">Restore. Rebuild. Rise.</div>
+    <div class="foot-tagline">Build. Rise. Dominate.</div>
   </div>
   <div class="foot-links">
     <a href="index.html">Home</a>
-    <a href="tier-1.html">Tier 1</a>
-    <a href="tier-3.html">Tier 3</a>
+    <a href="tier-1.html">Foundation</a>
+    <a href="tier-3.html">Stay Ready</a>
+    <a href="dominate.html">Dominate</a>
     <a href="addons.html">Add-Ons</a>
     <a href="reset.html">Free Reset</a>
     <a href="about.html">About</a>
