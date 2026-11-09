@@ -27,7 +27,7 @@
       "audience": "public",
       "eyebrow": "Targeted Protection",
       "summary": "Hip, knee, ankle, and full recovery — targeted tracks for the specific work your body needs.",
-      "body": "The joints that take the most damage on the court — hips, knees, ankles — now have dedicated tracks built to address them directly. The Hip Reset Track, Knee Protection Track, Ankle Rebuild Track, and the full Injury Bundle are available now. Real, targeted work you can run alongside your current program or on its own.",
+      "body": "The joints that take the most damage on the court — hips, knees, ankles — now have dedicated tracks built to address them directly. The Hip Reset Track, Knee Protection Track, Ankle Strength Track, and the full Lower-Body Bundle are available now. Real, targeted work you can run alongside your current program or on its own.",
       "cta": { "label": "See the tracks", "href": "addons.html" },
       "date": "2026-06-25"
     },
@@ -65,21 +65,21 @@
       "status_tone": "live",
       "audience": "public",
       "eyebrow": "The Performance System",
-      "summary": "The 12-week system built to make you faster — and keep you on the court while it does.",
-      "body": "BTH Rise is the performance half of the method — 12 weeks across Strength to Bounce, Game Speed, and Stay Ready. Built for the hooper who's done breaking down and wants it to show up on the court: jump higher, move quicker, hold up deeper into the run. Open to everyone — included in your Stay Ready membership, or one-time on its own.",
+      "summary": "The next step after Foundation: turn your strength into bounce.",
+      "body": "BTH Rise is the next step after Foundation, with one job: turn your strength into bounce. New and improved as a four-week program, with the optional Rise Tendon Bridge and Rise 12-Week, the original, included. Open to everyone — included in your Stay Ready membership, or one-time on its own.",
       "cta": { "label": "See BTH Rise", "href": "tier-2.html" },
       "date": "2026-06-22"
     },
     {
       "id": "lower-body-protection",
       "area": "Inside Rise",
-      "title": "Extra Lower-Body Protection",
+      "title": "Extra Lower-Body Work",
       "status": "Now Included",
       "status_tone": "live",
       "audience": "member",
       "eyebrow": "Member Update",
-      "summary": "Built to keep your hips, knees and ankles in the game while you build.",
-      "body": "Rise doesn't just build power — it protects the joints that pay for it. Dedicated work for hips, knees, ankles, shins, tendons and landing mechanics is built into the system, so you keep getting stronger without breaking down to do it. Members: it's already live in your Rise track — no extra step, no extra cost.",
+      "summary": "Dedicated hip, knee and ankle work, built into Rise.",
+      "body": "Rise doesn't just build power. It also trains the joints that take the load: dedicated work for hips, knees, ankles, shins, tendons and landing mechanics is built into the system. Members: it's already live in your Rise track. No extra step, no extra cost.",
       "cta": { "label": "Open your Rise track", "href": "https://app.built-to-hoop.com" },
       "date": "2026-06-22"
     }
