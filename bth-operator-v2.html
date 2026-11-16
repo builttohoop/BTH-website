@@ -227,7 +227,7 @@
 </nav>
 <div id="toast" class="toast-el"></div>
 <script>
-var GYM_DAYS=[1,2,4,5];
+
 var DEFAULT_GOALS={protein:200,carbs:230,fat:65,cals:2200,water:8};
 var BTH_ITEMS=[
   {key:'posted',icon:'P',label:'Posted'},
@@ -339,45 +339,69 @@ var ACCESS={
 
 function save(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
 function load(k){try{var v=localStorage.getItem(k);return v?JSON.parse(v):null}catch(e){return null}}
-function tyNow(){var d=new Date();if(d.getHours()<6)d.setDate(d.getDate()-1);return d;}
-function dateKey(d){return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate();}
+function cutoffTime(){var t=load('bth_opday_cutoff');return /^([01]\d|2[0-3]):[0-5]\d$/.test(t||'')?t:'06:00';}
+function timeMinutes(t){var p=String(t).split(':').map(Number);return p[0]*60+p[1];}
+function cutoffMinutes(){return timeMinutes(cutoffTime());}
+function opDate(d){var out=new Date(d===undefined?new Date():d);if(out.getHours()*60+out.getMinutes()<cutoffMinutes())out.setDate(out.getDate()-1);return out;}
+function tyNow(){return opDate(new Date());}
+function nightMinutes(t){return /^\d\d:\d\d$/.test(t||'')?(timeMinutes(t)-cutoffMinutes()+1440)%1440:1440;}
+function setOpCutoff(t){if(!editableDay())return;if(!/^([01]\d|2[0-3]):[0-5]\d$/.test(t))return;save('bth_opday_cutoff',t);autoRollover();renderToday();}
+function canonicalDate(k){var p=String(k).split('-');return p.length===3?p[0]+'-'+pad(p[1])+ '-'+pad(p[2]):k;}
+function legacyDate(k){return String(k).split('-').map(Number).join('-');}
+function legacyLoad(prefix,key){return load(prefix+key)||load(prefix+legacyDate(key));}
+function isGymDay(d){var gym=getSchedule().find(function(i){return i.id==='gym';});return !!gym&&schedOnDay(gym,d.getDay());}
+function editableDay(){return activeLogKey===OPERATOR_STATE.activeDayId;}
+
+function dateKey(d){return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());}
 function todayKey(){return dateKey(tyNow());}
 function yesterdayKey(){var d=tyNow();d.setDate(d.getDate()-1);return dateKey(d);}
-function weekKeys(){var d=tyNow(),day=d.getDay(),keys=[];for(var i=1;i<=7;i++){var t=new Date(d);t.setDate(d.getDate()-(day===0?7:day)+i);keys.push(dateKey(t));}return keys;}
+function weekKeys(off){var d=tyNow();d.setDate(d.getDate()+7*(off||0));var day=d.getDay(),keys=[];for(var i=1;i<=7;i++){var t=new Date(d);t.setDate(d.getDate()-(day===0?7:day)+i);keys.push(dateKey(t));}return keys;}
 function formatDayLabel(key){var p=key.split('-').map(Number),dt=new Date(p[0],p[1]-1,p[2]);return['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][dt.getDay()];}
 function formatDate(d){var days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];var months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];return days[d.getDay()]+', '+months[d.getMonth()]+' '+d.getDate();}
 function formatNoteTs(ts){try{var d=new Date(ts);return d.toLocaleDateString()+' '+d.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});}catch(e){return ts;}}
 var OPERATOR_STATE_KEY='bth_operator_state_v3';
 function operatorDayId(){return'op-'+Date.now()+'-'+Math.random().toString(36).slice(2,7);}
+// Import legacy dated records without deleting the original keys or replacing existing values.
+function migrateOperatorStorage(state){
+  for(var i=0;i<localStorage.length;i++){
+    var key=localStorage.key(i),m=/^bth_([dt])_(\d{4}-\d{1,2}-\d{1,2})$/.exec(key||'');if(!m)continue;
+    var value=load(key);if(!value)continue;var label=canonicalDate(m[2]),day=null;
+    for(var j=state.order.length-1;j>=0;j--){var candidate=state.days[state.order[j]];if(candidate&&canonicalDate(candidate.labelDate)===label){day=candidate;break;}}
+    if(!day){var id='legacy-'+label;day={id:id,labelDate:label,createdAt:null,submitted:true,submittedAt:null,log:{},tasks:null};state.days[id]=day;state.order.push(id);}
+    if(m[1]==='d')day.log=Object.assign({},value,day.log||{});else if(!day.tasks)day.tasks=value;
+  }
+  save(OPERATOR_STATE_KEY,state);return state;
+}
 function initOperatorState(){
-  var state=load(OPERATOR_STATE_KEY);
-  if(state&&state.version===3&&state.activeDayId&&state.days&&state.days[state.activeDayId])return state;
+  var state=load(OPERATOR_STATE_KEY)||load('bth_operator_state');
+  if(state&&state.version===3){state.reminders=state.reminders||{fired:{}};state.reminders.fired=state.reminders.fired||{};state.order=state.order||Object.keys(state.days||{});Object.keys(state.days||{}).forEach(function(id){state.days[id].labelDate=canonicalDate(state.days[id].labelDate);});}
+  if(state&&state.version===3&&state.activeDayId&&state.days&&state.days[state.activeDayId])return migrateOperatorStorage(state);
   var id=operatorDayId(),label=todayKey();
   state={version:3,activeDayId:id,order:[id],days:{},reminders:{fired:{}}};
-  state.days[id]={id:id,labelDate:label,createdAt:new Date().toISOString(),submitted:false,submittedAt:null,log:load('bth_d_'+label)||{},tasks:load('bth_t_'+label)||null};
-  save(OPERATOR_STATE_KEY,state);return state;
+  state.days[id]={id:id,labelDate:label,createdAt:new Date().toISOString(),submitted:false,submittedAt:null,log:legacyLoad('bth_d_',label)||{},tasks:legacyLoad('bth_t_',label)||null};
+  return migrateOperatorStorage(state);
 }
 var OPERATOR_STATE=initOperatorState();
 function persistOperator(){save(OPERATOR_STATE_KEY,OPERATOR_STATE);}
 function findOperatorDay(ref){
   if(OPERATOR_STATE.days[ref])return OPERATOR_STATE.days[ref];
-  for(var i=OPERATOR_STATE.order.length-1;i>=0;i--){var d=OPERATOR_STATE.days[OPERATOR_STATE.order[i]];if(d&&d.labelDate===ref)return d;}
+  for(var i=OPERATOR_STATE.order.length-1;i>=0;i--){var d=OPERATOR_STATE.days[OPERATOR_STATE.order[i]];if(d&&canonicalDate(d.labelDate)===canonicalDate(ref))return d;}
   return null;
 }
 function ensureOperatorDay(label){
   var existing=findOperatorDay(label);if(existing)return existing;
-  var id=operatorDayId(),day={id:id,labelDate:label,createdAt:new Date().toISOString(),submitted:false,submittedAt:null,log:load('bth_d_'+label)||{},tasks:load('bth_t_'+label)||null};
+  var id=operatorDayId(),day={id:id,labelDate:label,createdAt:new Date().toISOString(),submitted:false,submittedAt:null,log:legacyLoad('bth_d_',label)||{},tasks:legacyLoad('bth_t_',label)||null};
   OPERATOR_STATE.days[id]=day;OPERATOR_STATE.order.push(id);persistOperator();return day;
 }
 function operatorDate(ref){var day=findOperatorDay(ref),key=day?day.labelDate:ref,p=String(key).split('-').map(Number);return new Date(p[0],p[1]-1,p[2]);}
-function getLog(key){var day=findOperatorDay(key);return day?day.log:(load('bth_d_'+key)||{});}
+function getLog(key){var day=findOperatorDay(key);return day?day.log:(legacyLoad('bth_d_',key)||{});}
 function setLog(key,data){var day=findOperatorDay(key);if(day){day.log=data;persistOperator();}else save('bth_d_'+key,data);}
-function getTasks(key){var day=findOperatorDay(key);return day?day.tasks:(load('bth_t_'+key)||null);}
+function getTasks(key){var day=findOperatorDay(key);return day?day.tasks:(legacyLoad('bth_t_',key)||null);}
 function setTasks(key,data){var day=findOperatorDay(key);if(day){day.tasks=data;persistOperator();}else save('bth_t_'+key,data);}
 function getGoals(){return Object.assign({},DEFAULT_GOALS,load('bth_goals')||{});}
 function getSchedule(){return load('bth_schedule')||DEFAULT_SCHEDULE.map(function(s){return Object.assign({},s);});}
 function scoreDay(d){
-  if(!d||!Object.keys(d).length)return null;
+  if(!d||d.off||!Object.keys(d).length)return null;
   var pts=0,goals=getGoals(),sl=parseFloat(d.sleep)||0,en=parseInt(d.energy)||0;
   pts+=Math.min(20,(sl/8)*20);pts+=Math.min(10,(en/7)*10);
   BTH_ITEMS.forEach(function(it){if(d[it.key])pts+=5;});
@@ -387,11 +411,11 @@ function scoreDay(d){
   return Math.round(Math.min(100,pts));
 }
 function scoreToGrade(s){if(s===null)return null;if(s>=93)return'A+';if(s>=90)return'A';if(s>=87)return'A-';if(s>=83)return'B+';if(s>=80)return'B';if(s>=77)return'B-';if(s>=73)return'C+';if(s>=70)return'C';if(s>=67)return'C-';if(s>=60)return'D';return'F';}
-function calcStreak(fn){var streak=0,d=tyNow();for(var i=0;i<90;i++){var k=dateKey(d),lg=getLog(k);if(!lg||!Object.keys(lg).length)break;if(!fn(lg))break;streak++;d.setDate(d.getDate()-1);}return streak;}
+function calcStreak(fn){var streak=0,d=tyNow();for(var i=0;i<90;i++){var k=dateKey(d),lg=getLog(k);if(lg.off){d.setDate(d.getDate()-1);continue;}if(!lg||!Object.keys(lg).length)break;if(!fn(lg))break;streak++;d.setDate(d.getDate()-1);}return streak;}
 function bthStreak(){return calcStreak(function(l){return BTH_ITEMS.every(function(it){return l[it.key];});});}
-function gymStreak(){return calcStreak(function(l){return!!l.gym;});}
+function gymStreak(){var n=0,d=tyNow();for(var i=0;i<90;i++){var lg=getLog(dateKey(d));if(isGymDay(d)&&!lg.off){if(!lg.gym)break;n++;}d.setDate(d.getDate()-1);}return n;}
 function readStreak(){return calcStreak(function(l){return!!l.reading;});}
-var activeLogKey=OPERATOR_STATE.activeDayId,saveTimer=null,trainWeek=parseInt(load('bth_train_week'))||1,trainDay=parseInt(load('bth_train_day'))||1,trainView='program',tempGoals={};
+var activeLogKey=OPERATOR_STATE.activeDayId,saveTimers={},pendingSaves={},trainWeek=parseInt(load('bth_train_week'))||1,trainDay=parseInt(load('bth_train_day'))||1,trainView='program',tempGoals={};
 var toastTimer;
 function toast(msg,dur){dur=dur||2400;var el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(function(){el.classList.remove('show');},dur);}
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
@@ -399,60 +423,66 @@ function switchTab(name,btn){document.querySelectorAll('.tab').forEach(function(
 function toggleCollapsible(header){var body=header.nextElementSibling,open=body.classList.contains('open');body.classList.toggle('open',!open);header.classList.toggle('open',!open);header.setAttribute('aria-expanded',String(!open));}
 function renderToday(){
   var isYest=activeLogKey!==OPERATOR_STATE.activeDayId,log=getLog(activeLogKey),goals=getGoals(),dateD=operatorDate(activeLogKey);
-  var isGymDay=GYM_DAYS.indexOf(dateD.getDay())!==-1;
+  var gymToday=isGymDay(dateD);
   var waterPct=Math.min(100,((parseFloat(log.water)||0)/goals.water)*100);
   var html='<div class="page-head"><div class="page-title">BTH OPERATOR</div><div class="page-sub">'+formatDate(dateD)+'</div><div id="today-micro"></div></div>';
   if(isYest){html+='<div class="yesterday-banner"><div class="yesterday-text">Viewing another operator day</div><div class="yesterday-back" role="button" tabindex="0" onclick="returnToToday()">← Active Day</div></div>';}
   html+=twTodayCardHtml();
+  html+='<div class="card"><label><input type="checkbox" '+(log.off?'checked ':'')+'onchange="toggleOffDay()"> Off (sick / vacation)</label></div>';
   html+='<div class="card"><div class="card-title">SLEEP + ENERGY</div>'
     +'<div class="input-row"><div><div class="input-label">Sleep</div><div class="input-sub">hours</div></div><input class="num-input" type="number" step="0.5" min="0" max="12" placeholder="—" value="'+esc(log.sleep||'')+'" oninput="db(\'sleep\',this.value)"></div>'
     +'<div class="input-row"><div><div class="input-label">Energy</div><div class="input-sub">1 – 7</div></div><input class="num-input" type="number" min="1" max="7" placeholder="—" value="'+esc(log.energy||'')+'" oninput="db(\'energy\',this.value)"></div>'
     +'<div class="input-row"><div><div class="input-label">Water</div><div class="input-sub">goal '+goals.water+' glasses</div></div><input class="num-input" type="number" min="0" max="20" placeholder="—" value="'+esc(log.water||'')+'" oninput="db(\'water\',this.value,\'water-bar\',\'bar-blue\','+goals.water+')"></div>'
     +'<div class="bar-wrap"><div class="bar-fill '+(waterPct>=100?'bar-green':'bar-blue')+'" id="water-bar" style="width:'+waterPct+'%"></div></div></div>';
-  html+='<div class="card"><div class="card-title">LOGGED TODAY</div>'
-    +'<div class="input-row"><div class="input-label">'+(isGymDay?'Gym session':'Gym (optional)')+'</div><div role="button" tabindex="0" aria-pressed="'+!!log.gym+'" onclick="toggleField(\'gym\')" style="cursor:pointer;font-size:22px;">'+(log.gym?'✓':'○')+'</div></div>'
-    +'<div class="input-row"><div class="input-label">Reading</div><div role="button" tabindex="0" aria-pressed="'+!!log.reading+'" onclick="toggleField(\'reading\')" style="cursor:pointer;font-size:22px;">'+(log.reading?'✓':'○')+'</div></div>'
-    +'<div class="input-row"><div class="input-label">Working today</div><div role="button" tabindex="0" aria-pressed="'+!!log.working+'" onclick="toggleField(\'working\')" style="cursor:pointer;font-size:22px;">'+(log.working?'✓':'○')+'</div></div>'
-    +'</div>';
+  html+='<div class="card"><div class="card-title">LOGGED TODAY</div>';
+  [{id:'gym',key:'gym',label:gymToday?'Gym session':'Gym (optional)'},{id:'read',key:'reading',label:'Reading'},{id:'work',key:'working',label:'Working today'}].forEach(function(row){
+    if(!getSchedule().some(function(item){return item.id===row.id||item.id===row.key;}))return;
+    html+='<div class="input-row"><div class="input-label">'+row.label+'</div><div role="button" tabindex="0" aria-pressed="'+!!log[row.key]+'" onclick="toggleField(\''+row.key+'\')" style="cursor:pointer;font-size:22px;">'+(log[row.key]?'✓':'○')+'</div></div>';
+  });
+  html+='</div>';
   var allBTH=BTH_ITEMS.every(function(it){return log[it.key];});
   html+='<div class="card"><div class="card-title">BTH CHECKLIST</div><div id="btch-all-done" class="btch-all-done" style="display:'+(allBTH?'block':'none')+'">FULL BTH DAY — LOCKED IN</div><div class="btch-grid">';
   BTH_ITEMS.forEach(function(it){html+='<div class="btch-item '+(log[it.key]?'done':'')+'" role="button" tabindex="0" aria-pressed="'+!!log[it.key]+'" onclick="toggleBTH(\''+it.key+'\')">'+it.icon+' <span class="btch-label">'+it.label+'</span><span class="btch-check">'+(log[it.key]?'✓':'')+'</span></div>';});
   html+='</div></div>';
   html+=renderTasksHtml();
   html+=renderScheduleHtml();
-  if(!isYest){html+='<div class="card" style="border-left-color:var(--gold);"><div class="card-title">CLOSE THE OPERATOR DAY</div><div class="input-sub" style="line-height:1.6;margin-bottom:12px;">This day stays open across midnight. Submit only when you are ready to lock it and start the next operator day.</div><button class="btn-primary" onclick="submitOperatorDay()">SUBMIT THE DAY</button></div><div style="text-align:center;padding:8px 0 4px;"><span onclick="switchToYesterday()" style="font-family:\'DM Sans\',sans-serif;font-size:12px;font-weight:600;color:var(--muted);cursor:pointer;text-transform:uppercase;letter-spacing:.8px;text-decoration:underline;">View Yesterday</span></div>';}
+  if(!isYest){html+='<div class="card" style="border-left-color:var(--gold);"><div class="card-title">CLOSE THE OPERATOR DAY</div><div class="input-sub" style="line-height:1.6;margin-bottom:12px;">Submit when you are ready to close this operator day and open the next date. An unfinished day closes automatically at '+cutoffTime()+'.</div><button class="btn-primary" onclick="submitOperatorDay()">SUBMIT THE DAY</button></div><div style="text-align:center;padding:8px 0 4px;"><span onclick="switchToYesterday()" style="font-family:\'DM Sans\',sans-serif;font-size:12px;font-weight:600;color:var(--muted);cursor:pointer;text-transform:uppercase;letter-spacing:.8px;text-decoration:underline;">View Yesterday</span></div>';}
+  if(isYest)html=html.replace(/\s(?:oninput|onchange|onclick)="[^"]*"/g,function(a){return a.indexOf('returnToToday()')!==-1?a:'';}).replace(/<(input|button|select|textarea)\b/g,'<$1 disabled');
   document.getElementById('tab-today').innerHTML=html;
   renderMicroSummary();
 }
 function renderTasksHtml(){
-  var taskData=getTasks(activeLogKey),after2pm=new Date().getHours()>=14;
+  var taskData=getTasks(activeLogKey),afterStart=operatorDate(activeLogKey).getTime()<=opDate(new Date()).getTime();
   var backups=["Review weekly goal","30-min walk","Message one person you've been meaning to reach"];
   var html='<div class="card"><div class="card-title">TODAY\'S TASKS</div>';
   if(taskData&&taskData.tasks&&taskData.tasks.length){
     var allDone=taskData.completed&&taskData.completed.every(Boolean);
     if(allDone)html+='<div style="text-align:center;color:var(--gold-text);font-family:\'Oswald\',sans-serif;font-size:14px;font-weight:600;padding:6px 0 10px;letter-spacing:1px;">ALL DONE — LOCKED IN</div>';
     taskData.tasks.forEach(function(t,i){var done=taskData.completed&&taskData.completed[i];html+='<div class="task-item"><div class="task-check '+(done?'done':'')+'" role="button" tabindex="0" aria-pressed="'+!!done+'" onclick="toggleTask('+i+')">'+(done?'✓':'')+'</div><div class="task-text '+(done?'done':'')+'">'+esc(t)+'</div></div>';});
-  } else if(after2pm){
+  } else if(afterStart){
     html+='<div style="font-size:11px;color:var(--muted);font-style:italic;margin-bottom:8px;">No tasks set — backup tasks:</div>';
     backups.forEach(function(t,i){var td=getTasks(activeLogKey),done=td&&td.completed&&td.completed[i];html+='<div class="task-item"><div class="task-check '+(done?'done':'')+'" role="button" tabindex="0" aria-pressed="'+!!done+'" onclick="checkBackup('+i+')">'+(done?'✓':'')+'</div><div class="task-text '+(done?'done':'')+'">'+esc(t)+'</div></div>';});
-  } else {html+='<div class="no-data">No tasks yet<br><span style="font-size:11px;">Backup tasks appear after 2 PM</span></div>';}
-  return html+'</div>';
+  } else {html+='<div class="no-data">No tasks yet<br><span style="font-size:11px;">Backups show after your day starts ('+cutoffTime()+')</span></div>';}
+  return html+'<div class="input-row"><input id="new-task" class="tw-input" aria-label="Your task" placeholder="Your task"><button class="btn-secondary" onclick="addOwnTask()">ADD</button></div></div>';
 }
+function addOwnTask(){if(!editableDay())return;var el=document.getElementById('new-task'),text=(el.value||'').trim();if(!text)return;var td=getTasks(activeLogKey)||{tasks:[],completed:[]};td.completed=td.completed||[];td.tasks.push(text);td.completed.push(false);setTasks(activeLogKey,td);renderToday();}
+function toggleOffDay(){if(!editableDay())return;var log=getLog(activeLogKey);log.off=!log.off;setLog(activeLogKey,log);renderToday();}
 var SCHED_DAYS=['S','M','T','W','T','F','S'],SCHED_DAY_NAMES=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],schedEditing=false;
 function schedOnDay(item,dow){return !Array.isArray(item.days)||!item.days.length||item.days.indexOf(dow)!==-1;}
 function schedDaysText(item){if(!Array.isArray(item.days)||!item.days.length||item.days.length===7)return 'Every day';var d=item.days.slice().sort();if(d.join()==='1,2,3,4,5')return 'Weekdays';if(d.join()==='0,6')return 'Weekends';return d.map(function(i){return SCHED_DAY_NAMES[i].slice(0,3);}).join(' · ');}
 function renderScheduleHtml(){
-  var sched=getSchedule(),dow=operatorDate(OPERATOR_STATE.activeDayId).getDay();
+  var sched=getSchedule(),dow=operatorDate(activeLogKey).getDay();
   var html='<div class="card" id="sched-card"><div class="collapsible-header open" role="button" tabindex="0" aria-expanded="true" onclick="toggleCollapsible(this)"><div class="card-title" style="margin:0;">SCHEDULE</div><div class="collapsible-arrow">▼</div></div><div class="collapsible-body open"><div style="padding-top:10px;">';
+  html+='<label class="input-row">My day ends at <input type="time" class="sched-time" value="'+cutoffTime()+'" onchange="setOpCutoff(this.value)"></label>';
   if(!schedEditing){
-    var today=sched.filter(function(item){return schedOnDay(item,dow);});
+    var today=sched.filter(function(item){return schedOnDay(item,dow);}).sort(function(a,b){return nightMinutes(a.time)-nightMinutes(b.time);});
     if(!today.length)html+='<div class="input-sub" style="padding:10px 0;">Nothing scheduled for '+SCHED_DAY_NAMES[dow]+'.</div>';
     today.forEach(function(item){var idx=sched.indexOf(item);html+='<div class="sched-item"><input type="time" class="sched-time" aria-label="Time for '+esc(item.label)+'" value="'+esc(item.time)+'" onchange="updateSchedTime('+idx+',this.value)"><div class="sched-label">'+esc(item.label)+'</div><div class="input-sub" style="margin-left:auto;">'+esc(schedDaysText(item))+'</div></div>';});
     html+='<button class="btn-secondary" style="margin-top:12px;" onclick="schedSetEditing(true)">EDIT SCHEDULE</button>';
     return html+'</div></div></div>';
   }
-  html+='<div class="input-sub" style="margin-bottom:6px;line-height:1.5;">Rename, re-time, reorder or remove. Pick days to limit an item; no days picked = every day. Order is yours, so a night shift can run past midnight.</div>';
-  sched.forEach(function(item,idx){
+  html+='<div class="input-sub" style="margin-bottom:6px;line-height:1.5;">Rename, re-time, reorder or remove. Pick days to limit an item; no days picked = every day. Items are ordered from when your operator day starts.</div>';
+  sched.slice().sort(function(a,b){return nightMinutes(a.time)-nightMinutes(b.time);}).forEach(function(item){var idx=sched.indexOf(item);
     html+='<div class="sched-edit" style="padding:10px 0;border-bottom:1px solid var(--gray);">'
       +'<div style="display:flex;align-items:center;gap:8px;"><input class="sched-name" aria-label="Item name" maxlength="40" value="'+esc(item.label)+'" onchange="schedRename('+idx+',this.value)" style="flex:1;min-width:0;font:inherit;font-size:16px;color:var(--ink);background:var(--mid);border:1px solid var(--gray);border-radius:2px;padding:8px;">'
       +'<button class="sched-btn" aria-label="Remove '+esc(item.label)+'" onclick="schedRemove('+idx+')">✕</button></div>'
@@ -472,27 +502,39 @@ function schedRerender(){var card=document.getElementById('sched-card');if(!card
 function schedSetEditing(on){schedEditing=!!on;schedRerender();if(!on)toast('Schedule saved ✓');}
 function schedRename(idx,val){var sched=getSchedule(),v=String(val).trim().slice(0,40);if(!v){toast('Name can\'t be empty');schedRerender();return;}sched[idx].label=v;save('bth_schedule',sched);}
 function schedMove(idx,dir){var sched=getSchedule(),j=idx+dir;if(j<0||j>=sched.length)return;var t=sched[idx];sched[idx]=sched[j];sched[j]=t;save('bth_schedule',sched);schedRerender();}
-function schedRemove(idx){var sched=getSchedule();if(!confirm('Remove "'+sched[idx].label+'" from your schedule?'))return;sched.splice(idx,1);save('bth_schedule',sched);schedRerender();toast('Removed');}
+function schedRemove(idx){var sched=getSchedule();if(!confirm('Remove "'+sched[idx].label+'" from your schedule?'))return;sched.splice(idx,1);save('bth_schedule',sched);renderToday();toast('Removed');}
 function schedToggleDay(idx,day){var sched=getSchedule(),d=Array.isArray(sched[idx].days)?sched[idx].days.slice():[],at=d.indexOf(day);if(at===-1)d.push(day);else d.splice(at,1);d.sort();if(d.length===7)d=[];if(d.length)sched[idx].days=d;else delete sched[idx].days;save('bth_schedule',sched);schedRerender();}
 function schedAdd(){var sched=getSchedule();sched.push({id:'c'+Date.now().toString(36),label:'New item',time:'09:00'});save('bth_schedule',sched);schedRerender();var names=document.querySelectorAll('#sched-card .sched-name');var last=names[names.length-1];if(last){last.focus();last.select();}}
 function schedReset(){if(!confirm('Reset your schedule to the starting 8 items? Your edits will be lost.'))return;save('bth_schedule',DEFAULT_SCHEDULE.map(function(s){return Object.assign({},s);}));schedRerender();toast('Schedule reset');}
 function renderMicroSummary(){var el=document.getElementById('today-micro');if(!el)return;var log=getLog(activeLogKey);if(!Object.keys(log).length){el.textContent=twIsSetUp()||TW.moneyGoal!==null?'':'No data logged yet — tap to start';return;}var bthCount=BTH_ITEMS.filter(function(it){return log[it.key];}).length;var parts=[];if(log.sleep)parts.push(log.sleep+'h sleep');if(log.energy)parts.push(log.energy+'/7 energy');if(log.protein)parts.push(log.protein+'g protein');parts.push(bthCount+'/6 BTH');el.textContent=parts.join(' · ');}
-function db(field,value,barId,colorClass,goal){clearTimeout(saveTimer);saveTimer=setTimeout(function(){var log=getLog(activeLogKey);log[field]=value;setLog(activeLogKey,log);if(field==='sleep'){twBridgeIn('sleep',value);twRefreshSum();}if(barId&&goal){var bar=document.getElementById(barId);if(bar){var pct=Math.min(100,((parseFloat(value)||0)/goal)*100);bar.style.width=pct+'%';bar.className='bar-fill '+(pct>=100?'bar-green':colorClass);}}renderMicroSummary();},600);}
-function toggleField(field){var log=getLog(activeLogKey);log[field]=!log[field];setLog(activeLogKey,log);if(field==='gym')twBridgeIn('gym',log.gym);renderToday();}
-function toggleBTH(key){var log=getLog(activeLogKey);log[key]=!log[key];setLog(activeLogKey,log);document.querySelectorAll('.btch-item').forEach(function(el){var m=el.getAttribute('onclick').match(/'([^']+)'/);if(!m)return;var k=m[1];el.classList.toggle('done',!!log[k]);el.querySelector('.btch-check').textContent=log[k]?'✓':'';});var allDone=BTH_ITEMS.every(function(it){return log[it.key];});var banner=document.getElementById('btch-all-done');if(banner)banner.style.display=allDone?'block':'none';renderMicroSummary();}
-function toggleTask(idx){var td=getTasks(activeLogKey)||{tasks:[],completed:[]};if(!td.completed)td.completed=[];td.completed[idx]=!td.completed[idx];setTasks(activeLogKey,td);renderToday();}
-function checkBackup(idx){var backups=["Review weekly goal","30-min walk","Message one person you've been meaning to reach"];var ex=getTasks(activeLogKey);if(!ex||!ex.tasks||!ex.tasks.length){var c=[false,false,false];c[idx]=true;setTasks(activeLogKey,{tasks:backups,completed:c,setAt:new Date().toISOString()});}else{if(!ex.completed)ex.completed=[];ex.completed[idx]=!ex.completed[idx];setTasks(activeLogKey,ex);}renderToday();}
-function updateSchedTime(idx,val){var sched=getSchedule();sched[idx].time=val;save('bth_schedule',sched);toast('Schedule updated ✓');}
-function switchToYesterday(){activeLogKey=ensureOperatorDay(yesterdayKey()).id;renderToday();toast('Viewing yesterday');}
-function returnToToday(){activeLogKey=OPERATOR_STATE.activeDayId;renderToday();}
-function submitOperatorDay(){
-  if(activeLogKey!==OPERATOR_STATE.activeDayId){toast('Return to the active day first');return;}
-  var current=findOperatorDay(OPERATOR_STATE.activeDayId),oldTasks=current.tasks||{tasks:[],completed:[]};
-  current.submitted=true;current.submittedAt=new Date().toISOString();
-  var id=operatorDayId(),carry=(oldTasks.tasks||[]).filter(function(t,i){return t&&!oldTasks.completed[i];});
-  OPERATOR_STATE.days[id]={id:id,labelDate:todayKey(),createdAt:new Date().toISOString(),submitted:false,submittedAt:null,log:{},tasks:carry.length?{tasks:carry,completed:carry.map(function(){return false;}),setAt:new Date().toISOString()}:null};
-  OPERATOR_STATE.order.push(id);OPERATOR_STATE.activeDayId=id;activeLogKey=id;persistOperator();renderToday();toast('Operator day submitted — fresh day open');
+function queueFieldSave(field,value,barId,colorClass,goal){
+  if(!editableDay())return;var dayId=activeLogKey,key=dayId+':'+field;clearTimeout(saveTimers[key]);
+  pendingSaves[key]=function(){delete pendingSaves[key];delete saveTimers[key];var log=getLog(dayId);log[field]=value;setLog(dayId,log);if(dayId===activeLogKey){if(field==='sleep'){twBridgeIn('sleep',value);twRefreshSum();}var bar=barId&&document.getElementById(barId);if(bar&&goal){var pct=Math.min(100,((parseFloat(value)||0)/goal)*100);bar.style.width=pct+'%';bar.className='bar-fill '+(pct>=100?'bar-green':colorClass);}renderMicroSummary();}};
+  saveTimers[key]=setTimeout(pendingSaves[key],600);
 }
+function flushFieldSaves(){Object.keys(pendingSaves).forEach(function(k){clearTimeout(saveTimers[k]);pendingSaves[k]();});}
+function db(field,value,barId,colorClass,goal){queueFieldSave(field,value,barId,colorClass,goal);}
+
+function toggleField(field){if(!editableDay())return;var log=getLog(activeLogKey);log[field]=!log[field];setLog(activeLogKey,log);if(field==='gym')twBridgeIn('gym',log.gym);renderToday();}
+function toggleBTH(key){if(!editableDay())return;var log=getLog(activeLogKey);log[key]=!log[key];setLog(activeLogKey,log);document.querySelectorAll('.btch-item').forEach(function(el){var m=el.getAttribute('onclick').match(/'([^']+)'/);if(!m)return;var k=m[1];el.classList.toggle('done',!!log[k]);el.querySelector('.btch-check').textContent=log[k]?'✓':'';});var allDone=BTH_ITEMS.every(function(it){return log[it.key];});var banner=document.getElementById('btch-all-done');if(banner)banner.style.display=allDone?'block':'none';renderMicroSummary();}
+function toggleTask(idx){if(!editableDay())return;var td=getTasks(activeLogKey)||{tasks:[],completed:[]};if(!td.completed)td.completed=[];td.completed[idx]=!td.completed[idx];setTasks(activeLogKey,td);renderToday();}
+function checkBackup(idx){if(!editableDay())return;var backups=["Review weekly goal","30-min walk","Message one person you've been meaning to reach"];var ex=getTasks(activeLogKey);if(!ex||!ex.tasks||!ex.tasks.length){var c=[false,false,false];c[idx]=true;setTasks(activeLogKey,{tasks:backups,completed:c,setAt:new Date().toISOString()});}else{if(!ex.completed)ex.completed=[];ex.completed[idx]=!ex.completed[idx];setTasks(activeLogKey,ex);}renderToday();}
+function updateSchedTime(idx,val){if(!editableDay())return;var sched=getSchedule();sched[idx].time=val;save('bth_schedule',sched);toast('Schedule updated ✓');}
+function switchToYesterday(){flushFieldSaves();activeLogKey=yesterdayKey();renderToday();toast('Viewing yesterday');}
+function returnToToday(){activeLogKey=OPERATOR_STATE.activeDayId;renderToday();}
+function openNextDay(label,auto){
+  flushFieldSaves();var current=findOperatorDay(OPERATOR_STATE.activeDayId),oldTasks=current.tasks||{tasks:[],completed:[]};
+  current.submitted=true;current.auto=!!auto;current.submittedAt=new Date().toISOString();
+  var carry=(oldTasks.tasks||[]).filter(function(t,i){return t&&!(oldTasks.completed||[])[i];});
+  var next=findOperatorDay(label);if(!next){var id=operatorDayId();next={id:id,labelDate:label,createdAt:new Date().toISOString(),submitted:false,submittedAt:null,log:{},tasks:carry.length?{tasks:carry,completed:carry.map(function(){return false;}),setAt:new Date().toISOString()}:null};OPERATOR_STATE.days[id]=next;OPERATOR_STATE.order.push(id);}
+  OPERATOR_STATE.activeDayId=next.id;activeLogKey=next.id;persistOperator();
+}
+function autoRollover(){var current=findOperatorDay(OPERATOR_STATE.activeDayId);if(operatorDate(current.id).getTime()>=operatorDate(todayKey()).getTime())return false;var viewingActive=editableDay(),viewed=activeLogKey;openNextDay(todayKey(),true);if(typeof twDay!=='undefined'&&twOffset===0)twDay=twTodayIdx();if(viewingActive)renderToday();else activeLogKey=viewed;return true;}
+function submitOperatorDay(){
+  if(!editableDay()){toast('Return to the active day first');return;}
+  var date=operatorDate(OPERATOR_STATE.activeDayId);date.setDate(date.getDate()+1);openNextDay(dateKey(date),false);renderToday();toast('Operator day submitted — fresh day open');
+}
+
 function renderTrain(){
   var html='<div class="page-head"><div class="page-title">TRAIN</div><div class="page-sub">'+esc(PHASE2.name)+'</div></div>';
   html+='<div style="display:flex;gap:6px;margin-bottom:16px;"><button class="sel-btn '+(trainView==='program'?'active':'')+'" onclick="setTrainView(\'program\')">PROGRAM</button><button class="sel-btn '+(trainView==='create'?'active':'')+'" onclick="setTrainView(\'create\')">+ CREATE</button><button class="sel-btn '+(trainView==='my'?'active':'')+'" onclick="setTrainView(\'my\')">MY WORKOUTS</button></div>';
@@ -592,12 +634,15 @@ function renderNutrition(){
   html+='</div>';
   document.getElementById('tab-nutrition').innerHTML=html;
 }
-function dbNut(field,value,barId,colorClass,goal){clearTimeout(saveTimer);saveTimer=setTimeout(function(){var log=getLog(activeLogKey);log[field]=value;setLog(activeLogKey,log);var bar=document.getElementById(barId);if(bar){var pct=Math.min(100,((parseFloat(value)||0)/goal)*100);bar.style.width=pct+'%';bar.className='bar-fill '+(pct>=100?'bar-green':colorClass);}},600);}
+function dbNut(field,value,barId,colorClass,goal){queueFieldSave(field,value,barId,colorClass,goal);}
 function saveGoals(){var current=getGoals();save('bth_goals',Object.assign({},current,tempGoals));tempGoals={};toast('Goals saved ✓');renderNutrition();}
+var reviewOffset=0;
+function reviewShift(n){reviewOffset=Math.min(0,reviewOffset+n);renderWeek();}
+function dayInProgress(k){var d=findOperatorDay(k);return !!d&&d.id===OPERATOR_STATE.activeDayId&&!d.submitted;}
 function renderWeekReview(){
-  var keys=weekKeys(),logs=keys.map(function(k){return{key:k,log:getLog(k)};});
+  var keys=weekKeys(reviewOffset),logs=keys.map(function(k){return{key:k,log:getLog(k)};}).filter(function(d){return !d.log.off&&!dayInProgress(d.key);});
   var loggedDays=logs.filter(function(d){return Object.keys(d.log).length>0;}).length;
-  var html='<div class="card grade-card">';
+  var html='<div class="tw-weeknav"><button class="btn-secondary" onclick="reviewShift(-1)">◀ LAST WEEK</button><span>'+esc(keys[0])+' – '+esc(keys[6])+'</span><button class="btn-secondary" onclick="reviewShift(1)"'+(reviewOffset===0?' disabled':'')+'>NEXT WEEK ▶</button></div><div class="card grade-card">';
   if(loggedDays<2){html+='<div class="no-data"><div style="color:var(--ink);font-family:\'Oswald\',sans-serif;font-size:16px;font-weight:600;margin-bottom:4px;">No grade yet</div>Log at least 2 days to see your weekly grade.</div>';}
   else{var scores=logs.map(function(d){return scoreDay(d.log);}).filter(function(s){return s!==null;});var avg=Math.round(scores.reduce(function(a,b){return a+b;},0)/scores.length);var grade=scoreToGrade(avg);var col=avg>=70?'var(--gold-text)':'var(--ink)';var bthDays=logs.filter(function(d){return BTH_ITEMS.every(function(it){return d.log[it.key];});}).length;var gymDays=logs.filter(function(d){return d.log.gym;}).length;var sleepVals=logs.map(function(d){return parseFloat(d.log.sleep);}).filter(function(v){return v>0;});var avgSleep=sleepVals.length?(sleepVals.reduce(function(a,b){return a+b;},0)/sleepVals.length).toFixed(1)+'h':'—';html+='<div class="grade-letter" style="color:'+col+'">'+grade+'</div><div class="grade-score">'+avg+'/100 AVG · '+loggedDays+' days logged</div><div class="grade-breakdown">';[{label:'BTH',val:bthDays+' days'},{label:'GYM',val:gymDays+' days'},{label:'SLEEP',val:avgSleep}].forEach(function(b){html+='<div class="grade-item"><div class="grade-item-val">'+b.val+'</div><div class="grade-item-lbl">'+b.label+'</div></div>';});html+='</div>';}
   html+='</div>';
@@ -611,7 +656,7 @@ function renderWeekReview(){
   [{label:'BTH',val:bth,best:bthB},{label:'Gym',val:gym,best:gymB},{label:'Read',val:read,best:readB}].forEach(function(s){html+='<div class="streak-stat"><div class="streak-num">'+s.val+'</div><div class="streak-label">'+s.label+'</div><div style="font-family:\'DM Sans\',sans-serif;font-variant-numeric:tabular-nums;font-size:9px;color:var(--muted);">best '+s.best+'</div></div>';});
   html+='</div></div>';
   html+='<div class="card"><div class="card-title">DAY BREAKDOWN</div>';
-  keys.forEach(function(k){var lg=getLog(k),isToday=k===todayKey(),score=scoreDay(lg);html+='<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--gray);"><div style="font-family:\'DM Sans\',sans-serif;font-size:12px;font-weight:600;'+(isToday?'color:var(--gold-text)':'color:var(--muted)')+';width:32px;">'+formatDayLabel(k)+'</div><div style="flex:1;">';if(score!==null){var g=scoreToGrade(score),gc=score>=70?'var(--gold-text)':'var(--ink)';html+='<div style="display:flex;align-items:center;gap:8px;"><span style="font-family:\'Oswald\',sans-serif;font-size:16px;font-weight:600;color:'+gc+';">'+g+'</span><span style="font-family:\'DM Sans\',sans-serif;font-size:12px;color:var(--muted);">'+score+'/100</span>'+(lg.gym?'<span style="font-size:11px;font-weight:700;color:var(--ink);">GYM</span>':'')+(BTH_ITEMS.every(function(it){return lg[it.key];})?'<span style="font-size:11px;font-weight:700;color:var(--gold-text);">BTH</span>':'')+'</div>';}else{html+='<span style="font-family:\'DM Sans\',sans-serif;font-size:12px;color:var(--muted);">No data</span>';}html+='</div></div>';});
+  keys.forEach(function(k){var lg=getLog(k),isToday=k===todayKey(),score=scoreDay(lg);html+='<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--gray);"><div style="font-family:\'DM Sans\',sans-serif;font-size:12px;font-weight:600;'+(isToday?'color:var(--gold-text)':'color:var(--muted)')+';width:32px;">'+formatDayLabel(k)+'</div><div style="flex:1;">';if(lg.off){html+='<span>OFF</span>';}else if(dayInProgress(k)&&score===null){html+='<span>IN PROGRESS</span><small>0/100 so far</small>';}else if(score!==null){var g=dayInProgress(k)?'IN PROGRESS':scoreToGrade(score),gc=score>=70?'var(--gold-text)':'var(--ink)';html+='<div style="display:flex;align-items:center;gap:8px;"><span style="font-family:\'Oswald\',sans-serif;font-size:16px;font-weight:600;color:'+gc+';">'+g+'</span><span style="font-family:\'DM Sans\',sans-serif;font-size:12px;color:var(--muted);">'+score+'/100'+(dayInProgress(k)?' so far':'')+'</span>'+(lg.gym?'<span style="font-size:11px;font-weight:700;color:var(--ink);">GYM</span>':'')+(BTH_ITEMS.every(function(it){return lg[it.key];})?'<span style="font-size:11px;font-weight:700;color:var(--gold-text);">BTH</span>':'')+'</div>';}else{html+='<span style="font-family:\'DM Sans\',sans-serif;font-size:12px;color:var(--muted);">No data</span>';}html+='</div></div>';});
   html+='</div>';
   return html;
 }
@@ -631,43 +676,49 @@ var TY_WEEK_ANCHOR={date:'2026-10-19',week:'A'};
 var TY_WEEK_MINS=[{src:'tyweek:work',label:'Hours worked',unit:'hrs',targets:{A:60,B:48}},{src:'tyweek:sleep',label:'Sleep',unit:'hrs',target:51},{src:'tyweek:gym',label:'Gym sessions',unit:'times',target:2},{src:'tyweek:bth',label:'BTH deep work',unit:'hrs',target:4}];
 function twLoad(){var s=load(TYWEEK_KEY),fresh=!s||s.version!==1;if(fresh)s={version:1,goals:[],minimums:[],moneyGoal:null,weeks:{}};s.goals=s.goals||[];s.minimums=s.minimums||[];s.weeks=s.weeks||{};if(s.moneyGoal===undefined)s.moneyGoal=null;s.minimums.forEach(function(m){if(!m.unit)m.unit='times';});if(!s.anchor)s.anchor=TY_WEEK_ANCHOR;if(!s.seeded){TY_WEEK_MINS.forEach(function(t){if(s.minimums.some(function(m){return m.src===t.src;}))return;var m={id:'m-'+t.src.split(':')[1],src:t.src,label:t.label,unit:t.unit,target:t.target||t.targets[TY_WEEK_ANCHOR.week]};if(t.targets)m.targets={A:t.targets.A,B:t.targets.B};s.minimums.push(m);});s.seeded='tyweek-v1';save(TYWEEK_KEY,s);}return s;}
 var TW=twLoad();
-function twSave(){save(TYWEEK_KEY,TW);}
+Object.keys(TW.weeks).forEach(function(k){twSnapshot(TW.weeks[k]);});save(TYWEEK_KEY,TW);
+function twClone(x){return JSON.parse(JSON.stringify(x));}
+// Older weeks have no recoverable goal history; freeze their stored definitions once on upgrade.
+function twSnapshot(w){if(!w.snapshot)w.snapshot={goals:twClone(TW.goals),minimums:twClone(TW.minimums),moneyGoal:TW.moneyGoal};return w;}
+function twConfig(w){return w&&w.snapshot?w.snapshot:TW;}
+function twSave(){var now=twWeekKey(0);Object.keys(TW.weeks).forEach(function(k){if(twKeyTime(k)>=twKeyTime(now))TW.weeks[k].snapshot={goals:twClone(TW.goals),minimums:twClone(TW.minimums),moneyGoal:TW.moneyGoal};});save(TYWEEK_KEY,TW);}
 function twId(p){return p+'-'+Date.now().toString(36)+Math.random().toString(36).slice(2,6);}
 function twFind(list,id){for(var i=0;i<list.length;i++)if(list[i].id===id)return list[i];return null;}
 function twMonday(off){var d=tyNow();d.setHours(12,0,0,0);var w=d.getDay();d.setDate(d.getDate()-(w===0?6:w-1)+7*(off||0));return d;}
 function twWeekKey(off){return dateKey(twMonday(off));}
 function twKeyTime(k){var p=String(k).split('-').map(Number);return new Date(p[0],p[1]-1,p[2]).getTime();}
 function twTodayIdx(){var w=tyNow().getDay();return w===0?6:w-1;}
-function twWeek(off,create){var k=twWeekKey(off);if(!TW.weeks[k]){if(!create)return{checks:{},money:[],hours:{}};TW.weeks[k]={checks:{},money:[],hours:{}};}var w=TW.weeks[k];w.checks=w.checks||{};w.money=w.money||[];w.hours=w.hours||{};return w;}
+function twWeek(off,create){var k=twWeekKey(off);if(!TW.weeks[k]&&TW.weeks[legacyDate(k)])k=legacyDate(k);if(!TW.weeks[k]){if(!create)return{checks:{},money:[],hours:{}};TW.weeks[k]={checks:{},money:[],hours:{}};}var w=TW.weeks[k];w.checks=w.checks||{};w.money=w.money||[];w.hours=w.hours||{};if(create)twSnapshot(w);return w;}
 function twRange(off){var m=twMonday(off),s=new Date(m);s.setDate(m.getDate()+6);return TW_MON[m.getMonth()]+' '+m.getDate()+' – '+(s.getMonth()!==m.getMonth()?TW_MON[s.getMonth()]+' ':'')+s.getDate();}
 function twIsSetUp(){return TW.goals.length>0||TW.minimums.length>0;}
-function twGoalsFor(i){return TW.goals.filter(function(g){return g.days.indexOf(i)!==-1;}).sort(function(a,b){return(a.time||'99').localeCompare(b.time||'99');});}
+function twGoalsFor(i,w){var config=twConfig(w||twWeek(twOffset,false));return config.goals.filter(function(g){return g.days.indexOf(i)!==-1;}).sort(function(a,b){return nightMinutes(a.time)-nightMinutes(b.time);});}
 function twChecked(w,i,id){return!!(w.checks[i]&&w.checks[i][id]);}
-function twMinCount(w,id){var n=0;for(var i=0;i<7;i++)if(twChecked(w,i,id))n++;return n;}
+function twMinCount(w,id){var n=0;for(var i=0;i<7;i++)if(!(w.off&&w.off[i])&&twChecked(w,i,id))n++;return n;}
 function twLetter(off){var a=TW.anchor;if(!a||!a.date)return'';var n=Math.round((twMonday(off).getTime()-twKeyTime(a.date)-12*36e5)/(7*864e5));return((n%2)+2)%2===0?a.week:(a.week==='A'?'B':'A');}
 function twMinTarget(m,off){if(m.targets){var l=twLetter(off);if(l&&m.targets[l])return m.targets[l];}return m.target;}
 function twHrs(w,i,id){return(w.hours&&w.hours[i]&&parseFloat(w.hours[i][id]))||0;}
-function twMinHours(w,id){var n=0;for(var i=0;i<7;i++)n+=twHrs(w,i,id);return Math.round(n*10)/10;}
+function twMinHours(w,id){var n=0;for(var i=0;i<7;i++)if(!(w.off&&w.off[i]))n+=twHrs(w,i,id);return Math.round(n*10)/10;}
 function twMinValue(w,m){return m.unit==='hrs'?twMinHours(w,m.id):twMinCount(w,m.id);}
 // Today's Sleep and Gym rows and the Ty Week Sleep and Gym minimums are one record: a write on
 // either side lands in both, and the week reads the operator log for any day it has no entry for.
 var TW_BRIDGE={'tyweek:sleep':{field:'sleep',unit:'hrs'},'tyweek:gym':{field:'gym',unit:'times'}};
 function twBridgeOf(m){var b=m&&TW_BRIDGE[m.src];return b&&b.unit===m.unit?b:null;}
 function twDayDate(off,i){var d=twMonday(off);d.setDate(d.getDate()+i);return d;}
-function twRead(off){var w=twWeek(off,false),out={checks:{},hours:{},money:w.money};for(var i=0;i<7;i++){out.checks[i]=Object.assign({},w.checks[i]);out.hours[i]=Object.assign({},w.hours[i]);var day=findOperatorDay(dateKey(twDayDate(off,i))),log=day&&day.log;if(!log)continue;TW.minimums.forEach(function(m){var b=twBridgeOf(m);if(!b)return;if(m.unit==='hrs'){var v=parseFloat(log[b.field]);if(!(m.id in out.hours[i])&&v>0)out.hours[i][m.id]=Math.min(24,v);}else if(!(m.id in out.checks[i])&&log[b.field])out.checks[i][m.id]=true;});}return out;}
+function twRead(off){var w=twWeek(off,false),out={checks:{},hours:{},money:w.money,snapshot:w.snapshot,off:{}};for(var i=0;i<7;i++){out.checks[i]=Object.assign({},w.checks[i]);out.hours[i]=Object.assign({},w.hours[i]);var day=findOperatorDay(dateKey(twDayDate(off,i))),log=day&&day.log;if(log&&log.off)out.off[i]=true;if(!log)continue;twConfig(w).minimums.forEach(function(m){var b=twBridgeOf(m);if(!b)return;if(m.unit==='hrs'){var v=parseFloat(log[b.field]);if(!(m.id in out.hours[i])&&v>0)out.hours[i][m.id]=Math.min(24,v);}else if(!(m.id in out.checks[i])&&log[b.field])out.checks[i][m.id]=true;});}return out;}
 function twBridgeOut(i,m,val){var b=twBridgeOf(m);if(!b)return;var day=findOperatorDay(dateKey(twDayDate(twOffset,i)));if(!day)return;var log=day.log||{};log[b.field]=m.unit==='hrs'?(val?String(val):''):!!val;setLog(day.id,log);}
-function twBridgeIn(field,val){var m=null;TW.minimums.forEach(function(x){var b=twBridgeOf(x);if(b&&b.field===field)m=x;});if(!m)return;var d=operatorDate(activeLogKey);d.setHours(12,0,0,0);var wd=d.getDay(),i=wd===0?6:wd-1;d.setDate(d.getDate()-i);var k=dateKey(d);if(!TW.weeks[k])TW.weeks[k]={checks:{},money:[],hours:{}};var w=TW.weeks[k];w.checks=w.checks||{};w.hours=w.hours||{};if(m.unit==='hrs'){var v=parseFloat(val);w.hours[i]=w.hours[i]||{};if(v>0)w.hours[i][m.id]=Math.min(24,Math.round(v*10)/10);else delete w.hours[i][m.id];}else{w.checks[i]=w.checks[i]||{};if(val)w.checks[i][m.id]=true;else delete w.checks[i][m.id];}twSave();}
+function twBridgeIn(field,val){var m=null;TW.minimums.forEach(function(x){var b=twBridgeOf(x);if(b&&b.field===field)m=x;});if(!m)return;var d=operatorDate(activeLogKey);d.setHours(12,0,0,0);var wd=d.getDay(),i=wd===0?6:wd-1;d.setDate(d.getDate()-i);var k=dateKey(d);if(!TW.weeks[k])TW.weeks[k]={checks:{},money:[],hours:{}};var w=twSnapshot(TW.weeks[k]);w.checks=w.checks||{};w.hours=w.hours||{};if(m.unit==='hrs'){var v=parseFloat(val);w.hours[i]=w.hours[i]||{};if(v>0)w.hours[i][m.id]=Math.min(24,Math.round(v*10)/10);else delete w.hours[i][m.id];}else{w.checks[i]=w.checks[i]||{};if(val)w.checks[i][m.id]=true;else delete w.checks[i][m.id];}twSave();}
 function twRefreshSum(){var c=document.querySelector('.tw-sum');if(c)c.outerHTML=twTodayCardHtml();}
 function twNum(n){return String(Math.round(n*10)/10);}
-function twDayStats(w,i){var g=twGoalsFor(i),d=g.filter(function(x){return twChecked(w,i,x.id);}).length;return{done:d,total:g.length};}
+function twDayStats(w,i){if(w.off&&w.off[i])return{done:0,total:0};var g=twGoalsFor(i,w),d=g.filter(function(x){return twChecked(w,i,x.id);}).length;return{done:d,total:g.length};}
 // Week %: each daily-goal check is 1 unit, a times-minimum is worth its target in units,
 // and an hours-minimum is worth 7 units (one per day), filled in proportion to the hours.
-function twWeekStats(w,off){var done=0,total=0,gd=0,gt=0,hit=0,md=0,mt=0;for(var i=0;i<7;i++){var s=twDayStats(w,i);gd+=s.done;gt+=s.total;}done=gd;total=gt;TW.minimums.forEach(function(m){var t=twMinTarget(m,off||0),v=twMinValue(w,m);if(v>=t)hit++;var u=m.unit==='hrs'?7:t,f=Math.min(1,v/t)*u;done+=f;total+=u;md+=f;mt+=u;});return{done:done,total:total,pct:total?Math.round(done/total*100):0,goalsDone:gd,goalsTotal:gt,minsHit:hit,minsTotal:TW.minimums.length,minPct:mt?Math.round(md/mt*100):0};}
-function twSetHours(i,id,val){var v=parseFloat(val);if(isNaN(v)||v<0)v=0;if(v>24){toast('A day has 24 hours');v=24;}var w=twWeek(twOffset,true);w.hours[i]=w.hours[i]||{};if(v)w.hours[i][id]=Math.round(v*10)/10;else delete w.hours[i][id];twBridgeOut(i,twFind(TW.minimums,id),v?Math.round(v*10)/10:0);twSave();renderWeek();}
+// Off days remove their daily goals and proportionally reduce weekly minimum targets and weights.
+function twWeekStats(w,off){var done=0,total=0,gd=0,gt=0,hit=0,md=0,mt=0;for(var i=0;i<7;i++){var s=twDayStats(w,i);gd+=s.done;gt+=s.total;}done=gd;total=gt;twConfig(w).minimums.forEach(function(m){var t=twMinTarget(m,off||0),offCount=Object.keys(w.off||{}).length;t=t*(7-offCount)/7;if(t===0)return;var v=twMinValue(w,m);if(v>=t)hit++;var u=m.unit==='hrs'?7-offCount:t,f=Math.min(1,v/t)*u;done+=f;total+=u;md+=f;mt+=u;});return{done:done,total:total,pct:total?Math.round(done/total*100):0,goalsDone:gd,goalsTotal:gt,minsHit:hit,minsTotal:twConfig(w).minimums.length,minPct:mt?Math.round(md/mt*100):0};}
+function twSetHours(i,id,val){var v=parseFloat(val);if(isNaN(v)||v<0)v=0;if(v>24){toast('A day has 24 hours');v=24;}var w=twWeek(twOffset,true);w.hours[i]=w.hours[i]||{};if(v)w.hours[i][id]=Math.round(v*10)/10;else delete w.hours[i][id];twBridgeOut(i,twFind(twConfig(w).minimums,id),v?Math.round(v*10)/10:0);twSave();renderWeek();}
 function twMoneyTotal(w){return w.money.reduce(function(a,e){return a+(parseFloat(e.amt)||0);},0);}
 function twTime12(t){var m=/^(\d{1,2}):(\d{2})$/.exec(t||'');if(!m)return t||'';var h=+m[1];return(h%12||12)+':'+m[2]+' '+(h<12?'AM':'PM');}
 function twFmt(n,cents){n=Number(n)||0;var neg=n<0,a=Math.abs(n),s=(cents||Math.round(a*100)%100)?a.toFixed(2):String(Math.round(a));s=s.replace(/\B(?=(\d{3})+(?!\d))/g,',');return(neg?'-$':'$')+s;}
-function twEntryDate(ts){try{var d=new Date(ts);if(d.getHours()<6)d.setDate(d.getDate()-1);return TW_DAYS[d.getDay()===0?6:d.getDay()-1]+' '+TW_MON[d.getMonth()]+' '+d.getDate();}catch(e){return'';}}
+function twEntryDate(ts){try{var d=opDate(new Date(ts));return TW_DAYS[d.getDay()===0?6:d.getDay()-1]+' '+TW_MON[d.getMonth()]+' '+d.getDate();}catch(e){return'';}}
 function renderWeek(){
   if(twDay===null)twDay=twTodayIdx();
   var sub=twView==='review'?'Performance + Pipeline + Streaks':twView==='setup'?'Your goals + minimums':(twView==='money'?'Money · ':'Goals · ')+twRange(twOffset);
@@ -685,28 +736,29 @@ function twPickDay(i){twDay=i;renderWeek();}
 function twWeekNavHtml(){return'<div class="tw-weeknav"><button class="tw-arrow" aria-label="Previous week" onclick="twShift(-1)">‹</button><div class="tw-range">'+(twOffset===0?'This week':twRange(twOffset))+(twLetter(twOffset)?' · Week '+twLetter(twOffset):'')+'</div><button class="tw-arrow" aria-label="Next week" onclick="twShift(1)"'+(twOffset>=0?' disabled':'')+'>›</button></div>';}
 function twCheckRow(i,id,on,label,right){return'<div class="task-item"><button class="task-check '+(on?'done':'')+'" aria-pressed="'+on+'" aria-label="'+esc(label)+'" onclick="twToggle('+i+',\''+id+'\')">'+(on?'✓':'')+'</button><div class="task-text '+(on?'done':'')+'" style="font-size:14px;">'+esc(label)+'</div>'+(right||'')+'</div>';}
 function twWeekHtml(){
-  if(!twIsSetUp())return'<div class="card" style="border-left-color:var(--gold);"><div class="card-title">SET UP YOUR WEEK</div><div class="tw-note">Add the goals you want to check off each day and the minimums you want to hit this week.</div><button class="btn-primary" onclick="twSetView(\'setup\')">SET UP YOUR WEEK</button></div>';
+  if(!twConfig(twWeek(twOffset,false)).goals.length&&!twConfig(twWeek(twOffset,false)).minimums.length)return'<div class="card" style="border-left-color:var(--gold);"><div class="card-title">SET UP YOUR WEEK</div><div class="tw-note">Add the goals you want to check off each day and the minimums you want to hit this week.</div><button class="btn-primary" onclick="twSetView(\'setup\')">SET UP YOUR WEEK</button></div>';
   var w=twRead(twOffset),ws=twWeekStats(w,twOffset),todayI=twOffset===0?twTodayIdx():-1,i;
-  var html=twWeekNavHtml();
-  html+='<div class="card"><div class="tw-big">'+ws.pct+'%</div><div class="tw-big-sub">'+(ws.goalsTotal?'Goals '+ws.goalsDone+'/'+ws.goalsTotal:'')+(ws.goalsTotal&&ws.minsTotal?' · ':'')+(ws.minsTotal?(ws.goalsTotal?'Minimums '+ws.minPct+'%':'Weekly minimums'):'')+'</div><div class="tw-bar"><div class="tw-bar-fill" style="width:'+ws.pct+'%"></div></div></div>';
+  var html=twWeekNavHtml();if(Object.keys(w.off||{}).length===7)html+='<div class="card">OFF — no scored days this week</div>';
+  if(Object.keys(w.off||{}).length!==7)html+='<div class="card"><div class="tw-big">'+ws.pct+'%</div><div class="tw-big-sub">'+(ws.goalsTotal?'Goals '+ws.goalsDone+'/'+ws.goalsTotal:'')+(ws.goalsTotal&&ws.minsTotal?' · ':'')+(ws.minsTotal?(ws.goalsTotal?'Minimums '+ws.minPct+'%':'Weekly minimums'):'')+'</div><div class="tw-bar"><div class="tw-bar-fill" style="width:'+ws.pct+'%"></div></div></div>';
   html+='<div class="tw-days" role="group" aria-label="Pick a day">';
   for(i=0;i<7;i++){var s=twDayStats(w,i),full=s.total>0&&s.done===s.total;html+='<button class="tw-day'+(i===twDay?' sel':'')+(i===todayI?' today':'')+(full?' full':'')+'" aria-pressed="'+(i===twDay)+'" aria-label="'+TW_LONG[i]+(i===todayI?' (today)':'')+', '+s.done+' of '+s.total+' done" onclick="twPickDay('+i+')"><span class="tw-dname">'+TW_DAYS[i]+'</span><span class="tw-dcount">'+(s.total?s.done+'/'+s.total:'–')+'</span></button>';}
   html+='</div>';
   var day=twMonday(twOffset);day.setDate(day.getDate()+twDay);
-  var goals=twGoalsFor(twDay),ds=twDayStats(w,twDay);
-  if(TW.goals.length){html+='<div class="card"><div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px;"><div class="card-title">'+TW_LONG[twDay].toUpperCase()+' · '+TW_MON[day.getMonth()].toUpperCase()+' '+day.getDate()+'</div><div class="tw-count'+(ds.total&&ds.done===ds.total?' hit':'')+'">'+(ds.total?ds.done+'/'+ds.total:'')+'</div></div>';
+  var goals=twGoalsFor(twDay,w),ds=twDayStats(w,twDay);
+  if(twConfig(w).goals.length){html+='<div class="card"><div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px;"><div class="card-title">'+TW_LONG[twDay].toUpperCase()+' · '+TW_MON[day.getMonth()].toUpperCase()+' '+day.getDate()+'</div><div class="tw-count'+(ds.total&&ds.done===ds.total?' hit':'')+'">'+(ds.total?ds.done+'/'+ds.total:'')+'</div></div>';
+  if(w.off&&w.off[twDay])html+='<div class="tw-note">OFF</div>';
   if(!goals.length)html+='<div class="tw-note" style="margin:0;">'+'Nothing set for '+TW_LONG[twDay]+'.'+'</div>';
   goals.forEach(function(g){html+=twCheckRow(twDay,g.id,twChecked(w,twDay,g.id),g.label,g.time?'<span class="tw-time">'+esc(twTime12(g.time))+'</span>':'');});
   html+='</div>';}
-  if(TW.minimums.length){
+  if(twConfig(w).minimums.length){
     html+='<div class="card"><div class="card-title">WEEKLY MINIMUMS</div><div class="tw-note" style="margin-bottom:4px;">Check it or log the hours for '+TW_LONG[twDay]+', '+TW_MON[day.getMonth()]+' '+day.getDate()+'.</div>';
-    TW.minimums.forEach(function(m){var c=twMinValue(w,m),t=twMinTarget(m,twOffset),cnt='<span class="tw-count'+(c>=t?' hit':'')+'">'+twNum(c)+'/'+t+(m.unit==='hrs'?' hrs':'')+'</span>';if(m.unit!=='hrs'){var on=twChecked(w,twDay,m.id);html+='<div class="task-item"><div class="tw-hmain"><div class="task-text" style="font-size:14px;">'+esc(m.label)+'</div></div><div class="tw-hbox"><button class="task-check '+(on?'done':'')+'" aria-pressed="'+on+'" aria-label="'+esc(m.label)+' on '+TW_LONG[twDay]+'" onclick="twToggle('+twDay+',\''+m.id+'\')">'+(on?'✓':'')+'</button></div>'+cnt+'</div>';return;}var h=twHrs(w,twDay,m.id);html+='<div class="task-item"><div class="tw-hmain"><div class="task-text" style="font-size:14px;">'+esc(m.label)+'</div></div><input class="tw-input tw-hrs" type="number" inputmode="decimal" min="0" max="24" step="0.5" placeholder="—" value="'+(h?twNum(h):'')+'" aria-label="'+esc(m.label)+' hours on '+TW_LONG[twDay]+'" onchange="twSetHours('+twDay+',\''+m.id+'\',this.value)">'+cnt+'</div>';});
+    twConfig(w).minimums.forEach(function(m){var c=twMinValue(w,m),t=twMinTarget(m,twOffset),cnt='<span class="tw-count'+(c>=t?' hit':'')+'">'+twNum(c)+'/'+t+(m.unit==='hrs'?' hrs':'')+'</span>';if(m.unit!=='hrs'){var on=twChecked(w,twDay,m.id);html+='<div class="task-item"><div class="tw-hmain"><div class="task-text" style="font-size:14px;">'+esc(m.label)+'</div></div><div class="tw-hbox"><button class="task-check '+(on?'done':'')+'" aria-pressed="'+on+'" aria-label="'+esc(m.label)+' on '+TW_LONG[twDay]+'" onclick="twToggle('+twDay+',\''+m.id+'\')">'+(on?'✓':'')+'</button></div>'+cnt+'</div>';return;}var h=twHrs(w,twDay,m.id);html+='<div class="task-item"><div class="tw-hmain"><div class="task-text" style="font-size:14px;">'+esc(m.label)+'</div></div><input class="tw-input tw-hrs" type="number" inputmode="decimal" min="0" max="24" step="0.5" placeholder="—" value="'+(h?twNum(h):'')+'" aria-label="'+esc(m.label)+' hours on '+TW_LONG[twDay]+'" onchange="twSetHours('+twDay+',\''+m.id+'\',this.value)">'+cnt+'</div>';});
     html+='</div>';
   }
   html+='<button class="btn-secondary" onclick="twSetView(\'setup\')">EDIT MY WEEK</button>';
   return html;
 }
-function twToggle(i,id){var on=twChecked(twRead(twOffset),i,id),w=twWeek(twOffset,true);w.checks[i]=w.checks[i]||{};if(on)delete w.checks[i][id];else w.checks[i][id]=true;twBridgeOut(i,twFind(TW.minimums,id),!on);twSave();renderWeek();}
+function twToggle(i,id){var on=twChecked(twRead(twOffset),i,id),w=twWeek(twOffset,true);w.checks[i]=w.checks[i]||{};if(on)delete w.checks[i][id];else w.checks[i][id]=true;twBridgeOut(i,twFind(twConfig(w).minimums,id),!on);twSave();renderWeek();}
 function twChipsHtml(days,fn){var h='<div class="tw-chips" role="group" aria-label="Days">';for(var i=0;i<7;i++){var on=days.indexOf(i)!==-1;h+='<button class="tw-chip'+(on?' on':'')+'" aria-pressed="'+on+'" aria-label="'+TW_LONG[i]+'" onclick="'+fn+'('+i+',this)">'+'MTWTFSS'.charAt(i)+'</button>';}return h+'</div>';}
 function twChipFlip(days,i,btn){var k=days.indexOf(i);if(k===-1)days.push(i);else days.splice(k,1);days.sort();if(btn){btn.classList.toggle('on',k===-1);btn.setAttribute('aria-pressed',String(k===-1));}}
 function twSetupHtml(){
@@ -732,26 +784,27 @@ function twDelMin(id){var m=twFind(TW.minimums,id);if(!m||!confirm('Delete "'+m.
 function twAddMin(){var n=document.getElementById('tw-new-min'),t=document.getElementById('tw-new-target'),uEl=document.getElementById('tw-new-unit'),unit=uEl&&uEl.value==='hrs'?'hrs':'times',label=(n.value||'').trim(),target=parseInt(t.value,10);if(!label){toast('Name the minimum first');n.focus();return;}if(!(target>=1)){toast(unit==='hrs'?'How many hours this week?':'How many times this week?');t.focus();return;}TW.minimums.push({id:twId('m'),label:label,unit:unit,target:Math.min(unit==='hrs'?168:21,target)});twSave();renderWeek();toast('Minimum added');}
 function twMoneyHtml(){
   var html='';
-  if(TW.moneyGoal===null||twMoneyEditing){
+  var config=twConfig(twWeek(twOffset,false));
+  if(config.moneyGoal===null||twMoneyEditing){
     return html+'<div class="card" style="border-left-color:var(--gold);"><div class="card-title">'+(TW.moneyGoal===null?'SET YOUR MONEY GOAL':'EDIT MONEY GOAL')+'</div><div class="tw-note">Your money goal for each week. You type the number; the app adds up what you log against it.</div><input class="tw-input" style="width:100%;margin-bottom:12px;" id="tw-money-goal" type="number" inputmode="decimal" min="0" step="any" placeholder="Weekly goal in $" aria-label="Weekly money goal in dollars" value="'+(TW.moneyGoal!==null?esc(TW.moneyGoal):'')+'"><button class="btn-primary" onclick="twSetMoneyGoal()">SAVE GOAL</button>'+(TW.moneyGoal!==null?'<button class="tw-link" onclick="twMoneyEdit(false)">Cancel</button>':'')+'</div>';
   }
-  var w=twWeek(twOffset,false),tot=twMoneyTotal(w),goal=TW.moneyGoal,pct=goal>0?Math.max(0,Math.min(100,Math.round(tot/goal*100))):0;
+  var w=twWeek(twOffset,false),tot=twMoneyTotal(w),goal=config.moneyGoal,pct=goal>0?Math.max(0,Math.min(100,Math.round(tot/goal*100))):0;
   html+=twWeekNavHtml();
   html+='<div class="card"><div class="tw-big">'+twFmt(tot)+'</div><div class="tw-big-sub">of '+twFmt(goal)+' · '+(tot>=goal?'goal hit':twFmt(goal-tot)+' to go')+'</div><div class="tw-bar"><div class="tw-bar-fill" style="width:'+pct+'%"></div></div><button class="tw-link" style="text-align:left;margin-top:6px;" onclick="twMoneyEdit(true)">Edit goal</button></div>';
   html+='<div class="card"><div class="card-title">LOG MONEY</div><div style="display:flex;gap:6px;margin-bottom:12px;"><input class="tw-input sm" id="tw-amt" type="number" inputmode="decimal" step="any" placeholder="$" aria-label="Amount in dollars"><input class="tw-input" id="tw-note" placeholder="What for (optional)" aria-label="What it was for"></div><button class="btn-primary" onclick="twAddMoney()">ADD ENTRY</button></div>';
   html+='<div class="card"><div class="card-title">'+(twOffset===0?'THIS WEEK':'THAT WEEK')+'</div>';
   if(!w.money.length)html+='<div class="tw-note" style="margin:0;">Nothing logged yet.</div>';
-  [].concat(w.money).reverse().forEach(function(e){html+='<div class="tw-row"><div style="flex:1;min-width:0;"><div class="input-label">'+esc(e.note||'Entry')+'</div><div class="input-sub">'+twEntryDate(e.ts)+'</div></div><div class="tw-amt">'+twFmt(e.amt,true)+'</div><button class="tw-del" aria-label="Delete '+esc(e.note||'entry')+'" onclick="twDelMoney(\''+e.id+'\')">✕</button></div>';});
+  [].concat(w.money).reverse().forEach(function(e){html+='<div class="tw-row"><div style="flex:1;min-width:0;"><div class="input-label">'+esc(e.note||'Entry')+'</div><div class="input-sub">'+(e.opDate?formatDate(operatorDate(e.opDate)):twEntryDate(e.ts))+'</div></div><div class="tw-amt">'+twFmt(e.amt,true)+'</div><button class="tw-del" aria-label="Delete '+esc(e.note||'entry')+'" onclick="twDelMoney(\''+e.id+'\')">✕</button></div>';});
   return html+'</div>';
 }
 function twMoneyEdit(on){twMoneyEditing=!!on;renderWeek();}
 function twSetMoneyGoal(){var el=document.getElementById('tw-money-goal'),v=parseFloat(el.value);if(!(v>0)){toast('Enter a goal above $0');el.focus();return;}TW.moneyGoal=Math.round(v*100)/100;twMoneyEditing=false;twSave();renderWeek();toast('Money goal saved');}
-function twAddMoney(){var a=document.getElementById('tw-amt'),n=document.getElementById('tw-note'),v=parseFloat(a.value);if(!v){toast('Enter an amount');a.focus();return;}var w=twWeek(twOffset,true);w.money.push({id:twId('e'),amt:Math.round(v*100)/100,note:(n.value||'').trim(),ts:new Date().toISOString()});twSave();renderWeek();toast('Logged '+twFmt(v));}
+function twAddMoney(){var a=document.getElementById('tw-amt'),n=document.getElementById('tw-note'),v=parseFloat(a.value);if(!v){toast('Enter an amount');a.focus();return;}var w=twWeek(twOffset,true);w.money.push({id:twId('e'),amt:Math.round(v*100)/100,note:(n.value||'').trim(),ts:new Date().toISOString(),opDate:todayKey()});twSave();renderWeek();toast('Logged '+twFmt(v));}
 function twDelMoney(id){var w=twWeek(twOffset,true),e=twFind(w.money,id);if(!e||!confirm('Delete '+twFmt(e.amt,true)+(e.note?' ('+e.note+')':'')+'?'))return;w.money=w.money.filter(function(x){return x.id!==id;});twSave();renderWeek();}
 function twTodayCardHtml(){
   var sub;
   if(!twIsSetUp()&&TW.moneyGoal===null)sub='Set up your week';
-  else{var w=twRead(0),ds=twDayStats(w,twTodayIdx()),ws=twWeekStats(w),parts=[];if(twIsSetUp()){if(ds.total)parts.push('Today '+ds.done+'/'+ds.total);parts.push('Week '+ws.pct+'%');}if(TW.moneyGoal!==null)parts.push(twFmt(twMoneyTotal(w))+' of '+twFmt(TW.moneyGoal));sub=parts.join(' · ');}
+  else{var w=twRead(0),ds=twDayStats(w,twTodayIdx()),ws=twWeekStats(w),parts=[];if(twIsSetUp()){if(w.off[twTodayIdx()])parts.push('Today OFF');else if(ds.total)parts.push('Today '+ds.done+'/'+ds.total);parts.push(Object.keys(w.off).length===7?'Week OFF':'Week '+ws.pct+'%');}if(TW.moneyGoal!==null)parts.push(twFmt(twMoneyTotal(w))+' of '+twFmt(TW.moneyGoal));sub=parts.join(' · ');}
   return'<button class="card tw-sum" style="width:100%;text-align:left;cursor:pointer;font:inherit;color:inherit;border-left-color:var(--gold);" onclick="openTyWeek()"><div class="tw-sum-main"><div class="card-title" style="margin:0 0 2px;">TY WEEK</div><div class="input-sub" style="font-size:12px;">'+sub+'</div></div><div class="tw-sum-go" aria-hidden="true">›</div></button>';
 }
 function openTyWeek(){twView='week';twOffset=0;twDay=twTodayIdx();switchTab('week',document.querySelectorAll('.nav-btn')[3]);}
@@ -789,13 +842,13 @@ function sendCheckIn(){
 function downloadFile(name,content,type){var blob=new Blob([content],{type:type}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url);},1000);}
 function csvCell(v){v=String(v==null?'':v);return /[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v;}
 function exportCSV(){
-  var cols=['operator_day_id','label_date','created_at','submitted_at','sleep','energy','water','protein','carbs','fat','calories','gym','reading','working','posted','filmed','edited','engaged','planned','recovery'];
-  var rows=[cols.join(',')];OPERATOR_STATE.order.forEach(function(id){var d=OPERATOR_STATE.days[id];if(!d)return;var l=d.log||{};rows.push([id,d.labelDate,d.createdAt,d.submittedAt||'',l.sleep,l.energy,l.water,l.protein,l.carbs,l.fat,l.cals,l.gym,l.reading,l.working,l.posted,l.filmed,l.edited,l.engaged,l.planned,l.recovery].map(csvCell).join(','));});
+  var cols=['operator_day_id','label_date','created_at','submitted_at','sleep','energy','water','protein','carbs','fat','calories','gym','reading','working','posted','filmed','edited','engaged','planned','recovery','off'];
+  var rows=[cols.join(',')];OPERATOR_STATE.order.forEach(function(id){var d=OPERATOR_STATE.days[id];if(!d)return;var l=d.log||{};rows.push([id,canonicalDate(d.labelDate),d.createdAt,d.submittedAt||'',l.sleep,l.energy,l.water,l.protein,l.carbs,l.fat,l.cals,l.gym,l.reading,l.working,l.posted,l.filmed,l.edited,l.engaged,l.planned,l.recovery,!!l.off].map(csvCell).join(','));});
   var weekKeysTW=Object.keys(TW.weeks).sort(function(a,b){return twKeyTime(a)-twKeyTime(b);});
   rows.push('');rows.push(['ty_week_of','day','type','item','time','done','target','unit'].join(','));
-  weekKeysTW.forEach(function(k){var w=TW.weeks[k];w.checks=w.checks||{};for(var i=0;i<7;i++){twGoalsFor(i).forEach(function(g){rows.push([k,TW_DAYS[i],'goal',g.label,g.time||'',twChecked(w,i,g.id)?1:0,'',''].map(csvCell).join(','));});}var off=Math.round((twKeyTime(k)-twKeyTime(twWeekKey(0)))/(7*864e5));w.hours=w.hours||{};TW.minimums.forEach(function(m){rows.push([k,'','minimum',m.label,'',twMinValue(w,m),twMinTarget(m,off),m.unit==='hrs'?'hrs':'times'].map(csvCell).join(','));});});
+  weekKeysTW.forEach(function(k){var w=TW.weeks[k];w.checks=w.checks||{};for(var i=0;i<7;i++){twGoalsFor(i,w).forEach(function(g){rows.push([canonicalDate(k),TW_DAYS[i],'goal',g.label,g.time||'',twChecked(w,i,g.id)?1:0,'',''].map(csvCell).join(','));});}var off=Math.round((twKeyTime(k)-twKeyTime(twWeekKey(0)))/(7*864e5));w.hours=w.hours||{};twConfig(w).minimums.forEach(function(m){rows.push([canonicalDate(k),'','minimum',m.label,'',twMinValue(w,m),twMinTarget(m,off),m.unit==='hrs'?'hrs':'times'].map(csvCell).join(','));});});
   rows.push('');rows.push(['money_week_of','logged_at','amount','note','weekly_goal'].join(','));
-  weekKeysTW.forEach(function(k){(TW.weeks[k].money||[]).forEach(function(e){rows.push([k,e.ts,e.amt,e.note||'',TW.moneyGoal===null?'':TW.moneyGoal].map(csvCell).join(','));});});
+  weekKeysTW.forEach(function(k){(TW.weeks[k].money||[]).forEach(function(e){rows.push([canonicalDate(k),e.ts,e.amt,e.note||'',twConfig(TW.weeks[k]).moneyGoal===null?'':twConfig(TW.weeks[k]).moneyGoal].map(csvCell).join(','));});});
   downloadFile('bth-operator-export.csv',rows.join('\n'),'text/csv;charset=utf-8');toast('CSV ready');
 }
 function pad(n){return String(n).padStart(2,'0');}
@@ -803,18 +856,34 @@ function icsDate(d){return d.getFullYear()+pad(d.getMonth()+1)+pad(d.getDate())+
 function icsSafe(v){return String(v).replace(/\\/g,'\\\\').replace(/\n/g,'\\n').replace(/,/g,'\\,').replace(/;/g,'\\;');}
 function downloadICS(){
   var base=operatorDate(OPERATOR_STATE.activeDayId),sched=getSchedule(),body=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Built to Hoop//BTH Operator//EN','CALSCALE:GREGORIAN'];
-  sched.filter(function(item){return schedOnDay(item,base.getDay())&&/^\d\d:\d\d$/.test(item.time||'');}).forEach(function(item){var p=item.time.split(':').map(Number),start=new Date(base);start.setHours(p[0],p[1],0,0);var end=new Date(start.getTime()+30*60000);body.push('BEGIN:VEVENT','UID:'+OPERATOR_STATE.activeDayId+'-'+item.id+'@built-to-hoop.com','DTSTAMP:'+icsDate(new Date()),'DTSTART:'+icsDate(start),'DTEND:'+icsDate(end),'SUMMARY:'+icsSafe(item.label),'DESCRIPTION:BTH Operator schedule','END:VEVENT');});
+  sched.filter(function(item){return /^\d\d:\d\d$/.test(item.time||'');}).forEach(function(item){
+    var p=item.time.split(':').map(Number),days=Array.isArray(item.days)&&item.days.length?item.days:[0,1,2,3,4,5,6],shift=timeMinutes(item.time)<cutoffMinutes()?1:0;
+    var start=new Date(base);while(days.indexOf(start.getDay())===-1)start.setDate(start.getDate()+1);start.setDate(start.getDate()+shift);start.setHours(p[0],p[1],0,0);var end=new Date(start.getTime()+30*60000);
+    var byday=days.map(function(d){return ['SU','MO','TU','WE','TH','FR','SA'][(d+shift)%7];}).join(',');
+    body.push('BEGIN:VEVENT','UID:bth-schedule-'+item.id+'@built-to-hoop.com','DTSTAMP:'+icsDate(new Date()),'DTSTART:'+icsDate(start),'DTEND:'+icsDate(end),'RRULE:FREQ=WEEKLY;BYDAY='+byday,'SUMMARY:'+icsSafe(item.label),'DESCRIPTION:BTH Operator schedule','END:VEVENT');
+  });
   body.push('END:VCALENDAR');downloadFile('bth-operator-schedule.ics',body.join('\r\n'),'text/calendar;charset=utf-8');toast('Calendar ready');
 }
 function downloadClaudeHandoff(){var day=findOperatorDay(OPERATOR_STATE.activeDayId),packet={source:'BTH Operator',exportedAt:new Date().toISOString(),activeDayId:day.id,labelDate:day.labelDate,log:day.log,tasks:day.tasks,notes:load('bth_claude_notes')||[],tyWeek:TW};downloadFile('bth-operator-claude-handoff.json',JSON.stringify(packet,null,2),'application/json');toast('Claude handoff ready');}
 function enableNotifications(){if(!('Notification'in window)){toast('Notifications not supported here');return;}Notification.requestPermission().then(function(p){save('bth_notifications_enabled',p==='granted');renderPwaStatus();toast(p==='granted'?'Reminders on':'Permission: '+p);});}
-function notify(title,body){try{if(load('bth_notifications_enabled')&&Notification.permission==='granted')new Notification(title,{body:body,tag:'bth-'+OPERATOR_STATE.activeDayId});}catch(e){}}
-function reminderTick(){var now=new Date(),hhmm=pad(now.getHours())+':'+pad(now.getMinutes()),fired=OPERATOR_STATE.reminders.fired||{};getSchedule().filter(function(item){return schedOnDay(item,now.getDay());}).forEach(function(item){var key=OPERATOR_STATE.activeDayId+':'+item.id+':'+hhmm;if(item.time===hhmm&&!fired[key]){fired[key]=true;OPERATOR_STATE.reminders.fired=fired;persistOperator();notify('BTH Operator',item.label+' — time to move.');}});}
-function renderPwaStatus(){var el=document.getElementById('pwa-status');if(!el)return;var installed=window.matchMedia('(display-mode: standalone)').matches||window.navigator.standalone,perm=('Notification'in window)?Notification.permission:'unsupported';el.textContent=(installed?'Installed':'Browser mode')+' · reminders '+perm+' · active day '+OPERATOR_STATE.activeDayId;}
+function notify(title,body,key){try{if(load('bth_notifications_enabled')&&'Notification' in window&&Notification.permission==='granted'){new Notification(title,{body:body,tag:'bth-'+key});return true;}}catch(e){}return false;}
+function reminderTick(){
+  autoRollover();var now=new Date(),op=opDate(now),label=dateKey(op),day=findOperatorDay(label);if(!day)return;
+  var fired=OPERATOR_STATE.reminders.fired||{};
+  getSchedule().filter(function(item){return schedOnDay(item,op.getDay())&&/^\d\d:\d\d$/.test(item.time||'');}).forEach(function(item){
+    var start=operatorDate(label),p=item.time.split(':').map(Number);if(timeMinutes(item.time)<cutoffMinutes())start.setDate(start.getDate()+1);start.setHours(p[0],p[1],0,0);
+    var elapsed=(now-start)/60000,key=day.id+':'+item.id+':'+item.time;
+    if(elapsed>=0&&elapsed<=15&&!fired[key]){if(notify('BTH Operator',item.label+' — time to move.',key)){fired[key]=true;OPERATOR_STATE.reminders.fired=fired;persistOperator();}else toast(item.label+' — time to move.');}
+  });
+}
+
+function renderPwaStatus(){var el=document.getElementById('pwa-status');if(!el)return;var installed=window.matchMedia('(display-mode: standalone)').matches||window.navigator.standalone,perm=('Notification'in window)?Notification.permission:'unsupported';el.textContent=(installed?'Installed':'Browser mode')+' · reminders '+perm+' · active day '+formatDate(operatorDate(OPERATOR_STATE.activeDayId));}
 function setupPWA(){if('serviceWorker'in navigator&&location.protocol.indexOf('http')===0)navigator.serviceWorker.register('./bth-operator-sw.js').catch(function(err){console.warn('Operator service worker unavailable',err);});}
 function enhanceControls(root){(root||document).querySelectorAll('[onclick]:not(button):not([role="button"])').forEach(function(el){el.setAttribute('role','button');el.setAttribute('tabindex','0');});}
 document.addEventListener('keydown',function(event){if((event.key==='Enter'||event.key===' ')&&event.target.matches('[role="button"]')){event.preventDefault();event.target.click();}});
 new MutationObserver(function(){enhanceControls(document);}).observe(document.body,{childList:true,subtree:true});
+document.addEventListener('visibilitychange',function(){if(document.visibilityState==='hidden')flushFieldSaves();});
+window.addEventListener('pagehide',flushFieldSaves);
 setupPWA();reminderTick();setInterval(reminderTick,60000);renderToday();enhanceControls(document);
 </script>
 </body>
