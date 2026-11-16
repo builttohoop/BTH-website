@@ -825,7 +825,7 @@ function twMoneyHtml(){
   var html='';
   var config=twConfig(twWeek(twOffset,false));
   if(config.moneyGoal===null||twMoneyEditing){
-    return html+'<div class="card" style="border-left-color:var(--gold);"><div class="card-title">'+(TW.moneyGoal===null?'SET YOUR MONEY GOAL':'EDIT MONEY GOAL')+'</div><div class="tw-note">Your money goal for each week. You type the number; the app adds up what you log against it.</div><input class="tw-input" style="width:100%;margin-bottom:12px;" id="tw-money-goal" type="number" inputmode="decimal" min="0" step="any" placeholder="Weekly goal in $" aria-label="Weekly money goal in dollars" value="'+(TW.moneyGoal!==null?esc(TW.moneyGoal):'')+'"><button class="btn-primary" onclick="twSetMoneyGoal()">SAVE GOAL</button>'+(TW.moneyGoal!==null?'<button class="tw-link" onclick="twMoneyEdit(false)">Cancel</button>':'')+'</div>';
+    return html+'<div class="card" style="border-left-color:var(--gold);"><div class="card-title">'+(TW.moneyGoal===null?'SET YOUR MONEY GOAL':'EDIT MONEY GOAL')+'</div><div class="tw-note">Your money goal for each week. You type the number; the app adds up what you log against it.</div><input class="tw-input" style="width:100%;margin-bottom:12px;" id="tw-money-goal" type="number" inputmode="decimal" min="0" step="any" placeholder="Weekly goal in $" aria-label="Weekly money goal in dollars" value="'+(TW.moneyGoal!==null?esc(TW.moneyGoal):'')+'"><button class="btn-primary" onclick="twSetMoneyGoal()">SAVE GOAL</button>'+(TW.moneyGoal!==null?'<button class="tw-link" onclick="twMoneyEdit(false)">Cancel</button><button class="tw-link" onclick="twClearMoneyGoal()">Remove money goal</button>':'')+'</div>';
   }
   var w=twWeek(twOffset,false),tot=twMoneyTotal(w),goal=config.moneyGoal,pct=goal>0?Math.max(0,Math.min(100,Math.round(tot/goal*100))):0;
   html+=twWeekNavHtml();
@@ -837,6 +837,7 @@ function twMoneyHtml(){
   return html+'</div>';
 }
 function twMoneyEdit(on){twMoneyEditing=!!on;renderWeek();}
+function twClearMoneyGoal(){if(!confirm('Remove your weekly money goal? Logged entries stay; past weeks keep the goal they had.'))return;TW.moneyGoal=null;twMoneyEditing=false;twSave();renderWeek();toast('Money goal removed');}
 function twSetMoneyGoal(){var el=document.getElementById('tw-money-goal'),v=parseFloat(el.value);if(!(v>0)){toast('Enter a goal above $0');el.focus();return;}TW.moneyGoal=Math.round(v*100)/100;twMoneyEditing=false;twSave();renderWeek();toast('Money goal saved');}
 function twAddMoney(){var a=document.getElementById('tw-amt'),n=document.getElementById('tw-note'),v=parseFloat(a.value);if(!v){toast('Enter an amount');a.focus();return;}var w=twWeek(twOffset,true);w.money.push({id:twId('e'),amt:Math.round(v*100)/100,note:(n.value||'').trim(),ts:new Date().toISOString(),opDate:todayKey()});twSave();renderWeek();toast('Logged '+twFmt(v));}
 function twDelMoney(id){var w=twWeek(twOffset,true),e=twFind(w.money,id);if(!e||!confirm('Delete '+twFmt(e.amt,true)+(e.note?' ('+e.note+')':'')+'?'))return;w.money=w.money.filter(function(x){return x.id!==id;});twSave();renderWeek();}
