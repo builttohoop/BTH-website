@@ -82,6 +82,11 @@
     .collapsible-header.open .collapsible-arrow{transform:rotate(180deg);}
     .sched-item{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--gray);}
     .sched-item:last-child{border-bottom:none;}
+    .sched-btn{min-width:36px;min-height:36px;border:1px solid var(--gray);border-radius:2px;background:none;color:var(--ink);font-size:15px;cursor:pointer;}
+    .sched-btn:disabled{opacity:.35;cursor:default;}
+    .sched-day{width:32px;height:32px;border:1px solid var(--gray);border-radius:2px;background:none;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;cursor:pointer;}
+    .sched-day.on{background:var(--gold);border-color:var(--gold);color:var(--on-gold);}
+    .sched-reset{display:block;margin:14px auto 0;background:none;border:none;color:var(--muted);font-size:12px;text-decoration:underline;cursor:pointer;}
     .sched-time{font-family:'DM Sans',sans-serif;font-variant-numeric:tabular-nums;font-size:12px;font-weight:700;color:var(--gold-text);min-width:54px;cursor:pointer;border:none;background:none;outline:none;-webkit-appearance:none;}
     .sched-label{font-size:14px;font-weight:500;color:var(--ink);flex:1;}
     .pip-row{display:flex;gap:6px;margin-bottom:4px;flex-wrap:wrap;}
@@ -433,12 +438,44 @@ function renderTasksHtml(){
   } else {html+='<div class="no-data">No tasks yet<br><span style="font-size:11px;">Backup tasks appear after 2 PM</span></div>';}
   return html+'</div>';
 }
+var SCHED_DAYS=['S','M','T','W','T','F','S'],SCHED_DAY_NAMES=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],schedEditing=false;
+function schedOnDay(item,dow){return !Array.isArray(item.days)||!item.days.length||item.days.indexOf(dow)!==-1;}
+function schedDaysText(item){if(!Array.isArray(item.days)||!item.days.length||item.days.length===7)return 'Every day';var d=item.days.slice().sort();if(d.join()==='1,2,3,4,5')return 'Weekdays';if(d.join()==='0,6')return 'Weekends';return d.map(function(i){return SCHED_DAY_NAMES[i].slice(0,3);}).join(' · ');}
 function renderScheduleHtml(){
-  var sched=getSchedule();
-  var html='<div class="card"><div class="collapsible-header" role="button" tabindex="0" aria-expanded="false" onclick="toggleCollapsible(this)"><div class="card-title" style="margin:0;">SCHEDULE</div><div class="collapsible-arrow">▼</div></div><div class="collapsible-body"><div style="padding-top:10px;">';
-  sched.forEach(function(item,idx){html+='<div class="sched-item"><input type="time" class="sched-time" value="'+esc(item.time)+'" onchange="updateSchedTime('+idx+',this.value)"><div class="sched-label">'+esc(item.label)+'</div></div>';});
+  var sched=getSchedule(),dow=operatorDate(OPERATOR_STATE.activeDayId).getDay();
+  var html='<div class="card" id="sched-card"><div class="collapsible-header open" role="button" tabindex="0" aria-expanded="true" onclick="toggleCollapsible(this)"><div class="card-title" style="margin:0;">SCHEDULE</div><div class="collapsible-arrow">▼</div></div><div class="collapsible-body open"><div style="padding-top:10px;">';
+  if(!schedEditing){
+    var today=sched.filter(function(item){return schedOnDay(item,dow);});
+    if(!today.length)html+='<div class="input-sub" style="padding:10px 0;">Nothing scheduled for '+SCHED_DAY_NAMES[dow]+'.</div>';
+    today.forEach(function(item){var idx=sched.indexOf(item);html+='<div class="sched-item"><input type="time" class="sched-time" aria-label="Time for '+esc(item.label)+'" value="'+esc(item.time)+'" onchange="updateSchedTime('+idx+',this.value)"><div class="sched-label">'+esc(item.label)+'</div><div class="input-sub" style="margin-left:auto;">'+esc(schedDaysText(item))+'</div></div>';});
+    html+='<button class="btn-secondary" style="margin-top:12px;" onclick="schedSetEditing(true)">EDIT SCHEDULE</button>';
+    return html+'</div></div></div>';
+  }
+  html+='<div class="input-sub" style="margin-bottom:6px;line-height:1.5;">Rename, re-time, reorder or remove. Pick days to limit an item; no days picked = every day. Order is yours, so a night shift can run past midnight.</div>';
+  sched.forEach(function(item,idx){
+    html+='<div class="sched-edit" style="padding:10px 0;border-bottom:1px solid var(--gray);">'
+      +'<div style="display:flex;align-items:center;gap:8px;"><input class="sched-name" aria-label="Item name" maxlength="40" value="'+esc(item.label)+'" onchange="schedRename('+idx+',this.value)" style="flex:1;min-width:0;font:inherit;font-size:16px;color:var(--ink);background:var(--mid);border:1px solid var(--gray);border-radius:2px;padding:8px;">'
+      +'<button class="sched-btn" aria-label="Remove '+esc(item.label)+'" onclick="schedRemove('+idx+')">✕</button></div>'
+      +'<div style="display:flex;align-items:center;gap:8px;margin-top:8px;"><input type="time" class="sched-time" aria-label="Time for '+esc(item.label)+'" value="'+esc(item.time)+'" onchange="updateSchedTime('+idx+',this.value)" style="font-size:14px;">'
+      +'<button class="sched-btn" style="margin-left:auto;" aria-label="Move '+esc(item.label)+' up" onclick="schedMove('+idx+',-1)"'+(idx===0?' disabled':'')+'>↑</button>'
+      +'<button class="sched-btn" aria-label="Move '+esc(item.label)+' down" onclick="schedMove('+idx+',1)"'+(idx===sched.length-1?' disabled':'')+'>↓</button></div>'
+      +'<div style="display:flex;gap:6px;margin-top:8px;" role="group" aria-label="Days for '+esc(item.label)+'">';
+    SCHED_DAYS.forEach(function(d,i){var on=Array.isArray(item.days)&&item.days.indexOf(i)!==-1;html+='<button class="sched-day'+(on?' on':'')+'" aria-pressed="'+on+'" aria-label="'+SCHED_DAY_NAMES[i]+'" onclick="schedToggleDay('+idx+','+i+')">'+d+'</button>';});
+    html+='<div class="input-sub" style="margin-left:auto;align-self:center;">'+esc(schedDaysText(item))+'</div></div></div>';
+  });
+  html+='<button class="btn-secondary" style="margin-top:12px;" onclick="schedAdd()">+ ADD ITEM</button>'
+    +'<button class="btn-primary" style="margin-top:10px;" onclick="schedSetEditing(false)">DONE</button>'
+    +'<button class="sched-reset" onclick="schedReset()">Reset to the starting schedule</button>';
   return html+'</div></div></div>';
 }
+function schedRerender(){var card=document.getElementById('sched-card');if(!card){renderToday();return;}var tmp=document.createElement('div');tmp.innerHTML=renderScheduleHtml();card.innerHTML=tmp.firstChild.innerHTML;}
+function schedSetEditing(on){schedEditing=!!on;schedRerender();if(!on)toast('Schedule saved ✓');}
+function schedRename(idx,val){var sched=getSchedule(),v=String(val).trim().slice(0,40);if(!v){toast('Name can\'t be empty');schedRerender();return;}sched[idx].label=v;save('bth_schedule',sched);}
+function schedMove(idx,dir){var sched=getSchedule(),j=idx+dir;if(j<0||j>=sched.length)return;var t=sched[idx];sched[idx]=sched[j];sched[j]=t;save('bth_schedule',sched);schedRerender();}
+function schedRemove(idx){var sched=getSchedule();if(!confirm('Remove "'+sched[idx].label+'" from your schedule?'))return;sched.splice(idx,1);save('bth_schedule',sched);schedRerender();toast('Removed');}
+function schedToggleDay(idx,day){var sched=getSchedule(),d=Array.isArray(sched[idx].days)?sched[idx].days.slice():[],at=d.indexOf(day);if(at===-1)d.push(day);else d.splice(at,1);d.sort();if(d.length===7)d=[];if(d.length)sched[idx].days=d;else delete sched[idx].days;save('bth_schedule',sched);schedRerender();}
+function schedAdd(){var sched=getSchedule();sched.push({id:'c'+Date.now().toString(36),label:'New item',time:'09:00'});save('bth_schedule',sched);schedRerender();var names=document.querySelectorAll('#sched-card .sched-name');var last=names[names.length-1];if(last){last.focus();last.select();}}
+function schedReset(){if(!confirm('Reset your schedule to the starting 8 items? Your edits will be lost.'))return;save('bth_schedule',DEFAULT_SCHEDULE.map(function(s){return Object.assign({},s);}));schedRerender();toast('Schedule reset');}
 function renderMicroSummary(){var el=document.getElementById('today-micro');if(!el)return;var log=getLog(activeLogKey);if(!Object.keys(log).length){el.textContent=twIsSetUp()||TW.moneyGoal!==null?'':'No data logged yet — tap to start';return;}var bthCount=BTH_ITEMS.filter(function(it){return log[it.key];}).length;var parts=[];if(log.sleep)parts.push(log.sleep+'h sleep');if(log.energy)parts.push(log.energy+'/7 energy');if(log.protein)parts.push(log.protein+'g protein');parts.push(bthCount+'/6 BTH');el.textContent=parts.join(' · ');}
 function db(field,value,barId,colorClass,goal){clearTimeout(saveTimer);saveTimer=setTimeout(function(){var log=getLog(activeLogKey);log[field]=value;setLog(activeLogKey,log);if(field==='sleep'){twBridgeIn('sleep',value);twRefreshSum();}if(barId&&goal){var bar=document.getElementById(barId);if(bar){var pct=Math.min(100,((parseFloat(value)||0)/goal)*100);bar.style.width=pct+'%';bar.className='bar-fill '+(pct>=100?'bar-green':colorClass);}}renderMicroSummary();},600);}
 function toggleField(field){var log=getLog(activeLogKey);log[field]=!log[field];setLog(activeLogKey,log);if(field==='gym')twBridgeIn('gym',log.gym);renderToday();}
@@ -766,13 +803,13 @@ function icsDate(d){return d.getFullYear()+pad(d.getMonth()+1)+pad(d.getDate())+
 function icsSafe(v){return String(v).replace(/\\/g,'\\\\').replace(/\n/g,'\\n').replace(/,/g,'\\,').replace(/;/g,'\\;');}
 function downloadICS(){
   var base=operatorDate(OPERATOR_STATE.activeDayId),sched=getSchedule(),body=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Built to Hoop//BTH Operator//EN','CALSCALE:GREGORIAN'];
-  sched.forEach(function(item){var p=item.time.split(':').map(Number),start=new Date(base);start.setHours(p[0],p[1],0,0);var end=new Date(start.getTime()+30*60000);body.push('BEGIN:VEVENT','UID:'+OPERATOR_STATE.activeDayId+'-'+item.id+'@built-to-hoop.com','DTSTAMP:'+icsDate(new Date()),'DTSTART:'+icsDate(start),'DTEND:'+icsDate(end),'SUMMARY:'+icsSafe(item.label),'DESCRIPTION:BTH Operator schedule','END:VEVENT');});
+  sched.filter(function(item){return schedOnDay(item,base.getDay())&&/^\d\d:\d\d$/.test(item.time||'');}).forEach(function(item){var p=item.time.split(':').map(Number),start=new Date(base);start.setHours(p[0],p[1],0,0);var end=new Date(start.getTime()+30*60000);body.push('BEGIN:VEVENT','UID:'+OPERATOR_STATE.activeDayId+'-'+item.id+'@built-to-hoop.com','DTSTAMP:'+icsDate(new Date()),'DTSTART:'+icsDate(start),'DTEND:'+icsDate(end),'SUMMARY:'+icsSafe(item.label),'DESCRIPTION:BTH Operator schedule','END:VEVENT');});
   body.push('END:VCALENDAR');downloadFile('bth-operator-schedule.ics',body.join('\r\n'),'text/calendar;charset=utf-8');toast('Calendar ready');
 }
 function downloadClaudeHandoff(){var day=findOperatorDay(OPERATOR_STATE.activeDayId),packet={source:'BTH Operator',exportedAt:new Date().toISOString(),activeDayId:day.id,labelDate:day.labelDate,log:day.log,tasks:day.tasks,notes:load('bth_claude_notes')||[],tyWeek:TW};downloadFile('bth-operator-claude-handoff.json',JSON.stringify(packet,null,2),'application/json');toast('Claude handoff ready');}
 function enableNotifications(){if(!('Notification'in window)){toast('Notifications not supported here');return;}Notification.requestPermission().then(function(p){save('bth_notifications_enabled',p==='granted');renderPwaStatus();toast(p==='granted'?'Reminders on':'Permission: '+p);});}
 function notify(title,body){try{if(load('bth_notifications_enabled')&&Notification.permission==='granted')new Notification(title,{body:body,tag:'bth-'+OPERATOR_STATE.activeDayId});}catch(e){}}
-function reminderTick(){var now=new Date(),hhmm=pad(now.getHours())+':'+pad(now.getMinutes()),fired=OPERATOR_STATE.reminders.fired||{};getSchedule().forEach(function(item){var key=OPERATOR_STATE.activeDayId+':'+item.id+':'+hhmm;if(item.time===hhmm&&!fired[key]){fired[key]=true;OPERATOR_STATE.reminders.fired=fired;persistOperator();notify('BTH Operator',item.label+' — time to move.');}});}
+function reminderTick(){var now=new Date(),hhmm=pad(now.getHours())+':'+pad(now.getMinutes()),fired=OPERATOR_STATE.reminders.fired||{};getSchedule().filter(function(item){return schedOnDay(item,now.getDay());}).forEach(function(item){var key=OPERATOR_STATE.activeDayId+':'+item.id+':'+hhmm;if(item.time===hhmm&&!fired[key]){fired[key]=true;OPERATOR_STATE.reminders.fired=fired;persistOperator();notify('BTH Operator',item.label+' — time to move.');}});}
 function renderPwaStatus(){var el=document.getElementById('pwa-status');if(!el)return;var installed=window.matchMedia('(display-mode: standalone)').matches||window.navigator.standalone,perm=('Notification'in window)?Notification.permission:'unsupported';el.textContent=(installed?'Installed':'Browser mode')+' · reminders '+perm+' · active day '+OPERATOR_STATE.activeDayId;}
 function setupPWA(){if('serviceWorker'in navigator&&location.protocol.indexOf('http')===0)navigator.serviceWorker.register('./bth-operator-sw.js').catch(function(err){console.warn('Operator service worker unavailable',err);});}
 function enhanceControls(root){(root||document).querySelectorAll('[onclick]:not(button):not([role="button"])').forEach(function(el){el.setAttribute('role','button');el.setAttribute('tabindex','0');});}
