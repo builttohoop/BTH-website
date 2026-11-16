@@ -4,10 +4,10 @@
    reflects the latest deploy when online, and only falls back to cache when offline.
    Static assets (fonts/scripts) use cache-first for speed + offline. The app is fully functional
    without this file (foreground reminders + install still work). */
-const CACHE='bth-operator-v8-opday-20261116';
-const SHELL=['./','./bth-operator-v2.html'];
+const CACHE='bth-operator-v9-amber-20261116';
+const SHELL=['./','./bth-operator-v2.html','./bth-operator-amber.css'];
 self.addEventListener('install',e=>{self.skipWaiting();e.waitUntil(caches.open(CACHE).then(c=>c.addAll(SHELL)).catch(()=>{}));});
-self.addEventListener('activate',e=>{e.waitUntil((async()=>{const ks=await caches.keys();await Promise.all(ks.filter(k=>k!==CACHE).map(k=>caches.delete(k)));await self.clients.claim();})());});
+self.addEventListener('activate',e=>{e.waitUntil((async()=>{const ks=await caches.keys();await Promise.all(ks.filter(k=>k.startsWith('bth-operator-')&&k!==CACHE).map(k=>caches.delete(k)));await self.clients.claim();})());});
 self.addEventListener('fetch',e=>{
   if(e.request.method!=='GET')return;
   const isPage = e.request.mode==='navigate' || e.request.destination==='document';
