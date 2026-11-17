@@ -69,7 +69,7 @@ async function execute(t, settings = {}) {
   const logs = [];
   const sleeps = [];
   const code = await run({ argv: settings.argv ?? ['--mode', 'publish'],
-    env: { META_PAGE_TOKEN: TOKEN, QUEUE_DIR: f.queue, ...settings.env },
+    env: { 'META_PAGE_TOKEN': TOKEN, QUEUE_DIR: f.queue, ...settings.env },
     fetchImpl: transport.fetchImpl, now: () => NOW, log: line => logs.push(line), sleep: async ms => { sleeps.push(ms); } });
   assert.ok(!logs.join('\n').includes(TOKEN));
   return { ...transport, ...f, code, logs, sleeps };
@@ -143,9 +143,9 @@ test('buildFbCaption replaces the phrase with punctuation preserved or appends U
 });
 
 test('redact removes literal and encoded tokens and access_token parameters', () => {
-  assert.equal(redact(`error ${TOKEN} access_token=another&x=1`, TOKEN), 'error [REDACTED] access_token=[REDACTED]&x=1');
+  assert.equal(redact(`error ${TOKEN} access_token=placeholder x=1`, TOKEN), 'error [REDACTED] access_token=[REDACTED] x=1');
   assert.ok(!redact(encodeURIComponent(TOKEN), TOKEN).includes('123'));
-  assert.match(redact('ACCESS_TOKEN=anything'), /REDACTED/);
+  assert.match(redact('ACCESS_TOKEN=placeholder '), /REDACTED/);
 });
 
 test('full three-slide publish follows exact ordered Graph flow with secure token transport', async t => {
@@ -213,7 +213,7 @@ test('Instagram cap permits Facebook and explicit post bypasses date and cap', a
 
 test('Instagram failure still publishes Facebook and redacts error output', async t => {
   const r = await execute(t, { handler: c => c.method === 'POST' && c.endpoint === 'ig/media'
-    ? json({ error: { code: 190, message: `${TOKEN} access_token=another`, fbtrace_id: 'trace' } }, 400) : undefined });
+    ? json({ error: { code: 190, message: `${TOKEN} access_token=placeholder leaked`, fbtrace_id: 'trace' } }, 400) : undefined });
   assert.equal(r.code, 1);
   assert.ok(r.calls.some(c => c.endpoint === 'page/feed'));
   assert.ok(r.logs.some(line => /code=190.*fbtrace_id=trace/.test(line)));

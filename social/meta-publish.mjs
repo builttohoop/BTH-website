@@ -134,7 +134,9 @@ export async function run({ argv = [], env = process.env, fetchImpl = globalThis
         if (method === 'GET') init.headers = { Authorization: `Bearer ${token}` };
         else {
           init.headers = { 'Content-Type': 'application/x-www-form-urlencoded' };
-          init.body = new URLSearchParams({ ...fields, access_token: token }).toString();
+          const body = new URLSearchParams(fields);
+          body.set('access_token', token);
+          init.body = body.toString();
         }
         // Network exceptions have uncertain write outcomes: do not blindly replay them.
         const response = await fetchImpl(url.href, init);
