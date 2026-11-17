@@ -17,10 +17,12 @@ try{
   browser=await chromium.launch({channel:'chrome',headless:true});
   const page=await browser.newPage({viewport:{width:375,height:812},timezoneId:'America/New_York',serviceWorkers:'block'});
   const errors=[];page.on('pageerror',e=>errors.push(e.message));
+  page.on('dialog',d=>d.accept());
   await page.route('**/*',route=>route.request().url().startsWith('http://127.0.0.1:')?route.continue():route.abort());
   await page.clock.install({time:new Date('2026-11-17T03:00:00-05:00')});
   await page.goto(`http://127.0.0.1:${server.address().port}/bth-operator-v2.html`);
   assert.match(await page.locator('#tab-today .page-sub').textContent(),/Monday, Nov 16/);
+  assert.match(await page.locator('#opday-ends').textContent(),/ends 06:00/);
   await page.locator('input[oninput*="sleep"]').fill('7');
   await page.locator('input[oninput*="energy"]').fill('5');
   await page.clock.runFor(700);
@@ -29,13 +31,20 @@ try{
   await page.getByRole('textbox',{name:'Your task',exact:true}).fill('Owner task');
   await page.getByRole('button',{name:'ADD',exact:true}).click();
   assert.match(await page.locator('#tab-today').textContent(),/Owner task/);
+  await page.getByRole('textbox',{name:'Your task',exact:true}).fill('Scratch');
+  await page.getByRole('button',{name:'ADD',exact:true}).click();
+  await page.getByRole('button',{name:'Delete task: Scratch'}).click();
+  assert.doesNotMatch(await page.locator('#tab-today').textContent(),/Scratch/);
   await page.getByRole('button',{name:'SUBMIT THE DAY',exact:true}).click();
   assert.match(await page.locator('#tab-today .page-sub').textContent(),/Tuesday, Nov 17/);
+  assert.equal(await page.getByRole('button',{name:'SUBMIT THE DAY',exact:true}).count(),0);
+  assert.equal(await page.getByRole('button',{name:'UNDO SUBMIT',exact:true}).count(),1);
   await page.getByText('View Yesterday',{exact:true}).click();
-  assert.equal(await page.locator('#tab-today input:not(:disabled)').count(),0);
+  assert.equal(await page.locator('#tab-today input:not(:disabled):not([data-keep])').count(),0);
+  assert.equal(await page.locator('#tab-today input[data-keep]').count(),1);
   assert.equal(await page.locator('#tab-today button:not(:disabled)').count(),0);
   await page.getByText('← Active Day',{exact:true}).click();
-  await page.getByLabel('Off (sick / vacation)').check();
+  await page.getByLabel('Off (sick / vacation / rest)').check();
   await page.evaluate(()=>{twView='review';renderWeek();});
   assert.match(await page.locator('#tab-week').textContent(),/OFF/);
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
@@ -46,5 +55,5 @@ try{
   assert.equal(await page.evaluate(()=>OPERATOR_STATE.order.length),before+1);
   assert.deepEqual(errors,[]);
   await page.screenshot({path:'tests/operator-mobile-smoke.png',fullPage:true});
-  console.log('PASS: mobile UI, fast typing, tasks, submit, read-only yesterday, off/review, reload rollover, zero page errors, no horizontal overflow');
+  console.log('PASS: mobile UI, fast typing, tasks, delete, submit + confirm, ends line, undo shown, read-only yesterday, off/review, reload rollover, zero page errors, no horizontal overflow');
 }finally{await browser?.close();await new Promise(r=>server.close(r));}
