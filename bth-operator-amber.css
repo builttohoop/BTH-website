@@ -221,6 +221,8 @@ body.operator-amber .amber-ring span {overflow-wrap:anywhere;text-align:center;}
 body.operator-amber .pip-row {row-gap:8px;}
 body.operator-amber .pip-dot.done {color:#130c04;background:#f7b43b;}
 body.operator-amber .pip-dot.today.done {color:#130c04;}
+body.operator-amber .pip-dot.off {background:rgba(235,220,191,.22);border-color:rgba(235,220,191,.22);}
+body.operator-amber .pip-dot.missed {background:transparent;border-style:dashed;border-color:rgba(235,220,191,.55);}
 body.operator-amber .note-delete,body.operator-amber .added-ex-del {display:inline-flex;align-items:center;justify-content:center;}
 body.operator-amber select option {background:#161b20;color:#fcf9f3;}
 body.operator-amber button.amber-metric {font:inherit;color:var(--ink);text-align:left;cursor:pointer;}

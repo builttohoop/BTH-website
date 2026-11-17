@@ -54,7 +54,8 @@ test('O1 scoreParts add up to scoreDay and the grade card shows the points',()=>
   const c=app({},'2026-11-21T21:00:00-05:00');const log={sleep:'6',energy:'5',posted:true,gym:false,working:true,protein:'120',water:'4'};const p=c.scoreParts(log);
   assert.equal(Math.round(p.sleep+p.energy+p.bth+p.gym+p.protein+p.water),c.scoreDay(log));
   for(const k of ['2026-11-16','2026-11-17','2026-11-18']){const d=c.ensureOperatorDay(k);d.submitted=true;c.setLog(d.id,{...log});}
-  assert.match(c.renderWeekReview(),/Avg points: Sleep 15\/20 · Energy 7\/10 · BTH 5\/30 · Gym 0\/20 · Protein 9\/15 · Water 3\/5/);
+  // Loop 2 (ISS-0546): Tue Nov 17 is a rest day on the starter schedule, so it earns full gym points: (0+20+0)/3 = 7.
+  assert.match(c.renderWeekReview(),/Avg points: Sleep 15\/20 · Energy 7\/10 · BTH 5\/30 · Gym 7\/20 · Protein 9\/15 · Water 3\/5/);
 });
 test('O1 isGymDay matches id gym or a Gym/Lift label',()=>{
   const c=app({bth_schedule:[{id:'c1',label:'Lift legs',time:'21:00',days:[2]}]});
