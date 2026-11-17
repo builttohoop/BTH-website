@@ -74,6 +74,7 @@
     .btch-all-done{background:var(--gold);border:2px solid var(--gold);border-radius:2px;padding:12px 16px;margin-bottom:10px;text-align:center;font-weight:900;font-size:14px;letter-spacing:1px;color:var(--on-gold);display:none;}
     .task-item{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--gray);}
     .task-item:last-child{border-bottom:none;}
+    body .task-item .task-del{flex:0 0 40px;width:40px;min-width:40px;height:40px;padding:0;display:inline-flex;align-items:center;justify-content:center;}
     .task-check{width:22px;height:22px;border-radius:2px;border:2px solid var(--muted);background:none;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:border-color .2s,background .2s;font-size:13px;color:transparent;}
     .task-check.done{border-color:var(--gold);background:var(--gold);color:var(--on-gold);}
     .task-text{font-size:13px;flex:1;}.task-text.done{text-decoration:line-through;color:var(--muted);}
@@ -250,6 +251,9 @@ var DEFAULT_SCHEDULE=[
   {id:'read',label:'Reading',time:'20:30'},
   {id:'sleep',label:'Lights out',time:'22:00'},
 ];
+// New installs put Gym on Mon/Wed/Fri (ISS-0438). An existing user with
+// no saved bth_schedule keeps reading DEFAULT_SCHEDULE unchanged, so their gym days never move.
+function starterSchedule(){return DEFAULT_SCHEDULE.map(function(s){var c=Object.assign({},s);if(c.id==='gym')c.days=[1,3,5];return c;});}
 var PHASE2={
   name:"Jump & Lean Block — Phase 2 + 2.5",
   goalPills:["↑ Jump Ability","Fat Loss","Lower Body","Tendon Health"],
@@ -348,11 +352,19 @@ function cutoffMinutes(){return timeMinutes(cutoffTime());}
 function opDate(d){var out=new Date(d===undefined?new Date():d);if(out.getHours()*60+out.getMinutes()<cutoffMinutes())out.setDate(out.getDate()-1);return out;}
 function tyNow(){return opDate(new Date());}
 function nightMinutes(t){return /^\d\d:\d\d$/.test(t||'')?(timeMinutes(t)-cutoffMinutes()+1440)%1440:1440;}
-function setOpCutoff(t){if(!editableDay())return;if(!/^([01]\d|2[0-3]):[0-5]\d$/.test(t))return;save('bth_opday_cutoff',t);autoRollover();renderToday();}
+function setOpCutoff(t){
+  if(!editableDay())return;if(!/^([01]\d|2[0-3]):[0-5]\d$/.test(t))return;
+  // Confirm before a new cutoff closes the open day (ISS-0422).
+  var now=new Date(),next=new Date(now);if(now.getHours()*60+now.getMinutes()<timeMinutes(t))next.setDate(next.getDate()-1);
+  var current=findOperatorDay(OPERATOR_STATE.activeDayId);
+  if(current&&operatorDate(current.id).getTime()<new Date(next.getFullYear(),next.getMonth(),next.getDate()).getTime()&&!confirm('A '+t+' cutoff closes '+formatDate(operatorDate(current.id))+' now. Change it?')){renderToday();return;}
+  save('bth_opday_cutoff',t);autoRollover();renderToday();
+}
 function canonicalDate(k){var p=String(k).split('-');return p.length===3?p[0]+'-'+pad(p[1])+ '-'+pad(p[2]):k;}
 function legacyDate(k){return String(k).split('-').map(Number).join('-');}
 function legacyLoad(prefix,key){return load(prefix+key)||load(prefix+legacyDate(key));}
-function isGymDay(d){var gym=getSchedule().find(function(i){return i.id==='gym';});return !!gym&&schedOnDay(gym,d.getDay());}
+function isGymItem(i){return !!i&&(i.id==='gym'||/gym|lift/i.test(i.label||''));}
+function isGymDay(d){return getSchedule().some(function(i){return isGymItem(i)&&schedOnDay(i,d.getDay());});}
 function editableDay(){return activeLogKey===OPERATOR_STATE.activeDayId;}
 
 function dateKey(d){return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());}
@@ -375,10 +387,14 @@ function migrateOperatorStorage(state){
   }
   save(OPERATOR_STATE_KEY,state);return state;
 }
+// True only when this browser has never saved Operator data. The marketing site shares the origin
+// and its own bth_* keys (bth_lead_ref, bth_anon_id...) do not count.
+function isFreshInstall(){try{for(var i=0;i<localStorage.length;i++){if(/^bth_(operator_state|schedule|[dt]_|tyweek|goals|best_|opday_cutoff|claude_notes|train_|custom_workouts|creator_exercises)/.test(localStorage.key(i)||''))return false;}return true;}catch(e){return false;}}
 function initOperatorState(){
   var state=load(OPERATOR_STATE_KEY)||load('bth_operator_state');
   if(state&&state.version===3){state.reminders=state.reminders||{fired:{}};state.reminders.fired=state.reminders.fired||{};state.order=state.order||Object.keys(state.days||{});Object.keys(state.days||{}).forEach(function(id){state.days[id].labelDate=canonicalDate(state.days[id].labelDate);});}
   if(state&&state.version===3&&state.activeDayId&&state.days&&state.days[state.activeDayId])return migrateOperatorStorage(state);
+  if(!state&&isFreshInstall())save('bth_schedule',starterSchedule());
   var id=operatorDayId(),label=todayKey();
   state={version:3,activeDayId:id,order:[id],days:{},reminders:{fired:{}}};
   state.days[id]={id:id,labelDate:label,createdAt:new Date().toISOString(),submitted:false,submittedAt:null,log:legacyLoad('bth_d_',label)||{},tasks:legacyLoad('bth_t_',label)||null};
@@ -403,21 +419,43 @@ function getTasks(key){var day=findOperatorDay(key);return day?day.tasks:(legacy
 function setTasks(key,data){var day=findOperatorDay(key);if(day){day.tasks=data;persistOperator();}else save('bth_t_'+key,data);}
 function getGoals(){return Object.assign({},DEFAULT_GOALS,load('bth_goals')||{});}
 function getSchedule(){return load('bth_schedule')||DEFAULT_SCHEDULE.map(function(s){return Object.assign({},s);});}
+// A log counts as logged only when a real value is in it. `off` and the frozen `gymDay` flag are
+// bookkeeping, and an unticked box (false) or a cleared input ('') is not a log (ISS-0436).
+var LOG_META_KEYS=['off','gymDay'];
+function hasLogData(d){if(!d)return false;return Object.keys(d).some(function(k){var v=d[k];return LOG_META_KEYS.indexOf(k)===-1&&v!==false&&v!==''&&v!==null&&v!==undefined;});}
+// Point components of a day's score (max 20/10/30/20/15/5 = 100). scoreDay is their rounded sum.
+function scoreParts(d){
+  var goals=getGoals(),sl=parseFloat(d.sleep)||0,en=parseInt(d.energy)||0,bth=0;
+  BTH_ITEMS.forEach(function(it){if(d[it.key])bth+=5;});
+  return{sleep:Math.min(20,(sl/8)*20),energy:Math.min(10,(en/7)*10),bth:bth,gym:d.gym?20:(!d.working?10:0),protein:Math.min(1,(parseFloat(d.protein)||0)/goals.protein)*15,water:Math.min(1,(parseFloat(d.water)||0)/goals.water)*5};
+}
 function scoreDay(d){
-  if(!d||d.off||!Object.keys(d).length)return null;
-  var pts=0,goals=getGoals(),sl=parseFloat(d.sleep)||0,en=parseInt(d.energy)||0;
-  pts+=Math.min(20,(sl/8)*20);pts+=Math.min(10,(en/7)*10);
-  BTH_ITEMS.forEach(function(it){if(d[it.key])pts+=5;});
-  if(d.gym)pts+=20;else if(!d.working)pts+=10;
-  pts+=Math.min(1,(parseFloat(d.protein)||0)/goals.protein)*15;
-  pts+=Math.min(1,(parseFloat(d.water)||0)/goals.water)*5;
+  if(!d||d.off||!hasLogData(d))return null;
+  var p=scoreParts(d),pts=p.sleep+p.energy+p.bth+p.gym+p.protein+p.water;
   return Math.round(Math.min(100,pts));
 }
 function scoreToGrade(s){if(s===null)return null;if(s>=93)return'A+';if(s>=90)return'A';if(s>=87)return'A-';if(s>=83)return'B+';if(s>=80)return'B';if(s>=77)return'B-';if(s>=73)return'C+';if(s>=70)return'C';if(s>=67)return'C-';if(s>=60)return'D';return'F';}
-function calcStreak(fn){var streak=0,d=tyNow();for(var i=0;i<90;i++){var k=dateKey(d),lg=getLog(k);if(lg.off){d.setDate(d.getDate()-1);continue;}if(!lg||!Object.keys(lg).length)break;if(!fn(lg))break;streak++;d.setDate(d.getDate()-1);}return streak;}
+// Streaks walk back from the newest operator day to the oldest one on record (no 90-day cap,
+// ISS-0437). A day still in progress never breaks a streak; it only adds once it qualifies (ISS-0412).
+function walkOperatorDays(visit){
+  var map={},min=null,today=todayKey();
+  OPERATOR_STATE.order.forEach(function(id){var day=OPERATOR_STATE.days[id];if(!day)return;var k=canonicalDate(day.labelDate);if(!/^\d{4}-\d{2}-\d{2}$/.test(k))return;map[k]=day;if(min===null||k<min)min=k;});
+  if(min===null)return;
+  var start=tyNow(),active=OPERATOR_STATE.days[OPERATOR_STATE.activeDayId];if(active&&canonicalDate(active.labelDate)>dateKey(start))start=operatorDate(active.id);
+  var d=new Date(start.getFullYear(),start.getMonth(),start.getDate(),12);
+  for(var guard=0;guard<40000;guard++){
+    var k=dateKey(d);if(k<min)break;var day=map[k],lg=day?(day.log||{}):(legacyLoad('bth_d_',k)||{});
+    var inProgress=day?(day.id===OPERATOR_STATE.activeDayId&&!day.submitted):k>=today;
+    if(visit(lg,inProgress,d)===false)break;d.setDate(d.getDate()-1);
+  }
+}
+function calcStreak(fn){var n=0;walkOperatorDays(function(lg,inProgress){if(lg.off)return;var ok=hasLogData(lg)&&fn(lg);if(ok){n++;return;}if(inProgress)return;return false;});return n;}
 function bthStreak(){return calcStreak(function(l){return BTH_ITEMS.every(function(it){return l[it.key];});});}
-function gymStreak(){var n=0,d=tyNow();for(var i=0;i<90;i++){var lg=getLog(dateKey(d));if(isGymDay(d)&&!lg.off){if(!lg.gym)break;n++;}d.setDate(d.getDate()-1);}return n;}
+// Gym counts only on scheduled gym days. A closed day keeps the gym-day answer it had then (log.gymDay, ISS-0434).
+function gymStreak(){var items=getSchedule().filter(isGymItem),n=0;walkOperatorDays(function(lg,inProgress,d){if(lg.off)return;var scheduled=typeof lg.gymDay==='boolean'?lg.gymDay:items.some(function(i){return schedOnDay(i,d.getDay());});if(!scheduled)return;if(lg.gym){n++;return;}if(inProgress)return;return false;});return n;}
 function readStreak(){return calcStreak(function(l){return!!l.reading;});}
+// Saves a best the moment a streak beats it, from Today and on every day close. Never lowers one.
+function updateBests(){var cur={bth:bthStreak(),gym:gymStreak(),read:readStreak()},best={};['bth','gym','read'].forEach(function(k){var stored=Number(load('bth_best_'+k))||0;best[k]=Math.max(cur[k],stored);if(best[k]>stored)save('bth_best_'+k,best[k]);});return{cur:cur,best:best};}
 var activeLogKey=OPERATOR_STATE.activeDayId,saveTimers={},pendingSaves={},trainWeek=parseInt(load('bth_train_week'))||1,trainDay=parseInt(load('bth_train_day'))||1,trainView='program',tempGoals={};
 var toastTimer;
 function toast(msg,dur){dur=dur||2400;var el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(function(){el.classList.remove('show');},dur);}
@@ -460,11 +498,15 @@ function renderToday(){
   var isYest=activeLogKey!==OPERATOR_STATE.activeDayId,log=getLog(activeLogKey),goals=getGoals(),dateD=operatorDate(activeLogKey);
   var gymToday=isGymDay(dateD);
   var waterPct=amberPercent(log.water,goals.water);
-  var html='<div class="page-head"><div class="page-title">BTH OPERATOR</div><div class="page-sub">'+formatDate(dateD)+'</div><div id="today-micro"></div></div>';
-  if(operatorAmber)html=amberHead('OWN YOUR DAY.',formatDate(dateD))+'<div id="today-micro"></div>'+amberTodayHero()+amberMetrics(log,goals);
+  try{updateBests();}catch(e){}
+  // Says why the date can trail the clock after midnight (ISS-0432, ISS-0452).
+  var endsLine=isYest?'':'<div class="input-sub opday-ends" id="opday-ends">Operator day · ends '+cutoffTime()+'</div>';
+  var html='<div class="page-head"><div class="page-title">BTH OPERATOR</div><div class="page-sub">'+formatDate(dateD)+'</div>'+endsLine+'<div id="today-micro"></div></div>';
+  if(operatorAmber)html=amberHead('OWN YOUR DAY.',formatDate(dateD))+endsLine+'<div id="today-micro"></div>'+amberTodayHero()+amberMetrics(log,goals);
   if(isYest){html+='<div class="yesterday-banner"><div class="yesterday-text">Viewing another operator day</div><div class="yesterday-back" role="button" tabindex="0" onclick="returnToToday()">← Active Day</div></div>';}
   html+=twTodayCardHtml();
-  html+='<div class="card"><label><input type="checkbox" '+(log.off?'checked ':'')+'onchange="toggleOffDay()"> Off (sick / vacation)</label></div>';
+  // Off stays usable on a viewed past day (data-keep), so a missed sick or rest day can be marked after the fact (ISS-0436).
+  html+='<div class="card"><label><input type="checkbox" data-keep '+(log.off?'checked ':'')+'onchange="toggleOffDay()"> Off (sick / vacation / rest)</label>'+(isYest?'':offRangeHtml())+'</div>';
   html+='<div class="card amber-inputs"><div class="card-title">SLEEP + ENERGY</div>'
     +'<div class="input-row"><div><div class="input-label">Sleep</div><div class="input-sub">hours</div></div><input aria-label="Sleep hours" class="num-input" type="number" step="0.5" min="0" max="12" placeholder="—" value="'+esc(log.sleep||'')+'" oninput="db(\'sleep\',this.value)"></div>'
     +'<div class="input-row"><div><div class="input-label">Energy</div><div class="input-sub">1 – 7</div></div><input aria-label="Energy out of seven" class="num-input" type="number" min="1" max="7" placeholder="—" value="'+esc(log.energy||'')+'" oninput="db(\'energy\',this.value)"></div>'
@@ -482,8 +524,8 @@ function renderToday(){
   html+='</div></div>';
   html+=renderTasksHtml();
   html+=renderScheduleHtml();
-  if(!isYest){html+='<div class="card" style="border-left-color:var(--gold);"><div class="card-title">CLOSE THE OPERATOR DAY</div><div class="input-sub" style="line-height:1.6;margin-bottom:12px;">Submit when you are ready to close this operator day and open the next date. An unfinished day closes automatically at '+cutoffTime()+'.</div><button class="btn-primary" onclick="submitOperatorDay()">SUBMIT THE DAY</button></div><div style="text-align:center;padding:8px 0 4px;"><span onclick="switchToYesterday()" style="font-family:\'DM Sans\',sans-serif;font-size:12px;font-weight:600;color:var(--muted);cursor:pointer;text-transform:uppercase;letter-spacing:.8px;text-decoration:underline;">View Yesterday</span></div>';}
-  if(isYest)html=html.replace(/\s(?:oninput|onchange|onclick)="[^"]*"/g,function(a){return a.indexOf('returnToToday()')!==-1?a:'';}).replace(/<(input|button|select|textarea)\b/g,'<$1 disabled');
+  if(!isYest){var ahead=submitIsAhead();html+='<div class="card" style="border-left-color:var(--gold);"><div class="card-title">CLOSE THE OPERATOR DAY</div><div class="input-sub" style="line-height:1.6;margin-bottom:12px;">Submit when you are ready to close this operator day and open the next date. An unfinished day closes automatically at '+cutoffTime()+'.</div>'+(ahead?'<div class="input-sub" id="submit-ahead" style="margin-bottom:12px;">This day is already ahead of the clock. Submit opens again after '+cutoffTime()+'.</div>':'<button class="btn-primary" onclick="submitOperatorDay()">SUBMIT THE DAY</button>')+(canUndoSubmit()?'<button class="btn-secondary" style="margin-top:10px;" onclick="undoSubmit()">UNDO SUBMIT</button>':'')+'</div><div style="text-align:center;padding:8px 0 4px;"><span onclick="switchToYesterday()" style="font-family:\'DM Sans\',sans-serif;font-size:12px;font-weight:600;color:var(--muted);cursor:pointer;text-transform:uppercase;letter-spacing:.8px;text-decoration:underline;">View Yesterday</span></div>';}
+  if(isYest)html=html.replace(/\s(?:oninput|onchange|onclick)="[^"]*"/g,function(a){return a.indexOf('returnToToday()')!==-1||a.indexOf('toggleOffDay()')!==-1?a:'';}).replace(/<(input|button|select|textarea)\b(?![^>]*data-keep)/g,'<$1 disabled');
   document.getElementById('tab-today').innerHTML=html;
   renderMicroSummary();
 }
@@ -494,15 +536,57 @@ function renderTasksHtml(){
   if(taskData&&taskData.tasks&&taskData.tasks.length){
     var allDone=taskData.completed&&taskData.completed.every(Boolean);
     if(allDone)html+='<div style="text-align:center;color:var(--gold-text);font-family:\'Oswald\',sans-serif;font-size:14px;font-weight:600;padding:6px 0 10px;letter-spacing:1px;">ALL DONE — LOCKED IN</div>';
-    taskData.tasks.forEach(function(t,i){var done=taskData.completed&&taskData.completed[i];html+='<div class="task-item"><div class="task-check '+(done?'done':'')+'" role="button" tabindex="0" aria-pressed="'+!!done+'" onclick="toggleTask('+i+')">'+(done?'✓':'')+'</div><div class="task-text '+(done?'done':'')+'">'+esc(t)+'</div></div>';});
+    taskData.tasks.forEach(function(t,i){var done=taskData.completed&&taskData.completed[i];html+='<div class="task-item"><div class="task-check '+(done?'done':'')+'" role="button" tabindex="0" aria-pressed="'+!!done+'" onclick="toggleTask('+i+')">'+(done?'✓':'')+'</div><div class="task-text '+(done?'done':'')+'" style="flex:1;">'+esc(t)+'</div><button class="sched-btn task-del" aria-label="Delete task: '+esc(t)+'" onclick="removeTask('+i+')">✕</button></div>';});
+    var carried=carriedOpenCount(taskData,activeLogKey);if(carried)html+='<button class="btn-secondary" style="margin:8px 0;" onclick="clearCarried()">CLEAR CARRIED ('+carried+')</button>';
   } else if(afterStart){
     html+='<div style="font-size:11px;color:var(--muted);font-style:italic;margin-bottom:8px;">No tasks set — backup tasks:</div>';
     backups.forEach(function(t,i){var td=getTasks(activeLogKey),done=td&&td.completed&&td.completed[i];html+='<div class="task-item"><div class="task-check '+(done?'done':'')+'" role="button" tabindex="0" aria-pressed="'+!!done+'" onclick="checkBackup('+i+')">'+(done?'✓':'')+'</div><div class="task-text '+(done?'done':'')+'">'+esc(t)+'</div></div>';});
   } else {html+='<div class="no-data">No tasks yet<br><span style="font-size:11px;">Backups show after your day starts ('+cutoffTime()+')</span></div>';}
   return html+'<div class="input-row"><input id="new-task" class="tw-input" aria-label="Your task" placeholder="Your task"><button class="btn-secondary" onclick="addOwnTask()">ADD</button></div></div>';
 }
-function addOwnTask(){if(!editableDay())return;var el=document.getElementById('new-task'),text=(el.value||'').trim();if(!text)return;var td=getTasks(activeLogKey)||{tasks:[],completed:[]};td.completed=td.completed||[];td.tasks.push(text);td.completed.push(false);setTasks(activeLogKey,td);renderToday();}
-function toggleOffDay(){if(!editableDay())return;var log=getLog(activeLogKey);log.off=!log.off;setLog(activeLogKey,log);renderToday();}
+function taskKey(t){return String(t||'').trim().toLowerCase();}
+function addOwnTask(){
+  if(!editableDay())return;var el=document.getElementById('new-task'),text=(el.value||'').trim();if(!text)return;
+  var td=getTasks(activeLogKey)||{tasks:[],completed:[],origin:[]};td.tasks=td.tasks||[];td.completed=td.completed||[];
+  // Skip a repeat of a task that is still open (ISS-0426).
+  if(td.tasks.some(function(t,i){return taskKey(t)===taskKey(text)&&!td.completed[i];})){el.value='';toast('Already on your list');return;}
+  if(Array.isArray(td.origin)){while(td.origin.length<td.tasks.length)td.origin.push(null);td.origin.push(canonicalDate(findOperatorDay(activeLogKey).labelDate));}
+  td.tasks.push(text);td.completed.push(false);setTasks(activeLogKey,td);renderToday();
+}
+// Delete one task row. Parallel arrays (completed, origin) stay aligned.
+function removeTask(idx){
+  if(!editableDay())return;var td=getTasks(activeLogKey);if(!td||!Array.isArray(td.tasks)||idx<0||idx>=td.tasks.length)return;
+  td.tasks.splice(idx,1);if(Array.isArray(td.completed))td.completed.splice(idx,1);if(Array.isArray(td.origin))td.origin.splice(idx,1);
+  setTasks(activeLogKey,td);renderToday();toast('Task deleted');
+}
+// Open tasks that came over from an earlier day. origin[] is optional: a missing entry means this day.
+function carriedOpenCount(td,key){var day=findOperatorDay(key);if(!day||!td||!Array.isArray(td.origin)||!Array.isArray(td.tasks))return 0;var label=canonicalDate(day.labelDate);return td.tasks.filter(function(t,i){return td.origin[i]&&td.origin[i]<label&&!(td.completed||[])[i];}).length;}
+function clearCarried(){
+  if(!editableDay())return;var td=getTasks(activeLogKey),n=carriedOpenCount(td,activeLogKey);if(!n)return;
+  if(!confirm('Clear '+n+' open task'+(n===1?'':'s')+' carried from earlier days?'))return;
+  var label=canonicalDate(findOperatorDay(activeLogKey).labelDate);
+  for(var i=td.tasks.length-1;i>=0;i--){if(td.origin[i]&&td.origin[i]<label&&!(td.completed||[])[i]){td.tasks.splice(i,1);if(Array.isArray(td.completed))td.completed.splice(i,1);td.origin.splice(i,1);}}
+  setTasks(activeLogKey,td);renderToday();toast('Carried tasks cleared');
+}
+// Off works on the active day and on a viewed past day.
+function toggleOffDay(){
+  var key=activeLogKey;if(!editableDay()&&!findOperatorDay(key)){var made=ensureOperatorDay(key);made.submitted=true;persistOperator();}
+  var log=getLog(key);log.off=!log.off;setLog(key,log);renderToday();
+}
+function offRangeHtml(){var max=canonicalDate(findOperatorDay(OPERATOR_STATE.activeDayId).labelDate);return '<details class="off-range" style="margin-top:10px;"><summary class="input-sub" style="cursor:pointer;">Mark past days off</summary><div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:8px;"><input type="date" id="off-from" class="tw-input" aria-label="Off from" max="'+max+'" style="flex:1 1 130px;min-width:0;"><input type="date" id="off-to" class="tw-input" aria-label="Off to" max="'+max+'" style="flex:1 1 130px;min-width:0;"><button class="btn-secondary" onclick="setOffRange()">MARK OFF</button></div></details>';}
+// Marks every date in a range Off, up to the open day. Days with no record get one; nothing is removed.
+function setOffRange(from,to){
+  if(from===undefined){var f=document.getElementById('off-from'),t=document.getElementById('off-to');from=f&&f.value;to=t&&t.value||from;}
+  var re=/^\d{4}-\d{2}-\d{2}$/;if(!re.test(from||'')||!re.test(to||'')){toast('Pick the dates first');return 0;}
+  if(from>to){var s=from;from=to;to=s;}
+  var max=canonicalDate(findOperatorDay(OPERATOR_STATE.activeDayId).labelDate);if(to>max)to=max;if(from>to){toast('Pick dates up to today');return 0;}
+  var labels=[],p=from.split('-').map(Number),d=new Date(p[0],p[1]-1,p[2],12);
+  while(dateKey(d)<=to&&labels.length<=366){labels.push(dateKey(d));d.setDate(d.getDate()+1);}
+  if(labels.length>366){toast('Pick a year or less');return 0;}
+  if(!confirm('Mark '+labels.length+' day'+(labels.length===1?'':'s')+' off? Off days skip grades and streaks.'))return 0;
+  labels.forEach(function(label){var day=findOperatorDay(label);if(!day){day=ensureOperatorDay(label);if(day.id!==OPERATOR_STATE.activeDayId)day.submitted=true;}day.log=day.log||{};day.log.off=true;});
+  persistOperator();renderToday();toast(labels.length+' off day'+(labels.length===1?'':'s')+' saved');return labels.length;
+}
 var SCHED_DAYS=['S','M','T','W','T','F','S'],SCHED_DAY_NAMES=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],schedEditing=false;
 function schedOnDay(item,dow){return !Array.isArray(item.days)||!item.days.length||item.days.indexOf(dow)!==-1;}
 function schedDaysText(item){if(!Array.isArray(item.days)||!item.days.length||item.days.length===7)return 'Every day';var d=item.days.slice().sort();if(d.join()==='1,2,3,4,5')return 'Weekdays';if(d.join()==='0,6')return 'Weekends';return d.map(function(i){return SCHED_DAY_NAMES[i].slice(0,3);}).join(' · ');}
@@ -561,14 +645,50 @@ function returnToToday(){activeLogKey=OPERATOR_STATE.activeDayId;renderToday();}
 function openNextDay(label,auto){
   flushFieldSaves();var current=findOperatorDay(OPERATOR_STATE.activeDayId),oldTasks=current.tasks||{tasks:[],completed:[]};
   current.submitted=true;current.auto=!!auto;current.submittedAt=new Date().toISOString();
-  var carry=(oldTasks.tasks||[]).filter(function(t,i){return t&&!(oldTasks.completed||[])[i];});
-  var next=findOperatorDay(label);if(!next){var id=operatorDayId();next={id:id,labelDate:label,createdAt:new Date().toISOString(),submitted:false,submittedAt:null,log:{},tasks:carry.length?{tasks:carry,completed:carry.map(function(){return false;}),setAt:new Date().toISOString()}:null};OPERATOR_STATE.days[id]=next;OPERATOR_STATE.order.push(id);}
-  OPERATOR_STATE.activeDayId=next.id;activeLogKey=next.id;persistOperator();
+  // Freeze whether the closing day was a gym day, so later schedule edits never re-judge it (ISS-0434).
+  current.log=current.log||{};if(typeof current.log.gymDay!=='boolean')current.log.gymDay=isGymDay(operatorDate(current.id));
+  // Carry each open task once, matched on trimmed lower-case text, keeping its oldest origin date (ISS-0426).
+  var oldLabel=canonicalDate(current.labelDate),oldOrigin=Array.isArray(oldTasks.origin)?oldTasks.origin:[],seen={},carry=[],origin=[];
+  (oldTasks.tasks||[]).forEach(function(t,i){if(!t||(oldTasks.completed||[])[i])return;var k=taskKey(t),o=oldOrigin[i]||oldLabel;if(!k)return;if(Object.prototype.hasOwnProperty.call(seen,k)){if(o<origin[seen[k]])origin[seen[k]]=o;return;}seen[k]=carry.length;carry.push(t);origin.push(o);});
+  var next=findOperatorDay(label);if(!next){var id=operatorDayId();next={id:id,labelDate:label,createdAt:new Date().toISOString(),submitted:false,submittedAt:null,log:{},tasks:carry.length?{tasks:carry,completed:carry.map(function(){return false;}),origin:origin,setAt:new Date().toISOString()}:null};OPERATOR_STATE.days[id]=next;OPERATOR_STATE.order.push(id);}
+  OPERATOR_STATE.activeDayId=next.id;activeLogKey=next.id;OPERATOR_STATE.lastSubmit=null;persistOperator();
+  try{updateBests();}catch(e){}
 }
 function autoRollover(){var current=findOperatorDay(OPERATOR_STATE.activeDayId);if(operatorDate(current.id).getTime()>=operatorDate(todayKey()).getTime())return false;var viewingActive=editableDay(),viewed=activeLogKey;openNextDay(todayKey(),true);if(typeof twDay!=='undefined'&&twOffset===0)twDay=twTodayIdx();if(viewingActive)renderToday();else activeLogKey=viewed;return true;}
+// The open day is already ahead of the clock (a submit happened earlier this operator day).
+function submitIsAhead(){var day=findOperatorDay(OPERATOR_STATE.activeDayId);return !!day&&canonicalDate(day.labelDate)>todayKey();}
+var submitLockUntil=0;
+// One submit per operator day: refused when the open day is ahead of the clock, confirmed, and
+// guarded for 2 s against a double tap (ISS-0431, ISS-0457).
 function submitOperatorDay(){
   if(!editableDay()){toast('Return to the active day first');return;}
-  var date=operatorDate(OPERATOR_STATE.activeDayId);date.setDate(date.getDate()+1);openNextDay(dateKey(date),false);renderToday();toast('Operator day submitted — fresh day open');
+  if(Date.now()<submitLockUntil)return;
+  if(submitIsAhead()){toast('Already a day ahead. Submit opens after '+cutoffTime());return;}
+  var current=findOperatorDay(OPERATOR_STATE.activeDayId),from=operatorDate(current.id),date=operatorDate(current.id);date.setDate(date.getDate()+1);
+  if(!confirm('Close '+formatDate(from)+' and open '+formatDate(date)+'?'))return;
+  submitLockUntil=Date.now()+2000;
+  var label=dateKey(date),existing=findOperatorDay(label),prev={submitted:current.submitted,submittedAt:current.submittedAt,auto:current.auto},hadGymDay=!!current.log&&typeof current.log.gymDay==='boolean';
+  openNextDay(label,false);
+  var opened=findOperatorDay(OPERATOR_STATE.activeDayId);
+  OPERATOR_STATE.lastSubmit={from:current.id,to:opened.id,created:!existing,prev:prev,gymDayAdded:!hadGymDay,taskCount:opened.tasks&&opened.tasks.tasks?opened.tasks.tasks.length:0};persistOperator();
+  renderToday();toast('Operator day submitted — fresh day open');
+}
+// Undo is offered only while the new day is untouched and the closed day is still today's operator day.
+function canUndoSubmit(){
+  var u=OPERATOR_STATE.lastSubmit;if(!u||u.to!==OPERATOR_STATE.activeDayId)return false;
+  var next=OPERATOR_STATE.days[u.to],prev=OPERATOR_STATE.days[u.from];if(!next||!prev)return false;
+  if(hasLogData(next.log)||(next.log&&next.log.off))return false;
+  var t=next.tasks;if(t&&(((t.completed||[]).some(Boolean))||((t.tasks||[]).length!==u.taskCount)))return false;
+  return canonicalDate(prev.labelDate)>=todayKey();
+}
+function undoSubmit(){
+  if(!canUndoSubmit())return;var u=OPERATOR_STATE.lastSubmit,prev=OPERATOR_STATE.days[u.from];
+  // Only the empty day this submit created is removed; a day that already existed is kept.
+  if(u.created){delete OPERATOR_STATE.days[u.to];OPERATOR_STATE.order=OPERATOR_STATE.order.filter(function(id){return id!==u.to;});}
+  ['submitted','submittedAt','auto'].forEach(function(k){if(u.prev&&u.prev[k]!==undefined)prev[k]=u.prev[k];else delete prev[k];});
+  if(u.gymDayAdded&&prev.log)delete prev.log.gymDay;
+  OPERATOR_STATE.activeDayId=prev.id;activeLogKey=prev.id;OPERATOR_STATE.lastSubmit=null;submitLockUntil=0;persistOperator();
+  renderToday();toast('Day reopened');
 }
 
 function renderTrain(){
@@ -677,19 +797,24 @@ function saveGoals(){var current=getGoals();save('bth_goals',Object.assign({},cu
 var reviewOffset=0;
 function reviewShift(n){reviewOffset=Math.min(0,reviewOffset+n);renderWeek();}
 function dayInProgress(k){var d=findOperatorDay(k);return !!d&&d.id===OPERATOR_STATE.activeDayId&&!d.submitted;}
+// Where the weekly grade comes from: each part's average points per scored day (ISS-0440).
+function gradePointsHtml(logs){
+  var scored=logs.filter(function(d){return scoreDay(d.log)!==null;});if(!scored.length)return '';
+  var parts=[['sleep','Sleep',20],['energy','Energy',10],['bth','BTH',30],['gym','Gym',20],['protein','Protein',15],['water','Water',5]],sums={};
+  scored.forEach(function(d){var p=scoreParts(d.log);parts.forEach(function(x){sums[x[0]]=(sums[x[0]]||0)+p[x[0]];});});
+  return '<div class="grade-points input-sub" style="margin-top:10px;line-height:1.6;">Avg points: '+parts.map(function(x){return x[1]+' '+Math.round(sums[x[0]]/scored.length)+'/'+x[2];}).join(' · ')+'</div>';
+}
 function renderWeekReview(){
   var keys=weekKeys(reviewOffset),logs=keys.map(function(k){return{key:k,log:getLog(k)};}).filter(function(d){return !d.log.off&&!dayInProgress(d.key);});
-  var loggedDays=logs.filter(function(d){return Object.keys(d.log).length>0;}).length;
+  var loggedDays=logs.filter(function(d){return hasLogData(d.log);}).length;
   var html='<div class="tw-weeknav"><button class="btn-secondary" onclick="reviewShift(-1)">◀ LAST WEEK</button><span>'+esc(keys[0])+' – '+esc(keys[6])+'</span><button class="btn-secondary" onclick="reviewShift(1)"'+(reviewOffset===0?' disabled':'')+'>NEXT WEEK ▶</button></div><div class="card grade-card">';
   if(loggedDays<2){html+='<div class="no-data"><div style="color:var(--ink);font-family:\'Oswald\',sans-serif;font-size:16px;font-weight:600;margin-bottom:4px;">No grade yet</div>Log at least 2 days to see your weekly grade.</div>';}
-  else{var scores=logs.map(function(d){return scoreDay(d.log);}).filter(function(s){return s!==null;});var avg=Math.round(scores.reduce(function(a,b){return a+b;},0)/scores.length);var grade=scoreToGrade(avg);var col=avg>=70?'var(--gold-text)':'var(--ink)';var bthDays=logs.filter(function(d){return BTH_ITEMS.every(function(it){return d.log[it.key];});}).length;var gymDays=logs.filter(function(d){return d.log.gym;}).length;var sleepVals=logs.map(function(d){return parseFloat(d.log.sleep);}).filter(function(v){return v>0;});var avgSleep=sleepVals.length?(sleepVals.reduce(function(a,b){return a+b;},0)/sleepVals.length).toFixed(1)+'h':'—';html+='<div class="grade-letter" style="color:'+col+'">'+grade+'</div><div class="grade-score">'+avg+'/100 AVG · '+loggedDays+' days logged</div><div class="grade-breakdown">';[{label:'BTH',val:bthDays+' days'},{label:'GYM',val:gymDays+' days'},{label:'SLEEP',val:avgSleep}].forEach(function(b){html+='<div class="grade-item"><div class="grade-item-val">'+b.val+'</div><div class="grade-item-lbl">'+b.label+'</div></div>';});html+='</div>';}
+  else{var scores=logs.map(function(d){return scoreDay(d.log);}).filter(function(s){return s!==null;});var avg=Math.round(scores.reduce(function(a,b){return a+b;},0)/scores.length);var grade=scoreToGrade(avg);var col=avg>=70?'var(--gold-text)':'var(--ink)';var bthDays=logs.filter(function(d){return BTH_ITEMS.every(function(it){return d.log[it.key];});}).length;var gymDays=logs.filter(function(d){return d.log.gym;}).length;var sleepVals=logs.map(function(d){return parseFloat(d.log.sleep);}).filter(function(v){return v>0;});var avgSleep=sleepVals.length?(sleepVals.reduce(function(a,b){return a+b;},0)/sleepVals.length).toFixed(1)+'h':'—';html+='<div class="grade-letter" style="color:'+col+'">'+grade+'</div><div class="grade-score">'+avg+'/100 AVG · '+loggedDays+' days logged</div><div class="grade-breakdown">';[{label:'BTH',val:bthDays+' days'},{label:'GYM',val:gymDays+' days'},{label:'SLEEP',val:avgSleep}].forEach(function(b){html+='<div class="grade-item"><div class="grade-item-val">'+b.val+'</div><div class="grade-item-lbl">'+b.label+'</div></div>';});html+='</div>'+gradePointsHtml(logs);}
   html+='</div>';
   html+='<div class="card"><div class="card-title">THIS WEEK — BTH PIPELINE</div><div class="pip-row">';
-  keys.forEach(function(k){var lg=getLog(k),isToday=k===todayKey(),hasData=Object.keys(lg).length>0;var allBTH=hasData&&BTH_ITEMS.every(function(it){return lg[it.key];});var cls=isToday&&!hasData?'today':allBTH?'done':!hasData?'rest':'';html+='<div class="pip-dot '+cls+'">'+formatDayLabel(k).charAt(0)+'</div>';});
+  keys.forEach(function(k){var lg=getLog(k),isToday=k===todayKey(),hasData=hasLogData(lg);var allBTH=hasData&&BTH_ITEMS.every(function(it){return lg[it.key];});var cls=isToday&&!hasData?'today':allBTH?'done':!hasData?'rest':'';html+='<div class="pip-dot '+cls+'">'+formatDayLabel(k).charAt(0)+'</div>';});
   html+='</div></div>';
-  var bth=bthStreak(),gym=gymStreak(),read=readStreak();
-  var bthB=Math.max(bth,load('bth_best_bth')||0),gymB=Math.max(gym,load('bth_best_gym')||0),readB=Math.max(read,load('bth_best_read')||0);
-  save('bth_best_bth',bthB);save('bth_best_gym',gymB);save('bth_best_read',readB);
+  var sb=updateBests(),bth=sb.cur.bth,gym=sb.cur.gym,read=sb.cur.read,bthB=sb.best.bth,gymB=sb.best.gym,readB=sb.best.read;
   html+='<div class="card"><div class="card-title">STREAKS</div><div style="display:flex;">';
   [{label:'BTH',val:bth,best:bthB},{label:'Gym',val:gym,best:gymB},{label:'Read',val:read,best:readB}].forEach(function(s){html+='<div class="streak-stat"><div class="streak-num">'+s.val+'</div><div class="streak-label">'+s.label+'</div><div style="font-family:\'DM Sans\',sans-serif;font-variant-numeric:tabular-nums;font-size:9px;color:var(--muted);">best '+s.best+'</div></div>';});
   html+='</div></div>';
