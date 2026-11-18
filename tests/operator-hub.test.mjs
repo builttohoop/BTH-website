@@ -13,7 +13,7 @@ function app(seed={}, instant='2026-11-20T10:00:00-05:00'){
   class Clock extends Date { constructor(...a){super(...(a.length?a:[now]));} static now(){return now;} }
   const elements=new Map();
   const el=id=>{if(!elements.has(id))elements.set(id,{innerHTML:'',textContent:'',value:'',style:{},classList:{add(){},remove(){},toggle(){}},querySelectorAll(){return[];}});return elements.get(id);};
-  const c=vm.createContext({Date:Clock,console,atob,TextDecoder,localStorage:{getItem:k=>storage.has(k)?storage.get(k):null,setItem:(k,v)=>storage.set(k,String(v)),key:i=>[...storage.keys()][i],get length(){return storage.size;}},document:{getElementById:el,querySelectorAll:()=>[],querySelector:()=>null},setTimeout:()=>0,clearTimeout:()=>{},confirm:()=>true,window:{matchMedia:()=>({matches:false}),navigator:{}},Notification:class{static permission='granted';}});
+  const c=vm.createContext({Date:Clock,console,atob,TextDecoder,localStorage:{getItem:k=>storage.has(k)?storage.get(k):null,setItem:(k,v)=>storage.set(k,String(v)),removeItem:k=>storage.delete(k),key:i=>[...storage.keys()][i],get length(){return storage.size;}},document:{getElementById:el,querySelectorAll:()=>[],querySelector:()=>null},setTimeout:()=>0,clearTimeout:()=>{},confirm:()=>true,window:{matchMedia:()=>({matches:false}),navigator:{}},Notification:class{static permission='granted';}});
   vm.runInContext(source,c);
   c.toast=msg=>{c.lastToast=msg;};c.renderToday=()=>{};c.renderMicroSummary=()=>{};
   return Object.assign(c,{storage});
@@ -99,4 +99,82 @@ test('H10 PASTE LINK imports from a full pasted link and rejects text without on
   c.hubDraft.paste='Open in Operator: https://built-to-hoop.com/bth-operator-v2.html'+enc(task)+' ';
   assert.equal(c.hubPasteSave(),1);assert.equal(JSON.parse(c.storage.get('bth_hub_tasks_v1')).tasks.length,1);assert.equal(c.hubForm,null);
   c.hubOpenForm('paste');c.hubDraft.paste='hello';assert.equal(c.hubPasteSave(),0);assert.match(c.lastToast,/not an Operator task link/);
+});
+
+// Sync: a fake server that behaves like Mail OS /api/hub/tasks (done/removed sticky, ticks kept).
+function server({key='k'.repeat(32),status=200}={}){
+  const rows=new Map(),removed=new Set(),calls=[];
+  const fetch=async(url,opts={})=>{
+    const method=opts.method||'GET',path=url.replace('https://bth-mail-os.tyrell-38b.workers.dev/api/hub/tasks','');
+    calls.push({method,path,headers:opts.headers,body:opts.body?JSON.parse(opts.body):undefined,url});
+    const res=(code,body)=>({ok:code>=200&&code<300,status:code,json:async()=>body});
+    if(status!==200)return res(status,{ok:false});
+    if(opts.headers['x-bth-hub-token']!==key)return res(401,{ok:false});
+    const body=opts.body?JSON.parse(opts.body):null;
+    if(method==='GET')return res(200,{ok:true,tasks:[...rows.values()],removed:[...removed]});
+    if(method==='PUT'){for(const t of body.tasks){if(removed.has(t.id))continue;const old=rows.get(t.id);rows.set(t.id,old?{...t,status:old.status,steps:t.steps.map(st=>({...st,done:st.done||!!(old.steps.find(o=>o.text===st.text)||{}).done}))}:{...t});}return res(200,{ok:true});}
+    if(method==='POST'){if(body.status==='removed'){rows.delete(body.id);removed.add(body.id);return res(200,{ok:true});}const r=rows.get(body.id);if(!r)return res(404,{ok:false});if(body.status)r.status=body.status;(body.steps||[]).forEach((d,i)=>{if(r.steps[i])r.steps[i].done=d;});return res(200,{ok:true});}
+  };
+  return {rows,removed,calls,fetch,key};
+}
+const settle=()=>new Promise(r=>setTimeout(r,0));
+function synced(seed={},srv=server()){const c=app({bth_hub_sync_v1:{key:srv.key},...seed});c.fetch=srv.fetch;return c;}
+
+test('H11 with no sync key nothing is fetched, and the card says sync is off',async()=>{
+  const srv=server(),c=app();c.fetch=srv.fetch;
+  assert.equal(await c.hubSync(),false);c.importHubFromHash(enc(task));c.hubStep(task.id,0);await settle();
+  assert.equal(srv.calls.length,0);assert.match(c.renderHubHtml(),/Sync off/);assert.match(c.renderHubHtml(),/turn on sync/);
+});
+
+test('H12 a task the server has (Claude scheduled it) shows up on sync; the key travels only as a header',async()=>{
+  const srv=server();srv.rows.set(task.id,{...task,status:'open',addedAt:'2026-11-18T12:00:00.000Z'});
+  const c=synced({},srv);assert.equal(await c.hubSync(),true);
+  const s=JSON.parse(c.storage.get('bth_hub_tasks_v1'));assert.equal(s.tasks.length,1);assert.equal(s.tasks[0].title,task.title);assert.equal(s.tasks[0].links.length,1,'non-https link stripped on the way in');
+  assert.equal(s.tasks[0].addedAt,'2026-11-18T12:00:00.000Z');
+  for(const call of srv.calls){assert.doesNotMatch(call.url,/k{32}/);assert.equal(call.headers['x-bth-hub-token'],srv.key);}
+  assert.match(c.renderHubHtml(),/Synced/);
+  assert.equal(await c.hubSync(),false,'a second sync changes nothing');
+});
+
+test('H13 ticks, done, remove and new local tasks go up to the server',async()=>{
+  const srv=server();srv.rows.set(task.id,{...task,status:'open'});
+  const c=synced({},srv);await c.hubSync();
+  c.hubStep(task.id,1);await settle();assert.equal(srv.rows.get(task.id).steps[1].done,true);
+  c.hubDone(task.id);await settle();assert.equal(srv.rows.get(task.id).status,'done');
+  c.hubOpenForm('add');Object.assign(c.hubDraft,{title:'Film 3 clips',date:'2026-11-23',time:'15:00'});const t=c.hubAddSave();await settle();
+  assert.ok(srv.rows.has(t.id),'a typed task is pushed');
+  c.hubRemove(t.id);await settle();assert.ok(srv.removed.has(t.id));
+  c.hubClearDone();await settle();assert.ok(srv.removed.has(task.id));
+});
+
+test('H14 merge: server removal drops the local copy; local ticks and done survive; local-only tasks are sent up',async()=>{
+  const srv=server(),c=synced({},srv);
+  c.importHubFromHash(enc(task));await settle();
+  const other={...task,id:'hub-20261125-film',title:'Film'};
+  srv.rows.set(other.id,{...other,status:'open'});
+  // the phone ticks a step while offline: server has the task without the tick
+  const s=JSON.parse(c.storage.get('bth_hub_tasks_v1'));s.tasks[0].steps[0].done=true;s.tasks[0].status='done';c.storage.set('bth_hub_tasks_v1',JSON.stringify(s));
+  await c.hubSync();let l=JSON.parse(c.storage.get('bth_hub_tasks_v1')).tasks;
+  assert.equal(l.length,2);const mine=l.find(x=>x.id===task.id);assert.equal(mine.steps[0].done,true);assert.equal(mine.status,'done');
+  srv.rows.delete(other.id);srv.removed.add(other.id);
+  await c.hubSync();l=JSON.parse(c.storage.get('bth_hub_tasks_v1')).tasks;assert.deepEqual(l.map(x=>x.id),[task.id]);
+  const localOnly={...task,id:'hub-20261126-local',title:'Local'};const s2=JSON.parse(c.storage.get('bth_hub_tasks_v1'));s2.tasks.push({...localOnly,status:'open',addedAt:'x',steps:[]});c.storage.set('bth_hub_tasks_v1',JSON.stringify(s2));
+  await c.hubSync();await settle();assert.ok(srv.rows.has(localOnly.id));
+});
+
+test('H15 a wrong key or a dead server never touches local tasks; the card says why; forget turns sync off',async()=>{
+  const bad=server({key:'z'.repeat(32)}),c=app({bth_hub_sync_v1:{key:'k'.repeat(32)}});c.fetch=bad.fetch;
+  c.importHubFromHash(enc(task));const before=c.storage.get('bth_hub_tasks_v1');
+  await c.hubSync();assert.equal(c.storage.get('bth_hub_tasks_v1'),before);assert.match(c.renderHubHtml(),/Sync key not accepted/);
+  const down=server({status:503});c.fetch=down.fetch;await c.hubSync();assert.match(c.renderHubHtml(),/Sync failed/);
+  c.fetch=async()=>{throw new Error('offline');};await c.hubSync();assert.equal(c.storage.get('bth_hub_tasks_v1'),before);
+  c.hubOpenForm('sync');const h=c.renderHubHtml();assert.match(h,/type="password"/);assert.match(h,/FORGET KEY/);
+  c.hubForgetSync();assert.equal(c.storage.has('bth_hub_sync_v1'),false);assert.match(c.renderHubHtml(),/Sync off/);
+});
+
+test('H16 SAVE KEY rejects junk, stores a real key and syncs',async()=>{
+  const srv=server();srv.rows.set(task.id,{...task,status:'open'});const c=app();c.fetch=srv.fetch;
+  c.hubOpenForm('sync');c.hubDraft.key='short';assert.equal(c.hubSaveSync(),false);assert.equal(c.storage.has('bth_hub_sync_v1'),false);
+  c.hubOpenForm('sync');c.hubDraft.key='  '+srv.key+' ';assert.equal(c.hubSaveSync(),true);await settle();await settle();
+  assert.equal(JSON.parse(c.storage.get('bth_hub_sync_v1')).key,srv.key);assert.equal(JSON.parse(c.storage.get('bth_hub_tasks_v1')).tasks.length,1);
 });
