@@ -611,16 +611,50 @@ function importHubFromHash(hash){
   save(HUB_KEY,s);hubOpenId=list[0].id;
   toast((added?'Added to BTH: ':'Updated: ')+list[0].title+(list.length>1?' +'+(list.length-1):''),3200);return list.length;
 }
-function hubFmt(iso){var d=new Date(iso);return iso&&!isNaN(d)?d.toLocaleString('en-US',{weekday:'short',month:'short',day:'numeric',hour:'numeric',minute:'2-digit'}):'';}
+function hubFmt(iso,endIso){var d=new Date(iso);if(!iso||isNaN(d))return '';var whole=/T00:00:00$/.test(iso)&&/T23:59:00$/.test(endIso||'');return d.toLocaleString('en-US',whole?{weekday:'short',month:'short',day:'numeric'}:{weekday:'short',month:'short',day:'numeric',hour:'numeric',minute:'2-digit'});}
 function hubTag(t){if(!t.when.start)return '';var now=Date.now(),start=Date.parse(t.when.start),end=Date.parse(t.when.end||t.when.start);if(end<now)return 'OVERDUE';if(dateKey(new Date(start))===dateKey(new Date(now)))return 'TODAY';return '';}
+// The card always shows: tasks come in by link, by pasting a link (a link tapped in Calendar can open
+// the browser, not the installed app, and the two keep separate storage), or by typing one here.
+var hubForm=null,hubDraft={};
+function hubFormHtml(){
+  var d=hubDraft,v=function(k){return esc(d[k]||'');},inp='class="tw-input" style="width:100%;box-sizing:border-box;margin:4px 0;"';
+  if(hubForm==='paste')return '<div class="hub-form" style="padding:8px 0;"><div class="input-sub">Paste the Operator link from your calendar event.</div><textarea id="hub-paste" '+inp+' rows="3" aria-label="Task link" placeholder="https://built-to-hoop.com/bth-operator-v2.html#hub=..." oninput="hubDraft.paste=this.value">'+v('paste')+'</textarea><button class="btn-primary" style="margin-top:6px;" onclick="hubPasteSave()">ADD FROM LINK</button><button class="btn-secondary" style="margin-top:6px;" onclick="hubOpenForm(null)">CANCEL</button></div>';
+  if(hubForm!=='add')return '';
+  return '<div class="hub-form" style="padding:8px 0;">'
+    +'<input id="hub-title" '+inp+' aria-label="Task" placeholder="Task (required)" maxlength="120" value="'+v('title')+'" oninput="hubDraft.title=this.value">'
+    +'<div style="display:flex;gap:8px;"><input id="hub-date" type="date" '+inp+' aria-label="Date" value="'+v('date')+'" oninput="hubDraft.date=this.value"><input id="hub-time" type="time" '+inp+' aria-label="Time" value="'+v('time')+'" oninput="hubDraft.time=this.value"></div>'
+    +'<textarea id="hub-why" '+inp+' rows="2" aria-label="Why" placeholder="Why it matters (optional)" oninput="hubDraft.why=this.value">'+v('why')+'</textarea>'
+    +'<textarea id="hub-steps" '+inp+' rows="4" aria-label="Steps" placeholder="Steps, one per line. End a line with 10 min to time it." oninput="hubDraft.steps=this.value">'+v('steps')+'</textarea>'
+    +'<input id="hub-donewhen" '+inp+' aria-label="Done when" placeholder="Done when (optional)" value="'+v('doneWhen')+'" oninput="hubDraft.doneWhen=this.value">'
+    +'<button class="btn-primary" style="margin-top:6px;" onclick="hubAddSave()">SAVE TASK</button><button class="btn-secondary" style="margin-top:6px;" onclick="hubOpenForm(null)">CANCEL</button></div>';
+}
+function hubOpenForm(kind){hubForm=hubForm===kind?null:kind;if(!hubForm)hubDraft={};else if(kind==='add'&&!hubDraft.date)hubDraft.date=dateKey(new Date());renderToday();var f=document.getElementById(kind==='paste'?'hub-paste':'hub-title');if(f)try{f.focus();}catch(e){}}
+function hubSlug(s){return s.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,40)||'task';}
+// Builds a task from the form. Returns the saved task, or null with a toast saying what is missing.
+function hubAddSave(){
+  var d=hubDraft,title=hubStr(d.title,120);if(!title){toast('Give the task a name');return null;}
+  // No time = the whole day (never "overdue" until the day ends); the row then shows the date only.
+  var start='',allDay=false;if(d.date&&/^\d{4}-\d{2}-\d{2}$/.test(d.date)){allDay=!/^\d{2}:\d{2}$/.test(d.time||'');start=d.date+'T'+(allDay?'00:00':d.time)+':00';}
+  var steps=String(d.steps||'').split(/\r?\n/).map(function(line){line=line.trim();var m=/^(.*?)[\s,\-–—]*\(?(\d{1,3})\s*min(?:s|utes)?\)?$/i.exec(line);return m&&m[1]?{text:m[1],min:+m[2]}:{text:line,min:0};}).filter(function(st){return st.text;});
+  var mins=steps.reduce(function(n,st){return n+st.min;},0),end='';if(allDay)end=d.date+'T23:59:00';else if(start&&mins){var e=new Date(Date.parse(start)+mins*60000);end=dateKey(e)+'T'+String(e.getHours()).padStart(2,'0')+':'+String(e.getMinutes()).padStart(2,'0')+':00';}
+  var t=hubClean({id:'hub-'+(start?start.slice(0,10).replace(/-/g,''):dateKey(new Date()).replace(/-/g,''))+'-'+hubSlug(title)+'-'+Math.random().toString(36).slice(2,6),title:title,when:{start:start,end:end},why:d.why,steps:steps,doneWhen:d.doneWhen,links:[],source:'app'});
+  if(!t){toast('Could not save that task');return null;}
+  var s=hubLoad();s.tasks.push(t);save(HUB_KEY,s);hubForm=null;hubDraft={};hubOpenId=t.id;renderToday();toast('Added to BTH: '+t.title);return t;
+}
+function hubPasteSave(){
+  var m=/#hub=([A-Za-z0-9_-]+)/.exec(String(hubDraft.paste||''));if(!m){toast('That is not an Operator task link');return 0;}
+  var n=importHubFromHash('#hub='+m[1]);if(n){hubForm=null;hubDraft={};renderToday();}return n;
+}
 function renderHubHtml(){
-  var s=hubLoad();if(!s.tasks.length)return '';
+  var s=hubLoad();
   var open=s.tasks.filter(function(t){return t.status!=='done';}).sort(function(a,b){return (a.when.start||'9')<(b.when.start||'9')?-1:1;}),done=s.tasks.length-open.length;
   var html='<div class="card hub-card" id="hub-card"><div class="card-title">BTH TASKS</div>';
-  if(!open.length)html+='<div class="no-data">All BTH tasks done</div>';
+  html+='<div style="display:flex;gap:8px;margin-bottom:8px;"><button class="btn-secondary" style="flex:1;" aria-expanded="'+(hubForm==='add')+'" onclick="hubOpenForm(\'add\')">+ ADD TASK</button><button class="btn-secondary" style="flex:1;" aria-expanded="'+(hubForm==='paste')+'" onclick="hubOpenForm(\'paste\')">PASTE LINK</button></div>'+hubFormHtml();
+  if(!s.tasks.length)html+='<div class="no-data">No BTH tasks yet</div>';
+  else if(!open.length)html+='<div class="no-data">All BTH tasks done</div>';
   open.forEach(function(t){
     var tag=hubTag(t),isOpen=hubOpenId===t.id,mins=t.steps.reduce(function(n,s){return n+s.min;},0);
-    html+='<div class="task-item hub-item" style="display:flex;width:100%;cursor:pointer;" role="button" tabindex="0" aria-expanded="'+isOpen+'" onclick="hubToggle(\''+t.id+'\')"><div class="task-text" style="flex:1;"><strong>'+esc(t.title)+'</strong><div class="input-sub">'+esc(hubFmt(t.when.start)||'No time set')+(mins?' · '+mins+' min':'')+(tag?' · <span style="color:var(--gold-text);font-weight:700;">'+tag+'</span>':'')+'</div></div><div class="collapsible-arrow" aria-hidden="true">'+(isOpen?'▲':'▼')+'</div></div>';
+    html+='<div class="task-item hub-item" style="display:flex;width:100%;cursor:pointer;" role="button" tabindex="0" aria-expanded="'+isOpen+'" onclick="hubToggle(\''+t.id+'\')"><div class="task-text" style="flex:1;"><strong>'+esc(t.title)+'</strong><div class="input-sub">'+esc(hubFmt(t.when.start,t.when.end)||'No date set')+(mins?' · '+mins+' min':'')+(tag?' · <span style="color:var(--gold-text);font-weight:700;">'+tag+'</span>':'')+'</div></div><div class="collapsible-arrow" aria-hidden="true">'+(isOpen?'▲':'▼')+'</div></div>';
     if(!isOpen)return;
     html+='<div class="hub-detail" style="padding:4px 0 12px;">';
     if(t.why)html+='<div class="input-sub" style="line-height:1.5;margin-bottom:8px;"><strong>Why:</strong> '+esc(t.why)+'</div>';
