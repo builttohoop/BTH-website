@@ -58,11 +58,12 @@ test('H5 titles and steps are escaped; done tasks collapse into a count; clear r
   const c=app();c.importHubFromHash(enc({...task,title:'<img src=x onerror=alert(1)>',steps:[{text:'<b>x</b>',min:1}]}));
   let h=c.renderHubHtml();assert.doesNotMatch(h,/<img|<b>x/);assert.match(h,/&lt;img/);
   c.hubDone(task.id);h=c.renderHubHtml();assert.match(h,/All BTH tasks done/);assert.match(h,/1 done/);
-  c.hubClearDone();assert.equal(c.renderHubHtml(),'');
+  c.hubClearDone();assert.match(c.renderHubHtml(),/No BTH tasks yet/);
 });
 
-test('H6 an array link adds several tasks; an overdue task is tagged; the card is hidden when empty',()=>{
-  const c=app({},'2026-11-21T10:00:00-05:00');assert.equal(c.renderHubHtml(),'');
+test('H6 an array link adds several tasks; an overdue task is tagged; the card shows add + paste even when empty',()=>{
+  const c=app({},'2026-11-21T10:00:00-05:00');const empty=c.renderHubHtml();
+  assert.match(empty,/id="hub-card"/);assert.match(empty,/\+ ADD TASK/);assert.match(empty,/PASTE LINK/);assert.match(empty,/No BTH tasks yet/);
   assert.equal(c.importHubFromHash(enc([task,{...task,id:'hub-20261125-film',title:'Film',when:{start:'2026-11-25T15:00:00-05:00'}}])),2);
   const h=c.renderHubHtml();assert.match(h,/OVERDUE/);assert.ok(h.indexOf('Revenue')<h.indexOf('Film'),'sorted by start');
 });
@@ -70,4 +71,32 @@ test('H6 an array link adds several tasks; an overdue task is tagged; the card i
 test('H7 non-ASCII text survives the round trip',()=>{
   const c=app();c.importHubFromHash(enc({...task,title:'BTH · Revenue — leads'}));
   assert.equal(JSON.parse(c.storage.get('bth_hub_tasks_v1')).tasks[0].title,'BTH · Revenue — leads');
+});
+
+test('H8 + ADD TASK saves a typed task with time, timed steps and end; it opens and renders',()=>{
+  const c=app();c.hubOpenForm('add');assert.match(c.renderHubHtml(),/id="hub-title"/);
+  Object.assign(c.hubDraft,{title:'Film 3 clips',date:'2026-11-23',time:'15:00',why:'Camera-first week',steps:'Set up the phone 5 min\nFilm the drill - 20 min\nPick the best take',doneWhen:'3 clips saved'});
+  const t=c.hubAddSave();assert.ok(t);
+  const s=JSON.parse(c.storage.get('bth_hub_tasks_v1'));assert.equal(s.tasks.length,1);const k=s.tasks[0];
+  assert.match(k.id,/^hub-20261123-film-3-clips-[a-z0-9]{1,4}$/);assert.equal(k.when.start,'2026-11-23T15:00:00');assert.equal(k.when.end,'2026-11-23T15:25:00');
+  assert.deepEqual(k.steps.map(x=>[x.text,x.min]),[['Set up the phone',5],['Film the drill',20],['Pick the best take',0]]);
+  assert.equal(k.source,'app');assert.equal(c.hubForm,null);
+  const h=c.renderHubHtml();assert.match(h,/Film 3 clips/);assert.match(h,/25 min/);assert.match(h,/Camera-first week/);assert.doesNotMatch(h,/id="hub-title"/);
+});
+
+test('H9 + ADD TASK needs a name; the day task state stays byte-identical',()=>{
+  const c=app();c.setTasks(c.activeLogKey,{tasks:['Mine'],completed:[false],origin:['2026-11-20']});const before=c.storage.get('bth_operator_state_v3');
+  c.hubOpenForm('add');c.hubDraft.title='  ';assert.equal(c.hubAddSave(),null);assert.match(c.lastToast,/name/);assert.equal(c.storage.has('bth_hub_tasks_v1'),false);
+  c.hubDraft.title='<script>x</script>';c.hubAddSave();assert.doesNotMatch(c.renderHubHtml(),/<script>x/);
+  c.hubOpenForm('add');Object.assign(c.hubDraft,{title:'No time',date:'2026-11-20',time:''});const t=c.hubAddSave();
+  assert.equal(t.when.start,'2026-11-20T00:00:00');assert.equal(t.when.end,'2026-11-20T23:59:00');
+  const row=c.renderHubHtml();assert.match(row,/Fri, Nov 20 · <span[^>]*>TODAY/,'date only, no clock time, and not overdue mid-day');
+  assert.equal(c.storage.get('bth_operator_state_v3'),before);
+});
+
+test('H10 PASTE LINK imports from a full pasted link and rejects text without one',()=>{
+  const c=app();c.hubOpenForm('paste');assert.match(c.renderHubHtml(),/id="hub-paste"/);
+  c.hubDraft.paste='Open in Operator: https://built-to-hoop.com/bth-operator-v2.html'+enc(task)+' ';
+  assert.equal(c.hubPasteSave(),1);assert.equal(JSON.parse(c.storage.get('bth_hub_tasks_v1')).tasks.length,1);assert.equal(c.hubForm,null);
+  c.hubOpenForm('paste');c.hubDraft.paste='hello';assert.equal(c.hubPasteSave(),0);assert.match(c.lastToast,/not an Operator task link/);
 });
