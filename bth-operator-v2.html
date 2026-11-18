@@ -551,6 +551,7 @@ function renderToday(){
   html+='<div class="card"><div class="card-title">BTH CHECKLIST</div><div id="btch-all-done" class="btch-all-done" style="display:'+(allBTH?'block':'none')+'">FULL BTH DAY — LOCKED IN</div><div class="btch-grid">';
   BTH_ITEMS.forEach(function(it){html+='<div class="btch-item '+(log[it.key]?'done':'')+'" role="button" tabindex="0" aria-pressed="'+!!log[it.key]+'" onclick="toggleBTH(\''+it.key+'\')">'+it.icon+' <span class="btch-label">'+it.label+'</span><span class="btch-check">'+(log[it.key]?'✓':'')+'</span></div>';});
   html+='</div></div>';
+  if(!notActive)html+=renderHubHtml();
   html+=renderTasksHtml();
   html+=renderScheduleHtml();
   if(!notActive){var ahead=submitIsAhead();html+='<div class="card" style="border-left-color:var(--gold);"><div class="card-title">CLOSE THE OPERATOR DAY</div><div class="input-sub" style="line-height:1.6;margin-bottom:12px;">Submit when you are ready to close this operator day and open the next date. An unfinished day closes automatically at '+cutoffTime()+'.</div>'+(ahead?'<div class="input-sub" id="submit-ahead" style="margin-bottom:12px;">This day is already ahead of the clock. Submit opens again after '+cutoffTime()+'.</div>':'<button class="btn-primary" onclick="submitOperatorDay()">SUBMIT THE DAY</button>')+(canUndoSubmit()?'<button class="btn-secondary" style="margin-top:10px;" onclick="undoSubmit()">UNDO SUBMIT</button>':'')+'</div><div style="text-align:center;padding:8px 0 4px;"><span onclick="switchToYesterday()" style="font-family:\'DM Sans\',sans-serif;font-size:12px;font-weight:600;color:var(--muted);cursor:pointer;text-transform:uppercase;letter-spacing:.8px;text-decoration:underline;">View Yesterday</span></div>';}
@@ -575,6 +576,68 @@ function renderTasksHtml(){
   } else {html+='<div class="no-data">No tasks yet<br><span style="font-size:11px;">Backups show after your day starts ('+cutoffTime()+')</span></div>';}
   return html+'<div class="input-row"><input id="new-task" class="tw-input" aria-label="Your task" placeholder="Your task"><button class="btn-secondary" onclick="addOwnTask()">ADD</button></div></div>';
 }
+// BTH TASKS hub. A task arrives as a link: bth-operator-v2.html#hub=<base64url JSON>. The hash never
+// leaves the phone (browsers do not send it to the server), so a calendar event can carry the full
+// task with no backend. Stored apart from the day task arrays, so carry-over code never sees it.
+var HUB_KEY='bth_hub_tasks_v1',HUB_MAX=8192,hubOpenId=null;
+function hubLoad(){var s=load(HUB_KEY);return s&&s.version===1&&Array.isArray(s.tasks)?s:{version:1,tasks:[]};}
+function hubStr(v,max){return typeof v==='string'?v.trim().slice(0,max):'';}
+function hubUrl(u){u=hubStr(u,800);return /^https:\/\/[^\s"'<>]+$/i.test(u)?u:'';}
+function hubWhen(v){return typeof v==='string'&&/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}/.test(v)&&!isNaN(Date.parse(v))?v:'';}
+function hubClean(t){
+  if(!t||typeof t!=='object')return null;var id=hubStr(t.id,80),title=hubStr(t.title,120);if(!title||!/^[a-z0-9-]{3,80}$/.test(id))return null;
+  var w=t.when&&typeof t.when==='object'?t.when:{};
+  return{id:id,title:title,when:{start:hubWhen(w.start),end:hubWhen(w.end)},why:hubStr(t.why,400),
+    steps:(Array.isArray(t.steps)?t.steps:[]).slice(0,12).map(function(s){return{text:hubStr(s&&s.text,300),min:Math.max(0,Math.min(600,parseInt(s&&s.min,10)||0)),done:false};}).filter(function(s){return s.text;}),
+    doneWhen:hubStr(t.doneWhen,300),links:(Array.isArray(t.links)?t.links:[]).slice(0,6).map(function(l){return{label:hubStr(l&&l.label,60)||'Open',url:hubUrl(l&&l.url)};}).filter(function(l){return l.url;}),
+    status:'open',addedAt:new Date().toISOString(),source:hubStr(t.source,20)||'link'};
+}
+function hubDecode(b){b=b.replace(/-/g,'+').replace(/_/g,'/');while(b.length%4)b+='=';var bin=atob(b);return new TextDecoder().decode(Uint8Array.from(bin,function(ch){return ch.charCodeAt(0);}));}
+// Runs once on load. Same id twice = an update that keeps the ticks Ty already made, never a duplicate.
+function importHubFromHash(hash){
+  if(hash===undefined)hash=typeof location!=='undefined'&&location.hash||'';
+  var m=/^#hub=([A-Za-z0-9_-]*)$/.exec(hash);if(!m)return 0;
+  try{history.replaceState(null,'',location.pathname+location.search);}catch(e){}
+  if(m[1].length>HUB_MAX){toast('That task link is too long');return 0;}
+  var data;try{data=JSON.parse(hubDecode(m[1]));}catch(e){toast('That task link is broken');return 0;}
+  var list=(Array.isArray(data)?data:[data]).slice(0,10).map(hubClean).filter(Boolean);
+  if(!list.length){toast('That task link is broken');return 0;}
+  var s=hubLoad(),added=0;
+  list.forEach(function(t){
+    var old=null;for(var i=0;i<s.tasks.length;i++)if(s.tasks[i].id===t.id)old=i;
+    if(old===null){s.tasks.push(t);added++;return;}
+    var prev=s.tasks[old];t.addedAt=prev.addedAt;t.status=prev.status;t.steps.forEach(function(st){(prev.steps||[]).forEach(function(p){if(p.text===st.text&&p.done)st.done=true;});});s.tasks[old]=t;
+  });
+  save(HUB_KEY,s);hubOpenId=list[0].id;
+  toast((added?'Added to BTH: ':'Updated: ')+list[0].title+(list.length>1?' +'+(list.length-1):''),3200);return list.length;
+}
+function hubFmt(iso){var d=new Date(iso);return iso&&!isNaN(d)?d.toLocaleString('en-US',{weekday:'short',month:'short',day:'numeric',hour:'numeric',minute:'2-digit'}):'';}
+function hubTag(t){if(!t.when.start)return '';var now=Date.now(),start=Date.parse(t.when.start),end=Date.parse(t.when.end||t.when.start);if(end<now)return 'OVERDUE';if(dateKey(new Date(start))===dateKey(new Date(now)))return 'TODAY';return '';}
+function renderHubHtml(){
+  var s=hubLoad();if(!s.tasks.length)return '';
+  var open=s.tasks.filter(function(t){return t.status!=='done';}).sort(function(a,b){return (a.when.start||'9')<(b.when.start||'9')?-1:1;}),done=s.tasks.length-open.length;
+  var html='<div class="card hub-card" id="hub-card"><div class="card-title">BTH TASKS</div>';
+  if(!open.length)html+='<div class="no-data">All BTH tasks done</div>';
+  open.forEach(function(t){
+    var tag=hubTag(t),isOpen=hubOpenId===t.id,mins=t.steps.reduce(function(n,s){return n+s.min;},0);
+    html+='<div class="task-item hub-item" style="display:flex;width:100%;cursor:pointer;" role="button" tabindex="0" aria-expanded="'+isOpen+'" onclick="hubToggle(\''+t.id+'\')"><div class="task-text" style="flex:1;"><strong>'+esc(t.title)+'</strong><div class="input-sub">'+esc(hubFmt(t.when.start)||'No time set')+(mins?' · '+mins+' min':'')+(tag?' · <span style="color:var(--gold-text);font-weight:700;">'+tag+'</span>':'')+'</div></div><div class="collapsible-arrow" aria-hidden="true">'+(isOpen?'▲':'▼')+'</div></div>';
+    if(!isOpen)return;
+    html+='<div class="hub-detail" style="padding:4px 0 12px;">';
+    if(t.why)html+='<div class="input-sub" style="line-height:1.5;margin-bottom:8px;"><strong>Why:</strong> '+esc(t.why)+'</div>';
+    t.steps.forEach(function(st,i){html+='<div class="task-item"><div class="task-check '+(st.done?'done':'')+'" role="button" tabindex="0" aria-pressed="'+st.done+'" aria-label="Step '+(i+1)+'" onclick="hubStep(\''+t.id+'\','+i+')">'+(st.done?'✓':'')+'</div><div class="task-text '+(st.done?'done':'')+'" style="flex:1;">'+(i+1)+'. '+esc(st.text)+(st.min?'<div class="input-sub">'+st.min+' min</div>':'')+'</div></div>';});
+    if(t.doneWhen)html+='<div class="input-sub" style="line-height:1.5;margin:8px 0;"><strong>Done when:</strong> '+esc(t.doneWhen)+'</div>';
+    t.links.forEach(function(l){html+='<a class="btn-secondary" style="display:block;text-align:center;text-decoration:none;margin:6px 0;" href="'+esc(l.url)+'" target="_blank" rel="noopener noreferrer">'+esc(l.label)+'</a>';});
+    html+='<button class="btn-primary" style="margin-top:8px;" onclick="hubDone(\''+t.id+'\')">MARK DONE</button><button class="btn-secondary" style="margin-top:8px;" onclick="hubRemove(\''+t.id+'\')">REMOVE</button></div>';
+  });
+  if(done)html+='<div class="input-sub" style="margin-top:8px;">'+done+' done · <span role="button" tabindex="0" style="text-decoration:underline;cursor:pointer;" onclick="hubClearDone()">clear</span></div>';
+  return html+'</div>';
+}
+function hubEdit(id,fn){var s=hubLoad();for(var i=0;i<s.tasks.length;i++)if(s.tasks[i].id===id){fn(s,i);save(HUB_KEY,s);renderToday();return true;}return false;}
+function hubToggle(id){hubOpenId=hubOpenId===id?null:id;renderToday();}
+function hubStep(id,i){hubEdit(id,function(s,k){var st=s.tasks[k].steps[i];if(st)st.done=!st.done;});}
+function hubDone(id){hubOpenId=null;hubEdit(id,function(s,k){s.tasks[k].status='done';s.tasks[k].doneAt=new Date().toISOString();});toast('BTH task done');}
+function hubRemove(id){if(!confirm('Remove this BTH task?'))return;hubEdit(id,function(s,k){s.tasks.splice(k,1);});}
+function hubClearDone(){var s=hubLoad();s.tasks=s.tasks.filter(function(t){return t.status!=='done';});save(HUB_KEY,s);renderToday();}
 // Calendar dates keep carried age correct across daylight-saving changes.
 function taskAgeHtml(td,i,key){
   var day=findOperatorDay(key),origin=td.origin&&td.origin[i];if(!day||!/^\d{4}-\d{2}-\d{2}$/.test(origin||''))return '';
@@ -1126,7 +1189,8 @@ new MutationObserver(function(){enhanceControls(document);}).observe(document.bo
 document.addEventListener('visibilitychange',function(){if(document.visibilityState==='hidden')flushFieldSaves();});
 window.addEventListener('pagehide',flushFieldSaves);
 if(typeof ResizeObserver!=='undefined'){var nav=document.querySelector('nav');if(nav)new ResizeObserver(function(entries){document.body.style.setProperty('--amber-nav-space',entries[0].target.getBoundingClientRect().height+'px');}).observe(nav);}
-applyOperatorTheme();setupPWA();reminderTick();setInterval(reminderTick,60000);renderToday();enhanceControls(document);
+applyOperatorTheme();setupPWA();reminderTick();setInterval(reminderTick,60000);importHubFromHash();renderToday();enhanceControls(document);
+window.addEventListener('hashchange',function(){if(importHubFromHash()){var t=document.querySelector('.tab.active');if(t&&t.id!=='tab-today'){var b=document.querySelector('.nav-btn');if(b)switchTab('today',b);}else renderToday();}});
 </script>
 </body>
 </html>
