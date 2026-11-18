@@ -608,7 +608,7 @@ function importHubFromHash(hash){
     if(old===null){s.tasks.push(t);added++;return;}
     var prev=s.tasks[old];t.addedAt=prev.addedAt;t.status=prev.status;t.steps.forEach(function(st){(prev.steps||[]).forEach(function(p){if(p.text===st.text&&p.done)st.done=true;});});s.tasks[old]=t;
   });
-  save(HUB_KEY,s);hubOpenId=list[0].id;
+  save(HUB_KEY,s);hubOpenId=list[0].id;hubPush(list.map(function(t){return t.id;}));
   toast((added?'Added to BTH: ':'Updated: ')+list[0].title+(list.length>1?' +'+(list.length-1):''),3200);return list.length;
 }
 function hubFmt(iso,endIso){var d=new Date(iso);if(!iso||isNaN(d))return '';var whole=/T00:00:00$/.test(iso)&&/T23:59:00$/.test(endIso||'');return d.toLocaleString('en-US',whole?{weekday:'short',month:'short',day:'numeric'}:{weekday:'short',month:'short',day:'numeric',hour:'numeric',minute:'2-digit'});}
@@ -619,6 +619,7 @@ var hubForm=null,hubDraft={};
 function hubFormHtml(){
   var d=hubDraft,v=function(k){return esc(d[k]||'');},inp='class="tw-input" style="width:100%;box-sizing:border-box;margin:4px 0;"';
   if(hubForm==='paste')return '<div class="hub-form" style="padding:8px 0;"><div class="input-sub">Paste the Operator link from your calendar event.</div><textarea id="hub-paste" '+inp+' rows="3" aria-label="Task link" placeholder="https://built-to-hoop.com/bth-operator-v2.html#hub=..." oninput="hubDraft.paste=this.value">'+v('paste')+'</textarea><button class="btn-primary" style="margin-top:6px;" onclick="hubPasteSave()">ADD FROM LINK</button><button class="btn-secondary" style="margin-top:6px;" onclick="hubOpenForm(null)">CANCEL</button></div>';
+  if(hubForm==='sync')return '<div class="hub-form" style="padding:8px 0;"><div class="input-sub" style="line-height:1.5;">Paste your BTH sync key once on this device. Tasks Claude schedules then show up here on their own.</div><input id="hub-sync" type="password" autocomplete="off" '+inp+' aria-label="Sync key" placeholder="Sync key" oninput="hubDraft.key=this.value"><button class="btn-primary" style="margin-top:6px;" onclick="hubSaveSync()">SAVE KEY</button>'+(hubSyncKey()?'<button class="btn-secondary" style="margin-top:6px;" onclick="hubForgetSync()">FORGET KEY</button>':'')+'<button class="btn-secondary" style="margin-top:6px;" onclick="hubOpenForm(null)">CANCEL</button></div>';
   if(hubForm!=='add')return '';
   return '<div class="hub-form" style="padding:8px 0;">'
     +'<input id="hub-title" '+inp+' aria-label="Task" placeholder="Task (required)" maxlength="120" value="'+v('title')+'" oninput="hubDraft.title=this.value">'
@@ -628,7 +629,7 @@ function hubFormHtml(){
     +'<input id="hub-donewhen" '+inp+' aria-label="Done when" placeholder="Done when (optional)" value="'+v('doneWhen')+'" oninput="hubDraft.doneWhen=this.value">'
     +'<button class="btn-primary" style="margin-top:6px;" onclick="hubAddSave()">SAVE TASK</button><button class="btn-secondary" style="margin-top:6px;" onclick="hubOpenForm(null)">CANCEL</button></div>';
 }
-function hubOpenForm(kind){hubForm=hubForm===kind?null:kind;if(!hubForm)hubDraft={};else if(kind==='add'&&!hubDraft.date)hubDraft.date=dateKey(new Date());renderToday();var f=document.getElementById(kind==='paste'?'hub-paste':'hub-title');if(f)try{f.focus();}catch(e){}}
+function hubOpenForm(kind){hubForm=hubForm===kind?null:kind;if(!hubForm)hubDraft={};else if(kind==='add'&&!hubDraft.date)hubDraft.date=dateKey(new Date());renderToday();var f=document.getElementById(kind==='paste'?'hub-paste':kind==='sync'?'hub-sync':'hub-title');if(f)try{f.focus();}catch(e){}}
 function hubSlug(s){return s.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,40)||'task';}
 // Builds a task from the form. Returns the saved task, or null with a toast saying what is missing.
 function hubAddSave(){
@@ -639,7 +640,7 @@ function hubAddSave(){
   var mins=steps.reduce(function(n,st){return n+st.min;},0),end='';if(allDay)end=d.date+'T23:59:00';else if(start&&mins){var e=new Date(Date.parse(start)+mins*60000);end=dateKey(e)+'T'+String(e.getHours()).padStart(2,'0')+':'+String(e.getMinutes()).padStart(2,'0')+':00';}
   var t=hubClean({id:'hub-'+(start?start.slice(0,10).replace(/-/g,''):dateKey(new Date()).replace(/-/g,''))+'-'+hubSlug(title)+'-'+Math.random().toString(36).slice(2,6),title:title,when:{start:start,end:end},why:d.why,steps:steps,doneWhen:d.doneWhen,links:[],source:'app'});
   if(!t){toast('Could not save that task');return null;}
-  var s=hubLoad();s.tasks.push(t);save(HUB_KEY,s);hubForm=null;hubDraft={};hubOpenId=t.id;renderToday();toast('Added to BTH: '+t.title);return t;
+  var s=hubLoad();s.tasks.push(t);save(HUB_KEY,s);hubForm=null;hubDraft={};hubOpenId=t.id;renderToday();toast('Added to BTH: '+t.title);hubPush([t.id]);return t;
 }
 function hubPasteSave(){
   var m=/#hub=([A-Za-z0-9_-]+)/.exec(String(hubDraft.paste||''));if(!m){toast('That is not an Operator task link');return 0;}
@@ -664,14 +665,69 @@ function renderHubHtml(){
     html+='<button class="btn-primary" style="margin-top:8px;" onclick="hubDone(\''+t.id+'\')">MARK DONE</button><button class="btn-secondary" style="margin-top:8px;" onclick="hubRemove(\''+t.id+'\')">REMOVE</button></div>';
   });
   if(done)html+='<div class="input-sub" style="margin-top:8px;">'+done+' done · <span role="button" tabindex="0" style="text-decoration:underline;cursor:pointer;" onclick="hubClearDone()">clear</span></div>';
-  return html+'</div>';
+  return html+hubSyncLine()+'</div>';
 }
 function hubEdit(id,fn){var s=hubLoad();for(var i=0;i<s.tasks.length;i++)if(s.tasks[i].id===id){fn(s,i);save(HUB_KEY,s);renderToday();return true;}return false;}
 function hubToggle(id){hubOpenId=hubOpenId===id?null:id;renderToday();}
-function hubStep(id,i){hubEdit(id,function(s,k){var st=s.tasks[k].steps[i];if(st)st.done=!st.done;});}
-function hubDone(id){hubOpenId=null;hubEdit(id,function(s,k){s.tasks[k].status='done';s.tasks[k].doneAt=new Date().toISOString();});toast('BTH task done');}
-function hubRemove(id){if(!confirm('Remove this BTH task?'))return;hubEdit(id,function(s,k){s.tasks.splice(k,1);});}
-function hubClearDone(){var s=hubLoad();s.tasks=s.tasks.filter(function(t){return t.status!=='done';});save(HUB_KEY,s);renderToday();}
+function hubStep(id,i){hubEdit(id,function(s,k){var st=s.tasks[k].steps[i];if(st)st.done=!st.done;});hubSendState(id);}
+function hubDone(id){hubOpenId=null;hubEdit(id,function(s,k){s.tasks[k].status='done';s.tasks[k].doneAt=new Date().toISOString();});hubSendState(id);toast('BTH task done');}
+function hubRemove(id){if(!confirm('Remove this BTH task?'))return;hubEdit(id,function(s,k){s.tasks.splice(k,1);});hubSendState(id,'removed');}
+function hubClearDone(){var s=hubLoad();s.tasks.forEach(function(t){if(t.status==='done')hubSendState(t.id,'removed');});s.tasks=s.tasks.filter(function(t){return t.status!=='done';});save(HUB_KEY,s);renderToday();}
+// Sync: with a sync key saved on this device, tasks live on the BTH server too, so a task Claude
+// schedules shows up here on its own and the browser and the installed app see the same list.
+// The key is pasted once by Ty, kept only in this device's storage, sent only as a header.
+var HUB_SYNC_KEY='bth_hub_sync_v1',HUB_API='https://bth-mail-os.tyrell-38b.workers.dev/api/hub/tasks',hubSyncState='',hubSyncing=false;
+function hubSyncKey(){var s=load(HUB_SYNC_KEY);return s&&typeof s.key==='string'?s.key:'';}
+function hubFetch(method,path,body){
+  var k=hubSyncKey();if(!k||typeof fetch!=='function')return Promise.resolve(null);
+  var h={'x-bth-hub-token':k};if(body)h['Content-Type']='application/json';
+  return fetch(HUB_API+(path||''),{method:method,headers:h,body:body?JSON.stringify(body):undefined,cache:'no-store'})
+    .then(function(r){if(r.status===401){hubSyncState='bad-key';return null;}if(r.status===404&&path==='/state')return null;if(!r.ok){hubSyncState='error';return null;}hubSyncState='ok';return r.json();})
+    .catch(function(){hubSyncState='error';return null;});
+}
+// Server list in, local list out. A tick or a done on either side wins; content comes from the server.
+// Returns the local tasks the server does not have yet, so they can be sent up.
+function hubMerge(data){
+  var s=hubLoad(),seen={},removed={},changed=false;
+  (Array.isArray(data&&data.removed)?data.removed:[]).forEach(function(id){removed[id]=1;});
+  var keep=s.tasks.filter(function(t){if(removed[t.id]){changed=true;return false;}return true;});
+  (Array.isArray(data&&data.tasks)?data.tasks:[]).forEach(function(raw){
+    var t=hubClean(raw);if(!t)return;seen[t.id]=1;if(typeof raw.addedAt==='string'&&!isNaN(Date.parse(raw.addedAt)))t.addedAt=raw.addedAt;
+    if(raw.status==='done')t.status='done';
+    (raw.steps||[]).forEach(function(st,i){if(st&&st.done===true&&t.steps[i])t.steps[i].done=true;});
+    var old=null;for(var i=0;i<keep.length;i++)if(keep[i].id===t.id)old=i;
+    if(old===null){keep.push(t);changed=true;return;}
+    var prev=keep[old];t.addedAt=prev.addedAt||t.addedAt;if(prev.status==='done'){t.status='done';t.doneAt=prev.doneAt;}
+    t.steps.forEach(function(st){(prev.steps||[]).forEach(function(p){if(p.text===st.text&&p.done)st.done=true;});});
+    if(JSON.stringify(prev)!==JSON.stringify(t))changed=true;keep[old]=t;
+  });
+  s.tasks=keep;if(changed)save(HUB_KEY,s);
+  return {changed:changed,up:keep.filter(function(t){return !seen[t.id];})};
+}
+function hubSync(){
+  if(!hubSyncKey()||hubSyncing)return Promise.resolve(false);hubSyncing=true;
+  return hubFetch('GET').then(function(data){
+    if(!data){hubSyncing=false;renderToday();return false;}
+    var m=hubMerge(data);renderToday();
+    return (m.up.length?hubFetch('PUT','',{tasks:m.up.slice(0,50)}):Promise.resolve(null)).then(function(){hubSyncing=false;return m.changed;});
+  });
+}
+function hubPush(ids){var s=hubLoad(),up=s.tasks.filter(function(t){return ids.indexOf(t.id)>=0;});if(up.length)hubFetch('PUT','',{tasks:up});}
+function hubSendState(id,status){
+  if(!hubSyncKey())return;var t=null;hubLoad().tasks.forEach(function(x){if(x.id===id)t=x;});
+  var body={id:id};if(status)body.status=status;else if(t){body.status=t.status==='done'?'done':'open';body.steps=t.steps.map(function(st){return !!st.done;});}else return;
+  hubFetch('POST','/state',body);
+}
+function hubSaveSync(){
+  var k=String(hubDraft.key||'').trim();if(!/^[A-Za-z0-9_-]{16,200}$/.test(k)){toast('That is not a sync key');return false;}
+  save(HUB_SYNC_KEY,{key:k});hubForm=null;hubDraft={};hubSyncState='';renderToday();
+  hubSync().then(function(){toast(hubSyncState==='ok'?'Sync on':hubSyncState==='bad-key'?'Sync key not accepted':'Saved. Sync will retry when you are online');});return true;
+}
+function hubForgetSync(){try{localStorage.removeItem(HUB_SYNC_KEY);}catch(e){}hubSyncState='';hubForm=null;hubDraft={};renderToday();toast('Sync off on this device');}
+function hubSyncLine(){
+  var on=!!hubSyncKey(),label=!on?'Sync off':hubSyncState==='bad-key'?'Sync key not accepted':hubSyncState==='error'?'Sync failed, will retry':hubSyncState==='ok'?'Synced':'Syncing';
+  return '<div class="input-sub" style="margin-top:8px;">'+label+' · <span role="button" tabindex="0" style="text-decoration:underline;cursor:pointer;" onclick="hubOpenForm(\'sync\')">'+(on?'sync settings':'turn on sync')+'</span></div>';
+}
 // Calendar dates keep carried age correct across daylight-saving changes.
 function taskAgeHtml(td,i,key){
   var day=findOperatorDay(key),origin=td.origin&&td.origin[i];if(!day||!/^\d{4}-\d{2}-\d{2}$/.test(origin||''))return '';
@@ -1220,10 +1276,10 @@ function enhanceControls(root){(root||document).querySelectorAll('[onclick]:not(
 }
 document.addEventListener('keydown',function(event){if((event.key==='Enter'||event.key===' ')&&event.target.matches('[role="button"]')){event.preventDefault();event.target.click();}});
 new MutationObserver(function(){enhanceControls(document);}).observe(document.body,{childList:true,subtree:true});
-document.addEventListener('visibilitychange',function(){if(document.visibilityState==='hidden')flushFieldSaves();});
+document.addEventListener('visibilitychange',function(){if(document.visibilityState==='hidden')flushFieldSaves();else hubSync();});
 window.addEventListener('pagehide',flushFieldSaves);
 if(typeof ResizeObserver!=='undefined'){var nav=document.querySelector('nav');if(nav)new ResizeObserver(function(entries){document.body.style.setProperty('--amber-nav-space',entries[0].target.getBoundingClientRect().height+'px');}).observe(nav);}
-applyOperatorTheme();setupPWA();reminderTick();setInterval(reminderTick,60000);importHubFromHash();renderToday();enhanceControls(document);
+applyOperatorTheme();setupPWA();reminderTick();setInterval(reminderTick,60000);importHubFromHash();renderToday();enhanceControls(document);hubSync();
 window.addEventListener('hashchange',function(){if(importHubFromHash()){var t=document.querySelector('.tab.active');if(t&&t.id!=='tab-today'){var b=document.querySelector('.nav-btn');if(b)switchTab('today',b);}else renderToday();}});
 </script>
 </body>
