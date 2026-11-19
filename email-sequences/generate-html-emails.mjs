@@ -595,7 +595,7 @@ ${ul([
   'The full BTH method, run for you month to month. Foundation (your first month inside Stay Ready, not a separate purchase), then The Strength Block.',
   'Everything delivered straight to your inbox the day you join, the same way the reset reached you.',
 ])}
-${p('Want a nightly routine written off your own movement footage? That\'s the Personalized Routine — included with Stay Ready through October 31, 2026, then inside coaching only. Reply and ask me about it.', { size: 14, muted: true })}
+${p('Want a nightly routine written off your own movement footage? That\'s the Personalized Routine — part of 1:1 coaching. Reply and ask me about it.', { size: 14, muted: true })}
 ${membershipCta(true, 'See everything that\'s inside →')}
 ${p('No discount is coming. That\'s the price, month to month.', { size: 14, muted: true })}
 ${divider()}
