@@ -28,14 +28,17 @@ async function sync(pkg, publishOn, Jimp) {
   const destination = path.join(QUEUE, manifest.id);
   if (fs.existsSync(destination)) throw new Error(`destination already exists: ${destination}`);
   if (!Array.isArray(manifest.slide_order) || manifest.slide_order.length < 2 || manifest.slide_order.length > 10) throw new Error('requires 2-10 slides');
-  const caption = fs.readFileSync(packageFile(pkg, manifest.caption_file));
+  // A package built for a 9:16 TikTok week ships its own 4:5 set in instagram/; use it, never squash the tall slides.
+  const ig = manifest.instagram && typeof manifest.instagram.slides_dir === 'string' ? manifest.instagram : null;
+  const caption = fs.readFileSync(packageFile(pkg, (ig && ig.caption_file) || manifest.caption_file));
   if (!caption.toString('utf8').trim() || [...caption.toString('utf8')].length > 2200) throw new Error('caption must contain 1-2200 characters');
   // Complete image conversion before creating the destination so failed reads leave no partial post.
   const images = [];
   for (const name of manifest.slide_order) {
     // TikTok packages keep slides in slides/; older ones keep them at the top level.
-    const rel = fs.existsSync(path.resolve(pkg, name)) ? name : path.join('slides', name);
+    const rel = ig ? path.join(ig.slides_dir, name) : fs.existsSync(path.resolve(pkg, name)) ? name : path.join('slides', name);
     const image = await Jimp.read(packageFile(pkg, rel));
+    if (Math.abs(image.bitmap.width / image.bitmap.height - 0.8) > 0.01) throw new Error(`slide is not 4:5: ${rel} in ${pkg}`);
     image.resize(1080, 1350).quality(88);
     images.push(await image.getBufferAsync(Jimp.MIME_JPEG || 'image/jpeg'));
   }
