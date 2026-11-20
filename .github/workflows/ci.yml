@@ -78,6 +78,9 @@ jobs:
       - name: Banned words gate self-test
         run: node --test .github/scripts/check-banned-words.test.mjs
 
+      - name: Meta publisher self-test
+        run: node --test .github/scripts/meta-publish.test.mjs
+
       - name: Banned words (FOUNDER-STORY section 4)
         run: |
           # This workflow runs on push as well as pull_request, and on a push event

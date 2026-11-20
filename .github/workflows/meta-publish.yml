@@ -1,0 +1,53 @@
+name: Meta carousel publisher
+
+on:
+  schedule:
+    # 19:00 New York in winter; drifts one hour later in summer.
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+    inputs:
+      mode:
+        type: choice
+        options: [check, plan, publish]
+        default: plan
+      post:
+        type: string
+        required: false
+      platform:
+        type: choice
+        options: [both, instagram, facebook]
+        default: both
+
+permissions:
+  contents: read
+
+concurrency:
+  group: meta-publish
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    if: github.event_name == 'workflow_dispatch' || vars.META_AUTOPOST == 'on'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Publish or inspect carousel
+        env:
+          META_PAGE_TOKEN: ${{ secrets.META_PAGE_TOKEN }}
+          EVENT_NAME: ${{ github.event_name }}
+          INPUT_MODE: ${{ inputs.mode }}
+          INPUT_POST: ${{ inputs.post }}
+          INPUT_PLATFORM: ${{ inputs.platform }}
+        shell: bash
+        run: |
+          if [ "$EVENT_NAME" = "schedule" ]; then
+            node social/meta-publish.mjs --mode publish
+          else
+            args=(--mode "$INPUT_MODE" --platform "$INPUT_PLATFORM")
+            if [ -n "$INPUT_POST" ]; then args+=(--post "$INPUT_POST"); fi
+            node social/meta-publish.mjs "${args[@]}"
+          fi
