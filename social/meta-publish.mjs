@@ -240,7 +240,9 @@ export async function run({ argv = [], env = process.env, fetchImpl = globalThis
     if (preflight) {
       // debug_token wants the token as a parameter. A POST carrying method=GET keeps it out of the URL.
       let health;
-      try { health = tokenHealth((await graph('debug_token', { method: 'GET', input_token: token }, 'POST')).data, clock()); }
+      const inspect = new URLSearchParams({ method: 'GET' });
+      inspect.set('input_token', token);
+      try { health = tokenHealth((await graph('debug_token', inspect, 'POST')).data, clock()); }
       catch (error) {
         health = error.code === 190 ? { state: 'expired', line: TOKEN_EXPIRED }
           : { state: 'unverified', line: `token: UNVERIFIED, the health check could not run (${error.message})` };

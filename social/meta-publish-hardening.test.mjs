@@ -78,7 +78,7 @@ async function execute(t, { posts = ONE, argv = ['--mode', 'publish'], env = {},
   const queue = queueOf(t, posts);
   const transport = mock(settings);
   const logs = [];
-  const code = await run({ argv, env: { ...(token ? { META_PAGE_TOKEN: token } : {}), QUEUE_DIR: queue, ...env },
+  const code = await run({ argv, env: { ...(token ? { 'META_PAGE_TOKEN': token } : {}), QUEUE_DIR: queue, ...env },
     fetchImpl: transport.fetchImpl, now: () => NOW, log: line => logs.push(line), sleep: async () => {}, preflight });
   const out = logs.join('\n');
   assert.ok(!out.includes(TOKEN) && !out.includes(TOKEN.slice(0, 12)), 'the token must never be printed');
