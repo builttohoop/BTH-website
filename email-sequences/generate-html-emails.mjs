@@ -593,7 +593,7 @@ ${sig()}
   {
     filename: 'email-7-re-engage.html',
     subject: 'what comes after the reset',
-    preheader: 'What Stay Ready is, what it costs, and no discount coming.',
+    preheader: 'What Stay Ready is, what it costs, and no discount on it.',
     body: `
 ${hero('What Comes Next', `Keep the chain ${g('working.')}`)}
 ${p('Morning after a run. You\'re halfway down the stairs before your hips decide to show up for the day.')}
