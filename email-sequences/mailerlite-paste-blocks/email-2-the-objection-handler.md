@@ -5,7 +5,7 @@
 - **Subject (A):** `the 3 reasons people don't pull the trigger`
 - **Subject (B):** `quick — is it the price, the time, or the "later"?`
 - **Preview text:** `if it's one of these, I have an answer.`
-- **From name:** Ty — Built to Hoop
+- **From name:** Tyrell Little
 - **From email:** tyrell@built-to-hoop.com
 
 ---
@@ -40,7 +40,7 @@ You'll feel better *because* you start. Not before.
 
 If none of these are it, hit reply. Tell me what's actually in the way. I'll either fix it or tell you straight up the program isn't for you. Either way you walk away with an answer.
 
-— Ty
+— Tyrell Little
 
 ---
 

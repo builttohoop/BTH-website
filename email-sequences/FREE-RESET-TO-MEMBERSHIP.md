@@ -6,7 +6,7 @@
 > two-step is retired (the generator now emits dark-first, link-only HTML directly).
 
 8 emails. Goal: deliver the free 5-Day Reset, then convert subscribers into **Stay Ready** members ($27/mo).
-From: `Ty — Built to Hoop` · Reply-to `tyrell@built-to-hoop.com`.
+From: `Tyrell Little` · Reply-to `tyrell@built-to-hoop.com`.
 
 ## Locked rules
 - **LINK-ONLY reset.** Emails never list exercises. Each reset-day email carries exactly ONE gold CTA

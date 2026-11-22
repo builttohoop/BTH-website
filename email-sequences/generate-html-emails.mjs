@@ -302,7 +302,7 @@ function ul(items) {
   return `<ul class="t-body" style="margin:0 0 18px;padding-left:20px;font-size:15px;line-height:2;color:${C.body};">${items.map(i => `<li>${i}</li>`).join('')}</ul>`;
 }
 
-function sig(name = 'Ty, BTH') {
+function sig(name = 'Tyrell Little') {
   return `${divider()}<p class="t-body" style="margin:0;font-size:15px;color:${C.body};">— ${name}<br><span class="t-muted" style="font-size:13px;color:${C.muted};">Built to Hoop · <a class="link" href="https://built-to-hoop.com" style="color:${C.goldText};">built-to-hoop.com</a></span></p>`;
 }
 
@@ -426,7 +426,7 @@ ${p('One more thing.')}
 ${p('This isn\'t a random stretch routine. I got hurt bad enough that a clinic handed me pain pills and sent me home, and nobody trained me back — so I worked it out in order, on myself. What you\'re about to run is that order.')}
 ${p('Five days won\'t undo years away. But it\'ll show you what changes when the training is actually built for the comeback.')}
 ${p('There\'s more after Day 5 — I\'ll show you then.', { muted: true })}
-${sig('Ty<br>Built to Hoop')}
+${sig('Tyrell Little<br>Built to Hoop')}
 `},
 
   // EMAIL 1 — HOUR 24 / THE CHAIN + DAY 2 OPEN EARLY (BTH-0069 rewrite)

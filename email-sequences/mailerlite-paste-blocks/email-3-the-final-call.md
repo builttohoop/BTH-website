@@ -5,7 +5,7 @@
 - **Subject (A):** `last one from me on this`
 - **Subject (B):** `closing this loop`
 - **Preview text:** `no follow-up after this. promise.`
-- **From name:** Ty — Built to Hoop
+- **From name:** Tyrell Little
 - **From email:** tyrell@built-to-hoop.com
 
 ---
@@ -33,7 +33,7 @@ The reason BTH exists: someone (me) needed it and couldn't find it. So I built i
 
 Your move.
 
-— Ty
+— Tyrell Little
 built-to-hoop.com
 
 P.S. If money is the real block — not the excuse, the actual block — reply and tell me. I keep a small number of free seats for hoopers in real situations. No essay needed. No proof. Just ask.

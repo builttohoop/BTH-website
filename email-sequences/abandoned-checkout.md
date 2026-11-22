@@ -67,7 +67,7 @@ Last step.
 
 If something broke — wrong card, page froze, whatever — just hit reply and tell me. I'll get you in.
 
-— Ty, BTH
+— Tyrell Little
 built-to-hoop.com
 
 ---
@@ -108,7 +108,7 @@ You'll feel better *because* you start. Not before.
 
 If none of these are it, hit reply. Tell me what's actually in the way. I'll either fix it or tell you straight up the program isn't for you. Either way you walk away with an answer.
 
-— Ty
+— Tyrell Little
 
 ---
 
@@ -142,7 +142,7 @@ The reason BTH exists: someone (me) needed it and couldn't find it. So I built i
 
 Your move.
 
-— Ty
+— Tyrell Little
 built-to-hoop.com
 
 P.S. If money is the real block — not the excuse, the actual block — reply and tell me. I keep a small number of free seats for hoopers in real situations. No essay needed. No proof. Just ask.
