@@ -161,6 +161,33 @@
   }
   // ---- /Domain typo guard ----------------------------------------------------
 
+  // ---- Form outcome beacons (BTH-0078, approval #108) -------------------------
+  // form_submitted / form_error: the outcome of every submit, so a form that fails
+  // inside the TikTok / Instagram in-app browser is visible in D1 instead of
+  // reading as disinterest. No PII: never the email, never the name. `reason` is
+  // a fixed code, `in_app` names the in-app browser (or "none"), `form` is the
+  // page path. Silently skipped on pages without bth-events.js; the worker drops
+  // an event type it does not yet allowlist.
+  function inAppBrowser() {
+    try {
+      var ua = String(navigator.userAgent || "");
+      if (/musical_ly|BytedanceWebview|TikTok|trill/i.test(ua)) return "tiktok";
+      if (/Instagram/i.test(ua)) return "instagram";
+      if (/FBAN|FBAV|FB_IAB/i.test(ua)) return "facebook";
+    } catch (e) {}
+    return "none";
+  }
+
+  function trackForm(type, extra) {
+    try {
+      if (!window.BTHEvents || !window.BTHEvents.track) return;
+      var p = { form: String(window.location.pathname || "").slice(0, 120), in_app: inAppBrowser() };
+      if (extra) for (var k in extra) if (Object.prototype.hasOwnProperty.call(extra, k)) p[k] = extra[k];
+      window.BTHEvents.track(type, p);
+    } catch (e) {}
+  }
+  // ---- /Form outcome beacons -------------------------------------------------
+
   // ---- Lead conversion -------------------------------------------------------
   // Fires the Lead pixels (GA4, Meta, TikTok) plus the GTM "bth_lead" push, then
   // calls done() exactly once: when GA4 confirms the hit (event_callback), or on
@@ -291,6 +318,7 @@
       event.preventDefault();
 
       if (emailInput && !isValidEmail(emailInput.value)) {
+        trackForm("form_error", { reason: "invalid_email" });
         setFieldError(emailInput, errorMsg, "Add the rest of the email (e.g. .com).");
         emailInput.focus();
         return;
@@ -355,6 +383,7 @@
                 btn.classList.add("is-success");
               }
               if (successEl) successEl.classList.add("is-visible");
+              trackForm("form_submitted", { real_lead: realLead });
               // Redirect once both are true: the success state has shown for 500ms,
               // and (on a real lead) the Lead pixels have gone out.
               var left = false;
@@ -372,6 +401,7 @@
             btn.disabled = false;
             btn.classList.remove("is-working");
           }
+          trackForm("form_error", { reason: res.status === 429 ? "rate_limited" : "http_error", status: res.status });
           if (res.status === 429) {
             setFieldError(emailInput, errorMsg, "Too many attempts — wait a minute and try again.");
           } else {
@@ -383,6 +413,7 @@
             btn.disabled = false;
             btn.classList.remove("is-working");
           }
+          trackForm("form_error", { reason: "network" });
           setFieldError(emailInput, errorMsg, "Network hiccup — try again, or email tyrell@built-to-hoop.com.");
         });
     });
