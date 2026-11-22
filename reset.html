@@ -160,16 +160,29 @@ nav { position:fixed; top:0; left:0; right:0; z-index:100; height:62px; display:
 .form-sub { font-size:14px; color:var(--muted); margin-bottom:24px; line-height:1.65; }
 .form-trust { font-size:12px; color:var(--muted); margin-top:14px; text-align:center; line-height:1.55; }
 
-/* ─── PHONE (375px class): form first, above the fold ─── */
+/* Phone-only promise above the form card (hidden above 480px, where the hero copy leads). */
+.m-promise { display:none; }
+.m-promise-eyebrow { font-family:var(--B); font-size:11px; font-weight:600; letter-spacing:0.18em; text-transform:uppercase; color:var(--gold-text); margin-bottom:6px; }
+.m-promise-line { font-family:var(--H); font-size:26px; font-weight:700; line-height:1.05; letter-spacing:0.02em; text-transform:uppercase; color:var(--black); }
+
+/* ─── PHONE (375px class): promise, then the form, above the fold ─── */
 @media (max-width: 480px) {
   .hero-split { display:flex; flex-direction:column; padding:84px 16px 40px; gap:20px; min-height:auto; }
+  .m-promise { display:block; order:0; }
   .form-card { order:1; padding:26px 18px 22px; }
-  .hero-copy { order:2; }
-  .form-trust { order:3; margin-top:0; }
+  .form-trust { order:2; margin-top:-8px; }
+  .hero-copy { order:3; }
   .form-h { font-size:22px; }
   .form-sub { font-size:13px; margin-bottom:14px; }
   .bth-mail-form input[type="email"], .bth-mail-form input[type="text"] { padding:12px 14px; }
   .bth-btn-commit { padding:14px; }
+  /* Email is the only field that gates submit. The first name is optional (the Worker
+     reads body.name || "" and the emails fall back to "Hooper"), so on a phone it only
+     costs height above the button. Still in the DOM: it posts as an empty value. */
+  .bth-mail-form .bth-field-name { display:none; }
+  /* Segment question stays (thank-you.html reads it for Day 1) - just tighter. 44px tap targets kept. */
+  .bth-seg-label { font-size:11px; letter-spacing:.04em; }
+  .bth-seg-opt { padding:8px 8px; }
 }
 
 .section-eyebrow { font-family:var(--B); font-size:11px; font-weight:600; letter-spacing:0.24em; text-transform:uppercase; color:var(--gold-text); margin-bottom:12px; }
@@ -426,11 +439,16 @@ nav {
     <p class="hero-sub" style="margin-bottom:0;">Takes <strong>10–20 minutes a day</strong>. Runs alongside your pickup schedule. Zero gym required for the first three days.</p>
   </div>
 
-  <div class="form-card reveal" id="reset-form">
+  <div class="m-promise">
+    <p class="m-promise-eyebrow">5 days &middot; 10&ndash;20 minutes a day</p>
+    <p class="m-promise-line">Heavy legs after pickup? Start here.</p>
+  </div>
+
+  <div class="form-card" id="reset-form">
     <div class="form-h">Get The Free 5-Day Reset</div>
     <p class="form-sub">Drop your email. <strong>Day 1 opens on the next page</strong> — and lands in your inbox as a backup.</p>
     <form class="bth-mail-form" action="https://bth-mail-os.tyrell-38b.workers.dev/api/subscribe" method="post" novalidate data-bth-redirect="/thank-you.html">
-      <div class="bth-field">
+      <div class="bth-field bth-field-name">
         <input type="text" name="name" placeholder="First name" autocomplete="given-name">
       </div>
       <div class="bth-field">
@@ -458,7 +476,6 @@ nav {
     </div>
 
     <p class="form-trust">No spam. No junk funnel. One email a day for 5 days, then a short weekly note. Unsubscribe anytime.</p>
-  </div>
 </section>
 
 <div class="divider"></div>
