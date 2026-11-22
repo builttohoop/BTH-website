@@ -605,6 +605,103 @@ ${sig()}
 `},
 ];
 
+// ─── RESET NURTURE (D22, 2026-11-22) ─────────────────────────────
+// Four emails for Reset signups who have not bought, sent on days 12 / 16 / 23 / 30 after
+// signup by the Mail OS sequence `reset-nurture` (suppress_buyers=1). Copy source: the gated
+// drafts in BTH\00-operator\reports\revenue-shift-2026-11-21\E-nurture\ (subject A of each).
+// Written to a SEPARATE folder (html-nurture/) on purpose: Mail OS scripts/seed-free-reset.mjs
+// reads every .html in html/ as the 8 Free Reset steps, so a 9th file there would break it.
+const NURTURE_OUT_DIR = './email-sequences/html-nurture';
+const NURTURE_UTM = (n) => `utm_source=email&utm_medium=sequence&utm_campaign=nurture-${n}`;
+
+// One CTA per nurture email, in its own spaced block (Tier-1 or Tier-2).
+function ctaBlock(button) {
+  return `
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:24px 0;">
+  <tr><td>${button}</td></tr>
+</table>`;
+}
+
+const nurtureEmails = [
+
+  // NURTURE 1 — day 12 · keep it going (training value only, no offer)
+  {
+    filename: 'nurture-1-keep-it-going.html',
+    subject: 'the week after',
+    preheader: 'The Reset is yours to keep running. Here is how I would use it.',
+    body: `
+${hero('After The Reset', `The week ${g('after.')}`)}
+${p('Hey {{first_name}},')}
+${p(`Tuesday night. You played, or you wanted to, and the next morning your hips are the first thing you notice. Not sore, exactly. Just there. So you give it a longer warm-up and tell yourself it's fine.`)}
+${p('A lot of hoopers settle into that and call it normal.')}
+${p(`The Reset didn't expire when the emails stopped. All five days are still on the site, and each one takes about 15 minutes. Here is how I'd use them now:`)}
+${ul([
+  'Run Day 1 the night before you play or lift. See how the first step feels the next morning.',
+  'Run Day 2 on a rest day, the one you usually skip.',
+  'Move slow, stay in control, and stop if anything pinches. Sharp or lingering pain is a reason to get checked by someone qualified, not something to push through.',
+])}
+${p(`Do that for two weeks and you'll have a much better read on how your own body responds than I can give you from here.`)}
+${ctaBlock(btnSecondary(`https://built-to-hoop.com/reset/day-1.html?${NURTURE_UTM(1)}`, 'Run Day 1 again', 260))}
+${p('<em>Nothing to buy in this email.</em>', { size: 14, muted: true })}
+${sig()}
+`},
+
+  // NURTURE 2 — day 16 · which link talks first (the chain as a way to read your body)
+  {
+    filename: 'nurture-2-the-chain.html',
+    subject: 'which link talks first',
+    preheader: 'A simple way to read your body after a run.',
+    body: `
+${hero('Read The Chain', `Which link talks ${g('first.')}`)}
+${p('Hey {{first_name}},')}
+${p('Here is the one idea BTH is built on: <strong>the lower body is a chain, and the weakest link falls first.</strong>')}
+${p(`That's why it rarely stops at one thing. When one area starts talking, another is usually picking up the load for it. A lot of programs train one body part at a time. I never found that was the problem. The problem was the sequence of the work, and the gaps.`)}
+${p(`So here is something you can do this week that costs nothing. After your next run, or after a pickup night, write down the first spot that complains. Same question the next time, and the time after. A lot of hoopers find it's the same spot, or the same pair. That's your link.`)}
+${p('If you skipped Day 2 of the Reset, or flew through it, open it again before your next session.')}
+${ctaBlock(btnSecondary(`https://built-to-hoop.com/reset/day-2.html?${NURTURE_UTM(2)}`, 'Open Day 2', 220))}
+${p(`I'm still in it. I'm still the first person this has to hold up for, and I'm still the one testing it. I'm not going to tell you it's finished.`)}
+${sig()}
+`},
+
+  // NURTURE 3 — day 23 · what a month looks like (informational look at Stay Ready; Tier-2, no hard ask)
+  {
+    filename: 'nurture-3-whats-inside.html',
+    subject: 'what a month looks like',
+    preheader: 'Stay Ready, laid out plainly. No countdown.',
+    body: `
+${hero('What A Month Looks Like', `A month is a different ${g('thing.')}`)}
+${p('Hey {{first_name}},')}
+${p(`It's 10 at night. Work ran long, you're wiped, and you tell yourself you'll start properly next week.`)}
+${p(`A lot of hoopers have had that night. It isn't a character flaw. It's a Tuesday.`)}
+${p(`Five days can show you which link talks first. What they can't do is keep working the chain after the emails stop. That takes a plan that's already written, so you don't have to decide on a tired night what to do.`)}
+${p(`That's what Stay Ready is.`)}
+${p('<strong>You start with Foundation.</strong> Four weeks that build the strength base. Four lift days, three optional extras, and a Reduced session for the weeks you\'re short on time or beat up.')}
+${p('<strong>Then Rise.</strong> Built to turn that strength into bounce.')}
+${p('<strong>Then Dominate.</strong> Built to push bounce toward its highest point.')}
+${p('Each program counts its own weeks from week 1, so you always know where you are. Stay Ready is $27 a month, month to month. Cancel anytime with one email. No refunds on a month already started.')}
+${ctaBlock(btnSecondary(`https://built-to-hoop.com/join?${NURTURE_UTM(3)}`, `See what's inside Stay Ready`, 320))}
+${p(`<em>If something's in the way, reply and tell me which: price, timing, or trust. One line is plenty. I read every one.</em>`, { size: 14, muted: true })}
+${sig()}
+`},
+
+  // NURTURE 4 — day 30 · the one straight ask (Tier-1), and the sequence ends out loud
+  {
+    filename: 'nurture-4-the-ask.html',
+    subject: 'a month later',
+    preheader: `One straight ask, then I'll leave your inbox alone.`,
+    body: `
+${hero('One Straight Ask', `A month ${g('later.')}`)}
+${p('Hey {{first_name}},')}
+${p(`It's been about a month since you started the Reset. Maybe you ran the five days and kept going. Maybe it slid, and the first step in the morning feels about like it did before. Either one is a normal place to be.`)}
+${p(`I'm still in it too. I'm not selling you the end of this. I'm the first person the training has to hold up for, and I'm still the one testing it. That's the only honest way I know to ask.`)}
+${p(`So here is the ask, once. If you want the training to keep going, in order, month after month, that's Stay Ready. It's $27 a month, month to month. Cancel anytime with one email. No refunds on a month already started. You start with Foundation.`)}
+${ctaBlock(btnPrimary(`https://built-to-hoop.com/join?${NURTURE_UTM(4)}`, 'Join Stay Ready', 240))}
+${p(`If it's not right, that's a real answer and it costs you nothing. The Reset is yours to keep. If something's in the way, reply with one line: price, timing, or trust. I'll give you a straight answer, not another pitch.`)}
+${p(`This is the last email in this run. I'd rather write less to the people who want it than keep filling an inbox nobody's opening.`, { muted: true })}
+${sig()}
+`},
+];
+
 // ─── WRITE FILES ─────────────────────────────────────────────────
 
 for (const email of emails) {
@@ -615,3 +712,11 @@ for (const email of emails) {
 }
 
 console.log(`\nDone. ${emails.length} emails written to ${OUT_DIR}/  (1B "Baseline" shell · light-first + dark mode · CTA tiers · link-only · Stay Ready)`);
+
+fs.mkdirSync(NURTURE_OUT_DIR, { recursive: true });
+for (const email of nurtureEmails) {
+  const html = wrap(email.subject, email.body, email.preheader);
+  fs.writeFileSync(path.join(NURTURE_OUT_DIR, email.filename), html, 'utf8');
+  console.log(`✓ ${email.filename}`);
+}
+console.log(`Done. ${nurtureEmails.length} nurture emails written to ${NURTURE_OUT_DIR}/  (reset-nurture sequence, days 12/16/23/30)`);
