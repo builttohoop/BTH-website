@@ -239,6 +239,30 @@
     max-width: 580px; line-height: 1.7; margin-bottom: 48px;
   }
   .hero-sub strong { color: var(--black); font-weight: 600; }
+  #seg-line { margin-bottom: 16px; }
+  .hero-sub + .start-btn { margin-top: -20px; }
+  .start-btn { margin-bottom: 28px; min-height: 48px; }
+  .next-steps {
+    list-style: none; margin: 0 0 36px; padding: 0; max-width: 580px;
+    border-top: 1px solid var(--border);
+  }
+  .next-steps li {
+    font-size: 15px; color: var(--muted); line-height: 1.6;
+    padding: 12px 0; border-bottom: 1px solid var(--border);
+  }
+  .next-steps li strong { color: var(--black); font-weight: 600; }
+  #day-1 { scroll-margin-top: 80px; }
+  @media (max-width: 600px) {
+    .hero { padding-top: 88px; }
+    .confirm-badge { margin-bottom: 18px; }
+    .hero-title { margin-bottom: 16px; }
+    .hero-sub { font-size: 16px; line-height: 1.6; margin-bottom: 24px; }
+    #seg-line { margin-bottom: 12px; }
+    .hero-sub + .start-btn { margin-top: 0; }
+    .start-btn { display: block; text-align: center; margin-bottom: 20px; }
+    .next-steps { margin-bottom: 28px; }
+    .next-steps li { font-size: 14px; padding: 10px 0; }
+  }
 
   .days-grid {
     display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px;
@@ -282,7 +306,7 @@
   /* ─── DAY 1 ON-SITE ─── */
   .day1 {
     background: var(--soft); border: 1px solid var(--border);
-    border-radius: 2px; padding: 36px 32px; margin-bottom: 28px;
+    border-radius: 2px; padding: 36px 32px; margin-bottom: 48px;
   }
   @media (max-width: 600px) { .day1 { padding: 28px 20px; } }
   .day1-kicker {
@@ -331,13 +355,6 @@
   .day1-foot p { font-size: 14px; color: var(--muted); line-height: 1.7; margin-bottom: 8px; }
   .day1-foot p strong { color: var(--black); font-weight: 600; }
 
-  .email-note {
-    font-size: 14px; color: var(--muted); line-height: 1.7;
-    background: var(--cream); border: 1px solid var(--border); border-radius: 2px;
-    padding: 16px 20px; margin-bottom: 48px;
-  }
-  .email-note strong { color: var(--black); font-weight: 600; }
-
   /* BTH-98b: orienting line above the day grid. */
   .days-intro {
     font-size: 15px; color: var(--muted); line-height: 1.7; margin-bottom: 16px;
@@ -371,7 +388,7 @@
   .btn-gold:hover { filter: brightness(0.9); }
   .btn-ghost {
     font-family: var(--B); font-size: 14px; font-weight: 500;
-    color: var(--muted);
+    color: var(--black);
     padding: 14px 28px; border-radius: 2px;
     border: 1.5px solid var(--border);
     text-decoration: none; display: inline-block;
@@ -424,7 +441,6 @@
     <a href="updates.html">Updates</a>
     <a href="about.html">About</a>
   </div>
-  <a href="reset.html" class="nav-cta">Free Reset</a>
   <button class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
     <span></span><span></span><span></span>
   </button>
@@ -436,7 +452,6 @@
   <a href="addons.html">Tracks</a>
   <a href="updates.html">Updates</a>
   <a href="about.html">About</a>
-  <a href="reset.html" class="mobile-cta">Free Reset</a>
 </div>
 
 <!-- HERO -->
@@ -460,8 +475,17 @@
       <strong>15–20 minutes. No equipment. No workouts.</strong> Just the exact moves that work the stiffness loose — starting on this page, right now.
     </p>
 
+    <a href="#day-1" class="btn-gold start-btn">Start Day 1 &darr;</a>
+
+    <!-- WHAT HAPPENS NEXT (replaces the email note that sat below Day 1) -->
+    <ol class="next-steps">
+      <li><strong>Today:</strong> run Day 1, right here on this page.</li>
+      <li><strong>Your inbox:</strong> Day 1 is on its way there too, as a PDF backup. One email a day after that.</li>
+      <li><strong>Days 2–5:</strong> already open at the bottom of this page. No waiting on email.</li>
+    </ol>
+
     <!-- DAY 1 — DELIVERED ON-SITE -->
-    <div class="day1">
+    <div class="day1" id="day-1">
       <div class="day1-kicker">Day 1 — Hip Reset</div>
       <div class="day1-meta">Reset &nbsp;·&nbsp; 15–20 min &nbsp;·&nbsp; Open what pickup locks.</div>
       <p class="day1-intro">Open your hips, reduce stiffness, and give your body a foundation worth building on. Move slow on every rep — this is not a conditioning workout. No pain. If something pinches, back off immediately. This is about control and position, not effort.</p>
@@ -501,15 +525,10 @@
       </div>
     </div>
 
-    <!-- EMAIL = BACKUP / RETURN PATH -->
-    <p class="email-note">
-      <strong>Backup copy on its way.</strong> Day 1 was also sent to your email as a PDF, and a reminder for Days 2–5 lands in your inbox each morning. You don't have to wait for it — every day is open below right now.
-    </p>
-
     <!-- BTH-98b: was "5-Day Reset Preview". Nothing here is a preview - all five days
          are live pages and four of them are one tap away. -->
     <div class="next-section-label">Your Whole Reset &mdash; Open Now</div>
-    <p class="days-intro"><strong>Day 1 is done.</strong> The other four are already waiting &mdash; no email required. Tap any day to open it.</p>
+    <p class="days-intro"><strong>Done with Day 1?</strong> The other four are already open. Tap any day.</p>
     <div class="days-grid">
       <div class="day-card">
         <div class="day-num">Day 1</div>
@@ -540,14 +559,13 @@
     <div class="divider-line"></div>
 
     <!-- Soft upsell -->
-    <div class="next-section-label">When You're Done</div>
-    <div class="next-title">Want the Full System<br>After the Reset?</div>
+    <div class="next-section-label">After the Reset</div>
+    <div class="next-title">Want to Keep Going?</div>
     <p class="next-body">
-      The Reset works the stiffness loose. <strong>BTH Stay Ready is the system that builds on top of it.</strong> The full month-by-month training system + all 5 add-on tracks. $27/month. Cancel anytime.
+      The Reset is five days. <strong>BTH Stay Ready is the membership that builds on top of it.</strong> No rush. Run Day 1 first.
     </p>
     <div class="btn-row">
-      <a href="join.html" class="btn-gold">Join BTH Stay Ready — $27/mo</a>
-      <a href="index.html" class="btn-ghost">Explore the site →</a>
+      <a href="join.html" class="btn-ghost">See what's in Stay Ready →</a>
     </div>
 
   </div>
