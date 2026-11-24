@@ -328,6 +328,25 @@ test('plan-week reports an unreadable platform and an empty queue', async t => {
   assert.ok(empty.logs.at(-1).endsWith('nothing queued'));
 });
 
+test('a post older than the newest 50 live posts still counts as posted', async t => {
+  const filler = Array.from({ length: 50 }, (_, i) => ({ caption: `Other post ${i}.`, message: `Other post ${i}.`,
+    timestamp: '2026-11-10T12:00:00+0000', created_time: '2026-11-10T12:00:00+0000' }));
+  const old = { caption: 'Hook line for 128.\nmore', message: 'Hook line for 128.\nmore',
+    timestamp: '2026-09-01T12:00:00+0000', created_time: '2026-09-01T12:00:00+0000' };
+  const result = await execute(t, { handler: c => {
+    if (c.method !== 'GET' || !['ig/media', 'page/posts'].includes(c.endpoint)) return undefined;
+    if (c.url.searchParams.get('after') === 'c1') return json({ data: [old] });
+    // Graph echoes the token into `next`; the publisher must drop it before following the link.
+    const next = new URL(`https://graph.facebook.com/v23.0/${c.endpoint}?limit=50&after=c1`);
+    next.searchParams.set('access_token', 'fixture');
+    return json({ data: filler, paging: { next: next.href } });
+  } });
+  assert.equal(result.code, 0);
+  assert.ok(result.logs.at(-1).endsWith('nothing due'));
+  assert.ok(!result.calls.some(c => c.method === 'POST' && c.endpoint !== 'debug_token'));
+  assert.ok(result.calls.filter(c => c.method === 'GET').every(c => !c.url.searchParams.has('access_token')));
+});
+
 test('the real queue: every set gets its own campaign and the week view renders', () => {
   const queue = path.resolve(import.meta.dirname, 'queue');
   const seen = new Map();

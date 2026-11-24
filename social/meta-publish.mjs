@@ -4,6 +4,8 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const PLATFORMS = ['instagram', 'facebook'];
+// Pages of 50 live posts the duplicate check will read per platform before it refuses to publish.
+const LIVE_HISTORY_PAGES = 40;
 const MODES = ['check', 'plan', 'plan-week', 'publish'];
 const FB_URL_BASE = 'https://built-to-hoop.com/reset.html?utm_source=facebook&utm_medium=social&utm_campaign=';
 const DEFAULT_CAMPAIGN = 'autopost';
@@ -272,11 +274,25 @@ export async function run({ argv = [], env = process.env, fetchImpl = globalThis
     const failures = new Set();
     for (const platform of requested) {
       try {
-        const result = platform === 'instagram'
-          ? await graph(`${igId}/media`, { fields: 'caption,timestamp,permalink', limit: '50' })
-          : await graph(`${pageId}/posts`, { fields: 'message,created_time,permalink_url', limit: '50' });
-        if (!Array.isArray(result.data)) throw new Error('Graph response missing live post list');
-        live[platform] = result.data;
+        // Read the whole live history, not one page: a queue item older than the newest 50 posts
+        // would otherwise look unposted and go out a second time.
+        const endpoint = platform === 'instagram' ? `${igId}/media` : `${pageId}/posts`;
+        let fields = platform === 'instagram'
+          ? { fields: 'caption,timestamp,permalink', limit: '50' }
+          : { fields: 'message,created_time,permalink_url', limit: '50' };
+        const all = [];
+        for (let pageNo = 0; ; pageNo++) {
+          const result = await graph(endpoint, fields);
+          if (!Array.isArray(result.data)) throw new Error('Graph response missing live post list');
+          all.push(...result.data);
+          const next = result.paging?.next;
+          if (!next || !result.data.length) break;
+          if (pageNo >= LIVE_HISTORY_PAGES - 1) throw new Error('live post history is longer than the duplicate check reads');
+          const params = Object.fromEntries(new URL(next).searchParams);
+          delete params.access_token;
+          fields = params;
+        }
+        live[platform] = all;
       } catch (error) { failures.add(platform); print(`${platform}: failed: ${error.message}`); }
     }
     const today = etDate(clock());
