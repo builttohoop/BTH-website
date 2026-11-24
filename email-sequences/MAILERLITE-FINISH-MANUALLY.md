@@ -48,7 +48,7 @@ You'll need a `buyer` tag in your account. Create it: Subscribers → Tags → N
 2. Right panel:
    - **Email name:** `Email 2 — The Objection Handler`
    - **Subject:** `the 3 reasons people don't pull the trigger`
-   - **Sender name:** `Ty — Built to Hoop`
+   - **Sender name:** `Tyrell Little`
    - **Sender email:** `tyrell@built-to-hoop.com`
    - **Preheader:** `if it's one of these, I have an answer.`
 3. Save metadata.

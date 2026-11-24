@@ -5,7 +5,7 @@
 - **Subject (A):** `you almost did it`
 - **Subject (B):** `the tab is still open somewhere`
 - **Preview text:** `90 seconds and you're in. promise.`
-- **From name:** Ty — Built to Hoop
+- **From name:** Tyrell Little
 - **From email:** tyrell@built-to-hoop.com
 - **Reply-to:** tyrell@built-to-hoop.com
 
@@ -33,7 +33,7 @@ Last step.
 
 If something broke — wrong card, page froze, whatever — just hit reply and tell me. I'll get you in.
 
-— Ty, BTH
+— Tyrell Little
 built-to-hoop.com
 
 ---
