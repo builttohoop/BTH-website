@@ -263,7 +263,11 @@ function resetButton(day, title) {
 // featured box's terms line now matches Stay Ready's live /join terms. "Keep everything you download"
 // is a Group-Coaching-only term (COMPLIANCE-POLICY Gate 4) — fixed here, in the helper, so it can't
 // come back through a new caller.
-function membershipCta(featured, label = 'Join Stay Ready →') {
+// 2026-11-21 (BTH-0059 step 7 correction): optional url so a caller can tag its own /join link, and
+// the featured box's terms line is now "Cancel anytime. You start with Foundation." It asserts no
+// cancel mechanism and no "Month 1 picks up" outcome line (both content gates, 2026-11-21).
+// The href keeps a raw "&": Mail OS rewriteLinks() wraps the href string as written.
+function membershipCta(featured, label = 'Join Stay Ready →', url = CHECKOUT_URL) {
   if (featured) {
     return `
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:28px 0;">
@@ -271,15 +275,15 @@ function membershipCta(featured, label = 'Join Stay Ready →') {
     <td class="box-soft" style="background:${C.boxSoft};border:1px solid ${C.border};border-left:4px solid ${C.gold};padding:24px 28px;">
       <p class="oswald t-gold" style="margin:0 0 4px;font-size:11px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:${C.goldText};">The next step</p>
       <p class="oswald t-ink" style="margin:0 0 12px;font-size:22px;font-weight:700;line-height:1.2;color:${C.ink};">Stay Ready — $27/month</p>
-      <p class="t-body" style="margin:0 0 16px;font-size:15px;line-height:1.7;color:${C.body};">Cancel anytime with one email. Month 1 picks up exactly where the reset left off.</p>
-      ${btnPrimary(CHECKOUT_URL, label, 240)}
+      <p class="t-body" style="margin:0 0 16px;font-size:15px;line-height:1.7;color:${C.body};">Cancel anytime. You start with Foundation.</p>
+      ${btnPrimary(url, label, 240)}
     </td>
   </tr>
 </table>`;
   }
   return `
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:24px 0 8px;">
-  <tr><td>${btnPrimary(CHECKOUT_URL, label, 240)}</td></tr>
+  <tr><td>${btnPrimary(url, label, 240)}</td></tr>
 </table>`;
 }
 
@@ -581,25 +585,30 @@ ${sig()}
 `},
 
   // EMAIL 7 — THE CLOSE (was "Re-engage": reply-only, zero links) (BTH-0069 rewrite)
+  // 2026-11-21 correction (BTH-0059, revenue shift): the Personalized Routine / 1:1 coaching line is
+  // gone (coaching is ON HOLD), "The Strength Block" is gone (the line is Foundation, Rise, Dominate,
+  // each named by its job), and the "delivered straight to your inbox" claim is gone (no delivery
+  // claim until Ty rules). Copy is the gate-approved replacement, verbatim: compliance + mission QA
+  // both reviewed it 2026-11-21. Subject and preheader unchanged.
   {
     filename: 'email-7-re-engage.html',
     subject: 'what comes after the reset',
-    preheader: 'What Stay Ready is, what it costs, and no discount coming.',
+    preheader: 'What Stay Ready is, what it costs, and no discount on it.',
     body: `
 ${hero('What Comes Next', `Keep the chain ${g('working.')}`)}
 ${p('Morning after a run. You\'re halfway down the stairs before your hips decide to show up for the day.')}
 ${p('I\'m still in it. The knee is the link I\'m working on right now, and I run the same system I\'m about to show you, month over month.')}
-${p('<strong>That\'s what Stay Ready is:</strong> the lower body worked as a chain, in order, every month. It\'s built to keep what the reset started moving forward, not sliding back.')}
+${p('<strong>That\'s what Stay Ready is:</strong> the lower body worked as a chain, in order, every month. It\'s built to keep what the Reset started moving forward, not sliding back.')}
 ${h('What\'s inside')}
 ${ul([
-  'The full BTH method, run for you month to month. Foundation (your first month inside Stay Ready, not a separate purchase), then The Strength Block.',
-  'Everything delivered straight to your inbox the day you join, the same way the reset reached you.',
+  '<strong>Foundation</strong> builds the strength base. You start here, inside Stay Ready, not as a separate purchase.',
+  '<strong>Rise</strong> is built to turn that strength into bounce.',
+  '<strong>Dominate</strong> is built to push bounce toward its highest point. Members only.',
 ])}
-${p('Want a nightly routine written off your own movement footage? That\'s the Personalized Routine — part of 1:1 coaching. Reply and ask me about it.', { size: 14, muted: true })}
-${membershipCta(true, 'See everything that\'s inside →')}
-${p('No discount is coming. That\'s the price, month to month.', { size: 14, muted: true })}
+${membershipCta(true, 'Join Stay Ready →', `${CHECKOUT_URL}?utm_source=email&utm_medium=broadcast&utm_campaign=reset-step7`)}
+${p('There\'s no discount on this. That\'s the price, month to month.', { size: 14, muted: true })}
 ${divider()}
-${p('Not the right time? No hard feelings. The reset was free, and it\'s yours to keep running. If something\'s in the way (price, timing, or you just don\'t trust it yet), hit reply and tell me which. I read every one, and I\'ll give you a straight answer back, not another pitch.')}
+${p('Not the right time? No hard feelings. The Reset was free, and it\'s yours to keep running. If something\'s in the way (price, timing, or you just don\'t trust it yet), hit reply and tell me which. I read every one, and I\'ll give you a straight answer back, not another pitch.')}
 ${p('This is the last email in this run.', { muted: true })}
 ${sig()}
 `},
