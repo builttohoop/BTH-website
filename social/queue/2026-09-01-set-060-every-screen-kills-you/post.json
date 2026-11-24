@@ -1,0 +1,21 @@
+{
+  "id": "2026-09-01-set-060-every-screen-kills-you",
+  "title": "Every Screen Kills You",
+  "publish_on": "2027-01-04",
+  "approved": true,
+  "platforms": [
+    "instagram",
+    "facebook"
+  ],
+  "slides": [
+    "slide-01.jpg",
+    "slide-02.jpg",
+    "slide-03.jpg",
+    "slide-04.jpg",
+    "slide-05.jpg",
+    "slide-06.jpg",
+    "slide-07.jpg"
+  ],
+  "caption_file": "caption.txt",
+  "source": "tiktok-carousel-queue/posted/2026-09-01-set-060-every-screen-kills-you"
+}
