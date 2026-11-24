@@ -107,6 +107,11 @@ nav { position:fixed; top:0; left:0; right:0; z-index:100; height:62px; display:
 .buy-btn { display:block; width:100%; text-align:center; font-family:var(--H); font-size:16px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--white); background:var(--black); border:none; padding:17px; border-radius:2px; cursor:pointer; transition:all 0.18s; text-decoration:none; }
 .buy-btn:hover { background:var(--gold); color:var(--black); }
 .buy-trust { font-size:12px; color:var(--muted); margin-top:14px; text-align:center; line-height:1.55; }
+.buy-alt { font-size:13px; color:var(--muted); margin-top:12px; text-align:center; line-height:1.55; padding-top:12px; border-top:1px solid var(--border); }
+.buy-alt a { color:var(--black); font-weight:600; text-decoration:underline; }
+/* The fixed nav is 62px: without an offset the #checkout jump parks the button under it. */
+#checkout { scroll-margin-top: 96px; }
+.mobile-sticky-cta.is-hidden { display: none !important; }
 
 .steps { background:var(--cream); border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
 .steps-inner { padding:72px 52px; max-width:1080px; margin:0 auto; }
@@ -188,6 +193,7 @@ footer { padding:48px 52px; max-width:1180px; margin:0 auto; display:flex; justi
     -->
     <a class="buy-btn" id="checkout" href="https://buy.stripe.com/4gMaEXbvh7nu1sccHJaAw00" rel="noopener">Join Stay Ready — Secure Checkout →</a>
     <p class="buy-trust">Processed by Stripe. Your access email lands the moment you join — same way your Free Reset reached you. <a href="tier-3.html" style="color:var(--muted);text-decoration:underline;">Not sure yet? See what's inside first →</a></p>
+    <p class="buy-alt">Not ready to join? <a href="/reset.html">Start with the free 5-Day Reset</a> — it lands in your inbox, no card.</p>
   </div>
 </section>
 
@@ -231,6 +237,21 @@ footer { padding:48px 52px; max-width:1180px; margin:0 auto; display:flex; justi
      (network, worker down, typo'd domain left unfixed) leaves the Stripe button exactly
      as it was. Never sets sessionStorage bth_lead (intent is not a Lead — see #73's
      ghost-conversion guard), never redirects, never disables the CTA. -->
+<script>
+/* Hide the mobile sticky CTA while the real checkout button is on screen, so the page
+   never shows two identical "Join" buttons at once. Cosmetic only; no-op without
+   IntersectionObserver, and the sticky bar stays visible if anything fails. */
+(function () {
+  try {
+    var bar = document.querySelector(".mobile-sticky-cta");
+    var btn = document.getElementById("checkout");
+    if (!bar || !btn || !("IntersectionObserver" in window)) return;
+    new IntersectionObserver(function (es) {
+      bar.classList.toggle("is-hidden", es[0].isIntersecting);
+    }, { threshold: 0.6 }).observe(btn);
+  } catch (e) {}
+})();
+</script>
 <script>
 (function () {
   "use strict";
