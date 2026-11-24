@@ -337,7 +337,9 @@ test('a post older than the newest 50 live posts still counts as posted', async 
     if (c.method !== 'GET' || !['ig/media', 'page/posts'].includes(c.endpoint)) return undefined;
     if (c.url.searchParams.get('after') === 'c1') return json({ data: [old] });
     // Graph echoes the token into `next`; the publisher must drop it before following the link.
-    return json({ data: filler, paging: { next: `https://graph.facebook.com/v23.0/${c.endpoint}?limit=50&after=c1&access_token=x` } });
+    const next = new URL(`https://graph.facebook.com/v23.0/${c.endpoint}?limit=50&after=c1`);
+    next.searchParams.set('access_token', 'fixture');
+    return json({ data: filler, paging: { next: next.href } });
   } });
   assert.equal(result.code, 0);
   assert.ok(result.logs.at(-1).endsWith('nothing due'));
